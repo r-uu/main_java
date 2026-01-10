@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <!-- ######################### -->
+    <!-- maven project coordinates -->
+    <!-- ######################### -->
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>r-uu</groupId>
+    <artifactId>r-uu.root</artifactId>
+    <version>0.0.1</version>
+    <packaging>pom</packaging>
+    <name>${project.artifactId}</name>
+    <description>root parent for several r-uu maven modules, see readme.md</description>
+    <url>https://github.com/r-uu/r-uu.bom</url>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- import BOM -->
+            <dependency>
+                <groupId>r-uu</groupId>
+                <artifactId>r-uu.bom</artifactId>
+                <version>0.0.1</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>
