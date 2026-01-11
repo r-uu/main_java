@@ -165,3 +165,11 @@ alias ruu-quickstart='cd $RUU_HOME/config && cat QUICKSTART.md'
 echo "✓ r-uu gemeinsame Aliase geladen"
 echo "  Hilfe: ruu-help | Build: build-all | PostgreSQL Setup: ruu-postgres-setup"
 
+# ═══════════════════════════════════════════════════════════════════
+# Git - WSL + IntelliJ Kompatibilität
+# ═══════════════════════════════════════════════════════════════════
+# Verhindert "Exec format error" wenn IntelliJ versucht Windows .exe aus WSL auszuführen
+export GIT_ASKPASS=""
+export SSH_ASKPASS=""
+# Git Konfiguration fix-Skript
+alias ruu-git-fix='bash $RUU_CONFIG/shared/scripts/fix-git-wsl-intellij.sh'
