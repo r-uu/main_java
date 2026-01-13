@@ -17,24 +17,24 @@
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.jpa.core</artifactId>
-		            <version>${project.version}</version>
-        </dependency>
+      <version>${project.version}</version>
+    </dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.mapstruct</artifactId>
-		            <version>${project.version}</version>
-        </dependency>
+      <version>${project.version}</version>
+    </dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.mapstruct.spi</artifactId>
 			<scope>provided</scope>
-		            <version>${project.version}</version>
-        </dependency>
+      <version>${project.version}</version>
+    </dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.util</artifactId>
-		            <version>${project.version}</version>
-        </dependency>
+      <version>${project.version}</version>
+    </dependency>
 		<dependency>
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest</artifactId>
@@ -71,5 +71,4 @@
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
 	</dependencies>
-
 </project>

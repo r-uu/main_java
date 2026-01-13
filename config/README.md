@@ -10,8 +10,11 @@
 ### Neue Entwickler
 👉 **[START-HERE.md](START-HERE.md)** - Quick Start Guide
 
+### IntelliJ IDEA
+👉 **[INTELLIJ-PLUGIN-FIX.md](INTELLIJ-PLUGIN-FIX.md)** - ⭐ **NEU! Plugin Probleme behoben**
+
 ### Optimierungen & Analyse
-👉 **[OPTIMIZATIONS-COMPLETE.md](OPTIMIZATIONS-COMPLETE.md)** - ⭐ **NEU! Alle Optimierungen**
+👉 **[OPTIMIZATIONS-COMPLETE.md](OPTIMIZATIONS-COMPLETE.md)** - Alle Optimierungen
 
 ### Build-Analyse
 👉 **[BUILD-WARNING-FINAL-SUMMARY.md](BUILD-WARNING-FINAL-SUMMARY.md)** - Komplett

@@ -6,8 +6,9 @@
 
 | Dokument | Beschreibung | Start hier? |
 |----------|--------------|-------------|
-| **[OPTIMIZATIONS-COMPLETE.md](OPTIMIZATIONS-COMPLETE.md)** | **🎯 OPTIMIERUNGEN KOMPLETT!** | ⭐ **NEU!** |
-| **[BUILD-WARNING-FINAL-SUMMARY.md](BUILD-WARNING-FINAL-SUMMARY.md)** | Build-Analyse & Warnings | 📊 Analyse |
+| **[INTELLIJ-PLUGIN-FIX.md](INTELLIJ-PLUGIN-FIX.md)** | **🔧 IntelliJ Plugin Fix!** | ⭐ **NEU!** |
+| **[OPTIMIZATIONS-COMPLETE.md](OPTIMIZATIONS-COMPLETE.md)** | Optimierungen komplett | 🎯 Analyse |
+| **[BUILD-WARNING-FINAL-SUMMARY.md](BUILD-WARNING-FINAL-SUMMARY.md)** | Build-Analyse & Warnings | 📊 Details |
 | **[SESSION-SUMMARY.md](SESSION-SUMMARY.md)** | Alle Änderungen chronologisch | 📝 Übersicht |
 | **[START-HERE.md](START-HERE.md)** | Quick Start für neue Entwickler | 🚀 Setup |
 | **[AUTOMATIC-MODULES-DOCUMENTATION.md](AUTOMATIC-MODULES-DOCUMENTATION.md)** | Automatic Modules dokumentiert | 📦 JPMS |
