@@ -91,7 +91,7 @@ ruu-docker-up
 ruu-install
 ```
 
-## 📚 Dokumentation
+## 📚 Wichtige Dokumentation
 
 | Datei | Beschreibung |
 |-------|--------------|
@@ -99,6 +99,7 @@ ruu-install
 | [readme.md](readme.md) | 📖 Vollständige Dokumentation |
 | [STRUCTURE.md](STRUCTURE.md) | 🗂️ Detaillierte Struktur |
 | [GRAALVM-INSTALLATION.md](GRAALVM-INSTALLATION.md) | 🔥 GraalVM 25 Installation |
+| [../GIT-PUSH-FINAL-SOLUTION.md](../GIT-PUSH-FINAL-SOLUTION.md) | 🔐 Git Push in IntelliJ (WSL) |
 | [GRAALVM-25-MIGRATION.md](GRAALVM-25-MIGRATION.md) | ✅ GraalVM 25 Migration (2026-01-11) |
 | [INTELLIJ-WSL-SETUP.md](INTELLIJ-WSL-SETUP.md) | 🔧 IntelliJ IDEA WSL Setup |
 

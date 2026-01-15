@@ -1,55 +1,34 @@
-# ✅ IntelliJ Git Push - ENDGÜLTIG GELÖST!
+# Git Push in IntelliJ (WSL)
 
-## Das Problem
-IntelliJ ruft Git mit `-c credential.helper=` auf, was **alle** Credential Helper deaktiviert.
-Das askpass-Skript, das IntelliJ verwendet, versucht Windows `java.exe` aus WSL aufzurufen → scheitert.
+## Problem
+IntelliJ ruft Git mit `-c credential.helper=` auf, was alle Credential Helper deaktiviert.
+Das IntelliJ askpass-Skript versucht Windows `java.exe` aus WSL aufzurufen → "Exec format error"
 
-## Die Lösung (Super einfach!)
+## Lösung
 
 **Token direkt in die Remote-URL einbetten:**
 
 ```bash
-git remote set-url origin https://r-uu:TOKEN@github.com/r-uu/main.git
-```
-
-Wenn das Token in der URL ist, braucht Git:
-- ❌ Keinen Credential Helper
-- ❌ Kein askpass
-- ✅ Es funktioniert einfach!
-
-## Was wurde gemacht
-
-```bash
-# GitHub Token holen
+# Token holen
 TOKEN=$(gh auth status -t 2>&1 | grep -oP 'Token: \K.*')
 
 # Remote-URL mit Token setzen
 git remote set-url origin https://r-uu:${TOKEN}@github.com/r-uu/main.git
 ```
 
-## Test erfolgreich
+✅ Funktioniert zuverlässig - Git braucht keinen Credential Helper mehr
 
-```bash
-/usr/bin/git -c credential.helper= -c core.quotepath=false push origin main
-# ✅ Funktioniert! Push war erfolgreich!
-```
+## Token erneuern (bei Ablauf)
 
-## Ergebnis
-
-🎉 **Git Push funktioniert jetzt in IntelliJ - auch mit `-c credential.helper=`**
-
-Das Token wird automatisch von gh CLI aktuell gehalten. Sollte es ablaufen:
 ```bash
 gh auth refresh
-# Dann Remote-URL neu setzen (siehe oben)
+TOKEN=$(gh auth status -t 2>&1 | grep -oP 'Token: \K.*')
+git remote set-url origin https://r-uu:${TOKEN}@github.com/r-uu/main.git
 ```
 
-## Sicherheitshinweis
+## Sicherheit
 
-Das Token ist jetzt in `.git/config` gespeichert. Diese Datei ist:
-- ✅ Lokal (nicht in Git committed)
-- ✅ Nur für deinen User lesbar
-- ✅ Standard-Praxis für Token-Authentifizierung
-
-**Das war's - kein kompliziertes askpass-Gebastel mehr!**
+- Token ist in `.git/config` (lokal, nicht in Git)
+- Nur für deinen User lesbar
+- Standard-Praxis für Token-Auth
 
