@@ -3,24 +3,41 @@
 ## Problem
 IntelliJ versuchte, ein Windows-Java-Executable (`java.exe`) aus WSL heraus für Git-Authentifizierung aufzurufen, was fehlschlug.
 
+**Fehlermeldung:**
+```
+/mnt/c/Users/r-uu/AppData/Local/JetBrains/IntelliJIdea2025.3/tmp/intellij-git-askpass-wsl-Ubuntu.sh: 3: 
+/mnt/c/Users/r-uu/AppData/Local/Programs/IntelliJ IDEA/jbr/bin/java.exe: Exec format error
+error: unable to read askpass response
+fatal: could not read Username for 'https://github.com': No such device or address
+```
+
 ## Ursache
-- Mehrfache `core.askpass` Einträge in Git-Konfiguration
-- IntelliJ-spezifische askpass-Helper zeigten auf Windows-Pfade
-- Credential Helper waren inkonsistent konfiguriert
+IntelliJ generiert automatisch askpass-Skripte in:
+- `/mnt/c/Users/r-uu/AppData/Local/JetBrains/IntelliJIdea2025.3/tmp/`
+
+Diese Skripte versuchen, Windows `java.exe` aus WSL aufzurufen, was nicht funktioniert.
 
 ## Lösung
-Bereinigte Git-Konfiguration:
+
+### 1. Ersetzen der IntelliJ askpass-Skripte
+Die fehlerhaften Skripte wurden durch funktionierende Versionen ersetzt, die `gh auth git-credential` verwenden:
 
 ```bash
-# Entfernt alle problematischen askpass Einträge
+# Automatischer Fix
+./config/shared/scripts/fix-intellij-git-push.sh
+```
+
+### 2. Git-Konfiguration bereinigt
+```bash
+# Entfernte alle problematischen askpass Einträge
 git config --global --unset-all core.askpass
 
-# Verwendet GitHub CLI als Credential Helper
+# GitHub CLI als Credential Helper
 git config --global credential.https://github.com.helper '!gh auth git-credential'
-
-# HTTPS Remote-URL (wie vorher)
-git remote set-url origin https://github.com/r-uu/main.git
 ```
+
+### 3. Credentials gespeichert
+GitHub Token wurde in `~/.git-credentials` gespeichert für Fallback.
 
 ## Aktuelle Konfiguration
 
@@ -31,17 +48,24 @@ credential.https://github.com.helper=!gh auth git-credential
 
 ## Status
 
+✅ IntelliJ askpass-Skripte ersetzt (verwenden jetzt gh CLI)
+✅ Git-Konfiguration bereinigt
 ✅ Git Push funktioniert wieder in IntelliJ
 ✅ Keine Passwort-Abfrage mehr
-✅ Verwendet bestehende GitHub CLI Authentifizierung
-✅ HTTPS wie vorher (keine SSH-Umstellung notwendig)
+✅ HTTPS Remote-URL (wie vorher)
 
-## Test
+## Bei erneutem Auftreten
 
+Falls IntelliJ die Skripte neu generiert, führe aus:
 ```bash
-git push origin main
-# Output: Everything up-to-date
+./config/shared/scripts/fix-intellij-git-push.sh
 ```
 
-**Alles funktioniert wieder wie gewohnt!**
+Oder füge zu `~/.bashrc` hinzu für automatischen Fix bei jedem Terminal-Start:
+```bash
+# Auto-fix IntelliJ Git Push beim Start
+if [ -f ~/develop/github/main/config/shared/scripts/fix-intellij-git-push.sh ]; then
+    ~/develop/github/main/config/shared/scripts/fix-intellij-git-push.sh > /dev/null 2>&1
+fi
+```
 
