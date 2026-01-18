@@ -1,200 +1,102 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
-              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports
-              http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
-              name="invoice" pageWidth="595" pageHeight="842"
-              columnWidth="535" leftMargin="30" rightMargin="30"
-              topMargin="30" bottomMargin="30">
-
-    <!-- Parameters from InvoiceData -->
-    <parameter name="invoiceNumber" class="java.lang.String"/>
-    <parameter name="invoiceDate" class="java.lang.String"/>
-    <parameter name="dueDate" class="java.lang.String"/>
-    <parameter name="customerName" class="java.lang.String"/>
-    <parameter name="customerAddress" class="java.lang.String"/>
-    <parameter name="subtotal" class="java.lang.Double"/>
-    <parameter name="tax" class="java.lang.Double"/>
-    <parameter name="total" class="java.lang.Double"/>
-    <parameter name="notes" class="java.lang.String"/>
-
-    <!-- Title -->
-    <title>
-        <band height="150">
-            <!-- Rechnung Header -->
-            <staticText>
-                <reportElement x="0" y="0" width="535" height="40"/>
-                <textElement textAlignment="Right">
-                    <font size="24" isBold="true"/>
-                </textElement>
-                <text><![CDATA[RECHNUNG]]></text>
-            </staticText>
-
-            <!-- Rechnungsnummer und Datum -->
-            <textField>
-                <reportElement x="350" y="50" width="185" height="20"/>
-                <textElement textAlignment="Right">
-                    <font size="10" isBold="true"/>
-                </textElement>
-                <textFieldExpression><![CDATA["Rechnungsnr.: " + $P{invoiceNumber}]]></textFieldExpression>
-            </textField>
-
-            <textField>
-                <reportElement x="350" y="70" width="185" height="20"/>
-                <textElement textAlignment="Right">
-                    <font size="10"/>
-                </textElement>
-                <textFieldExpression><![CDATA["Datum: " + $P{invoiceDate}]]></textFieldExpression>
-            </textField>
-
-            <textField>
-                <reportElement x="350" y="90" width="185" height="20"/>
-                <textElement textAlignment="Right">
-                    <font size="10"/>
-                </textElement>
-                <textFieldExpression><![CDATA["Fällig: " + $P{dueDate}]]></textFieldExpression>
-            </textField>
-
-            <!-- Kundenadresse -->
-            <staticText>
-                <reportElement x="0" y="50" width="100" height="20"/>
-                <textElement>
-                    <font size="10" isBold="true"/>
-                </textElement>
-                <text><![CDATA[Rechnung an:]]></text>
-            </staticText>
-
-            <textField>
-                <reportElement x="0" y="70" width="250" height="40"/>
-                <textElement>
-                    <font size="10"/>
-                </textElement>
-                <textFieldExpression><![CDATA[$P{customerName} + "\n" + $P{customerAddress}]]></textFieldExpression>
-            </textField>
-        </band>
-    </title>
-
-    <!-- Column Headers -->
-    <columnHeader>
-        <band height="30">
-            <rectangle>
-                <reportElement x="0" y="0" width="535" height="25" backcolor="#E0E0E0"/>
-                <graphicElement>
-                    <pen lineWidth="0.5"/>
-                </graphicElement>
-            </rectangle>
-
-            <staticText>
-                <reportElement x="10" y="5" width="285" height="15"/>
-                <textElement>
-                    <font size="10" isBold="true"/>
-                </textElement>
-                <text><![CDATA[Beschreibung]]></text>
-            </staticText>
-
-            <staticText>
-                <reportElement x="300" y="5" width="60" height="15"/>
-                <textElement textAlignment="Right">
-                    <font size="10" isBold="true"/>
-                </textElement>
-                <text><![CDATA[Menge]]></text>
-            </staticText>
-
-            <staticText>
-                <reportElement x="365" y="5" width="80" height="15"/>
-                <textElement textAlignment="Right">
-                    <font size="10" isBold="true"/>
-                </textElement>
-                <text><![CDATA[Einzelpreis]]></text>
-            </staticText>
-
-            <staticText>
-                <reportElement x="450" y="5" width="75" height="15"/>
-                <textElement textAlignment="Right">
-                    <font size="10" isBold="true"/>
-                </textElement>
-                <text><![CDATA[Gesamt]]></text>
-            </staticText>
-        </band>
-    </columnHeader>
-
-    <!-- Summary/Footer -->
-    <summary>
-        <band height="200">
-            <!-- Zwischensumme -->
-            <line>
-                <reportElement x="350" y="10" width="185" height="1"/>
-            </line>
-
-            <staticText>
-                <reportElement x="350" y="20" width="95" height="20"/>
-                <textElement textAlignment="Right">
-                    <font size="10"/>
-                </textElement>
-                <text><![CDATA[Zwischensumme:]]></text>
-            </staticText>
-
-            <textField pattern="#,##0.00 €">
-                <reportElement x="450" y="20" width="75" height="20"/>
-                <textElement textAlignment="Right">
-                    <font size="10"/>
-                </textElement>
-                <textFieldExpression><![CDATA[$P{subtotal}]]></textFieldExpression>
-            </textField>
-
-            <!-- MwSt -->
-            <staticText>
-                <reportElement x="350" y="40" width="95" height="20"/>
-                <textElement textAlignment="Right">
-                    <font size="10"/>
-                </textElement>
-                <text><![CDATA[MwSt. (19%):]]></text>
-            </staticText>
-
-            <textField pattern="#,##0.00 €">
-                <reportElement x="450" y="40" width="75" height="20"/>
-                <textElement textAlignment="Right">
-                    <font size="10"/>
-                </textElement>
-                <textFieldExpression><![CDATA[$P{tax}]]></textFieldExpression>
-            </textField>
-
-            <!-- Gesamtbetrag -->
-            <line>
-                <reportElement x="350" y="65" width="185" height="1"/>
-                <graphicElement>
-                    <pen lineWidth="2"/>
-                </graphicElement>
-            </line>
-
-            <staticText>
-                <reportElement x="350" y="70" width="95" height="25"/>
-                <textElement textAlignment="Right">
-                    <font size="12" isBold="true"/>
-                </textElement>
-                <text><![CDATA[Gesamt:]]></text>
-            </staticText>
-
-            <textField pattern="#,##0.00 €">
-                <reportElement x="450" y="70" width="75" height="25"/>
-                <textElement textAlignment="Right">
-                    <font size="12" isBold="true"/>
-                </textElement>
-                <textFieldExpression><![CDATA[$P{total}]]></textFieldExpression>
-            </textField>
-
-            <!-- Notizen -->
-            <textField isBlankWhenNull="true">
-                <reportElement x="0" y="120" width="535" height="60"/>
-                <box>
-                    <pen lineWidth="0.5"/>
-                </box>
-                <textElement>
-                    <font size="9" isItalic="true"/>
-                </textElement>
-                <textFieldExpression><![CDATA[$P{notes} != null ? "Hinweise:\n" + $P{notes} : ""]]></textFieldExpression>
-            </textField>
-        </band>
-    </summary>
+<!-- Created with Jaspersoft Studio version 7.0.3.final using JasperReports Library version 7.0.3-41034ca841d452f3305ba55b9042260aaa1ab5dd  -->
+<jasperReport name="invoice" language="java" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="30" rightMargin="30" topMargin="30" bottomMargin="30" uuid="3f4dbe27-fec5-4969-b4f1-7156be8ad4ab">
+	<parameter name="invoiceNumber" class="java.lang.String"/>
+	<parameter name="invoiceDate" class="java.lang.String"/>
+	<parameter name="dueDate" class="java.lang.String"/>
+	<parameter name="customerName" class="java.lang.String"/>
+	<parameter name="customerAddress" class="java.lang.String"/>
+	<parameter name="subtotal" class="java.lang.Double"/>
+	<parameter name="tax" class="java.lang.Double"/>
+	<parameter name="total" class="java.lang.Double"/>
+	<parameter name="notes" class="java.lang.String"/>
+	<field name="description" class="java.lang.String"/>
+	<field name="quantity" class="java.lang.Integer"/>
+	<field name="unitPrice" class="java.lang.Double"/>
+	<field name="totalPrice" class="java.lang.Double"/>
+	<title height="150">
+		<element kind="staticText" uuid="490ec671-4bbf-45ce-b393-a23bd318553b" x="0" y="0" width="535" height="40" fontSize="24.0" bold="true" hTextAlign="Right">
+			<text><![CDATA[RECHNUNG]]></text>
+		</element>
+		<element kind="textField" uuid="9d7b4338-712a-47b2-932b-53f6dbf62824" x="350" y="50" width="185" height="20" fontSize="10.0" bold="true" hTextAlign="Right">
+			<expression><![CDATA["Rechnungsnr.: " + $P{invoiceNumber}]]></expression>
+		</element>
+		<element kind="textField" uuid="79e74713-cb6e-4f7b-bcff-01db0be0ee92" x="350" y="70" width="185" height="20" fontSize="10.0" hTextAlign="Right">
+			<expression><![CDATA["Datum: " + $P{invoiceDate}]]></expression>
+		</element>
+		<element kind="textField" uuid="1eae5442-bb00-4e76-bcd5-c0e066cf8e9e" x="350" y="90" width="185" height="20" fontSize="10.0" hTextAlign="Right">
+			<expression><![CDATA["Fällig: " + $P{dueDate}]]></expression>
+		</element>
+		<element kind="staticText" uuid="f5b277e6-124b-4cae-903c-26f3748937a8" x="0" y="50" width="100" height="20" fontSize="10.0" bold="true">
+			<text><![CDATA[Rechnung an:]]></text>
+		</element>
+		<element kind="textField" uuid="19f5be3c-5e21-47a1-a1d8-8afb7adc9d8a" x="0" y="70" width="250" height="40" fontSize="10.0">
+			<expression><![CDATA[$P{customerName} + "\n" + $P{customerAddress}]]></expression>
+		</element>
+	</title>
+	<columnHeader height="30">
+		<element kind="rectangle" uuid="c28bba1b-d069-49ab-9c84-2d1ef56fc4d2" x="0" y="0" width="535" height="25" backcolor="#E0E0E0">
+			<pen lineWidth="0.5"/>
+		</element>
+		<element kind="staticText" uuid="83e46641-de13-41ae-80b2-7d79036c58a9" x="10" y="5" width="285" height="15" fontSize="10.0" bold="true">
+			<text><![CDATA[Beschreibung 123]]></text>
+		</element>
+		<element kind="staticText" uuid="36c28cd1-6af5-4fea-bc44-5cf43b7e4e3c" x="300" y="5" width="60" height="15" fontSize="10.0" bold="true" hTextAlign="Right">
+			<text><![CDATA[Menge]]></text>
+		</element>
+		<element kind="staticText" uuid="fe61eaba-25a7-48c3-a3b8-7b112e6eb1ed" x="365" y="5" width="80" height="15" fontSize="10.0" bold="true" hTextAlign="Right">
+			<text><![CDATA[Einzelpreis]]></text>
+		</element>
+		<element kind="staticText" uuid="eb5679f5-8099-4c72-adba-2a4d03a5083d" x="450" y="5" width="75" height="15" fontSize="10.0" bold="true" hTextAlign="Right">
+			<text><![CDATA[Gesamt]]></text>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="25">
+			<element kind="textField" uuid="924d24c9-1e88-4a43-ba47-fa66bb3ad4d1" x="10" y="5" width="285" height="15" fontSize="9.0">
+				<expression><![CDATA[$F{description}]]></expression>
+			</element>
+			<element kind="textField" uuid="5eb696c4-dd44-4dea-ab95-5d1775e489fa" x="300" y="5" width="60" height="15" fontSize="9.0" hTextAlign="Right">
+				<expression><![CDATA[$F{quantity}]]></expression>
+			</element>
+			<element kind="textField" uuid="3a18a529-16c0-434e-b114-3049ec2bf03b" x="365" y="5" width="80" height="15" fontSize="9.0" pattern="#,##0.00 €" hTextAlign="Right">
+				<expression><![CDATA[$F{unitPrice}]]></expression>
+			</element>
+			<element kind="textField" uuid="5c9a6c70-0d0e-46fb-a23d-89fc23d5a5c3" x="450" y="5" width="75" height="15" fontSize="9.0" pattern="#,##0.00 €" hTextAlign="Right">
+				<expression><![CDATA[$F{totalPrice}]]></expression>
+			</element>
+			<element kind="line" uuid="1d8b0cf3-919e-4a1f-9b30-19d72fcb59af" x="0" y="22" width="535" height="1">
+				<pen lineWidth="0.25" lineColor="#CCCCCC"/>
+			</element>
+		</band>
+	</detail>
+	<summary height="200">
+		<element kind="line" uuid="dd77a7c1-6704-4f80-8740-797fc838aa8d" x="350" y="10" width="185" height="1"/>
+		<element kind="staticText" uuid="8063627a-d449-4ef5-8456-4f28ea74fd74" x="350" y="20" width="95" height="20" fontSize="10.0" hTextAlign="Right">
+			<text><![CDATA[Zwischensumme:]]></text>
+		</element>
+		<element kind="textField" uuid="e15dce9b-bc04-4361-9133-e6813245d8c9" x="450" y="20" width="75" height="20" fontSize="10.0" pattern="#,##0.00 €" hTextAlign="Right">
+			<expression><![CDATA[$P{subtotal}]]></expression>
+		</element>
+		<element kind="staticText" uuid="fd230be7-f552-4ddb-995f-2047a772bf6d" x="350" y="40" width="95" height="20" fontSize="10.0" hTextAlign="Right">
+			<text><![CDATA[MwSt. (19%):]]></text>
+		</element>
+		<element kind="textField" uuid="e69032e5-63f2-42ed-bced-4ee894d675fb" x="450" y="40" width="75" height="20" fontSize="10.0" pattern="#,##0.00 €" hTextAlign="Right">
+			<expression><![CDATA[$P{tax}]]></expression>
+		</element>
+		<element kind="line" uuid="dfa478ba-6408-4065-a2e0-1ae46314b44a" x="350" y="65" width="185" height="1">
+			<pen lineWidth="2.0"/>
+		</element>
+		<element kind="staticText" uuid="50d9a2ea-6f36-4ebf-a72c-8b9644fafdc5" x="350" y="70" width="95" height="25" fontSize="12.0" bold="true" hTextAlign="Right">
+			<text><![CDATA[Gesamt:]]></text>
+		</element>
+		<element kind="textField" uuid="c007ba56-dbea-4856-86aa-fb8b07d5f30a" x="450" y="70" width="75" height="25" fontSize="12.0" pattern="#,##0.00 €" bold="true" hTextAlign="Right">
+			<expression><![CDATA[$P{total}]]></expression>
+		</element>
+		<element kind="textField" uuid="58beda4c-5c86-4cef-8f7e-239890eda1de" x="0" y="120" width="535" height="60" fontSize="9.0" blankWhenNull="true" italic="true">
+			<expression><![CDATA[$P{notes} != null ? "Hinweise:\n" + $P{notes} : ""]]></expression>
+			<box>
+				<pen lineWidth="0.5"/>
+			</box>
+		</element>
+	</summary>
 </jasperReport>
-

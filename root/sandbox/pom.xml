@@ -6,6 +6,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>r-uu.sandbox</artifactId>
 	<packaging>pom</packaging>
+	<name>${project.artifactId}</name>
 
 	<parent>
 		<groupId>r-uu</groupId>

@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <defs>
+    <style>
+      .service { fill: #90EE90; stroke: #228B22; stroke-width: 2; }
+      .infrastructure { fill: #FFB347; stroke: #FF8C00; stroke-width: 2; }
+      .network { stroke: #666; stroke-width: 1.5; stroke-dasharray: 5,5; fill: none; }
+      .text { font-family: Arial, sans-serif; font-size: 12px; text-anchor: middle; }
+      .title { font-family: Arial, sans-serif; font-size: 14px; font-weight: bold; text-anchor: middle; }
+      .label { font-family: Arial, sans-serif; font-size: 10px; text-anchor: middle; }
+    </style>
+  </defs>
+
+  <!-- Title -->
+  <text x="400" y="30" class="title">Microservices-Architektur mit Infrastruktur-Overhead</text>
+
+  <!-- Microservices (grün) -->
+  <rect x="50" y="100" width="100" height="60" class="service" rx="5"/>
+  <text x="100" y="135" class="text">User Service</text>
+
+  <rect x="200" y="100" width="100" height="60" class="service" rx="5"/>
+  <text x="250" y="135" class="text">Order Service</text>
+
+  <rect x="350" y="100" width="100" height="60" class="service" rx="5"/>
+  <text x="400" y="135" class="text">Product Service</text>
+
+  <rect x="500" y="100" width="100" height="60" class="service" rx="5"/>
+  <text x="550" y="135" class="text">Payment Service</text>
+
+  <rect x="650" y="100" width="100" height="60" class="service" rx="5"/>
+  <text x="700" y="135" class="text">Notification</text>
+
+  <rect x="50" y="220" width="100" height="60" class="service" rx="5"/>
+  <text x="100" y="255" class="text">Auth Service</text>
+
+  <rect x="200" y="220" width="100" height="60" class="service" rx="5"/>
+  <text x="250" y="255" class="text">Inventory</text>
+
+  <rect x="350" y="220" width="100" height="60" class="service" rx="5"/>
+  <text x="400" y="255" class="text">Shipping</text>
+
+  <!-- Infrastructure Components (orange) -->
+  <rect x="125" y="380" width="130" height="50" class="infrastructure" rx="5"/>
+  <text x="190" y="405" class="text">API Gateway</text>
+  <text x="190" y="420" class="label">(Routing)</text>
+
+  <rect x="285" y="380" width="130" height="50" class="infrastructure" rx="5"/>
+  <text x="350" y="405" class="text">Service Discovery</text>
+  <text x="350" y="420" class="label">(Registry)</text>
+
+  <rect x="445" y="380" width="130" height="50" class="infrastructure" rx="5"/>
+  <text x="510" y="405" class="text">Load Balancer</text>
+  <text x="510" y="420" class="label">(Distribution)</text>
+
+  <rect x="125" y="460" width="130" height="50" class="infrastructure" rx="5"/>
+  <text x="190" y="485" class="text">Message Queue</text>
+  <text x="190" y="500" class="label">(Async Comm.)</text>
+
+  <rect x="285" y="460" width="130" height="50" class="infrastructure" rx="5"/>
+  <text x="350" y="485" class="text">Monitoring</text>
+  <text x="350" y="500" class="label">(Metrics/Logs)</text>
+
+  <rect x="445" y="460" width="130" height="50" class="infrastructure" rx="5"/>
+  <text x="510" y="485" class="text">Config Server</text>
+  <text x="510" y="500" class="label">(Centralized)</text>
+
+  <!-- Network connections between services -->
+  <path d="M 150 130 L 200 130" class="network"/>
+  <path d="M 300 130 L 350 130" class="network"/>
+  <path d="M 450 130 L 500 130" class="network"/>
+  <path d="M 600 130 L 650 130" class="network"/>
+
+  <path d="M 100 160 L 100 220" class="network"/>
+  <path d="M 250 160 L 250 220" class="network"/>
+  <path d="M 400 160 L 400 220" class="network"/>
+
+  <path d="M 150 250 L 200 250" class="network"/>
+  <path d="M 300 250 L 350 250" class="network"/>
+
+  <!-- Connections to infrastructure -->
+  <path d="M 100 280 L 190 380" class="network"/>
+  <path d="M 250 280 L 350 380" class="network"/>
+  <path d="M 400 280 L 510 380" class="network"/>
+  <path d="M 550 160 L 350 460" class="network"/>
+  <path d="M 700 160 L 510 460" class="network"/>
+
+  <!-- Legend -->
+  <rect x="600" y="540" width="60" height="20" class="service" rx="3"/>
+  <text x="670" y="553" class="label">Microservices</text>
+
+  <rect x="600" y="565" width="60" height="20" class="infrastructure" rx="3"/>
+  <text x="670" y="578" class="label">Infrastruktur</text>
+</svg>
+

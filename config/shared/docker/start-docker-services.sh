@@ -66,7 +66,7 @@ sleep 10
 
 # Prüfe Container-Status
 POSTGRES_STATUS=$(docker inspect -f '{{.State.Status}}' ruu-postgres 2>/dev/null || echo "not found")
-KEYCLOAK_STATUS=$(docker inspect -f '{{.State.Status}}' ruu-keycloak 2>/dev/null || echo "not found")
+KEYCLOAK_STATUS=$(docker inspect -f '{{.State.Status}}' keycloak-service 2>/dev/null || echo "not found")
 
 if [ "$POSTGRES_STATUS" = "running" ]; then
     log_info "PostgreSQL läuft (Container: ruu-postgres, Port: ${POSTGRES_PORT:-5432})"
@@ -75,7 +75,7 @@ else
 fi
 
 if [ "$KEYCLOAK_STATUS" = "running" ]; then
-    log_info "Keycloak läuft (Container: ruu-keycloak, Port: ${KEYCLOAK_PORT:-8080})"
+    log_info "Keycloak läuft (Container: keycloak-service, Port: ${KEYCLOAK_PORT:-8080})"
 else
     log_warn "Keycloak Status: $KEYCLOAK_STATUS"
 fi

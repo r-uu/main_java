@@ -41,11 +41,22 @@ this environment variable is needed to run this program.
 
 1. **Noch in Settings → Maven → Runner**
 2. **JRE:** Wähle das GraalVM 25 JDK (sollte jetzt verfügbar sein)
-3. **VM Options (optional):** 
+3. **VM Options:** 
+   
+   **Leer lassen** oder optional:
    ```
-   --enable-native-access=ALL-UNNAMED
+   --enable-native-access=org.fusesource.jansi
    ```
-   (verhindert die GraalVM Warnings)
+   
+   **⚠️ NICHT verwenden:** `--enable-native-access=ALL-UNNAMED`
+   
+   **Grund:** Widerspricht der strikten JPMS-Strategie des Projekts:
+   - Versteckt JPMS-Warnings (Projekt-Philosophie: Warnings sichtbar machen)
+   - Schwächt JPMS-Sicherheitsmechanismen
+   - Die verbleibenden Warnings sind Maven-intern und unkritisch
+   
+   Siehe: `config/JPMS-NATIVE-ACCESS-ANALYSE.md`
+
 4. **Klicke Apply und OK**
 
 ### Schritt 5: IntelliJ neu starten

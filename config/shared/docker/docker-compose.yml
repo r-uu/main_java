@@ -1,28 +1,50 @@
 
 services:
   # ═══════════════════════════════════════════════════════════════════
-  # PostgreSQL Datenbank für Entwicklung
+  # PostgreSQL für JEEERAaH Application
   # ═══════════════════════════════════════════════════════════════════
-  postgres:
+  postgres-jeeeraaah:
     image: postgres:16-alpine
-    container_name: ruu-postgres
+    container_name: postgres-jeeeraaah
     environment:
-      # Diese Werte können in config/local/docker/.env.local überschrieben werden
-      POSTGRES_DB: ${POSTGRES_DB:-ruu_dev}
-      POSTGRES_USER: ${POSTGRES_USER:-ruu}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      POSTGRES_DB: jeeeraaah
+      POSTGRES_USER: r_uu
+      POSTGRES_PASSWORD: r_uu_password
     ports:
-      - "${POSTGRES_PORT:-5432}:5432"
+      - "5432:5432"
     volumes:
-      # Daten werden lokal gespeichert (nicht im Git)
-      - ${POSTGRES_DATA_PATH:-../../local/docker/data/postgres}:/var/lib/postgresql/data
-      - ${POSTGRES_BACKUP_PATH:-../../local/docker/backups}:/backups
-      # Init-Skripte für automatische Datenbank-Initialisierung
-      - ./initdb:/docker-entrypoint-initdb.d:ro
+      - postgres-jeeeraaah-data:/var/lib/postgresql/data
+      - postgres-jeeeraaah-backups:/backups
+      - ./initdb/jeeeraaah:/docker-entrypoint-initdb.d:ro
     networks:
       - ruu-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-ruu}"]
+      test: ["CMD-SHELL", "pg_isready -U r_uu -d jeeeraaah"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # ═══════════════════════════════════════════════════════════════════
+  # PostgreSQL für Keycloak
+  # ═══════════════════════════════════════════════════════════════════
+  postgres-keycloak:
+    image: postgres:16-alpine
+    container_name: postgres-keycloak
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: r_uu
+      POSTGRES_PASSWORD: r_uu_password
+    ports:
+      - "5433:5432"  # Anderer externer Port, intern weiterhin 5432
+    volumes:
+      - postgres-keycloak-data:/var/lib/postgresql/data
+      - postgres-keycloak-backups:/backups
+      - ./initdb/keycloak:/docker-entrypoint-initdb.d:ro
+    networks:
+      - ruu-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U r_uu -d keycloak"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -33,17 +55,17 @@ services:
   # ═══════════════════════════════════════════════════════════════════
   keycloak:
     image: quay.io/keycloak/keycloak:latest
-    container_name: ruu-keycloak
+    container_name: keycloak-service
     environment:
       # Admin Credentials
       KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN:-admin}
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:-admin}
 
-      # Database Configuration
+      # Database Configuration - Eigene PostgreSQL-Instanz
       KC_DB: postgres
-      KC_DB_URL: jdbc:postgresql://ruu-postgres:5432/${KEYCLOAK_DB:-keycloak}
-      KC_DB_USERNAME: ${POSTGRES_USER:-ruu}
-      KC_DB_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      KC_DB_URL: jdbc:postgresql://postgres-keycloak:5432/keycloak
+      KC_DB_USERNAME: r_uu
+      KC_DB_PASSWORD: r_uu_password
 
       # Server Configuration
       KC_HOSTNAME_STRICT: "false"
@@ -55,27 +77,31 @@ services:
       - "${KEYCLOAK_PORT:-8080}:8080"
     command: start-dev
     depends_on:
-      postgres:
+      postgres-keycloak:
         condition: service_healthy
     networks:
       - ruu-network
     healthcheck:
-      test: ["CMD-SHELL", "exec 3<>/dev/tcp/localhost/8080 && echo -e 'GET /health/ready HTTP/1.1\\r\\nHost: localhost\\r\\n\\r\\n' >&3 && timeout 1 cat <&3 | grep -q '200\\|UP' || exit 1"]
+      test: ["CMD-SHELL", "exec 3<>/dev/tcp/localhost/8080 || exit 1"]
       interval: 30s
       timeout: 10s
-      retries: 5
-      start_period: 60s
+      retries: 10
+      start_period: 120s
     restart: unless-stopped
 
   # JasperReports Service - Isolierte Report-Generierung
   jasperreports:
-    build: ../../../root/sandbox/office/microsoft/word/jasperreports
+    build:
+      context: ../../..  # Root-Verzeichnis (enthält bom/ und root/)
+      dockerfile: root/sandbox/office/microsoft/word/jasperreports/Dockerfile
     container_name: jasperreports-service
     ports:
       - "8090:8090"
     volumes:
+      # Templates werden im Build kopiert, hier optional für Live-Updates
       - ../../../root/sandbox/office/microsoft/word/jasperreports/templates:/app/templates:ro
-      - ../../../root/sandbox/office/microsoft/word/jasperreports/output:/app/output
+      # Output-Verzeichnis für generierte Reports
+      - ../../../root/sandbox/office/microsoft/word/jasperreports/server/output:/app/output
     environment:
       - JAVA_OPTS=-Xmx512m
     networks:
@@ -93,35 +119,58 @@ networks:
     name: ruu-network
 
 volumes:
-  # Benannte Volumes für einfacheres Management
-  postgres-data:
-    name: ruu-postgres-data
-  postgres-backups:
-    name: ruu-postgres-backups
+  # Volumes für JEEERAaH PostgreSQL
+  postgres-jeeeraaah-data:
+    name: postgres-jeeeraaah-data
+  postgres-jeeeraaah-backups:
+    name: postgres-jeeeraaah-backups
+
+  # Volumes für Keycloak PostgreSQL
+  postgres-keycloak-data:
+    name: postgres-keycloak-data
+  postgres-keycloak-backups:
+    name: postgres-keycloak-backups
 
 # ═══════════════════════════════════════════════════════════════════
 # Hinweise
 # ═══════════════════════════════════════════════════════════════════
 #
-# Überschreibe Umgebungsvariablen in config/local/docker/.env.local
-# Niemals Passwörter in diese Datei committen!
+# SEPARATE DATENBANKEN:
+# - postgres-jeeeraaah: Für JEEERAaH Application (Port 5432)
+# - postgres-keycloak:  Für Keycloak (Port 5433)
+#
+# CREDENTIALS (beide identisch):
+#   User:     r_uu
+#   Password: r_uu_password
+#
+# PostgreSQL Zugriff JEEERAaH:
+#   Host:     localhost
+#   Port:     5432
+#   User:     r_uu
+#   Password: r_uu_password
+#   Database: jeeeraaah
+#
+# PostgreSQL Zugriff Keycloak:
+#   Host:     localhost
+#   Port:     5433
+#   User:     r_uu
+#   Password: r_uu_password
+#   Database: keycloak
 #
 # Keycloak Admin Console: http://localhost:8080/admin
-# Standard Login: admin / admin (ändern in .env.local!)
-#
-# PostgreSQL Zugriff:
-#   Host: localhost
-#   Port: 5432
-#   User: ruu (oder aus .env.local)
-#   Database: ruu_dev (oder aus .env.local)
+# Standard Login: admin / admin (ändern via KEYCLOAK_ADMIN_PASSWORD!)
 #
 # Init-Skripte:
-#   Lege SQL-Skripte in ./initdb/ ab
-#   Sie werden beim ersten Start automatisch ausgeführt
-#   Reihenfolge: alphabetisch (z.B. 01-init.sql, 02-data.sql)
+#   JEEERAaH: Lege SQL in ./initdb/jeeeraaah/ ab
+#   Keycloak: Lege SQL in ./initdb/keycloak/ ab
+#   Ausführung beim ersten Start automatisch (alphabetisch sortiert)
 #
 # Rebuild (Daten löschen):
-#   docker-compose down -v
-#   docker volume rm ruu-postgres-data
-#   docker-compose up -d
+#   docker compose down -v
+#   docker volume rm postgres-jeeeraaah-data postgres-keycloak-data
+#   docker compose up -d
+#
+# Einzelnen Container neu starten:
+#   docker compose restart postgres-jeeeraaah
+#   docker compose restart postgres-keycloak
 

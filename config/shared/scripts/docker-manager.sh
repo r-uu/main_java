@@ -53,7 +53,7 @@ start_service() {
     local service=$1
     cd "$DOCKER_DIR"
     echo -e "${YELLOW}Starte $service...${NC}"
-    docker-compose up -d "$service"
+    docker compose up -d "$service"
     if [ $? -eq 0 ]; then
         status_ok "$service gestartet"
     else
@@ -170,7 +170,7 @@ main() {
     case $COMMAND in
         start)
             if [ "$SERVICE" = "all" ]; then
-                cd "$DOCKER_DIR" && docker-compose up -d
+                cd "$DOCKER_DIR" && docker compose up -d
                 status_ok "Alle Services gestartet"
                 show_status
             else
@@ -180,7 +180,7 @@ main() {
 
         stop)
             if [ "$SERVICE" = "all" ]; then
-                cd "$DOCKER_DIR" && docker-compose down
+                cd "$DOCKER_DIR" && docker compose down
                 status_ok "Alle Services gestoppt"
             else
                 stop_service "$SERVICE"
@@ -189,7 +189,7 @@ main() {
 
         restart)
             if [ "$SERVICE" = "all" ]; then
-                cd "$DOCKER_DIR" && docker-compose restart
+                cd "$DOCKER_DIR" && docker compose restart
                 status_ok "Alle Services neugestartet"
                 show_status
             else
@@ -205,7 +205,7 @@ main() {
 
         logs)
             if [ "$SERVICE" = "all" ]; then
-                cd "$DOCKER_DIR" && docker-compose logs -f
+                cd "$DOCKER_DIR" && docker compose logs -f
             else
                 show_logs "$SERVICE"
             fi
@@ -221,7 +221,7 @@ main() {
 
         rebuild)
             if [ "$SERVICE" = "all" ]; then
-                status_warn "Rebuild all nicht unterstützt - nutze 'docker-compose down -v'"
+                status_warn "Rebuild all nicht unterstützt - nutze 'docker compose down -v'"
                 exit 1
             fi
             rebuild_service "$SERVICE"

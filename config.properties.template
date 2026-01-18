@@ -14,11 +14,18 @@
 # ================================================================================
 # PostgreSQL Database Configuration (Required for JDBC/JPA Tests)
 # ================================================================================
+# WICHTIG: Passe diese Werte an deine lokale Umgebung an!
+# Diese Werte werden von Maven Resource Filtering verwendet.
+#
+# Docker Setup (siehe config/shared/docker/docker-compose.yml):
+# - postgres-jeeeraaah: Port 5432, Datenbank: jeeeraaah
+# - postgres-keycloak:  Port 5433, Datenbank: keycloak
+# ================================================================================
 db.host=localhost
 db.port=5432
-db.database=lib_test
-db.username=r_uu
-db.password=r_uu_password
+db.database=jeeeraaah
+db.username=DEIN_USERNAME_HIER
+db.password=DEIN_PASSWORD_HIER
 
 # ================================================================================
 # Backup/Restore Configuration (Optional)

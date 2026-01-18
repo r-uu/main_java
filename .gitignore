@@ -71,3 +71,10 @@ Thumbs.db
 
 # generator output
 **/src/gen
+
+# JasperReports - Generierte Output-Dateien (PDFs, DOCX)
+**/jasperreports/*.pdf
+**/jasperreports/*.docx
+**/jasperreports/output/
+**/jasperreports/server/output/
+

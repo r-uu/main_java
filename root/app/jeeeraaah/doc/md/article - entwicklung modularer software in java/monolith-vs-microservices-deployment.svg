@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
+  <defs>
+    <style>
+      .monolith { fill: #D2B48C; stroke: #8B7355; stroke-width: 2; }
+      .microservice { fill: #90EE90; stroke: #228B22; stroke-width: 1.5; }
+      .process { fill: #E6E6FA; stroke: #6A5ACD; stroke-width: 2; stroke-dasharray: 5,3; }
+      .deployment { fill: #FFE4B5; stroke: #DEB887; stroke-width: 2; }
+      .arrow { stroke: #333; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .text { font-family: Arial, sans-serif; font-size: 12px; text-anchor: middle; }
+      .title { font-family: Arial, sans-serif; font-size: 16px; font-weight: bold; text-anchor: middle; }
+      .subtitle { font-family: Arial, sans-serif; font-size: 14px; font-weight: bold; text-anchor: middle; }
+      .label { font-family: Arial, sans-serif; font-size: 10px; text-anchor: middle; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#333"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="400" y="25" class="title">Deployment-Komplexität: Monolith vs Microservices</text>
+
+  <!-- Divider -->
+  <line x1="400" y1="50" x2="400" y2="380" stroke="#ccc" stroke-width="2"/>
+
+  <!-- LEFT SIDE: MONOLITH -->
+  <text x="200" y="70" class="subtitle">Monolith</text>
+
+  <!-- Big application box -->
+  <rect x="100" y="90" width="200" height="120" class="monolith" rx="5"/>
+  <text x="200" y="125" class="text" font-weight="bold">Eine große</text>
+  <text x="200" y="145" class="text" font-weight="bold">Anwendung</text>
+  <text x="200" y="175" class="label">(Alle Features)</text>
+  <text x="200" y="190" class="label">(Eine Codebasis)</text>
+
+  <!-- One deployment package -->
+  <rect x="130" y="240" width="140" height="40" class="deployment" rx="5"/>
+  <text x="200" y="265" class="text">app.war / app.jar</text>
+
+  <!-- One process -->
+  <rect x="120" y="310" width="160" height="50" class="process" rx="5"/>
+  <text x="200" y="340" class="text">1 Prozess</text>
+
+  <!-- Simple arrow -->
+  <path d="M 200 210 L 200 240" class="arrow"/>
+  <path d="M 200 280 L 200 310" class="arrow"/>
+
+  <text x="200" y="385" class="label" fill="green">✓ Einfaches Deployment</text>
+
+  <!-- RIGHT SIDE: MICROSERVICES -->
+  <text x="600" y="70" class="subtitle">Microservices</text>
+
+  <!-- Many small services -->
+  <rect x="450" y="90" width="70" height="40" class="microservice" rx="3"/>
+  <text x="485" y="113" class="label">Service A</text>
+
+  <rect x="530" y="90" width="70" height="40" class="microservice" rx="3"/>
+  <text x="565" y="113" class="label">Service B</text>
+
+  <rect x="610" y="90" width="70" height="40" class="microservice" rx="3"/>
+  <text x="645" y="113" class="label">Service C</text>
+
+  <rect x="690" y="90" width="70" height="40" class="microservice" rx="3"/>
+  <text x="725" y="113" class="label">Service D</text>
+
+  <rect x="450" y="140" width="70" height="40" class="microservice" rx="3"/>
+  <text x="485" y="163" class="label">Service E</text>
+
+  <rect x="530" y="140" width="70" height="40" class="microservice" rx="3"/>
+  <text x="565" y="163" class="label">Service F</text>
+
+  <rect x="610" y="140" width="70" height="40" class="microservice" rx="3"/>
+  <text x="645" y="163" class="label">Service G</text>
+
+  <rect x="690" y="140" width="70" height="40" class="microservice" rx="3"/>
+  <text x="725" y="163" class="label">Service H</text>
+
+  <!-- Many deployment packages -->
+  <rect x="460" y="210" width="50" height="25" class="deployment" rx="3"/>
+  <text x="485" y="226" class="label">a.jar</text>
+
+  <rect x="520" y="210" width="50" height="25" class="deployment" rx="3"/>
+  <text x="545" y="226" class="label">b.jar</text>
+
+  <rect x="580" y="210" width="50" height="25" class="deployment" rx="3"/>
+  <text x="605" y="226" class="label">c.jar</text>
+
+  <rect x="640" y="210" width="50" height="25" class="deployment" rx="3"/>
+  <text x="665" y="226" class="label">d.jar</text>
+
+  <rect x="460" y="245" width="50" height="25" class="deployment" rx="3"/>
+  <text x="485" y="261" class="label">e.jar</text>
+
+  <rect x="520" y="245" width="50" height="25" class="deployment" rx="3"/>
+  <text x="545" y="261" class="label">f.jar</text>
+
+  <rect x="580" y="245" width="50" height="25" class="deployment" rx="3"/>
+  <text x="605" y="261" class="label">g.jar</text>
+
+  <rect x="640" y="245" width="50" height="25" class="deployment" rx="3"/>
+  <text x="665" y="261" class="label">h.jar</text>
+
+  <!-- Many processes -->
+  <rect x="462" y="300" width="45" height="30" class="process" rx="3"/>
+  <text x="485" y="318" class="label">P1</text>
+
+  <rect x="517" y="300" width="45" height="30" class="process" rx="3"/>
+  <text x="540" y="318" class="label">P2</text>
+
+  <rect x="572" y="300" width="45" height="30" class="process" rx="3"/>
+  <text x="595" y="318" class="label">P3</text>
+
+  <rect x="627" y="300" width="45" height="30" class="process" rx="3"/>
+  <text x="650" y="318" class="label">P4</text>
+
+  <rect x="462" y="340" width="45" height="30" class="process" rx="3"/>
+  <text x="485" y="358" class="label">P5</text>
+
+  <rect x="517" y="340" width="45" height="30" class="process" rx="3"/>
+  <text x="540" y="358" class="label">P6</text>
+
+  <rect x="572" y="340" width="45" height="30" class="process" rx="3"/>
+  <text x="595" y="358" class="label">P7</text>
+
+  <rect x="627" y="340" width="45" height="30" class="process" rx="3"/>
+  <text x="650" y="358" class="label">P8</text>
+
+  <!-- Complex arrows -->
+  <path d="M 485 130 L 485 210" class="arrow" stroke-width="1"/>
+  <path d="M 565 130 L 545 210" class="arrow" stroke-width="1"/>
+  <path d="M 645 130 L 605 210" class="arrow" stroke-width="1"/>
+  <path d="M 725 130 L 665 210" class="arrow" stroke-width="1"/>
+
+  <path d="M 485 180 L 485 245" class="arrow" stroke-width="1"/>
+  <path d="M 565 180 L 545 245" class="arrow" stroke-width="1"/>
+  <path d="M 645 180 L 605 245" class="arrow" stroke-width="1"/>
+  <path d="M 725 180 L 665 245" class="arrow" stroke-width="1"/>
+
+  <text x="600" y="385" class="label" fill="red">✗ Komplexes Deployment</text>
+  <text x="600" y="395" class="label" fill="red">(Orchestrierung benötigt)</text>
+</svg>
+

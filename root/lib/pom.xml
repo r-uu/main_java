@@ -30,6 +30,7 @@
 		<module>mapstruct</module>
 		<module>mapstruct/spi</module>
 		<module>mp.config</module>
+		<module>office</module>
 		<module>postgres</module>
 		<module>postgres.util.ui</module>
 		<module>util</module>
