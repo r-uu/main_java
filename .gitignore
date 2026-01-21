@@ -3,6 +3,7 @@
 # =============================================
 
 # Alle lokalen (maschinenspezifischen) Konfigurationen
+config.properties
 config/local/
 
 # Lokale Umgebungsvariablen mit Secrets
