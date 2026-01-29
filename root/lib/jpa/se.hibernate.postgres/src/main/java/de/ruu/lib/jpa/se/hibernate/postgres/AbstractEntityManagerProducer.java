@@ -27,30 +27,31 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public abstract class AbstractEntityManagerProducer
 {
-	private EntityManager entityManager;
+    private EntityManager entityManager;
 
 	@Inject
-	@ConfigProperty(name = "db.lib_test.host", defaultValue = "localhost")
+	@ConfigProperty(name = "de.ruu.lib.jpa.se.hibernate.postgres.host", defaultValue = "localhost")
 	private String host;
 
 	@Inject
-	@ConfigProperty(name = "db.lib_test.port", defaultValue = "5432")
+	@ConfigProperty(name = "de.ruu.lib.jpa.se.hibernate.postgres.port", defaultValue = "5432")
 	private Integer port;
 
 	@Inject
-	@ConfigProperty(name = "db.lib_test.database", defaultValue = "lib_test")
-	private String dbName;
+	@ConfigProperty(name = "de.ruu.lib.jpa.se.hibernate.postgres.database", defaultValue = "lib_test")
+	private String database;
 
 	@Inject
-	@ConfigProperty(name = "db.lib_test.username", defaultValue = "lib_test")
+	@ConfigProperty(name = "de.ruu.lib.jpa.se.hibernate.postgres.username", defaultValue = "lib_test")
 	private String username;
 
 	@Inject
-	@ConfigProperty(name = "db.lib_test.password", defaultValue = "lib_test")
+	@ConfigProperty(name = "de.ruu.lib.jpa.se.hibernate.postgres.password", defaultValue = "lib_test")
 	private String password;
 
+    /** puname -> persistence unit name */
 	@Inject
-	@ConfigProperty(name = "db.lib_test.persistence.unit.name", defaultValue = "lib_test")
+	@ConfigProperty(name = "de.ruu.lib.jpa.se.hibernate.postgres.puname", defaultValue = "lib_test")
 	private String puname;
 
 	/**
@@ -61,7 +62,7 @@ public abstract class AbstractEntityManagerProducer
 	{
 		if (!isNull(entityManager)) return entityManager;
 
-		JDBCURL jdbcURL = new de.ruu.lib.jdbc.postgres.JDBCURL(host, port, dbName);
+		JDBCURL jdbcURL = new de.ruu.lib.jdbc.postgres.JDBCURL(host, port, database);
 
 		DataSourceFactory dataSourceFactory = new DataSourceFactory(jdbcURL, username, password);
 		DataSource dataSource = dataSourceFactory.create();
