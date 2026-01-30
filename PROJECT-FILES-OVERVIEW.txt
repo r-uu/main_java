@@ -1,0 +1,47 @@
+═══════════════════════════════════════════════════════════════════
+PROJEKT DATEI-ÜBERSICHT (nach Aufräumen am 2026-01-22)
+═══════════════════════════════════════════════════════════════════
+📂 ROOT VERZEICHNIS
+───────────────────────────────────────────────────────────────────
+README.md                   🏠 Hauptdokumentation - START HIER!
+todo.md                     📝 Projektaufgaben
+CLEANUP-COMPLETE.md         📋 Aufräum-Dokumentation
+📂 CONFIG VERZEICHNIS  
+───────────────────────────────────────────────────────────────────
+README.md                                    📖 Config-Übersicht
+PROJEKT-DOKUMENTATION.md                     📚 Zentrale Referenz ⭐
+QUICK-COMMANDS.md                            ⚡ Tägliche Befehle ⭐
+AUTOMATIC-MODULES-DOCUMENTATION.md           🔧 JPMS & Automatic Modules
+CONFIG-PROPERTIES-GUIDE.md                   ⚙️ Properties-Konfiguration
+DOCKER-SETUP.md                              🐳 Docker Container Setup
+KEYCLOAK-SETUP.md                            🔐 Keycloak Konfiguration
+POSTGRESQL-SETUP.md                          🐘 PostgreSQL Setup
+STRUCTURE.md                                 📁 Projektstruktur
+TROUBLESHOOTING.md                           🆘 Problemlösungen
+WSL-AUTO-STARTUP.md                          🚀 WSL Autostart
+📦 CONFIG/ARCHIVE (79 historische Dokumente bei Bedarf)
+📂 CONFIG/SHARED/WSL
+───────────────────────────────────────────────────────────────────
+aliases.sh                  🔧 Bash-Aliase (ruu-*)
+startup.sh                  🚀 Docker-Startup-Skript
+📂 CONFIG/SHARED/DOCKER
+───────────────────────────────────────────────────────────────────
+docker-compose.yml          🐳 Docker Services Definition
+📂 CONFIG/SHARED/SCRIPTS (27 Shell-Skripte)
+───────────────────────────────────────────────────────────────────
+Alle Setup- und Build-Skripte
+═══════════════════════════════════════════════════════════════════
+EMPFOHLENE LESEREIHENFOLGE
+═══════════════════════════════════════════════════════════════════
+1️⃣  README.md                           (Projekt-Übersicht)
+2️⃣  config/QUICK-COMMANDS.md            (Tägliche Befehle)
+3️⃣  config/PROJEKT-DOKUMENTATION.md     (Detaillierte Referenz)
+4️⃣  config/TROUBLESHOOTING.md           (Bei Problemen)
+═══════════════════════════════════════════════════════════════════
+TÄGLICHE BEFEHLE
+═══════════════════════════════════════════════════════════════════
+ruu-startup              # Docker Services starten
+build-all                # Projekt bauen
+ruu-docker-ps            # Container-Status
+ruu-help                 # Hilfe anzeigen
+═══════════════════════════════════════════════════════════════════

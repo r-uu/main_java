@@ -1,35 +1,57 @@
 services:
   # ============================================================================
   # PostgreSQL Database for JEEERAaH Application
-  # Main application database - hosts both 'jeeeraaah' and 'lib_test' databases
-  # Uses credentials from .env: postgres_jeeeraaah_* and postgres_lib_test_*
+  # Main application database for production data
+  # Uses credentials from .env: POSTGRES_JEEERAAAH_*
   # ============================================================================
   postgres-jeeeraaah:
     image: postgres:16-alpine
     container_name: postgres-jeeeraaah
     environment:
-      # Primary database configuration from .env (POSTGRES_JEEERAAAH_*)
+      # Database configuration from .env (POSTGRES_JEEERAAAH_*)
       POSTGRES_DB: ${POSTGRES_JEEERAAAH_DATABASE}
       POSTGRES_USER: ${POSTGRES_JEEERAAAH_USER}
       POSTGRES_PASSWORD: ${POSTGRES_JEEERAAAH_PASSWORD}
-      # Additional database credentials passed to init scripts (POSTGRES_LIB_TEST_*)
-      LIB_TEST_DB: ${POSTGRES_LIB_TEST_DATABASE}
-      LIB_TEST_USER: ${POSTGRES_LIB_TEST_USER}
-      LIB_TEST_PASSWORD: ${POSTGRES_LIB_TEST_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
       - postgres-jeeeraaah-data:/var/lib/postgresql/data
       - postgres-jeeeraaah-backups:/backups
-      - ./initdb:/docker-entrypoint-initdb.d:ro
-      - ./postgres-entrypoint-wrapper.sh:/usr/local/bin/postgres-entrypoint-wrapper.sh:ro
-      - ./healthcheck/postgres-healthcheck.sh:/usr/local/bin/healthcheck.sh:ro
-    entrypoint: ["/bin/bash", "/usr/local/bin/postgres-entrypoint-wrapper.sh"]
-    command: ["postgres"]
+      - ./initdb/jeeeraaah:/docker-entrypoint-initdb.d:ro
     networks:
       - ruu-network
     healthcheck:
-      test: ["CMD-SHELL", "/usr/local/bin/healthcheck.sh"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_JEEERAAAH_USER} -d ${POSTGRES_JEEERAAAH_DATABASE}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: always
+
+  # ============================================================================
+  # PostgreSQL Database for lib_test (Integration Tests)
+  # Dedicated database instance for running integration tests
+  # Uses credentials from .env: POSTGRES_LIB_TEST_*
+  # Exposed on host port 5434 to avoid conflicts
+  # ============================================================================
+  postgres-lib-test:
+    image: postgres:16-alpine
+    container_name: postgres-lib-test
+    environment:
+      # Database configuration from .env (POSTGRES_LIB_TEST_*)
+      POSTGRES_DB: ${POSTGRES_LIB_TEST_DATABASE}
+      POSTGRES_USER: ${POSTGRES_LIB_TEST_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_LIB_TEST_PASSWORD}
+    ports:
+      - "5434:5432"  # External port 5434, internal PostgreSQL default 5432
+    volumes:
+      - postgres-lib-test-data:/var/lib/postgresql/data
+      - postgres-lib-test-backups:/backups
+      - ./initdb/lib_test:/docker-entrypoint-initdb.d:ro
+    networks:
+      - ruu-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_LIB_TEST_USER} -d ${POSTGRES_LIB_TEST_DATABASE}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -156,11 +178,10 @@ volumes:
   # Persistent Volumes for PostgreSQL Databases
   # ============================================================================
 
-  # JEEERAaH Application Database Volumes
-  postgres-jeeeraaah-data:
-    name: postgres-jeeeraaah-data          # Database files for jeeeraaah and lib_test
-  postgres-jeeeraaah-backups:
-    name: postgres-jeeeraaah-backups       # Backup storage for jeeeraaah databases
+  # JEEERAAAH-data:
+    name: postgres-lib-test-data           # Database files for lib_test
+  postgres-lib-test-backups:
+    name: postgres-lib-test-backups        # Backup storage for lib_test database
 
   # Keycloak Database Volumes
   postgres-keycloak-data:
@@ -185,27 +206,33 @@ volumes:
 # Siehe: .env.template für die Struktur
 #
 # PostgreSQL JEEERAaH (Port 5432):
-#   Database: ${POSTGRES_JEEERAAAH_DB}
+#   Database: ${POSTGRES_JEEERAAAH_DATABASE}
 #   User:     ${POSTGRES_JEEERAAAH_USER}
 #   Password: ${POSTGRES_JEEERAAAH_PASSWORD}
 #
+# PostgreSQL lib_test (Port 5434):
+#   Database: ${POSTGRES_LIB_TEST_DATABASE}
+#   User:     ${POSTGRES_LIB_TEST_USER}
+#   Password: ${POSTGRES_LIB_TEST_PASSWORD}
+#
 # PostgreSQL Keycloak (Port 5433):
-#   Database: ${POSTGRES_KEYCLOAK_DB}
+#   Database: ${POSTGRES_KEYCLOAK_DATABASE}
 #   User:     ${POSTGRES_KEYCLOAK_USER}
 #   Password: ${POSTGRES_KEYCLOAK_PASSWORD}
 #
 # Keycloak Admin Console (http://localhost:8080/admin):
-#   Username: ${KC_BOOTSTRAP_ADMIN_USERNAME}
-#   Password: ${KC_BOOTSTRAP_ADMIN_PASSWORD}
+#   Username: ${KEYCLOAK_ADMIN_USER}
+#   Password: ${KEYCLOAK_ADMIN_PASSWORD}
 #
 # Init-Skripte:
-#   JEEERAaH: Lege SQL in ./initdb/ ab
-#   Keycloak: Lege SQL in ./initdb/keycloak/ ab
+#   JEEERAaH:  Lege SQL in ./initdb/jeeeraaah/ ab
+#   lib_test:  Lege SQL in ./initdb/lib_test/ ab
+#   Keycloak:  Lege SQL in ./initdb/keycloak/ ab
 #   Ausführung beim ersten Start automatisch (alphabetisch sortiert)
 #
 # Rebuild (Daten löschen):
 #   docker compose down -v
-#   docker volume rm postgres-jeeeraaah-data postgres-keycloak-data keycloak-data
+#   docker volume rm postgres-jeeeraaah-data postgres-lib-test-data postgres-keycloak-data keycloak-data
 #   docker compose up -d
 #
 # Einzelnen Container neu starten:

@@ -14,17 +14,17 @@ public class PostgresDatabaseHealthCheck implements HealthCheck
 {
 	private final String containerName;
 	private final String databaseName;
-	private final int port;
+	private final int    port;
 	private final String username;
 	private final String password;
 
 	public PostgresDatabaseHealthCheck(String containerName, String databaseName, int port, String username, String password)
 	{
 		this.containerName = containerName;
-		this.databaseName = databaseName;
-		this.port = port;
-		this.username = username;
-		this.password = password;
+		this.databaseName  = databaseName;
+		this.port          = port;
+		this.username      = username;
+		this.password      = password;
 	}
 
 	/**
@@ -54,10 +54,10 @@ public class PostgresDatabaseHealthCheck implements HealthCheck
 			pass = "jeeeraaah";
 		}
 		this.containerName = containerName;
-		this.databaseName = databaseName;
-		this.port = port;
-		this.username = user;
-		this.password = pass;
+		this.databaseName  = databaseName;
+		this.port          = port;
+		this.username      = user;
+		this.password      = pass;
 	}
 
 	@Override
