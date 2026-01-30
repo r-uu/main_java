@@ -62,6 +62,11 @@ r-uu/.idea/shelf/
 target/
 **/target/
 
+# JAR/WAR/EAR files (managed by Maven, should not be in repository)
+*.jar
+*.war
+*.ear
+
 # Python / Node / generic clutter (extend as needed)
 *.pyc
 node_modules/
