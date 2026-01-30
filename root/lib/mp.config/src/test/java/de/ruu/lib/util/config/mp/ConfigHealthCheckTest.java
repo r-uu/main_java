@@ -68,6 +68,12 @@ class ConfigHealthCheckTest
 		ConfigHealthCheck check = new ConfigHealthCheck(testConfig);
 		ConfigHealthCheck.Result result = check.validate();
 
+		if (!result.isHealthy())
+		{
+			System.out.println("Validation errors:");
+			result.getErrors().forEach(System.out::println);
+		}
+
 		assertTrue(result.isHealthy(), "Valid configuration should pass");
 		assertTrue(result.getErrors().isEmpty(), "Should have no errors");
 	}
