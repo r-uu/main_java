@@ -274,10 +274,34 @@ Durch die Modulgrenzen kann der (willkürliche, ungewollte, unerwünschte) Zugri
 
 # Fazit: Modulithen plus Microservices
 
-Selbstverständlich ist es möglich und häufig auch sinnvoll, Modulithen mit Microservices zu kombinieren. Dies kommt immer dann in Betracht, wenn für bestimmte Systemteile Kriterien wie Skalierbarkeit wichtig sind. Microservices skalieren besser als Modulithen. Ausserdem erweisen sie sich als vorteilhaft, wenn Teilsysteme häufig und schnell geändert werden müssen. Modulithen sind vergleichsweise große Deploymenteinheiten, die oft längere Releasezyklen haben, als die kleineren Microservices. Insofern ist eine Koexistenz von Modulithen und Microservices keineswegs unüblich.
+Selbstverständlich ist es möglich und häufig auch sinnvoll, Modulithen mit Microservices zu kombinieren. Dies kommt immer dann in Betracht, wenn für bestimmte Systemteile Kriterien wie Skalierbarkeit wichtig sind. Microservices skalieren besser als Modulithen. Außerdem erweisen sie sich als vorteilhaft, wenn Teilsysteme häufig und schnell geändert werden müssen. Modulithen sind vergleichsweise große Deploymenteinheiten, die oft längere Releasezyklen haben, als die kleineren Microservices. Insofern ist eine Koexistenz von Modulithen und Microservices keineswegs unüblich.
 
 <p align="center">
   <img src="from-module-to-microservice.svg" alt="Vom Modul zum Microservice" width="500"/>
   <br/>
   <em>Abb. 10: Vom Modul zum Microservice</em>
 </p>
+
+Modulithen kombinieren die Vorteile von Monolithen und Microservices:
+
+| Aspekt | Monolith | Microservices | Modulith |
+|--------|----------|---------------|----------|
+| Deployment | ✅ Einfach | ❌ Komplex | ✅ Einfach |
+| Latenz | ✅ Niedrig | ❌ Hoch | ✅ Niedrig |
+| Modularisierung | ❌ Schwach | ✅ Stark | ✅ Stark |
+| Skalierung | ❌ Eingeschränkt | ✅ Flexibel | ⚠️ Moderat |
+| Infrastruktur | ✅ Minimal | ❌ Komplex | ✅ Minimal |
+
+### Wann was verwenden?
+
+**Start:** Modulith
+- Einfaches Deployment
+- Klare Modulstruktur (JPMS)
+- Geringe Infrastruktur-Komplexität
+
+**Bei Bedarf:** Einzelne Module zu Microservices auslagern
+- Wenn Skalierung nötig
+- Wenn schnelle Release-Zyklen wichtig
+- Wenn Team-Autonomie gewünscht
+
+**Hybrid-Ansatz:** Best of both worlds!
