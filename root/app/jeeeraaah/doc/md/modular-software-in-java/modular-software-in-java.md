@@ -230,12 +230,11 @@ Bevor dieses Konzept im Folgenden näher beschrieben wird, sollen zunächst konv
 
 Die Java-Plattform bietet seit Version 9 das Java Platform Module System ([JPMS](https://en.wikipedia.org/wiki/Java_Platform_Module_System)), das eine Möglichkeit für die Vermeidung von unkontrollierten internen Abhängigkeiten darstellt:
 
-Mit JPMS können Entwickler Module definieren, die ausschließlich über eine selbst festgelegte Schnittstelle genutzt werden können und gleichzeitig den Zugriff auf interne Teile des Moduls unterbinden. Es ist also möglich, Module zu definieren, die nur über eine explizit definierte Schnittstelle von aussen zugreifbar sind. Der Zugriff auf interne Teile des Moduls ist dabei nicht möglich. Damit wird das Bausteinprinzip konsequent umgesetzt und gleichzeitig die Entstehung von big balls of mud verhindert.
+Mit JPMS können Entwickler Module definieren, die ausschließlich über eine selbst festgelegte Schnittstelle genutzt werden können und gleichzeitig den Zugriff auf interne Teile des Moduls unterbinden. Es ist also möglich, Module zu definieren, die nur über eine explizit definierte Schnittstelle von aussen zugreifbar sind. Der Zugriff auf interne Teile des Moduls ist dabei nicht möglich. Damit wird das Bausteinprinzip konsequent umgesetzt und gleichzeitig die Entstehung von "big balls of mud" verhindert.
 
-```markdown
-### Beispiel: module-info.java
+---
 
-Ein Modul definiert seine Schnittstelle in `module-info.java`:
+<details><summary>Ein Modul definiert seine Schnittstelle in `module-info.java`:</summary>
 
 ```java
 module de.ruu.lib.jpa.core
@@ -251,6 +250,9 @@ module de.ruu.lib.jpa.core
     // → Alle anderen packages!
 }
 ```
+</details>
+
+---
 
 Mit JPMS ist es sogar möglich, dass Module bis ins Detail selbst steuern, welche anderen Module auf welche Teile der bereitgestellten Schnittstelle zugreifen können. Die durchgängige Verwendung von Modulen erfordert dabei zwar im ersten Moment einen gewissen Zusatzaufwand, garantiert aber danach eine viel stabilere interne Struktur des Gesamtsystems. Dies wird erreicht, indem die beschriebene Inflation von (internen) Abhängigkeiten effektiv verhindert wird.
 
