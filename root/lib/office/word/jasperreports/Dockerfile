@@ -10,7 +10,22 @@
 # ────────────────────────────────────────────────────────────────────────────
 FROM eclipse-temurin:17-jdk-alpine AS builder
 
+# Accept proxy configuration as build arguments
+ARG HTTP_PROXY
+ARG HTTPS_PROXY
+ARG NO_PROXY
+
+# Set proxy environment variables if provided
+ENV HTTP_PROXY=${HTTP_PROXY}
+ENV HTTPS_PROXY=${HTTPS_PROXY}
+ENV NO_PROXY=${NO_PROXY}
+
 WORKDIR /build
+
+# Workaround: Corporate proxy modifies SSL certificates, causing APK failures
+# Solution: Use HTTP mirrors instead of HTTPS for Alpine repositories
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.22/main" > /etc/apk/repositories && \
+    echo "http://dl-cdn.alpinelinux.org/alpine/v3.22/community" >> /etc/apk/repositories
 
 # Install Maven
 RUN apk add --no-cache maven
@@ -48,7 +63,22 @@ RUN mvn clean package -DskipTests -q
 # ────────────────────────────────────────────────────────────────────────────
 FROM eclipse-temurin:17-jre-alpine
 
+# Accept proxy configuration as build arguments
+ARG HTTP_PROXY
+ARG HTTPS_PROXY
+ARG NO_PROXY
+
+# Set proxy environment variables if provided
+ENV HTTP_PROXY=${HTTP_PROXY}
+ENV HTTPS_PROXY=${HTTPS_PROXY}
+ENV NO_PROXY=${NO_PROXY}
+
 WORKDIR /app
+
+# Workaround: Corporate proxy modifies SSL certificates, causing APK failures
+# Solution: Use HTTP mirrors instead of HTTPS for Alpine repositories
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.22/main" > /etc/apk/repositories && \
+    echo "http://dl-cdn.alpinelinux.org/alpine/v3.22/community" >> /etc/apk/repositories
 
 # Install wget for health checks
 RUN apk add --no-cache wget

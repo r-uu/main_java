@@ -88,3 +88,4 @@ Thumbs.db
 # Local configuration overrides (not in VCS)
 local.properties
 **/local.properties
+config/shared/docker/.env

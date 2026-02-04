@@ -7,12 +7,13 @@ set -e
 
 echo "🔧 Konfiguriere Docker für Proxy-Nutzung..."
 
-# Proxy-Details
-PROXY_IP="172.16.28.3"
+# Proxy-Details (aus aktuellen Umgebungsvariablen übernommen)
+# WICHTIG: Hostname proxy.gkd-re.local kann nicht aufgelöst werden, daher IP verwenden
+PROXY_HOST="172.16.28.3"
 PROXY_PORT="8080"
-PROXY_USER="gkd-re%5Clinuxupdateuser"
+PROXY_USER="gkd-re%%5Clinuxupdateuser"
 PROXY_PASS="Eet9atoo"
-PROXY_URL="http://${PROXY_USER}:${PROXY_PASS}@${PROXY_IP}:${PROXY_PORT}"
+PROXY_URL="http://${PROXY_USER}:${PROXY_PASS}@${PROXY_HOST}:${PROXY_PORT}"
 
 # Erstelle systemd Override-Verzeichnis
 echo "📁 Erstelle Docker-Service-Override-Verzeichnis..."
@@ -27,15 +28,11 @@ Environment="HTTPS_PROXY=${PROXY_URL}"
 Environment="NO_PROXY=localhost,127.0.0.1,172.16.0.0/12,10.0.0.0/8"
 EOF
 
-# Erstelle daemon.json Proxy-Konfiguration
-echo "📝 Schreibe Docker Daemon Proxy-Konfiguration..."
+# Erstelle daemon.json DNS-Konfiguration (Proxy wird über systemd gesetzt)
+echo "📝 Schreibe Docker Daemon DNS-Konfiguration..."
 sudo tee /etc/docker/daemon.json > /dev/null << EOF
 {
-  "proxies": {
-    "http-proxy": "${PROXY_URL}",
-    "https-proxy": "${PROXY_URL}",
-    "no-proxy": "localhost,127.0.0.1,172.16.0.0/12,10.0.0.0/8"
-  }
+  "dns": ["8.8.8.8", "8.8.4.4"]
 }
 EOF
 
