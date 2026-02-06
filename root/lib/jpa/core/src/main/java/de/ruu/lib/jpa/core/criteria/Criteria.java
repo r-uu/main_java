@@ -195,13 +195,13 @@ public class Criteria<T>
 		return this;
 	}
 
-	/** Liefert alle Ergebnisse für diese Criteria. */
+	/** Returns all results for this criteria. */
 	public List<T> list(EntityManager entityManager)
 	{
 		return prepareQuery(entityManager).getResultList();
 	}
 
-	/** Liefert genau ein Ergebnis oder wirft NoResultException/NonUniqueResultException. */
+	/** Returns exactly one result or throws NoResultException/NonUniqueResultException. */
 	public T uniqueResult(EntityManager entityManager) throws NonUniqueResultException, NoResultException
 	{
 		List<T> results = list(entityManager);

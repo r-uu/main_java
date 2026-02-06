@@ -7,9 +7,9 @@ import lombok.NonNull;
 import lombok.ToString;
 
 /**
- * Data Transfer Object für die Erstellung einer neuen Task.
- * Verwendet Lombok @NonNull für Null-Checks und normale Getter.
- * Jackson deserialisiert über @JsonCreator Constructor.
+ * Data Transfer Object for creating a new Task.
+ * Uses Lombok @NonNull for null checks and normal getters.
+ * Jackson deserializes via @JsonCreator constructor.
  */
 @Getter
 @ToString

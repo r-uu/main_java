@@ -23,10 +23,10 @@ public class SimpleTypeEntity extends AbstractEntity<SimpleTypeDTO> implements S
 
 	SimpleTypeDTO toDTO()
 	{
-		// nutzt den DTO-Konstruktor, der id/version intern übernimmt
+		// Uses the DTO constructor that internally takes over id/version
 		return new SimpleTypeDTO(name, this);
 	}
 
-	// package-private Wrapper, um id/version aus einem DTO zu übernehmen
+	// Package-private wrapper to take over id/version from a DTO
 	void mapIdAndVersionFrom(SimpleTypeDTO dto) { mapIdAndVersion(dto); }
 }

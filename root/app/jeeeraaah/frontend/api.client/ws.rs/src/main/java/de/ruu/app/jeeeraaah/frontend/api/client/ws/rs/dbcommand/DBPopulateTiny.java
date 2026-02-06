@@ -49,10 +49,10 @@ public class DBPopulateTiny
 			log.info("=== Testing mode enabled - performing automatic login ===");
 
 			String testUsername = ConfigProvider.getConfig()
-					.getOptionalValue("testing.username", String.class)
+					.getOptionalValue("keycloak.test.user", String.class)
 					.orElse(null);
 			String testPassword = ConfigProvider.getConfig()
-					.getOptionalValue("testing.password", String.class)
+					.getOptionalValue("keycloak.test.password", String.class)
 					.orElse(null);
 
 			if (testUsername != null && testPassword != null)
@@ -70,14 +70,14 @@ public class DBPopulateTiny
 					log.error("  ❌ Automatic login failed: {}", e.getMessage(), e);
 					log.error("  Please ensure:");
 					log.error("    - Keycloak server is running (docker ps | grep keycloak)");
-					log.error("    - Credentials in testing.properties are correct");
+					log.error("    - Credentials in microprofile-config.properties are correct");
 					log.error("    - Direct Access Grants are enabled for the client");
 					throw new TechnicalException("Automatic login in testing mode failed", e);
 				}
 			}
 			else
 			{
-				String msg = "Testing mode enabled but credentials missing in testing.properties (expected: testing.username, testing.password)";
+				String msg = "Testing mode enabled but credentials missing (expected: keycloak.test.user, keycloak.test.password)";
 				log.error(msg);
 				throw new TechnicalException(msg);
 			}

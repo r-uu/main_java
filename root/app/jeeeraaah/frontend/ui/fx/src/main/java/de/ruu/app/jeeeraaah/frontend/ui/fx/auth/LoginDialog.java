@@ -185,16 +185,16 @@ public class LoginDialog
 			// Testing mode: auto-login with credentials from config
 			String username =
 					config
-							.getOptionalValue("testing.username", String.class)
+							.getOptionalValue("keycloak.test.user", String.class)
 							// TODO return default value and save to file?
 							.orElseThrow(() -> new IllegalStateException(
-									"Testing mode enabled but testing.username property not found"));
+									"Testing mode enabled but keycloak.test.user property not found"));
 			String password =
 					config
-							.getOptionalValue("testing.password", String.class)
+							.getOptionalValue("keycloak.test.password", String.class)
 						// TODO return default value and save to file?
 							.orElseThrow(() -> new IllegalStateException(
-									"Testing mode enabled but testing.password property not found"));
+									"Testing mode enabled but keycloak.test.password property not found"));
 
 			log.info("Testing mode enabled - performing automatic login with user: {}", username);
 

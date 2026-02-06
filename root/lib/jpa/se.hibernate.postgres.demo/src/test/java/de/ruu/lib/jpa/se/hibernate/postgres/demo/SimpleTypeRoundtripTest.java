@@ -21,11 +21,11 @@ class SimpleTypeRoundtripTest
 			@Override public Short version() { return version; }
 		};
 
-		// Act: DTO aus Name und Stub erzeugen und in Entity zurückwandeln
+		// Act: Create DTO from name and stub and convert back to entity
 		SimpleTypeDTO    dto = new SimpleTypeDTO(name, stub);
 		SimpleTypeEntity e1  = dto.toSource();
 
-		// Assert: Entity hat Name/Id/Version aus DTO/Stub
+		// Assert: Entity has name/id/version from DTO/stub
 		assertThat(e1             , is(not(nullValue())));
 		assertThat(e1.name()      , is(name));
 		assertThat(e1.getId()     , is(id));
@@ -34,7 +34,7 @@ class SimpleTypeRoundtripTest
 		// Act: Entity -> DTO
 		SimpleTypeDTO dto2 = e1.toDTO();
 
-		// Assert: DTO enthält gleiche Werte
+		// Assert: DTO contains same values
 		assertThat(dto2             , is(not(nullValue())));
 		assertThat(dto2.name()      , is(name));
 		assertThat(dto2.getId()     , is(id));
@@ -54,7 +54,7 @@ class SimpleTypeRoundtripTest
 		assertThat(entity.getId()     , is(nullValue()));
 		assertThat(entity.getVersion(), is(nullValue()));
 
-		// zurück zu DTO
+		// Back to DTO
 		SimpleTypeDTO dto2 = entity.toDTO();
 		assertThat(dto2             , is(not(nullValue())));
 		assertThat(dto2.name()      , is(name));

@@ -164,10 +164,10 @@ public class DashApp extends FXCApp
 			log.info("=== Testing mode enabled - attempting automatic login ===");
 			
 			String testUsername = ConfigProvider.getConfig()
-					.getOptionalValue("testing.username", String.class)
+					.getOptionalValue("keycloak.test.user", String.class)
 					.orElse(null);
 			String testPassword = ConfigProvider.getConfig()
-					.getOptionalValue("testing.password", String.class)
+					.getOptionalValue("keycloak.test.password", String.class)
 					.orElse(null);
 			
 			if (testUsername != null && testPassword != null)
@@ -186,7 +186,7 @@ public class DashApp extends FXCApp
 					log.info("  In testing mode, automatic login must succeed!");
 					log.info("  Please ensure:");
 					log.info("    - Keycloak server is running");
-					log.info("    - Credentials in testing.properties are correct");
+					log.info("    - Credentials in microprofile-config.properties are correct");
 					log.info("    - Direct Access Grants are enabled for the client");
 					Platform.exit();
 					return;
@@ -194,8 +194,8 @@ public class DashApp extends FXCApp
 			}
 			else
 			{
-				log.error("  Testing mode enabled but credentials missing in testing.properties");
-				log.error("  Expected properties: testing.username, testing.password");
+				log.error("  Testing mode enabled but credentials missing in microprofile-config.properties");
+				log.error("  Expected properties: keycloak.test.user, keycloak.test.password");
 				Platform.exit();
 				return;
 			}

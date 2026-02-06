@@ -65,7 +65,7 @@ public class InvoiceData
 	}
 
 	/**
-	 * Erstellt Beispieldaten mit 50 Positionen für mehrseitige Rechnung
+	 * Creates sample data with 50 items for multi-page invoice
 	 */
 	public static InvoiceData createSampleData()
 	{
@@ -75,7 +75,7 @@ public class InvoiceData
 		invoice.setCustomerName("Musterfirma GmbH");
 		invoice.setCustomerAddress("Musterstraße 123\n12345 Musterstadt");
 
-		// 50 Positionen für mehrseitige Rechnung mit Zwischensummen
+		// 50 items for multi-page invoice with subtotals
 		for (int i = 1; i <= 50; i++)
 		{
 			InvoiceItem item = new InvoiceItem();

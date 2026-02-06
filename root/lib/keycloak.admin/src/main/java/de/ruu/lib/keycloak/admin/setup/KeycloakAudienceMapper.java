@@ -13,8 +13,8 @@ import java.util.Map;
 /**
  * Keycloak Audience Mapper Setup
  *
- * <p>Konfiguriert den Audience Mapper für den jeeeraaah-frontend Client,
- * damit die JWT-Tokens die richtige Audience "jeeeraaah-backend" enthalten.</p>
+ * <p>Configures the audience mapper for the jeeeraaah-frontend client
+ * so that JWT tokens contain the correct audience "jeeeraaah-backend".</p>
  *
  * @author r-uu
  * @since 2026-01-21
@@ -30,7 +30,7 @@ public class KeycloakAudienceMapper
 	private static final String CLIENT_ID = System.getProperty("keycloak.client.id", "jeeeraaah-frontend");
 	private static final String AUDIENCE = System.getProperty("keycloak.audience", "jeeeraaah-backend");
 
-	public static void main(String[] args)
+	static void main(String[] args)
 	{
 		log.info("=== Keycloak Audience Mapper Setup ===");
 		log.info("Keycloak URL: {}", KEYCLOAK_URL);
@@ -52,7 +52,7 @@ public class KeycloakAudienceMapper
 				System.exit(1);
 			}
 
-			ClientRepresentation client = clients.get(0);
+			ClientRepresentation client = clients.getFirst();
 			String clientUuid = client.getId();
 			log.info("Found client '{}' with UUID: {}", CLIENT_ID, clientUuid);
 

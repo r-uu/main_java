@@ -41,19 +41,24 @@ public class DBPopulate
 						.getOptionalValue("testing", Boolean.class)
 						.orElse(false);
 
-		log.info("=== DBPopulate Testing Mode Status ===");
-		log.info("  testing property: {}", testingMode);
-		log.info("  isLoggedIn: {}", authService.isLoggedIn());
+		log.info
+		(
+				"""
+		      === DBPopulate Testing Mode Status ===");
+		      testing mode: {}
+		      is logged in: {}
+		    """, testingMode, authService.isLoggedIn()
+		);
 
 		if (testingMode && !authService.isLoggedIn())
 		{
 			log.info("=== Testing mode enabled - performing automatic login ===");
 
 			String testUsername = ConfigProvider.getConfig()
-					.getOptionalValue("testing.username", String.class)
+					.getOptionalValue("keycloak.test.user", String.class)
 					.orElse(null);
 			String testPassword = ConfigProvider.getConfig()
-					.getOptionalValue("testing.password", String.class)
+					.getOptionalValue("keycloak.test.password", String.class)
 					.orElse(null);
 
 			if (testUsername != null && testPassword != null)
@@ -71,14 +76,14 @@ public class DBPopulate
 					log.error("  ❌ Automatic login failed: {}", e.getMessage(), e);
 					log.error("  Please ensure:");
 					log.error("    - Keycloak server is running (docker ps | grep keycloak)");
-					log.error("    - Credentials in testing.properties are correct");
+					log.error("    - Credentials in microprofile-config.properties are correct");
 					log.error("    - Direct Access Grants are enabled for the client");
 					throw new TechnicalException("Automatic login in testing mode failed", e);
 				}
 			}
 			else
 			{
-				String msg = "Testing mode enabled but credentials missing in testing.properties (expected: testing.username, testing.password)";
+				String msg = "Testing mode enabled but credentials missing (expected: keycloak.test.user, keycloak.test.password)";
 				log.error(msg);
 				throw new TechnicalException(msg);
 			}
@@ -109,30 +114,80 @@ public class DBPopulate
 		taskFeatureSet1 = taskServiceClient.create(taskFeatureSet1);
 		taskFeatureSet2 = taskServiceClient.create(taskFeatureSet2);
 		taskFeatureSet3 = taskServiceClient.create(taskFeatureSet3);
-		TaskBean taskFeature1    = new TaskBean(taskGroupProject, "feature 1");
-		TaskBean taskFeature2    = new TaskBean(taskGroupProject, "feature 2");
-		TaskBean taskFeature3    = new TaskBean(taskGroupProject, "feature 3");
-		taskFeature1.start(LocalDate.of(2025, 1,  1));
-		taskFeature1.end  (LocalDate.of(2025, 1, 31));
-		taskFeature2.start(LocalDate.of(2025, 2,  1));
-		taskFeature2.end  (LocalDate.of(2025, 2, 28));
-		taskFeature3.start(LocalDate.of(2025, 3,  1));
-		taskFeature3.end  (LocalDate.of(2025, 3, 31));
-		taskFeature1    = taskServiceClient.create(taskFeature1);
-		taskFeature2    = taskServiceClient.create(taskFeature2);
-		taskFeature3    = taskServiceClient.create(taskFeature3);
-//		taskFeatureSet1.addSubTask(taskFeature1);
-//		taskFeatureSet1.addSubTask(taskFeature2);
-//		taskFeatureSet1.addSubTask(taskFeature3);
-		taskServiceClient.addSubTask(taskFeatureSet1, taskFeature1);
-		taskServiceClient.addSubTask(taskFeatureSet2, taskFeature2);
-		taskServiceClient.addSubTask(taskFeatureSet3, taskFeature3);
+		TaskBean taskFeature_1_1 = new TaskBean(taskGroupProject, "feature 1.1 - analyse");
+		TaskBean taskFeature_1_2 = new TaskBean(taskGroupProject, "feature 1.2 - design");
+		TaskBean taskFeature_1_3 = new TaskBean(taskGroupProject, "feature 1.3 - implement");
+		TaskBean taskFeature_1_4 = new TaskBean(taskGroupProject, "feature 1.4 - test");
+		TaskBean taskFeature_2_1 = new TaskBean(taskGroupProject, "feature 2.1 - analyse");
+		TaskBean taskFeature_2_2 = new TaskBean(taskGroupProject, "feature 2.2 - design");
+		TaskBean taskFeature_2_3 = new TaskBean(taskGroupProject, "feature 2.3 - implement");
+		TaskBean taskFeature_2_4 = new TaskBean(taskGroupProject, "feature 2.4 - test");
+		TaskBean taskFeature_3_1 = new TaskBean(taskGroupProject, "feature 3.1 - analyse");
+		TaskBean taskFeature_3_2 = new TaskBean(taskGroupProject, "feature 3.2 - design");
+		TaskBean taskFeature_3_3 = new TaskBean(taskGroupProject, "feature 3.3 - implement");
+		TaskBean taskFeature_3_4 = new TaskBean(taskGroupProject, "feature 3.4 - test");
+		taskFeature_1_1.start(LocalDate.of(2025, 1,  1));
+		taskFeature_1_1.end  (LocalDate.of(2025, 1,  7));
+		taskFeature_1_2.start(LocalDate.of(2025, 1,  8));
+		taskFeature_1_2.end  (LocalDate.of(2025, 1, 15));
+		taskFeature_1_3.start(LocalDate.of(2025, 1, 16));
+		taskFeature_1_3.end  (LocalDate.of(2025, 1, 25));
+		taskFeature_1_4.start(LocalDate.of(2025, 1, 26));
+		taskFeature_1_4.end  (LocalDate.of(2025, 1, 31));
+		taskFeature_2_1.start(LocalDate.of(2025, 2,  1));
+		taskFeature_2_1.end  (LocalDate.of(2025, 2, 28));
+		taskFeature_2_2.start(LocalDate.of(2025, 2,  8));
+		taskFeature_2_2.end  (LocalDate.of(2025, 2, 15));
+		taskFeature_2_3.start(LocalDate.of(2025, 2, 16));
+		taskFeature_2_3.end  (LocalDate.of(2025, 2, 25));
+		taskFeature_2_4.start(LocalDate.of(2025, 2, 26));
+		taskFeature_2_4.end  (LocalDate.of(2025, 2, 28));
+		taskFeature_3_1.start(LocalDate.of(2025, 3,  1));
+		taskFeature_3_1.end  (LocalDate.of(2025, 3, 31));
+		taskFeature_3_2.start(LocalDate.of(2025, 3,  8));
+		taskFeature_3_2.end  (LocalDate.of(2025, 3, 15));
+		taskFeature_3_3.start(LocalDate.of(2025, 3, 16));
+		taskFeature_3_3.end  (LocalDate.of(2025, 3, 25));
+		taskFeature_3_4.start(LocalDate.of(2025, 3, 26));
+		taskFeature_3_4.end  (LocalDate.of(2025, 3, 31));
+		taskFeature_1_1 = taskServiceClient.create(taskFeature_1_1);
+		taskFeature_1_2 = taskServiceClient.create(taskFeature_1_2);
+		taskFeature_1_3 = taskServiceClient.create(taskFeature_1_3);
+		taskFeature_1_4 = taskServiceClient.create(taskFeature_1_4);
+		taskFeature_2_1 = taskServiceClient.create(taskFeature_2_1);
+		taskFeature_2_2 = taskServiceClient.create(taskFeature_2_2);
+		taskFeature_2_3 = taskServiceClient.create(taskFeature_2_3);
+		taskFeature_2_4 = taskServiceClient.create(taskFeature_2_4);
+		taskFeature_3_1 = taskServiceClient.create(taskFeature_3_1);
+		taskFeature_3_2 = taskServiceClient.create(taskFeature_3_2);
+		taskFeature_3_3 = taskServiceClient.create(taskFeature_3_3);
+		taskFeature_3_4 = taskServiceClient.create(taskFeature_3_4);
+		taskServiceClient.addSubTask(taskFeatureSet1, taskFeature_1_1);
+		taskServiceClient.addSubTask(taskFeatureSet1, taskFeature_1_2);
+		taskServiceClient.addSubTask(taskFeatureSet1, taskFeature_1_3);
+		taskServiceClient.addSubTask(taskFeatureSet1, taskFeature_1_4);
+		taskServiceClient.addSubTask(taskFeatureSet2, taskFeature_2_1);
+		taskServiceClient.addSubTask(taskFeatureSet2, taskFeature_2_2);
+		taskServiceClient.addSubTask(taskFeatureSet2, taskFeature_2_3);
+		taskServiceClient.addSubTask(taskFeatureSet2, taskFeature_2_4);
+		taskServiceClient.addSubTask(taskFeatureSet3, taskFeature_3_1);
+		taskServiceClient.addSubTask(taskFeatureSet3, taskFeature_3_2);
+		taskServiceClient.addSubTask(taskFeatureSet3, taskFeature_3_3);
+		taskServiceClient.addSubTask(taskFeatureSet3, taskFeature_3_4);
+		taskServiceClient.addPredecessor(taskFeature_1_2, taskFeature_1_1);
+		taskServiceClient.addPredecessor(taskFeature_1_3, taskFeature_1_2);
+		taskServiceClient.addPredecessor(taskFeature_1_4, taskFeature_1_3);
+		taskServiceClient.addPredecessor(taskFeature_2_2, taskFeature_2_1);
+		taskServiceClient.addPredecessor(taskFeature_2_3, taskFeature_2_2);
+		taskServiceClient.addPredecessor(taskFeature_2_4, taskFeature_2_3);
+		taskServiceClient.addPredecessor(taskFeature_3_2, taskFeature_3_1);
+		taskServiceClient.addPredecessor(taskFeature_3_3, taskFeature_3_2);
+		taskServiceClient.addPredecessor(taskFeature_3_4, taskFeature_3_3);
 		taskServiceClient.addPredecessor(taskFeatureSet2, taskFeatureSet1);
 		taskServiceClient.addSuccessor  (taskFeatureSet2, taskFeatureSet3);
-//		taskServiceClient.addPredecessor(taskFeature2   , taskFeatureSet1);
 	}
 
-	public static void main(String[] args) throws NonTechnicalException, TechnicalException
+	static void main(String[] args) throws NonTechnicalException, TechnicalException
 	{
 		CDIContainer.bootstrap(DBPopulate.class.getClassLoader());
 		DBPopulate populate = CDI.current().select(DBPopulate.class).get();

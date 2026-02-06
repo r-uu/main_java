@@ -50,8 +50,8 @@ class ConfigHealthCheckTest
 
 		// Testing properties
 		props.put("testing", "true");
-		props.put("testing.username", "test");
-		props.put("testing.password", "test");
+		props.put("keycloak.test.user", "test");
+		props.put("keycloak.test.password", "test");
 
 		testConfig = new TestConfig(props);
 	}
@@ -199,8 +199,8 @@ class ConfigHealthCheckTest
 		props.put("service.jasperreports.url", "http://localhost:8090");
 
 		props.put("testing", "true");
-		props.put("testing.username", "jeeeraaah");
-		props.put("testing.password", "jeeeraaah");
+		props.put("keycloak.test.user", "jeeeraaah");
+		props.put("keycloak.test.password", "jeeeraaah");
 
 		return props;
 	}

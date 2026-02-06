@@ -54,8 +54,8 @@ public class ConfigHealthCheck
 			"keycloak.client.id",
 			"keycloak.admin.username",
 			"keycloak.admin.password",
-			"testing.username",
-			"testing.password"
+			"keycloak.test.user",
+			"keycloak.test.password"
 	);
 
 	/**

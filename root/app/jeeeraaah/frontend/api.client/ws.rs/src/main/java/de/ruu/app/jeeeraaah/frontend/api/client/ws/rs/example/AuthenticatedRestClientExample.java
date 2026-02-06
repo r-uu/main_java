@@ -15,65 +15,65 @@ import jakarta.ws.rs.core.Response;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * <h2>Beispiel: REST-Client mit Keycloak-Authentifizierung</h2>
- * 
- * <p>Dieses Beispiel zeigt, wie ein REST-Client angepasst werden muss, um Keycloak JWT-Tokens
- * für die Authentifizierung zu verwenden.</p>
- * 
- * <h3>Problem ohne Authentifizierung:</h3>
+ * <h2>Example: REST Client with Keycloak Authentication</h2>
+ *
+ * <p>This example shows how a REST client must be adapted to use Keycloak JWT tokens
+ * for authentication.</p>
+ *
+ * <h3>Problem without authentication:</h3>
  * <pre>
- * // ❌ Ohne Token → Server gibt 401 Unauthorized zurück
+ * // ❌ Without token → Server returns 401 Unauthorized
  * Response response = webTarget.request().get();
  * </pre>
  * 
- * <h3>Lösung mit Keycloak:</h3>
+ * <h3>Solution with Keycloak:</h3>
  * <pre>
- * // ✅ Mit Bearer Token → Server akzeptiert Request
+ * // ✅ With Bearer Token → Server accepts request
  * Response response = webTarget.request()
  *     .header("Authorization", "Bearer " + authService.getAccessToken())
  *     .get();
  * </pre>
  * 
- * <h3>Authentifizierungsflow:</h3>
+ * <h3>Authentication flow:</h3>
  * <ol>
- *   <li><strong>Login:</strong> User gibt Username/Password ein → {@code authService.login(username, password)}</li>
- *   <li><strong>Token erhalten:</strong> Keycloak gibt Access Token zurück (JWT, gültig 5-15 Min.)</li>
- *   <li><strong>API-Calls:</strong> Token wird in HTTP-Header {@code Authorization: Bearer <token>} mitgesendet</li>
- *   <li><strong>Token-Validierung:</strong> Server prüft Token-Signatur und Rollen</li>
- *   <li><strong>Token-Expiry:</strong> Bei 401 Unauthorized → {@code authService.refreshAccessToken()}</li>
- *   <li><strong>Refresh-Token:</strong> Neues Access Token wird angefordert (ohne Re-Login)</li>
+ *   <li><strong>Login:</strong> User enters username/password → {@code authService.login(username, password)}</li>
+ *   <li><strong>Receive token:</strong> Keycloak returns access token (JWT, valid 5-15 min)</li>
+ *   <li><strong>API calls:</strong> Token is sent in HTTP header {@code Authorization: Bearer <token>}</li>
+ *   <li><strong>Token validation:</strong> Server checks token signature and roles</li>
+ *   <li><strong>Token expiry:</strong> On 401 Unauthorized → {@code authService.refreshAccessToken()}</li>
+ *   <li><strong>Refresh token:</strong> New access token is requested (without re-login)</li>
  * </ol>
  * 
- * <h3>Wichtige Konzepte:</h3>
- * 
+ * <h3>Important concepts:</h3>
+ *
  * <h4>1. Bearer Token Authentication</h4>
  * <pre>
  * Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...
  * </pre>
  * <ul>
- *   <li><strong>"Bearer":</strong> Authentifizierungsschema (RFC 6750)</li>
- *   <li><strong>Token:</strong> JWT (JSON Web Token) mit Signatur, Claims (User-ID, Rollen, Ablaufdatum)</li>
- *   <li><strong>Server-Validierung:</strong> Prüft Signatur mit Public Key, extrahiert Rollen aus Token</li>
+ *   <li><strong>"Bearer":</strong> Authentication scheme (RFC 6750)</li>
+ *   <li><strong>Token:</strong> JWT (JSON Web Token) with signature, claims (user ID, roles, expiration)</li>
+ *   <li><strong>Server validation:</strong> Checks signature with public key, extracts roles from token</li>
  * </ul>
  * 
- * <h4>2. Token Refresh bei 401 Unauthorized</h4>
- * <p>Access Tokens sind kurzlebig (5-15 Min.). Wenn ein Token abläuft, gibt der Server 401 zurück.
- * Statt den User erneut einloggen zu lassen, kann das Token mit dem Refresh Token erneuert werden:</p>
+ * <h4>2. Token refresh on 401 Unauthorized</h4>
+ * <p>Access tokens are short-lived (5-15 min). When a token expires, server returns 401.
+ * Instead of making user login again, token can be renewed with refresh token:</p>
  * <ul>
- *   <li><strong>Access Token:</strong> Kurzlebig, wird bei jedem API-Call mitgesendet</li>
- *   <li><strong>Refresh Token:</strong> Langlebig (30 Tage), wird nur für Token-Refresh verwendet</li>
- *   <li><strong>Vorteil:</strong> User bleibt eingeloggt, ohne ständig Passwort eingeben zu müssen</li>
+ *   <li><strong>Access token:</strong> Short-lived, sent with every API call</li>
+ *   <li><strong>Refresh token:</strong> Long-lived (30 days), only used for token refresh</li>
+ *   <li><strong>Advantage:</strong> User stays logged in without having to enter password constantly</li>
  * </ul>
  * 
- * <h4>3. Security Best Practices</h4>
+ * <h4>3. Security best practices</h4>
  * <ul>
- *   <li><strong>Niemals Tokens loggen:</strong> Könnte von Angreifern abgefangen werden</li>
- *   <li><strong>HTTPS verwenden:</strong> In Production immer SSL/TLS für sichere Token-Übertragung</li>
- *   <li><strong>Tokens nicht persistieren:</strong> Nur im Arbeitsspeicher halten, nicht in Dateien speichern</li>
- *   <li><strong>Logout implementieren:</strong> Tokens löschen bei Logout</li>
+ *   <li><strong>Never log tokens:</strong> Could be intercepted by attackers</li>
+ *   <li><strong>Use HTTPS:</strong> Always use SSL/TLS in production for secure token transmission</li>
+ *   <li><strong>Don't persist tokens:</strong> Only keep in memory, don't store in files</li>
+ *   <li><strong>Implement logout:</strong> Delete tokens on logout</li>
  * </ul>
  * 
- * @see KeycloakAuthService Zentrale Klasse für Login, Token-Refresh, Logout
+ * @see KeycloakAuthService Central class for login, token refresh, logout
  */
 @Slf4j
 public class AuthenticatedRestClientExample
@@ -86,7 +86,7 @@ public class AuthenticatedRestClientExample
 	private KeycloakAuthService authService;
 
 	/**
-	 * JAX-RS HTTP-Client für REST-Calls
+	 * JAX-RS HTTP client for REST calls
 	 */
 	private Client client;
 
