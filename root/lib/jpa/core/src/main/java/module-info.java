@@ -13,6 +13,6 @@ module de.ruu.lib.jpa.core
 	requires static lombok;
 	requires java.desktop;
 
-	// Öffnung für Reflection ohne harte Bindung an ein bestimmtes Modul, z. B. Hibernate
+	// Opens for reflection without hard binding to a specific module, e.g. Hibernate
 	opens de.ruu.lib.jpa.core;
 }

@@ -163,12 +163,12 @@ public class InvoiceGeneratorAdvanced
 		{
 			InvoiceItem item = invoiceData.getItems().get(i);
 
-			// Prüfe ob Seitenumbruch nötig (AUTOMATISCH berechnet!)
+			// Check if page break is needed (AUTOMATICALLY calculated!)
 			if (itemsOnCurrentPage >= MAX_ITEMS_PER_PAGE)
 			{
 				log.debug("Seitenumbruch nach {} Zeilen", itemsOnCurrentPage);
 
-				// Zwischensumme für aktuelle Seite
+				// Subtotal for current page
 				addSubtotalRow(table, currentPage, pageSubtotal);
 				mainDocumentPart.addObject(table);
 
@@ -187,10 +187,10 @@ public class InvoiceGeneratorAdvanced
 				addTableHeader(table);
 				addCarryOverRow(table, currentPage - 1, carryOver);
 				pageSubtotal = carryOver;
-				itemsOnCurrentPage += 2; // Header + Übertrag
+				itemsOnCurrentPage += 2; // Header + carry-over
 			}
 
-			// Position hinzufügen
+			// Add item
 			addItemRow(table, i + 1, item);
 			pageSubtotal = pageSubtotal.add(item.getTotal());
 			itemsOnCurrentPage++;

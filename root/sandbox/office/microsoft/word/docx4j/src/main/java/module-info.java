@@ -13,7 +13,7 @@ module de.ruu.sandbox.office.microsoft.word.docx4j
 	// Java Base Modules
 	requires java.xml;
 
-	// Öffne Package für JAXB Reflection
+	// Open package for JAXB reflection
 	opens de.ruu.sandbox.office.microsoft.word.docx4j to jakarta.xml.bind;
 }
 

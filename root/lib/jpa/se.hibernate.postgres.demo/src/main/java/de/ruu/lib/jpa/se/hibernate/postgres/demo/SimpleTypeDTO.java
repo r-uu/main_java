@@ -9,11 +9,11 @@ class SimpleTypeDTO extends AbstractDTO<SimpleTypeEntity> implements SimpleType
 
 	SimpleTypeDTO(String name) { this.name = name; }
 
-	// neuer Hilfskonstruktor, der id/version übernimmt
+	// New helper constructor that takes over id/version
 	SimpleTypeDTO(String name, Entity<Long> source)
 	{
 		this(name);
-		// innerhalb der DTO-Klasse Zugriff auf geschützte Methode erlaubt
+		// Access to protected method allowed within DTO class
 		mapIdAndVersion(source);
 	}
 
@@ -22,7 +22,7 @@ class SimpleTypeDTO extends AbstractDTO<SimpleTypeEntity> implements SimpleType
 	public SimpleTypeEntity toSource()
 	{
 		SimpleTypeEntity entity = new SimpleTypeEntity(name);
-		// übernimmt id/version aus dem DTO in die Entity
+		// Takes over id/version from DTO into entity
 		entity.mapIdAndVersionFrom(this);
 		return entity;
 	}
