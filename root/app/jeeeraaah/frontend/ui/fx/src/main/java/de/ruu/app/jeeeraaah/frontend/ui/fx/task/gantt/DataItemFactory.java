@@ -24,14 +24,18 @@ class DataItemFactory
 	{
 		List<TaskTreeTableDataItem> result = new ArrayList<>();
 
-		LocalDate compareStart = start.minusDays(1);
-		LocalDate compareEnd   = end  .plusDays (1);
-
 		for (TaskBean rootTask : taskFactory.rootTasks(taskGroupBean, start, end))
 		{
 			if (rootTask.start().isPresent() && rootTask.end().isPresent())
 			{
-				if (compareStart.isBefore(rootTask.start().get()) && compareEnd.isAfter(rootTask.end().get()))
+				// Task should be displayed if it overlaps with the filter period
+				// Overlap exists when: task starts before/on filter end AND task ends after/on filter start
+				LocalDate taskStart = rootTask.start().get();
+				LocalDate taskEnd = rootTask.end().get();
+
+				boolean overlaps = !taskStart.isAfter(end) && !taskEnd.isBefore(start);
+
+				if (overlaps)
 				{
 					result.add(new TaskTreeTableDataItem(rootTask, start, end));
 				}

@@ -19,6 +19,7 @@ import javafx.scene.control.TreeItem;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -167,18 +168,47 @@ class TaskHierarchySuccessorsController
 
 	@Override protected TreeItem<TaskBean> populateTreeNode(TreeItem<TaskBean> root, TaskBean task)
 	{
+		return populateTreeNode(root, task, new HashSet<>());
+	}
+
+	private TreeItem<TaskBean> populateTreeNode(TreeItem<TaskBean> root, TaskBean task, Set<Long> processedTaskIds)
+	{
+		// Prevent infinite recursion by tracking already processed tasks
+		if (task.id() != null && processedTaskIds.contains(task.id()))
+		{
+			log.warn("Circular reference detected: Task {} (ID: {}) already in hierarchy - skipping to prevent infinite loop",
+					task.name(), task.id());
+			return null;
+		}
+
+		if (task.id() != null)
+		{
+			processedTaskIds.add(task.id());
+		}
+
 		TreeItem<TaskBean> result = new TreeItem<>(task)
 		{
 			@Override public String toString() { return task.name(); }
 		};
-		task.successors().ifPresent(successors -> populateTreeNode(result, successors));
+		task.successors().ifPresent(successors -> populateTreeNode(result, successors, processedTaskIds));
 		return result;
 	}
 
 	private void populateTreeNode(TreeItem<TaskBean> result, Set<TaskBean> tasks)
 	{
+		populateTreeNode(result, tasks, new HashSet<>());
+	}
+
+	private void populateTreeNode(TreeItem<TaskBean> result, Set<TaskBean> tasks, Set<Long> processedTaskIds)
+	{
 		List<TaskBean> tasksAsList = new ArrayList<>(tasks);
 		tasksAsList.sort((o1, o2) -> o1.name().compareTo(o2.name()));
-		tasksAsList.forEach(task -> result.getChildren().add(populateTreeNode(result, task)));
+		tasksAsList.forEach(task -> {
+			TreeItem<TaskBean> childNode = populateTreeNode(result, task, processedTaskIds);
+			if (childNode != null)
+			{
+				result.getChildren().add(childNode);
+			}
+		});
 	}
 }

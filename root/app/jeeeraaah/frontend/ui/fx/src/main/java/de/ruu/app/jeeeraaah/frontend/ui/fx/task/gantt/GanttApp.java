@@ -34,7 +34,12 @@ public class GanttApp extends BaseAuthenticatedApp
 	@Override protected void initializeUI(Stage primaryStage) throws ExceptionInInitializerError
 	{
 		primaryStage.setResizable(true);
-		super.start(primaryStage);
+		initializeStageAndScene(primaryStage);
+
+		// Ensure window can be maximized - override sizeToScene constraints
+		primaryStage.setMaxWidth(Double.MAX_VALUE);
+		primaryStage.setMaxHeight(Double.MAX_VALUE);
+
 		primaryStage.setMaximized(true);
 	}
 

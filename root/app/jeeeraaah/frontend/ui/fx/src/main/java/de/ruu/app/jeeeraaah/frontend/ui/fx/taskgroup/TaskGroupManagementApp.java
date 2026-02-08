@@ -29,6 +29,6 @@ public class TaskGroupManagementApp extends BaseAuthenticatedApp
 	@Override
 	protected void initializeUI(Stage primaryStage) throws ExceptionInInitializerError
 	{
-		super.start(primaryStage);
+		initializeStageAndScene(primaryStage);
 	}
 }

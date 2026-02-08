@@ -146,7 +146,9 @@ class GanttController extends FXCController.DefaultFXCController<Gantt, GanttSer
 
 	private void onApply()
 	{
-		taskTreeTable.service().populate(taskGroupSelector.service().selectedTaskGroupProperty().get().id(),
+		taskTreeTable
+				.service()
+				.populate(taskGroupSelector.service().selectedTaskGroupProperty().get(),
 				dtPckrStart.getValue(), dtPckrEnd.getValue());
 	}
 
@@ -178,7 +180,7 @@ class GanttController extends FXCController.DefaultFXCController<Gantt, GanttSer
 
 		if (isNull(actSelection)) return;
 
-		taskTreeTable.service().populate(actSelection.id(), dtPckrStart.getValue(), dtPckrEnd.getValue());
+		taskTreeTable.service().populate(actSelection, dtPckrStart.getValue(), dtPckrEnd.getValue());
 	}
 
 	/**

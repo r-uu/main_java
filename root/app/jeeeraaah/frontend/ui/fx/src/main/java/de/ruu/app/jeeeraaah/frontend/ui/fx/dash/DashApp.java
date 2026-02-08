@@ -38,12 +38,12 @@ public class DashApp extends BaseAuthenticatedApp
 	@Override
 	protected void initializeUI(Stage primaryStage) throws ExceptionInInitializerError
 	{
-		// Configure window properties BEFORE calling super.start()
+		// Configure window properties BEFORE loading FXML
 		primaryStage.setResizable(true);
 
-		// Call parent implementation to load FXML and initialize UI components
-		log.info("Calling super.start() - this will load FXML and trigger DashController.initialize()");
-		super.start(primaryStage);
+		// Load FXML and initialize UI components (triggers DashController.initialize())
+		log.info("Loading FXML and initializing UI components...");
+		initializeStageAndScene(primaryStage);
 		log.info("=== UI initialization complete ===");
 
 		// Apply window customizations AFTER UI is loaded

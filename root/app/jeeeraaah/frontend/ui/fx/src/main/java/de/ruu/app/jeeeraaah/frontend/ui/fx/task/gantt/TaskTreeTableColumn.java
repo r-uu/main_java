@@ -28,6 +28,7 @@ public class TaskTreeTableColumn extends TreeTableColumn<TaskTreeTableDataItem, 
 		super(header);
 //		date = null;
 		setCellValueFactory(cellValueFactory(LocalDate.MIN));
+		setStyle("-fx-font-weight: normal;");
 	}
 
 	public TaskTreeTableColumn(@NonNull LocalDate date)
@@ -36,6 +37,7 @@ public class TaskTreeTableColumn extends TreeTableColumn<TaskTreeTableDataItem, 
 //		this.date = date;
 		setCellValueFactory(cellValueFactory(date));
 		setCellFactory(cellFactory());
+		setStyle("-fx-font-weight: normal;");
 	}
 
 	private Callback<CellDataFeatures<TaskTreeTableDataItem, String>, ObservableValue<String>> cellValueFactory(

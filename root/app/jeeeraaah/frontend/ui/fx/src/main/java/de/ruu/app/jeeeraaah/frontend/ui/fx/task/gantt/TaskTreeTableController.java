@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 
 import de.ruu.app.jeeeraaah.common.api.bean.TaskBean;
 import de.ruu.app.jeeeraaah.common.api.bean.TaskGroupBean;
+import de.ruu.app.jeeeraaah.common.api.domain.TaskGroup;
+import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupFlat;
 import de.ruu.app.jeeeraaah.frontend.api.client.ws.rs.TaskGroupServiceClient;
 import de.ruu.lib.fx.comp.FXCController.DefaultFXCController;
 import de.ruu.lib.fx.control.dialog.AlertDialog;
@@ -60,29 +62,41 @@ class TaskTreeTableController extends DefaultFXCController<TaskTreeTable, TaskTr
 	{
 		TreeItem<TaskTreeTableDataItem> rootTreeItem = new TreeItem<>();
 		ttv.setRoot(rootTreeItem);
-		// ttv.setShowRoot(true); // rootTreeItem is top level in tree table view
-		ttv.setShowRoot(false); // children of rootTreeItem are top level in tree table view
+		ttv.setShowRoot(false);
 
 		rootTreeItem.getChildren().addAll(rootTreeItemChildren());
 
-		ttv.getColumns().addAll(columns());
+		// Initialize with default columns
+		LocalDate defaultStart = LocalDate.of(2025, 1, 1);
+		LocalDate defaultEnd = LocalDate.of(2025, 3, 31);
+		ttv.getColumns().addAll(columns(defaultStart, defaultEnd));
+
+		// Configure column resize policy for better behavior
+		ttv.setColumnResizePolicy(TreeTableView.UNCONSTRAINED_RESIZE_POLICY);
+
+		// Make scrollbar always visible so users know they can scroll back to first column
+		ttv.setStyle("-fx-hbar-policy: always;");
+
 		ttv.getSelectionModel().setSelectionMode(SINGLE);
 		ttv.getSelectionModel().selectedItemProperty().addListener(selectedItemChangeListener());
 	}
 
-	@Override public void populate(@Nullable Long id, @NonNull LocalDate start, @NonNull LocalDate end)
+	@Override public void populate(@Nullable TaskGroupFlat taskGroup, @NonNull LocalDate start, @NonNull LocalDate end)
 	{
-		if (isNull(id))
-		{
-			// ttv.setRoot(new TreeItem<>());
-			ttv.getRoot().getChildren().clear();
-			return;
-		}
+		// Clear existing data
+		ttv.getRoot().getChildren().clear();
+
+		// Recreate columns for the new date range
+		ttv.getColumns().clear();
+		ttv.getColumns().addAll(columns(start, end));
+
+		if (isNull(taskGroup)) { return; }
 
 		// fetch the task group with its tasks and their neighbour tasks from the server
 		try
 		{
-			Optional<TaskGroupBean> optional = taskGroupServiceClient.findWithTasksAndDirectNeighbours(requireNonNull(id));
+			Optional<TaskGroupBean> optional =
+					taskGroupServiceClient.findWithTasksAndDirectNeighbours(requireNonNull(taskGroup.id()));
 
 			if (optional.isPresent())
 			{
@@ -92,21 +106,29 @@ class TaskTreeTableController extends DefaultFXCController<TaskTreeTable, TaskTr
 				List<TaskBean> mainTasks = new ArrayList<>();
 
 				if (taskGroupBean.tasks().isPresent())
-					mainTasks = taskGroupBean.tasks().get().stream().filter(taskBean -> taskBean.superTask().isEmpty())
-							.collect(Collectors.toList());
+						mainTasks =
+								taskGroupBean.tasks().get().stream()
+										.filter(taskBean -> taskBean.superTask().isEmpty()) // we do not filter for start and end here
+								.collect(Collectors.toList());
 				else
 				{
-					AlertDialog.showAndWait("what do you want as title", "no tasks in group",
-							"task group: " + taskGroupBean.name(), INFORMATION);
+					AlertDialog.showAndWait
+					(
+							"no tasks in group",
+							"can not display main tasks when no tasks are available for task group",
+							"task group: " + taskGroupBean.name(),
+							INFORMATION
+					);
 				}
 
 				mainTasks.sort(COMPARATOR);
 
 				mainTasks.forEach(mainTask -> ttv.getRoot().getChildren().add(populateTreeNode(mainTask, start, end)));
+
 				log.debug("populate tree table view done");
 			}
 			else
-				log.debug("no lazy group could be retrieved");
+					log.debug("no lazy group could be retrieved");
 		}
 		catch (TechnicalException | NonTechnicalException e)
 		{
@@ -114,8 +136,7 @@ class TaskTreeTableController extends DefaultFXCController<TaskTreeTable, TaskTr
 		}
 	}
 
-	private TreeItem<TaskTreeTableDataItem> populateTreeNode(TaskBean task, @NonNull LocalDate start,
-			@NonNull LocalDate end)
+	private TreeItem<TaskTreeTableDataItem> populateTreeNode(TaskBean task, @NonNull LocalDate start, @NonNull LocalDate end)
 	{
 		return populateTreeNode(task, start, end, new HashSet<>());
 	}
@@ -179,11 +200,11 @@ class TaskTreeTableController extends DefaultFXCController<TaskTreeTable, TaskTr
 	}
 
 	/** returns a list of columns for the tree table view */
-	private List<TaskTreeTableColumn> columns()
+	private List<TaskTreeTableColumn> columns(@NonNull LocalDate start, @NonNull LocalDate end)
 	{
 		List<TaskTreeTableColumn> result = new ArrayList<>();
 
-		// add first column that displays the name of the TaskBean instance for the current table row
+		// First column: Task names - make it VERY prominent and wide
 		TaskTreeTableColumn rootTasksColumn = new TaskTreeTableColumn("root tasks");
 		rootTasksColumn.setCellValueFactory(cdfs -> {
 			TreeItem<TaskTreeTableDataItem> treeItem = cdfs.getValue();
@@ -191,16 +212,30 @@ class TaskTreeTableController extends DefaultFXCController<TaskTreeTable, TaskTr
 			TaskBean task = tableDataItem.task();
 			return new SimpleStringProperty(task.name());
 		});
-		// Make the first column resizable with mouse
+
+		// PRAGMATIC SOLUTION: Make first column very wide so it's always visible
+		// when window is maximized (most common use case)
 		rootTasksColumn.setResizable(true);
-		rootTasksColumn.setPrefWidth(200);
-		rootTasksColumn.setMinWidth(100);
-		// rootTasksColumn.setCellValueFactory(cdf -> new ReadOnlyStringWrapper(cdf.getValue().getValue().name()));
+		rootTasksColumn.setPrefWidth(400);   // Very wide (was 300)
+		rootTasksColumn.setMinWidth(200);    // Generous minimum
+		rootTasksColumn.setMaxWidth(600);    // Can grow even more
+
+		// Cannot be moved
+		rootTasksColumn.setReorderable(false);
+
+		// Strong visual distinction with darker background and thick border
+		rootTasksColumn.setStyle(
+		    "-fx-background-color: #e8e8e8; " +        // Darker gray (was #f9f9f9)
+		    "-fx-border-width: 0 3 0 0; " +            // Thicker border (was 2)
+		    "-fx-border-color: #999999; " +            // Darker border (was #cccccc)
+		    "-fx-font-weight: bold;"                   // Bold text for emphasis
+		);
+
+		rootTasksColumn.getStyleClass().add("frozen-column");
 		result.add(rootTasksColumn);
 
-		// for each day in a given period create a column that displays the cell value factory call back value for the
-		// current date (of the column) and the TaskBean of the current row
-		for (LocalDate date : Time.datesInPeriod(LocalDate.of(2025, 1, 1), LocalDate.of(2025, 1, 31).plusDays(1)))
+		// Date columns - keep narrow (30px each is fine)
+		for (LocalDate date : Time.datesInPeriod(start, end.plusDays(1)))
 		{
 			TaskTreeTableColumn ttc = new TaskTreeTableColumn(date);
 			result.add(ttc);
@@ -212,28 +247,10 @@ class TaskTreeTableController extends DefaultFXCController<TaskTreeTable, TaskTr
 	 * Populates tree item children of {@code parentTreeItem} with tree items for each child of the {@link TaskBean} value
 	 * from {@code parentTreeItem}.
 	 */
-	private void populateRecursively(TreeItem<TaskTreeTableDataItem> parentTreeItem, LocalDate startOfPeriod,
-			LocalDate endOfPeriod)
-	{
-		populateRecursively(parentTreeItem, startOfPeriod, endOfPeriod, new HashSet<>());
-	}
-
-	private void populateRecursively(TreeItem<TaskTreeTableDataItem> parentTreeItem, LocalDate startOfPeriod,
-			LocalDate endOfPeriod, Set<Long> processedTaskIds)
+	private void populateRecursively
+			(TreeItem<TaskTreeTableDataItem> parentTreeItem, LocalDate startOfPeriod, LocalDate endOfPeriod)
 	{
 		TaskBean parentTaskBean = parentTreeItem.getValue().task();
-
-		// Track this task to prevent circular references
-		if (parentTaskBean.id() != null)
-		{
-			if (processedTaskIds.contains(parentTaskBean.id()))
-			{
-				log.warn("Circular reference detected in populateRecursively: Task {} (ID: {}) already in hierarchy - stopping recursion",
-						parentTaskBean.name(), parentTaskBean.id());
-				return;
-			}
-			processedTaskIds.add(parentTaskBean.id());
-		}
 
 		if (parentTaskBean.subTasks().isPresent())
 		{
@@ -242,18 +259,10 @@ class TaskTreeTableController extends DefaultFXCController<TaskTreeTable, TaskTr
 
 			for (TaskBean subTask : subTasks)
 			{
-				// Skip if this subtask is already in the hierarchy
-				if (subTask.id() != null && processedTaskIds.contains(subTask.id()))
-				{
-					log.warn("Circular reference detected: SubTask {} (ID: {}) already processed - skipping",
-							subTask.name(), subTask.id());
-					continue;
-				}
-
 				TaskTreeTableDataItem dataItem = new TaskTreeTableDataItem(subTask, startOfPeriod, endOfPeriod);
 				TreeItem<TaskTreeTableDataItem> treeItemChild = new TreeItem<>(dataItem);
 				parentTreeItem.getChildren().add(treeItemChild);
-				populateRecursively(treeItemChild, startOfPeriod, endOfPeriod, processedTaskIds);
+				populateRecursively(treeItemChild, startOfPeriod, endOfPeriod);
 			}
 		}
 	}

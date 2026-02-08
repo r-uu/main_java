@@ -1,5 +1,7 @@
 package de.ruu.app.jeeeraaah.frontend.ui.fx.task.gantt;
 
+import de.ruu.app.jeeeraaah.common.api.bean.TaskGroupBean;
+import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupFlat;
 import de.ruu.lib.fx.comp.FXCService;
 import jakarta.annotation.Nullable;
 import lombok.NonNull;
@@ -13,5 +15,5 @@ import java.time.LocalDate;
  */
 public interface TaskTreeTableService extends FXCService
 {
-	void populate(@Nullable Long taskGroupId, @NonNull LocalDate start, @NonNull LocalDate end);
+	void populate(@Nullable TaskGroupFlat taskGroup, @NonNull LocalDate start, @NonNull LocalDate end);
 }

@@ -18,7 +18,8 @@
    minHeight="400.0" minWidth="600.0" prefHeight="600.0" prefWidth="800.0"
    xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox fx:id="vBxRoot" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+      <VBox fx:id="vBxRoot" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+         AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
          AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox fx:id="hBxForSelectorAndFilter" alignment="CENTER_LEFT"
@@ -80,6 +81,7 @@
                   <Insets top="7.0" />
                </VBox.margin>
             </HBox>
+            <!-- TreeTable container will be added here programmatically with VBox.vgrow="ALWAYS" -->
          </children>
       </VBox>
    </children>

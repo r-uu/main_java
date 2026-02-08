@@ -6,6 +6,7 @@ import static javafx.geometry.NodeOrientation.RIGHT_TO_LEFT;
 import static javafx.scene.control.Alert.AlertType.ERROR;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -166,18 +167,47 @@ class TaskHierarchyPredecessorsController extends TaskHierarchyControllerAbstrac
 
 	@Override protected TreeItem<TaskBean> populateTreeNode(TreeItem<TaskBean> root, TaskBean task)
 	{
+		return populateTreeNode(root, task, new HashSet<>());
+	}
+
+	private TreeItem<TaskBean> populateTreeNode(TreeItem<TaskBean> root, TaskBean task, Set<Long> processedTaskIds)
+	{
+		// Prevent infinite recursion by tracking already processed tasks
+		if (task.id() != null && processedTaskIds.contains(task.id()))
+		{
+			log.warn("Circular reference detected: Task {} (ID: {}) already in hierarchy - skipping to prevent infinite loop",
+					task.name(), task.id());
+			return null;
+		}
+
+		if (task.id() != null)
+		{
+			processedTaskIds.add(task.id());
+		}
+
 		TreeItem<TaskBean> result = new TreeItem<>(task)
 		{
 			@Override public String toString() { return task.name(); }
 		};
-		task.predecessors().ifPresent(predecessors -> populateTreeNode(result, predecessors));
+		task.predecessors().ifPresent(predecessors -> populateTreeNode(result, predecessors, processedTaskIds));
 		return result;
 	}
 
 	private void populateTreeNode(TreeItem<TaskBean> parent, Set<TaskBean> children)
 	{
+		populateTreeNode(parent, children, new HashSet<>());
+	}
+
+	private void populateTreeNode(TreeItem<TaskBean> parent, Set<TaskBean> children, Set<Long> processedTaskIds)
+	{
 		List<TaskBean> childrenAsList = new ArrayList<>(children);
 		childrenAsList.sort((o1, o2) -> o1.name().compareTo(o2.name()));
-		childrenAsList.forEach(child -> parent.getChildren().add(populateTreeNode(parent, child)));
+		childrenAsList.forEach(child -> {
+			TreeItem<TaskBean> childNode = populateTreeNode(parent, child, processedTaskIds);
+			if (childNode != null)
+			{
+				parent.getChildren().add(childNode);
+			}
+		});
 	}
 }

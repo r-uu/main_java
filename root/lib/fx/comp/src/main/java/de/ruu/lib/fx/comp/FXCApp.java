@@ -88,7 +88,24 @@ public abstract class FXCApp extends Application
 	public void start(final Stage primaryStage) throws ExceptionInInitializerError
 	{
 		this.primaryStage = primaryStage;
+		initializeStageAndScene(primaryStage);
+	}
 
+	/**
+	 * Initializes the stage and loads the scene from FXML.
+	 *
+	 * <p>This method is separated from {@link #start(Stage)} to allow subclasses
+	 * to customize stage properties BEFORE loading FXML (e.g., in authentication-based
+	 * apps which wrap this call in their {@code initializeUI()} method).</p>
+	 *
+	 * <p>This prevents infinite recursion when subclasses override {@code initializeUI()}
+	 * and need to call FXML loading logic without re-triggering the entire startup flow.</p>
+	 *
+	 * @param primaryStage the primary stage
+	 * @throws ExceptionInInitializerError if view cannot be loaded
+	 */
+	protected void initializeStageAndScene(final Stage primaryStage) throws ExceptionInInitializerError
+	{
 		primaryStage.initStyle(getStageStyle());
 		primaryStage.setTitle(getStageTitle());
 
