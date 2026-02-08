@@ -30,3 +30,5 @@ In der Anwendung sieht das dann im dashboard etwa so aus:
   <em>Abb. 3: jeeeraaah dashboard</em>
 </p>
 
+Eine Gantt-Diagramm-Darstellung zeigt eine andere Sicht auf Aufgaben und die geplanten Abläufe:
+

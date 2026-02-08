@@ -9,8 +9,10 @@ import static javafx.scene.control.SelectionMode.SINGLE;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import de.ruu.app.jeeeraaah.common.api.bean.TaskBean;
@@ -115,11 +117,36 @@ class TaskTreeTableController extends DefaultFXCController<TaskTreeTable, TaskTr
 	private TreeItem<TaskTreeTableDataItem> populateTreeNode(TaskBean task, @NonNull LocalDate start,
 			@NonNull LocalDate end)
 	{
+		return populateTreeNode(task, start, end, new HashSet<>());
+	}
+
+	private TreeItem<TaskTreeTableDataItem> populateTreeNode(TaskBean task, @NonNull LocalDate start,
+			@NonNull LocalDate end, Set<Long> processedTaskIds)
+	{
+		// Prevent infinite recursion by tracking already processed tasks
+		if (task.id() != null && processedTaskIds.contains(task.id()))
+		{
+			log.warn("Circular reference detected: Task {} (ID: {}) already in hierarchy - skipping to prevent infinite loop",
+					task.name(), task.id());
+			return null;
+		}
+
+		if (task.id() != null)
+		{
+			processedTaskIds.add(task.id());
+		}
+
 		TaskTreeTableDataItem taskTreeTableDataItem = new TaskTreeTableDataItem(task, start, end);
 		TreeItem<TaskTreeTableDataItem> result = new TreeItem<>(taskTreeTableDataItem);
 		if (task.subTasks().isPresent())
 		{
-			task.subTasks().get().forEach(subTask -> result.getChildren().add(populateTreeNode(subTask, start, end)));
+			task.subTasks().get().forEach(subTask -> {
+				TreeItem<TaskTreeTableDataItem> childNode = populateTreeNode(subTask, start, end, processedTaskIds);
+				if (childNode != null)
+				{
+					result.getChildren().add(childNode);
+				}
+			});
 		}
 		return result;
 	}
@@ -188,7 +215,26 @@ class TaskTreeTableController extends DefaultFXCController<TaskTreeTable, TaskTr
 	private void populateRecursively(TreeItem<TaskTreeTableDataItem> parentTreeItem, LocalDate startOfPeriod,
 			LocalDate endOfPeriod)
 	{
+		populateRecursively(parentTreeItem, startOfPeriod, endOfPeriod, new HashSet<>());
+	}
+
+	private void populateRecursively(TreeItem<TaskTreeTableDataItem> parentTreeItem, LocalDate startOfPeriod,
+			LocalDate endOfPeriod, Set<Long> processedTaskIds)
+	{
 		TaskBean parentTaskBean = parentTreeItem.getValue().task();
+
+		// Track this task to prevent circular references
+		if (parentTaskBean.id() != null)
+		{
+			if (processedTaskIds.contains(parentTaskBean.id()))
+			{
+				log.warn("Circular reference detected in populateRecursively: Task {} (ID: {}) already in hierarchy - stopping recursion",
+						parentTaskBean.name(), parentTaskBean.id());
+				return;
+			}
+			processedTaskIds.add(parentTaskBean.id());
+		}
+
 		if (parentTaskBean.subTasks().isPresent())
 		{
 			List<TaskBean> subTasks = new ArrayList<>(parentTaskBean.subTasks().get());
@@ -196,10 +242,18 @@ class TaskTreeTableController extends DefaultFXCController<TaskTreeTable, TaskTr
 
 			for (TaskBean subTask : subTasks)
 			{
+				// Skip if this subtask is already in the hierarchy
+				if (subTask.id() != null && processedTaskIds.contains(subTask.id()))
+				{
+					log.warn("Circular reference detected: SubTask {} (ID: {}) already processed - skipping",
+							subTask.name(), subTask.id());
+					continue;
+				}
+
 				TaskTreeTableDataItem dataItem = new TaskTreeTableDataItem(subTask, startOfPeriod, endOfPeriod);
 				TreeItem<TaskTreeTableDataItem> treeItemChild = new TreeItem<>(dataItem);
 				parentTreeItem.getChildren().add(treeItemChild);
-				populateRecursively(treeItemChild, startOfPeriod, endOfPeriod);
+				populateRecursively(treeItemChild, startOfPeriod, endOfPeriod, processedTaskIds);
 			}
 		}
 	}

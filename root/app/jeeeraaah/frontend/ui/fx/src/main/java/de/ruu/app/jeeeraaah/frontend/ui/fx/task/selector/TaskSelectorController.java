@@ -4,6 +4,7 @@ import static java.util.Objects.isNull;
 import static javafx.scene.control.SelectionMode.SINGLE;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -84,8 +85,26 @@ class TaskSelectorController
 
 	private TreeItem<TaskBean> populateTreeNode(TreeItem<TaskBean> root, TaskBean task)
 	{
+		return populateTreeNode(root, task, new HashSet<>());
+	}
+
+	private TreeItem<TaskBean> populateTreeNode(TreeItem<TaskBean> root, TaskBean task, Set<Long> processedTaskIds)
+	{
+		// Prevent infinite recursion by tracking already processed tasks
+		if (task.id() != null && processedTaskIds.contains(task.id()))
+		{
+			log.warn("Circular reference detected: Task {} (ID: {}) already in hierarchy - skipping",
+					task.name(), task.id());
+			return null;
+		}
+
+		if (task.id() != null)
+		{
+			processedTaskIds.add(task.id());
+		}
+
 		TreeItem<TaskBean> result = new TreeItem<>(task) { @Override public String toString() { return task.name(); } };
-		task.subTasks().ifPresent(subTasks -> populateTreeNode(result, subTasks));
+		task.subTasks().ifPresent(subTasks -> populateTreeNode(result, subTasks, processedTaskIds));
 		return result;
 	}
 
@@ -97,9 +116,20 @@ class TaskSelectorController
 
 	private void populateTreeNode(TreeItem<TaskBean> parent, Set<TaskBean> children)
 	{
+		populateTreeNode(parent, children, new HashSet<>());
+	}
+
+	private void populateTreeNode(TreeItem<TaskBean> parent, Set<TaskBean> children, Set<Long> processedTaskIds)
+	{
 		List<TaskBean> childrenAsList = new ArrayList<>(children);
 		childrenAsList.sort((o1, o2) -> o1.name().compareTo(o2.name()));
-		childrenAsList.forEach(task -> parent.getChildren().add(populateTreeNode(parent, task)));
+		childrenAsList.forEach(task -> {
+			TreeItem<TaskBean> childNode = populateTreeNode(parent, task, processedTaskIds);
+			if (childNode != null)
+			{
+				parent.getChildren().add(childNode);
+			}
+		});
 	}
 
 	private void populateAutoCompleteTextFieldWith(TaskGroupBean taskGroup)
@@ -134,7 +164,23 @@ class TaskSelectorController
 
 	private void collectTaskWithSubTasks(TaskBean task, List<TaskBean> tasks)
 	{
+		collectTaskWithSubTasks(task, tasks, new HashSet<>());
+	}
+
+	private void collectTaskWithSubTasks(TaskBean task, List<TaskBean> tasks, Set<Long> processedTaskIds)
+	{
+		if (task.id() != null && processedTaskIds.contains(task.id()))
+		{
+			log.warn("Circular reference detected in collectTaskWithSubTasks: Task {} (ID: {}) already processed",
+					task.name(), task.id());
+			return;
+		}
+
 		tasks.add(task);
-		task.subTasks().ifPresent(subTasks -> subTasks.forEach(subTask -> collectTaskWithSubTasks(subTask, tasks)));
+		if (task.id() != null)
+		{
+			processedTaskIds.add(task.id());
+		}
+		task.subTasks().ifPresent(subTasks -> subTasks.forEach(subTask -> collectTaskWithSubTasks(subTask, tasks, processedTaskIds)));
 	}
 }
