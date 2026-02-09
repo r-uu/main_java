@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<AnchorPane fx:id="root" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+   minHeight="400.0" minWidth="600.0" prefHeight="600.0" prefWidth="800.0"
+   xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox fx:id="vBxRoot" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+         AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+         AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox fx:id="hBxForSelectorAndFilter" alignment="CENTER_LEFT"
+               maxHeight="1.7976931348623157E308"
+               maxWidth="1.7976931348623157E308" VBox.vgrow="NEVER">
+               <children>
+                  <VBox fx:id="vBxForSelector" maxHeight="1.7976931348623157E308" prefWidth="200.0"
+                     HBox.hgrow="NEVER" />
+                  <HBox fx:id="hBxForFilter" maxHeight="1.7976931348623157E308"
+                     maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                     <children>
+                        <GridPane maxHeight="1.7976931348623157E308" HBox.hgrow="NEVER">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="NEVER" minWidth="10.0" />
+                              <ColumnConstraints hgrow="NEVER" minWidth="10.0" />
+                              <ColumnConstraints hgrow="NEVER" minWidth="10.0" />
+                              <ColumnConstraints hgrow="NEVER" minWidth="10.0" />
+                              <ColumnConstraints hgrow="NEVER" minWidth="10.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <Label text="start">
+                                 <padding>
+                                    <Insets left="5.0" />
+                                 </padding>
+                              </Label>
+                              <Label text="end" GridPane.columnIndex="2">
+                                 <padding>
+                                    <Insets left="5.0" />
+                                 </padding>
+                              </Label>
+                              <DatePicker fx:id="dtPckrStart" GridPane.columnIndex="1" />
+                              <DatePicker fx:id="dtPckrEnd" GridPane.columnIndex="3" />
+                              <Button fx:id="btnApply" maxHeight="1.7976931348623157E308"
+                                 maxWidth="1.7976931348623157E308" mnemonicParsing="false"
+                                 text="apply" GridPane.columnIndex="4" GridPane.halignment="RIGHT"
+                                 GridPane.hgrow="NEVER" />
+                           </children>
+                        </GridPane>
+                     </children>
+                  </HBox>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Button fx:id="buttonExit" minHeight="-Infinity" minWidth="-Infinity"
+                     mnemonicParsing="false" prefHeight="24.0" prefWidth="24.0" HBox.hgrow="NEVER">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                     <tooltip>
+                        <Tooltip text="back" />
+                     </tooltip>
+                     <graphic>
+                        <FontIcon iconLiteral="far-arrow-alt-circle-left" iconSize="14" />
+                     </graphic>
+                  </Button>
+               </children>
+               <VBox.margin>
+                  <Insets top="7.0" />
+               </VBox.margin>
+            </HBox>
+            <!-- GanttTable will be added here programmatically with VBox.vgrow="ALWAYS" -->
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
+

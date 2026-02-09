@@ -9,7 +9,12 @@ import lombok.NonNull;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static lombok.AccessLevel.NONE;
 
@@ -70,6 +75,61 @@ public interface TaskGroupFlat extends Entity<Long>, Comparable<TaskGroupFlat>
 		{
 			this.description = Optional.ofNullable(description);
 			return this;
+		}
+	}
+
+	/**
+	 * Extended flat representation that includes tasks for efficient hierarchy building.
+	 * <p>
+	 * Tasks are stored as {@link TaskFlat} instances (lightweight) instead of full TaskBean objects
+	 * to avoid loading expensive relations (predecessors, successors, etc.).
+	 */
+	@Getter
+	@Setter
+	@Accessors(fluent = true)
+	class TaskGroupWithTasks extends TaskGroupFlatSimple
+	{
+		private Set<TaskFlat> tasks = new HashSet<>();
+
+		public TaskGroupWithTasks(@NonNull String name)
+		{
+			super(name);
+		}
+
+		public TaskGroupWithTasks(@NonNull TaskGroupEntity<? extends TaskEntity<?, ?>> taskGroup)
+		{
+			super(taskGroup);
+
+			// Convert tasks to flat representation
+			if (taskGroup.tasks().isPresent())
+			{
+				this.tasks = taskGroup.tasks().get().stream()
+						.map(task -> new TaskFlat.TaskFlatSimple((TaskEntity<?, ?>) task))
+						.collect(Collectors.toSet());
+			}
+		}
+
+		/**
+		 * Get main tasks (tasks without super task).
+		 */
+		public List<TaskFlat> mainTasks()
+		{
+			return tasks.stream()
+					.filter(task -> task.superTaskId().isEmpty())
+					.sorted(Comparator.comparing(TaskFlat::name))
+					.toList();
+		}
+
+		/**
+		 * Get subtasks of a given task.
+		 */
+		public List<TaskFlat> subTasksOf(@NonNull Long taskId)
+		{
+			return tasks.stream()
+					.filter(task -> task.superTaskId().isPresent() &&
+					                task.superTaskId().get().equals(taskId))
+					.sorted(Comparator.comparing(TaskFlat::name))
+					.toList();
 		}
 	}
 }
