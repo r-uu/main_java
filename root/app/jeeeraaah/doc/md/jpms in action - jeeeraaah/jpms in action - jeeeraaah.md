@@ -1,6 +1,6 @@
 # JPMS in Aktion - jeeeraaah
 
-JPMS (Java Platform Module System) ist eine Technologie zur Modularisierung von Java Anwendungen. Es wurde bereits 2017 mit der Java Version 9 veröffentlicht.
+JPMS (Java Platform Module System) ist eine Technologie zur Modularisierung von Java Anwendungen. Es wurde 2017 mit der Java Version 9 veröffentlicht. Während es für das JDK meist als großer Erfolg gewertet wird, kämpft es um Akzeptanz in der Java User Community.
 
 Modularisierung ist ein entscheidender Faktor für die Entwicklung von gut wartbaren, gut verständlichen und gut erweiterbaren, großen Softwaresystemen (siehe Artikel [modular software in java](../modular-software-in-java/modular-software-in-java.md)).
 
