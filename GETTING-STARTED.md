@@ -1,19 +1,49 @@
 # JEEERAAAH - Getting Started
-
-**Enterprise Task Management System mit JavaFX, JAX-RS, JPA & Keycloak**
-
-## 📋 Schnellstart
-
-### 1. Voraussetzungen
-
-- **WSL2/Ubuntu** (für Windows-Nutzer)
-- **Docker** & Docker Compose
-- **Java 25** (GraalVM empfohlen)
+**Enterprise Task Management System**
+**Last Update:** 2026-02-09
+---
+## 🎯 What is JEEERAAAH?
+A Jakarta EE 10 enterprise application for managing tasks and projects with:
+- **Backend:** OpenLiberty 25.x with JAX-RS, JPA, CDI
+- **Frontend:** JavaFX 25 desktop applications
+- **Security:** Keycloak authentication
+- **Database:** PostgreSQL 16
+- **Reports:** JasperReports
+---
+## ⚡ Quick Start (3 Steps)
+### 1️⃣ Start Docker Environment
+```bash
+cd /home/r-uu/develop/github/main/config/shared/docker
+./startup-and-setup.sh
+```
+**What this does:**
+- Starts PostgreSQL, Keycloak, JasperReports
+- Creates databases automatically
+- Sets up Keycloak realm
+- Waits until all services are healthy (~2-3 minutes)
+### 2️⃣ Start Backend
+```bash
+cd /home/r-uu/develop/github/main/root/app/jeeeraaah/backend/api/ws.rs
+mvn liberty:dev
+```
+**Backend runs at:** http://localhost:9080
+### 3️⃣ Start Frontend
+**In IntelliJ IDEA:**
+- Run Configuration: `DashAppRunner` or `GanttAppRunner`
+- Click ▶️ Run
+**Login:**
+- Username: `testuser`
+- Password: `testpassword`
+**Done!** 🎉
+---
+## 📋 First Time Setup
+### Prerequisites
+- **Java 25** (GraalVM recommended)
 - **Maven 3.9+**
-- **Git**
-
-### 2. Projekt klonen
-
+- **Docker** & Docker Compose
+- **IntelliJ IDEA** (recommended)
+- **WSL2/Ubuntu** (for Windows)
+### Clone Project
 ```bash
 cd ~
 mkdir -p develop/github
@@ -21,254 +51,135 @@ cd develop/github
 git clone <repository-url> main
 cd main
 ```
-
-### 3. Aliase einrichten
-
+### Configure Shell Aliases
 ```bash
-# Aliase zur .bashrc hinzufügen
+# Add aliases to .bashrc
 cat config/shared/wsl/aliases.sh >> ~/.bashrc
-
-# Shell neu laden
 source ~/.bashrc
+# Available commands:
+ruu-help              # Show all commands
+ruu-build             # Build project
+ruu-docker-startup    # Start Docker
+ruu-docker-status     # Check Docker health
 ```
-
-### 4. Docker-Umgebung starten
-
+### Build Project
 ```bash
-# Komplette Docker-Umgebung aufsetzen (PostgreSQL, Keycloak, JasperReports)
-ruu-docker-startup
-
-# Status prüfen
-ruu-docker-ps
-ruu-docker-status
-```
-
-Das Skript:
-- Startet alle Container
-- Wartet bis alle Containers healthy sind
-- Erstellt automatisch Keycloak Realm
-- Validiert die komplette Umgebung
-
-### 5. Projekt bauen
-
-```bash
-# Im root-Verzeichnis
-cd ~/develop/github/main/root
+cd /home/r-uu/develop/github/main/root
 mvn clean install
 ```
-
-### 6. Backend starten (Liberty Server)
-
+**Expected:** BUILD SUCCESS after 2-5 minutes
+---
+## 🔧 Daily Development
+### Start Everything
 ```bash
-# In neuem Terminal
-cd ~/develop/github/main/root/app/jeeeraaah/backend/api/ws.rs
+# 1. Docker (if not running)
+ruu-docker-startup
+# 2. Backend (in terminal)
+cd /home/r-uu/develop/github/main/root/app/jeeeraaah/backend/api/ws.rs
 mvn liberty:dev
+# 3. Frontend (in IntelliJ)
+# Run > DashAppRunner or GanttAppRunner
 ```
-
-Server läuft auf: `http://localhost:9080`
-
-### 7. Frontend starten (JavaFX Dashboard)
-
-**Option A: IntelliJ IDEA**
-- Öffne `DashAppRunner.java`
-- Run Configuration: `.run/DashAppRunner.run.xml` (im Projekt enthalten)
-- Start mit Debug-Modus möglich
-
-**Option B: Maven**
+### Stop Everything
 ```bash
-cd ~/develop/github/main/root/app/jeeeraaah/frontend/ui/fx
-mvn javafx:run
+# Stop Backend: Ctrl+C in terminal
+# Stop Frontend: Close application window
+# Stop Docker: docker compose down
 ```
-
-**Option C: Alias**
+---
+## 🐛 Troubleshooting
+### Docker containers not starting?
 ```bash
-ruu-dash-start
+ruu-docker-down
+ruu-docker-startup
 ```
-
-## 🔐 Standard-Credentials
-
-### PostgreSQL
-
-| Datenbank   | User       | Passwort   | Port | Container           |
-|-------------|------------|------------|------|---------------------|
-| `jeeeraaah` | `jeeeraaah`| `jeeeraaah`| 5432 | postgres-jeeeraaah  |
-| `lib_test`  | `lib_test` | `lib_test` | 5434 | postgres-lib-test   |
-| `keycloak`  | `keycloak` | `keycloak` | 5433 | postgres-keycloak   |
-
-### Keycloak
-
-- **Admin Console:** http://localhost:8080/admin
-- **Admin User:** `admin` / `admin`
-- **Realm:** `jeeeraaah-realm`
-- **Test User:** `test` / `test`
-
-### Backend API
-
-- **Base URL:** http://localhost:9080
-- **OpenAPI:** http://localhost:9080/openapi/ui/
-
-## 🛠️ Nützliche Aliase
-
-### Docker
-
+### Backend port 9080 already in use?
 ```bash
-ruu-docker-startup    # Komplette Umgebung starten (mit Keycloak Realm Setup)
-ruu-docker-restart    # Container neustarten
-ruu-docker-reset      # Alles löschen und neu aufsetzen
-ruu-docker-ps         # Container-Status
-ruu-docker-status     # Detaillierter Status-Check
-ruu-docker-logs       # Alle Logs anzeigen
+lsof -i :9080
+kill -9 <PID>
 ```
-
-### Keycloak
-
+### Authentication fails?
 ```bash
-ruu-keycloak-start    # Keycloak starten
-ruu-keycloak-restart  # Keycloak neu starten
-ruu-keycloak-setup    # Realm manuell erstellen
-ruu-keycloak-logs     # Logs anzeigen
-```
-
-### PostgreSQL
-
-```bash
-ruu-postgres-start    # PostgreSQL starten
-ruu-postgres-shell    # PostgreSQL Shell öffnen
-ruu-postgres-logs     # Logs anzeigen
-```
-
-### Build & Testing
-
-```bash
-ruu-build             # Komplettes Projekt bauen
-ruu-build-root        # Nur root bauen
-ruu-test              # Tests ausführen
-ruu-clean             # Maven clean
-```
-
-### Entwicklung
-
-```bash
-ruu-dash-start        # Dashboard starten
-ruu-liberty-start     # Liberty Server starten
-ruu-help              # Alle Aliase anzeigen
-```
-
-## 📁 Projekt-Struktur
-
-```
-main/
-├── root/                          # Maven Multi-Module Projekt
-│   ├── app/jeeeraaah/            # Hauptanwendung
-│   │   ├── backend/api/ws.rs/    # JAX-RS Backend (Liberty)
-│   │   ├── frontend/ui/fx/       # JavaFX Frontend
-│   │   └── common/               # Shared Code
-│   ├── lib/                      # Wiederverwendbare Bibliotheken
-│   │   ├── fx/comp/              # JavaFX Components
-│   │   ├── jpa/                  # JPA Utilities
-│   │   ├── keycloak.admin/       # Keycloak Admin Client
-│   │   ├── mp.config/            # MicroProfile Config
-│   │   └── ...
-│   └── pom.xml                   # Root POM
-├── config/                       # Konfiguration & Dokumentation
-│   ├── shared/
-│   │   ├── docker/               # Docker Compose Setup
-│   │   │   ├── .env.template     # Template für Credentials
-│   │   │   ├── docker-compose.yml
-│   │   │   └── initdb/           # PostgreSQL Init-Skripte
-│   │   ├── scripts/              # Helper-Skripte
-│   │   └── wsl/aliases.sh        # Bash Aliase
-│   └── *.md                      # Dokumentation
-├── bom/                          # Bill of Materials (Dependency Management)
-└── testing.properties            # Global Test Configuration
-```
-
-## 🔧 Troubleshooting
-
-### Docker Container starten nicht
-
-```bash
-# Status prüfen
-docker ps -a
-
-# Logs prüfen
-docker compose logs
-
-# Komplett neu aufsetzen
-ruu-docker-reset
-```
-
-### Keycloak Realm fehlt
-
-```bash
-# Realm manuell erstellen
+# Reset Keycloak realm
 ruu-keycloak-setup
-
-# Oder kompletten Reset
-ruu-docker-reset
 ```
-
-### Datenbank-Verbindungsprobleme
-
+### IntelliJ shows errors but Maven builds?
+**Solution:** File → Invalidate Caches → Invalidate and Restart
+See: [INTELLIJ-CACHE-CLEANUP.md](INTELLIJ-CACHE-CLEANUP.md)
+---
+## 📚 Next Steps
+### Learn the Applications
+**DashApp** - Dashboard application
+- Manage task groups
+- View task hierarchies
+- Edit tasks
+**GanttApp** - Gantt chart view
+- Visual timeline
+- Date filtering
+- Task dependencies
+### Explore the Code
+**Backend:**
+- `root/app/jeeeraaah/backend/api/ws.rs` - REST API
+- `root/app/jeeeraaah/backend/common/jpa` - Database
+**Frontend:**
+- `root/app/jeeeraaah/frontend/ui/fx` - JavaFX apps
+- `root/app/jeeeraaah/frontend/api.client` - REST client
+**Libraries:**
+- `root/lib/docker.health` - Health checks
+- `root/lib/fx/comp` - JavaFX components
+### Documentation
+- [QUICK-REFERENCE.md](QUICK-REFERENCE.md) - Command reference
+- [PROJECT-STATUS.md](PROJECT-STATUS.md) - Architecture overview
+- [config/TROUBLESHOOTING.md](config/TROUBLESHOOTING.md) - Common issues
+- [DOCUMENTATION-INDEX.md](DOCUMENTATION-INDEX.md) - All documentation
+---
+## 🔑 Credentials
+See: [config/CREDENTIALS.md](config/CREDENTIALS.md)
+**Quick Reference:**
+- **Test User:** testuser / testpassword
+- **Keycloak Admin:** admin / admin
+- **PostgreSQL:** postgres / postgres
+---
+## ⚙️ Configuration
+All configuration is in `config/` directory:
+- Docker setup: `config/shared/docker/`
+- Scripts: `config/shared/scripts/`
+- Documentation: `config/*.md`
+**Important files:**
+- `docker-compose.yml` - Container configuration
+- `application.properties` - Backend configuration
+- `beans.xml` - CDI configuration
+---
+## 🧪 Testing
 ```bash
-# PostgreSQL Container prüfen
-docker logs postgres-jeeeraaah
-docker logs postgres-lib-test
-
-# Shell öffnen und manuell testen
-docker exec -it postgres-jeeeraaah psql -U jeeeraaah -d jeeeraaah
+# Run all tests
+cd /home/r-uu/develop/github/main/root
+mvn test
+# Run specific module tests
+cd root/app/jeeeraaah/backend/api/ws.rs
+mvn test
 ```
-
-### Liberty Server startet nicht
-
-```bash
-# Prüfe ob Port 9080 belegt ist
-netstat -tulpn | grep 9080
-
-# Stoppe alten Prozess falls nötig
-mvn liberty:stop
-
-# Neu starten
-mvn liberty:dev
-```
-
-### Frontend startet nicht (IntelliJ)
-
-1. Prüfe dass `.run/DashAppRunner.run.xml` existiert
-2. Build das Projekt: `mvn clean install`
-3. Refreshe IntelliJ: `File → Invalidate Caches → Restart`
-4. Stelle sicher dass `JAVA_HOME` auf Java 25 zeigt
-
-### Compilation Errors
-
-```bash
-# Kompletter Clean Build
-cd ~/develop/github/main/root
-mvn clean install -DskipTests
-
-# Falls JPMS Probleme:
-# - Prüfe module-info.java Dateien
-# - Siehe: JPMS-INTELLIJ-QUICKSTART.md
-```
-
-## 📚 Weitere Dokumentation
-
-- **[STARTUP-QUICK-GUIDE.md](STARTUP-QUICK-GUIDE.md)** - Detaillierte Startup-Anleitung
-- **[JPMS-INTELLIJ-QUICKSTART.md](JPMS-INTELLIJ-QUICKSTART.md)** - JPMS & IntelliJ Setup
-- **[config/README.md](config/README.md)** - Konfiguration im Detail
-- **[config/DOCKER-ENV-SETUP.md](config/DOCKER-ENV-SETUP.md)** - Docker Environment Setup
-- **[config/SINGLE-POINT-OF-TRUTH.md](config/SINGLE-POINT-OF-TRUTH.md)** - Configuration Strategy
-
-## 🎯 Nächste Schritte
-
-1. ✅ Getting Started durchgearbeitet
-2. 📖 Lies [PROJECT-STATUS.md](PROJECT-STATUS.md) für Projekt-Übersicht
-3. 🔍 Schau dir die API-Dokumentation an: http://localhost:9080/openapi/ui/
-4. 🧪 Führe Tests aus: `ruu-test`
-5. 💻 Starte Entwicklung!
-
-## 🆘 Support
-
-- **Dokumentation:** `~/develop/github/main/config/`
-- **Alle Aliase anzeigen:** `ruu-help`
-- **Docker Status:** `ruu-docker-status`
+---
+## 🚀 Advanced Topics
+### JPMS (Java Platform Module System)
+This project uses Java modules. See:
+- [JPMS-INTELLIJ-QUICKSTART.md](JPMS-INTELLIJ-QUICKSTART.md)
+- [JPMS-RUN-CONFIGURATIONS.md](JPMS-RUN-CONFIGURATIONS.md)
+### Docker Health Checks
+Automatic health monitoring and fixes:
+- `root/lib/docker.health` - Health check library
+- Monitors: PostgreSQL, Keycloak, JasperReports
+- Auto-fix: Starts stopped containers
+### MapStruct
+Bean mapping framework:
+- `root/app/jeeeraaah/common/api/mapping` - Mappers
+- `root/app/jeeeraaah/frontend/common/mapping` - UI mappers
+---
+## 🆘 Need Help?
+1. **Check documentation:** [DOCUMENTATION-INDEX.md](DOCUMENTATION-INDEX.md)
+2. **Common issues:** [config/TROUBLESHOOTING.md](config/TROUBLESHOOTING.md)
+3. **Project status:** [PROJECT-STATUS.md](PROJECT-STATUS.md)
+4. **Improvements:** [PROJECT-IMPROVEMENTS.md](PROJECT-IMPROVEMENTS.md)
+---
+**Happy Coding!** 🎉
+*Last updated: 2026-02-09*

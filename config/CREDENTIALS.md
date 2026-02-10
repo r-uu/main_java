@@ -1,362 +1,209 @@
-# Credentials - Zentrale Übersicht
-
-**Single Point of Truth für alle Credentials im Projekt**
-
-**Letzte Aktualisierung:** 2026-01-30
-
+# Credentials - Complete Reference
+**Single Point of Truth for all project credentials**
+**Last Update:** 2026-02-09
 ---
-
-## 🔐 Credential-Verwaltung
-
-### Entwicklungsumgebung (Development)
-
-Alle Credentials werden in **einer zentralen Datei** verwaltet:
-
-**Datei:** `config/shared/docker/.env`
-
-**Format:** `SCHLÜSSEL=wert` (keine Anführungszeichen!)
-
-**Versionierung:** 
-- ❌ `.env` ist in `.gitignore` (enthält echte Credentials)
-- ✅ `.env.template` ist in Git (enthält Platzhalter)
-
+## 🔐 Credential Management
+### Development Environment
+**All credentials** are defined in: `config/shared/docker/.env`
+**Format:** `KEY=value` (no quotes!)
+**Version Control:**
+- ❌ `.env` - Contains real credentials (in `.gitignore`)
+- ✅ `.env.template` - Template with placeholders (in Git)
 ---
-
-## 📋 Credential-Übersicht
-
-### PostgreSQL - JEEERAAAH Application
-
+## 📋 Quick Reference
+### Application Login
+| Service | Username | Password | URL |
+|---------|----------|----------|-----|
+| **Frontend Apps** | `testuser` | `testpassword` | JavaFX Desktop Apps |
+| **Keycloak Admin** | `admin` | `admin` | http://localhost:8080/admin |
+### Database Connections
+| Database | User | Password | Host | Port |
+|----------|------|----------|------|------|
+| **jeeeraaah** | `jeeeraaah` | `jeeeraaah` | localhost | 5432 |
+| **lib_test** | `lib_test` | `lib_test` | localhost | 5434 |
+| **keycloak** | `keycloak` | `keycloak` | localhost | 5433 |
+---
+## 🗄️ PostgreSQL Databases
+### Application Database
 ```bash
-# Container: postgres-jeeeraaah (Port 5432)
+# Main application database
 POSTGRES_JEEERAAAH_HOST=localhost
 POSTGRES_JEEERAAAH_PORT=5432
 POSTGRES_JEEERAAAH_DATABASE=jeeeraaah
 POSTGRES_JEEERAAAH_USER=jeeeraaah
 POSTGRES_JEEERAAAH_PASSWORD=jeeeraaah
 ```
-
-**Verwendung:**
-- Backend: OpenLiberty `server.xml` liest via MicroProfile Config
-- Tests: Hibernate `persistence.xml` liest via MicroProfile Config
-- Docker: `docker-compose.yml` mountet `.env`
-
-### PostgreSQL - lib_test (Integrationstests)
-
+**JDBC URL:**
+```
+jdbc:postgresql://localhost:5432/jeeeraaah
+```
+**Used by:**
+- Backend (OpenLiberty)
+- Integration tests
+### Library Test Database
 ```bash
-# Container: postgres-lib-test (Port 5434)
+# For library integration tests
 POSTGRES_LIB_TEST_HOST=localhost
 POSTGRES_LIB_TEST_PORT=5434
 POSTGRES_LIB_TEST_DATABASE=lib_test
 POSTGRES_LIB_TEST_USER=lib_test
 POSTGRES_LIB_TEST_PASSWORD=lib_test
 ```
-
-**Verwendung:**
-- Library-Tests: `root/lib/*/src/test/java`
-- JPA-Tests: Hibernate Konfiguration via MicroProfile Config
-
-### PostgreSQL - Keycloak Persistence
-
+**JDBC URL:**
+```
+jdbc:postgresql://localhost:5434/lib_test
+```
+**Used by:**
+- `root/lib/*/src/test/java` tests
+- JPA/Hibernate tests
+### Keycloak Database
 ```bash
-# Container: postgres-keycloak (Port 5433)
+# Keycloak persistence
 POSTGRES_KEYCLOAK_HOST=localhost
 POSTGRES_KEYCLOAK_PORT=5433
 POSTGRES_KEYCLOAK_DATABASE=keycloak
 POSTGRES_KEYCLOAK_USER=keycloak
 POSTGRES_KEYCLOAK_PASSWORD=keycloak
 ```
-
-**Verwendung:**
-- Keycloak Container: Speichert Realms, Users, etc.
-- **Wichtig:** Ohne diese DB ist Keycloak nicht persistent!
-
-### Keycloak Admin Console
-
+**JDBC URL:**
+```
+jdbc:postgresql://localhost:5433/keycloak
+```
+**Used by:**
+- Keycloak container
+- Stores realms, users, roles
+⚠️ **Important:** Without this database, Keycloak is not persistent!
+---
+## 🔑 Keycloak Configuration
+### Admin Console
 ```bash
 KEYCLOAK_ADMIN_USER=admin
 KEYCLOAK_ADMIN_PASSWORD=admin
 ```
-
-**Admin Console URL:** http://localhost:8080/admin
-
-**Verwendung:**
-- Manuelle Admin-Aufgaben (Browser)
-- Automatisches Realm-Setup (Java Keycloak Admin Client)
-
-### Keycloak Realm
-
+**Access:**
+- URL: http://localhost:8080/admin
+- Realm: Master (for admin)
+**Used for:**
+- Manual administration
+- Automatic realm setup via Admin API
+### Application Realm
 ```bash
 KEYCLOAK_REALM=jeeeraaah-realm
 ```
-
-**Verwendung:**
-- Backend: JWT Token Validation
-- Frontend: Token Requests
-- Setup: Realm Creation via Keycloak Admin API
-
-### Keycloak Test User (Entwicklung)
-
+**Automatically created with:**
+- Client: `jeeeraaah-frontend`
+- Test user: `testuser`
+- Roles: `task-*`, `taskgroup-*`
+### Test User
 ```bash
 KEYCLOAK_TEST_USER=testuser
-KEYCLOAK_TEST_PASSWORD=test
+KEYCLOAK_TEST_PASSWORD=testpassword
 ```
-
-**Verwendung:**
-- Automatischer Login in Test-Modus (`testing=true`)
-- Frontend: Überspringe Login-Dialog
-
+**Used by:**
+- All JavaFX applications (DashApp, GanttApp)
+- REST API testing
+- Automated login in test mode
+⚠️ **Important:**
+- Admin user (`admin/admin`) works **only in Master Realm**
+- Test user (`testuser/testpassword`) works **only in jeeeraaah-realm**
 ---
-
-## 🔄 Wie Credentials verwendet werden
-
-### 1. Docker Compose
-
-**Datei:** `config/shared/docker/docker-compose.yml`
-
-```yaml
-services:
-  postgres-jeeeraaah:
-    environment:
-      POSTGRES_DB: ${POSTGRES_JEEERAAAH_DATABASE}
-      POSTGRES_USER: ${POSTGRES_JEEERAAAH_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_JEEERAAAH_PASSWORD}
+## 🚀 How Credentials Are Used
+### Frontend Applications
+When starting DashApp or GanttApp:
+1. Reads credentials from `testing.properties`:
+   ```properties
+   testing.username=testuser
+   testing.password=testpassword
+   testing=true
+   ```
+2. Authenticates with Keycloak
+3. Receives JWT token
+4. Uses token for all REST API calls
+### Backend API
+1. Validates JWT tokens from frontend
+2. Connects to PostgreSQL using credentials from `.env`
+3. Uses MicroProfile Config for credential injection
+### Keycloak Setup
+Run once to create realm and test user:
+```bash
+cd ~/develop/github/main/root/lib/keycloak.admin
+mvn exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSetup"
 ```
-
-**Mechanismus:**
-- Docker Compose liest `.env` automatisch
-- Variablen werden via `${VAR}` referenziert
-
-### 2. MicroProfile Config (Java)
-
-**Datei:** `testing.properties` (Projekt-Root)
-
-```properties
-# PostgreSQL JEEERAaH
-db.jeeeraaah.host=${POSTGRES_JEEERAAAH_HOST}
-db.jeeeraaah.port=${POSTGRES_JEEERAAAH_PORT}
-db.jeeeraaah.name=${POSTGRES_JEEERAAAH_DATABASE}
-db.jeeeraaah.username=${POSTGRES_JEEERAAAH_USER}
-db.jeeeraaah.password=${POSTGRES_JEEERAAAH_PASSWORD}
-
-# Keycloak
-keycloak.server.url=http://localhost:8080
-keycloak.realm=${KEYCLOAK_REALM}
-keycloak.admin.user=${KEYCLOAK_ADMIN_USER}
-keycloak.admin.password=${KEYCLOAK_ADMIN_PASSWORD}
-```
-
-**Mechanismus:**
-- SmallRye Config liest `testing.properties`
-- Environment Variables haben Vorrang (`POSTGRES_JEEERAAAH_HOST` überschreibt Property)
-- `@ConfigProperty` Injection in Java-Code
-
-### 3. OpenLiberty server.xml
-
-**Datei:** `root/app/jeeeraaah/backend/api/ws.rs/src/main/liberty/config/server.xml`
-
-```xml
-<dataSource id="jeeeraaahDS">
-    <jdbcDriver libraryRef="postgresLib"/>
-    <properties.postgresql
-        serverName="${db.jeeeraaah.host}"
-        portNumber="${db.jeeeraaah.port}"
-        databaseName="${db.jeeeraaah.name}"
-        user="${db.jeeeraaah.username}"
-        password="${db.jeeeraaah.password}"/>
-</dataSource>
-```
-
-**Mechanismus:**
-- Liberty liest MicroProfile Config (`testing.properties`)
-- `${db.*}` Variablen werden ersetzt
-
-### 4. Keycloak Realm Setup (Java)
-
-**Datei:** `root/lib/keycloak.admin/src/main/java/.../KeycloakRealmSetup.java`
-
-```java
-@Inject
-@ConfigProperty(name = "keycloak.admin.user")
-String adminUser;
-
-@Inject
-@ConfigProperty(name = "keycloak.admin.password")
-String adminPassword;
-```
-
-**Mechanismus:**
-- CDI + MicroProfile Config Injection
-- Liest aus `testing.properties`
-
+Creates:
+- ✅ Realm: `jeeeraaah-realm`
+- ✅ Client: `jeeeraaah-frontend` (public, direct access grants enabled)
+- ✅ User: `testuser/testpassword`
+- ✅ Roles: `task-read`, `task-create`, `task-update`, `task-delete`
+- ✅ Roles: `taskgroup-read`, `taskgroup-create`, `taskgroup-update`, `taskgroup-delete`
 ---
-
-## 🛡️ Sicherheit
-
-### Entwicklung (lokale Workstation)
-
-✅ **Erlaubt:** Einfache Passwörter wie `admin`, `jeeeraaah`, `test`
-
-**Grund:** 
-- Keine Netzwerk-Exposition (nur localhost)
-- Docker Container laufen nur lokal
-- Schnellerer Setup
-
-### Produktion (Server/Cloud)
-
-❌ **NIEMALS:** Einfache Passwörter verwenden!
-
-**Empfehlung:**
-1. Separates `.env` File auf Server
-2. Starke, generierte Passwörter
-3. Secrets Management (z.B. Docker Secrets, Vault)
-4. Regelmäßiger Passwort-Rotation
-
-**Beispiel `.env` für Produktion:**
-```bash
-POSTGRES_JEEERAAAH_PASSWORD=$(openssl rand -base64 32)
-KEYCLOAK_ADMIN_PASSWORD=$(openssl rand -base64 32)
-```
-
----
-
-## 📝 Credential-Änderungen
-
-### Schritt 1: `.env` aktualisieren
-
-```bash
-cd ~/develop/github/main/config/shared/docker
-nano .env
-```
-
-**Beispiel:** PostgreSQL Passwort ändern
-```bash
-POSTGRES_JEEERAAAH_PASSWORD=neues-passwort
-```
-
-### Schritt 2: Docker Container neu erstellen
-
-```bash
-# Alle Container stoppen und löschen
-ruu-docker-down
-
-# Volumes löschen (wichtig für neue Passwörter!)
-docker volume rm postgres-jeeeraaah-data
-
-# Container neu starten (liest neue .env)
-ruu-docker-startup
-```
-
-**Wichtig:** PostgreSQL speichert Passwörter im Volume! Daher muss Volume gelöscht werden.
-
-### Schritt 3: Keycloak Realm neu erstellen
-
-```bash
-# Falls Keycloak Admin-Passwort geändert wurde
-ruu-keycloak-setup
-```
-
----
-
 ## 🧪 Testing Credentials
-
-Für automatisierte Tests wird ein spezieller Test-User verwendet:
-
-**Property:** `testing=true` (in `testing.properties`)
-
-**Effekt:**
-- Frontend: Kein Login-Dialog, automatischer Login mit Test-User
-- Backend: Akzeptiert Test-Token
-
-**Test-User Credentials:**
+### Manual Token Request
 ```bash
-KEYCLOAK_TEST_USER=testuser
-KEYCLOAK_TEST_PASSWORD=test
+curl -X POST 'http://localhost:8080/realms/jeeeraaah-realm/protocol/openid-connect/token' \
+  -H 'Content-Type: application/x-www-form-urlencoded' \
+  -d 'username=testuser' \
+  -d 'password=testpassword' \
+  -d 'grant_type=password' \
+  -d 'client_id=jeeeraaah-frontend'
 ```
-
-**Keycloak Setup:** Test-User wird automatisch erstellt bei `ruu-keycloak-setup`
-
+**Expected:** JSON response with `access_token`
+### Database Connection Test
+```bash
+# Test jeeeraaah database
+psql -h localhost -p 5432 -U jeeeraaah -d jeeeraaah
+# Test lib_test database
+psql -h localhost -p 5434 -U lib_test -d lib_test
+# Password for both: same as username
+```
 ---
-
-## 🔗 Credential-Fluss (Übersicht)
-
-```
-.env
- ├─> Docker Compose (Container Environment)
- │    ├─> postgres-jeeeraaah
- │    ├─> postgres-lib-test
- │    ├─> postgres-keycloak
- │    └─> keycloak
- │
- └─> testing.properties (via Env Vars)
-      ├─> OpenLiberty server.xml (Backend)
-      ├─> Hibernate persistence.xml (Tests)
-      ├─> Keycloak Admin Client (Setup)
-      └─> Frontend Config (Auto-Login)
-```
-
-**Wichtig:** Alle Wege führen zu `.env`! (Single Point of Truth)
-
----
-
-## 🚨 Troubleshooting
-
-### Problem: "password authentication failed"
-
-**Ursache:** Credentials stimmen nicht überein
-
-**Lösung:**
+## 🔧 Troubleshooting
+### Authentication fails?
+**Check Keycloak is running:**
 ```bash
-# 1. Prüfe .env
-cat ~/develop/github/main/config/shared/docker/.env
-
-# 2. Prüfe ob Container alte Credentials cached
-docker inspect postgres-jeeeraaah | grep -A5 POSTGRES
-
-# 3. Container + Volume löschen, neu starten
-ruu-docker-reset
-ruu-docker-startup
+docker ps | grep keycloak
 ```
-
-### Problem: "Keycloak Admin Login fehlgeschlagen"
-
-**Ursache:** Keycloak Admin Credentials falsch
-
-**Lösung:**
+**Verify realm exists:**
 ```bash
-# 1. Prüfe .env
-grep KEYCLOAK_ADMIN ~/develop/github/main/config/shared/docker/.env
-
-# 2. Keycloak Container + Volume neu erstellen
-docker compose down
-docker volume rm keycloak-data
-ruu-docker-startup
-```
-
-### Problem: "Realm nicht gefunden"
-
-**Ursache:** Realm nicht erstellt oder Keycloak-DB gelöscht
-
-**Lösung:**
-```bash
-# Realm neu erstellen
+# Run realm setup
 ruu-keycloak-setup
-
-# Oder: Komplett-Reset
-ruu-docker-reset
-ruu-docker-startup  # Erstellt Realm automatisch
 ```
-
+**Check credentials:**
+- File: `config/shared/docker/.env`
+- Format: `KEY=value` (no spaces, no quotes)
+### Database connection fails?
+**Check PostgreSQL is running:**
+```bash
+docker ps | grep postgres
+```
+**Verify credentials match:**
+```bash
+cat config/shared/docker/.env | grep POSTGRES
+```
+### Automatic login not working?
+**Check testing.properties:**
+```bash
+cat testing.properties
+# Should contain:
+# testing.username=testuser
+# testing.password=testpassword
+# testing=true
+```
 ---
-
-## 📚 Siehe auch
-
-| Dokument | Beschreibung |
-|----------|-------------|
-| [SINGLE-POINT-OF-TRUTH.md](SINGLE-POINT-OF-TRUTH.md) | Konfigurationsverwaltung |
-| [KEYCLOAK-ADMIN-CONSOLE.md](KEYCLOAK-ADMIN-CONSOLE.md) | Keycloak Admin Aufgaben |
-| [TROUBLESHOOTING.md](TROUBLESHOOTING.md) | Allgemeine Problemlösungen |
-| [shared/docker/.env.template](shared/docker/.env.template) | Template für .env |
-
+## 🔒 Production Considerations
+⚠️ **These are DEVELOPMENT credentials only!**
+For production:
+1. Use strong, unique passwords
+2. Store credentials in secure vault (e.g., HashiCorp Vault)
+3. Use environment variables, not files
+4. Enable HTTPS/TLS everywhere
+5. Rotate credentials regularly
+6. Use different credentials per environment
 ---
-
-**Bei Problemen:** Siehe [TROUBLESHOOTING.md](TROUBLESHOOTING.md)
+## 📚 Related Documentation
+- [AUTHENTICATION-CREDENTIALS.md](AUTHENTICATION-CREDENTIALS.md) - Original (archived after merge)
+- [CREDENTIALS-OVERVIEW.md](CREDENTIALS-OVERVIEW.md) - Original (archived after merge)
+- [KEYCLOAK-ADMIN-CONSOLE.md](KEYCLOAK-ADMIN-CONSOLE.md) - Keycloak administration
+- [JWT-TROUBLESHOOTING.md](JWT-TROUBLESHOOTING.md) - JWT/token issues
+---
+**Last updated:** 2026-02-09  
+**Status:** Complete credential reference
