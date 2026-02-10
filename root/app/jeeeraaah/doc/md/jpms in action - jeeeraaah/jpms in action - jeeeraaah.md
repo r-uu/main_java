@@ -32,3 +32,8 @@ In der Anwendung sieht das dann im dashboard etwa so aus:
 
 Eine Gantt-Diagramm-Darstellung zeigt eine andere Sicht auf Aufgaben und die geplanten Abläufe:
 
+<p align="center">
+  <img src="jeeeraaah-gantt.png" alt="Task-Objects" width="350"/>
+  <br/>
+  <em>Abb. 4: jeeeraaah Gantt Diagramm</em>
+</p>
