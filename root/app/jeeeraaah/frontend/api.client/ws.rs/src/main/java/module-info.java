@@ -21,7 +21,7 @@ module de.ruu.app.jeeeraaah.frontend.api.client.ws.rs
 	// internal project modules
 	requires de.ruu.app.jeeeraaah.common.api.bean;
 	requires de.ruu.app.jeeeraaah.common.api.domain;
-	requires de.ruu.app.jeeeraaah.common.api.mapping;
+	requires de.ruu.app.jeeeraaah.common.api.mapping.bean.dto;
 	requires de.ruu.app.jeeeraaah.common.api.ws.rs;
 
 	// Java standard library modules

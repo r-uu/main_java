@@ -1,5 +1,5 @@
 /**
- * Frontend Common Mapping module containing JavaFX-specific mappers.
+ * Frontend Bean-FXBean Mapping module containing bidirectional Bean ↔ FXBean mappers.
  * <p>
  * This module provides bidirectional mappings between:
  * <ul>
@@ -12,7 +12,7 @@
  *
  * @since 0.0.1
  */
-module de.ruu.app.jeeeraaah.frontend.common.mapping
+module de.ruu.app.jeeeraaah.frontend.common.mapping.bean.fxbean
 {
 	exports de.ruu.app.jeeeraaah.frontend.common.mapping;
 	exports de.ruu.app.jeeeraaah.frontend.common.mapping.bean.flatbean;

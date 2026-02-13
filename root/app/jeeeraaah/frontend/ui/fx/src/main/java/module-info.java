@@ -18,10 +18,10 @@ module de.ruu.app.jeeeraaah.frontend.ui.fx
 	requires transitive de.ruu.app.jeeeraaah.common.api.bean;
 	requires transitive de.ruu.app.jeeeraaah.common.api.domain;
 	requires de.ruu.app.jeeeraaah.common.api.ws.rs;
-	requires de.ruu.app.jeeeraaah.common.api.mapping;
+	requires de.ruu.app.jeeeraaah.common.api.mapping.bean.dto;
 	requires de.ruu.app.jeeeraaah.frontend.ui.fx.model;
 	requires de.ruu.app.jeeeraaah.frontend.api.client.ws.rs;
-	requires de.ruu.app.jeeeraaah.frontend.common.mapping;
+	requires de.ruu.app.jeeeraaah.frontend.common.mapping.bean.fxbean;
 
 	requires static lombok;
 	requires org.slf4j;  // Automatic module - needs --add-modules in .mvn/jvm.config for IntelliJ

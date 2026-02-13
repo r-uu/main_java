@@ -71,6 +71,12 @@ Das common.api.domain Modul enthält zentrale Schnittstellen und Basisklassen de
 
 Das Modul ist so konzipiert, dass es transitiv sowohl vom Frontend als auch vom Backend benötigt wird, um ein konsistentes Domänenmodell über alle Anwendungsschichten hinweg zu gewährleisten.
 
+Der Aufbau des Moduls spiegelt die Struktur des gesamten Projekts wider:
+
+- das Submodul common.api.domain enthält vor allem die zentralen Interfaces des Domänenmodells, die von beiden Seiten (frontend und backend) verwendet werden. Um die Verwendung der Interfaces auf beiden Seiten möglichst konsistent halten zu können, sind sie generisch, was eine sehr starke Typisierung in den implementierenden Klassen ermöglicht.
+- das Submodul common.api.ws.rs enthält die DTO Klassen, mit deren Hilfe frontend und backend kommunizieren. Die DTO Klassen implementieren die generischen Interfaces aus common.api.dommain.
+- das Submodul common.api.bean enthält (Java-)Bean-Implementierungen der Interfaces aus common.api.domain. Genaugenommen sind die Implementierungen keine Java-Beans, da sie fluent accessors anstelle der Java-Beans üblichen get-/set-accessors verwenden. Die Bean-Implementierungen aus diesem Modul sind für die Realisierung von Geschäftslogik im Projekt vorgesehen.
+
 ### Modul backend
 
 

@@ -581,7 +581,7 @@
 		<!-- ############ -->
 		<dependency>
 			<groupId>r-uu</groupId>
-			<artifactId>r-uu.app.jeeeraaah.backend.common.mapping</artifactId>
+			<artifactId>r-uu.app.jeeeraaah.backend.common.mapping.jpa.dto</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -601,7 +601,7 @@
 		</dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
-			<artifactId>r-uu.app.jeeeraaah.common.api.mapping</artifactId>
+			<artifactId>r-uu.app.jeeeraaah.common.api.mapping.bean.dto</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

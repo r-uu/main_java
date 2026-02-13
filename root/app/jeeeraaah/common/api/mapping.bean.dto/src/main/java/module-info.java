@@ -1,5 +1,5 @@
 /**
- * Common API Mapping module containing MapStruct mappers for API layer transformations.
+ * Common API Bean-DTO Mapping module containing bidirectional Bean ↔ DTO mappers.
  * <p>
  * This module provides bidirectional mappings between:
  * <ul>
@@ -13,7 +13,7 @@
  *
  * @since 0.0.1
  */
-module de.ruu.app.jeeeraaah.common.api.mapping
+module de.ruu.app.jeeeraaah.common.api.mapping.bean.dto
 {
 	exports de.ruu.app.jeeeraaah.common.api.mapping;
 	exports de.ruu.app.jeeeraaah.common.api.mapping.bean.dto;

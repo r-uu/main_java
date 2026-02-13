@@ -32,7 +32,7 @@
 	</dependency>
 	<dependency>
 		<groupId>r-uu</groupId>
-		<artifactId>r-uu.app.jeeeraaah.backend.common.mapping</artifactId>
+		<artifactId>r-uu.app.jeeeraaah.backend.common.mapping.jpa.dto</artifactId>
 	</dependency>
 		<!--
 		r-uu.app.jeeeraaah.backend.api.open-liberty.shared copies all necessary dependencies to

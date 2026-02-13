@@ -1,5 +1,5 @@
 /**
- * Backend Common Mapping module containing JPA-specific mappers.
+ * Backend JPA-DTO Mapping module containing bidirectional JPA ↔ DTO mappers.
  * <p>
  * This module provides bidirectional mappings between:
  * <ul>
@@ -13,7 +13,7 @@
  *
  * @since 0.0.1
  */
-module de.ruu.app.jeeeraaah.backend.common.mapping
+module de.ruu.app.jeeeraaah.backend.common.mapping.jpa.dto
 {
 	exports de.ruu.app.jeeeraaah.backend.common.mapping;
 	exports de.ruu.app.jeeeraaah.backend.common.mapping.dto.jpa;
