@@ -10,8 +10,12 @@
  *   <li>Inter-task relationship configurations</li>
  * </ul>
  * <p>
- * The module is designed to be transitively required by both frontend and backend layers,
- * ensuring a consistent domain model across all application tiers.
+ * <strong>Transitive Dependency Pattern:</strong>
+ * This module is declared as {@code requires transitive} by several API modules
+ * (e.g., {@code common.api.ws.rs}, {@code frontend.ui.fx}), making its types
+ * automatically available to all modules that depend on those modules. This ensures
+ * consistent access to core domain types across all application layers without
+ * requiring every module to explicitly declare this dependency.
  *
  * @since 0.0.1
  */
