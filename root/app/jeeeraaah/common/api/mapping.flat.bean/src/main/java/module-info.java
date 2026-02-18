@@ -25,9 +25,11 @@
  */
 module de.ruu.app.jeeeraaah.common.api.mapping.flat.bean
 {
-requires transitive de.ruu.app.jeeeraaah.common.api.bean;
-requires transitive de.ruu.app.jeeeraaah.common.api.ws.rs;
-requires transitive org.mapstruct;
-exports de.ruu.app.jeeeraaah.common.api.mapping.flat.bean;
-opens de.ruu.app.jeeeraaah.common.api.mapping.flat.bean to org.mapstruct;
+	// Export will be added when mapper is moved to this module
+	// exports de.ruu.app.jeeeraaah.common.api.mapping.flat.bean;
+	// opens de.ruu.app.jeeeraaah.common.api.mapping.flat.bean to org.mapstruct;
+
+	requires transitive de.ruu.app.jeeeraaah.common.api.bean;
+	requires transitive de.ruu.app.jeeeraaah.common.api.ws.rs;
+	requires transitive org.mapstruct;
 }
