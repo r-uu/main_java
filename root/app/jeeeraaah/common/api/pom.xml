@@ -20,6 +20,7 @@
 		<module>ws.rs</module>
 		<module>bean</module>
 		<module>mapping.bean.dto</module>
+		<module>mapping.flat.bean</module>
 	</modules>
 
 </project>
