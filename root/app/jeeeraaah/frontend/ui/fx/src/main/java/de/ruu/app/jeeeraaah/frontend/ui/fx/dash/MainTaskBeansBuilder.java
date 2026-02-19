@@ -3,7 +3,7 @@ package de.ruu.app.jeeeraaah.frontend.ui.fx.dash;
 import de.ruu.app.jeeeraaah.common.api.bean.TaskBean;
 import de.ruu.app.jeeeraaah.common.api.bean.TaskGroupBean;
 import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupLazy;
-import de.ruu.app.jeeeraaah.common.api.mapping.lazy.bean.Map_TaskGroup_Lazy_Bean;
+import de.ruu.app.jeeeraaah.common.api.mapping.bean_lazy.TaskGroupMapper;
 import de.ruu.lib.mapstruct.ReferenceCycleTracking;
 import jakarta.enterprise.context.ApplicationScoped;
 import lombok.NonNull;
@@ -23,7 +23,7 @@ class MainTaskBeansBuilder
 	 */
 	Set<TaskBean> build(@NonNull TaskGroupLazy groupLazy)
 	{
-		TaskGroupBean groupBean = Map_TaskGroup_Lazy_Bean.INSTANCE.map(groupLazy);
+		TaskGroupBean groupBean = TaskGroupMapper.INSTANCE.toBean(groupLazy);
 		if (groupBean.mainTasks().isPresent()) return groupBean.mainTasks().get();
 		return Collections.emptySet();
 	}

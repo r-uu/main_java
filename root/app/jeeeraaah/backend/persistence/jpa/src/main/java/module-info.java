@@ -35,10 +35,10 @@ module de.ruu.app.jeeeraaah.backend.persistence.jpa
 	requires static lombok;
 
 	// Open for reflection-based frameworks (minimal, targeted access):
-	// - Hibernate: JPA entity scanning and proxy generation
-	opens de.ruu.app.jeeeraaah.backend.persistence.jpa;
+	// - org.hibernate.orm.core: JPA entity scanning and proxy generation
+	// - weld.se.shaded: CDI bean discovery for @ApplicationScoped services
+	opens de.ruu.app.jeeeraaah.backend.persistence.jpa to org.hibernate.orm.core, weld.se.shaded;
 
-	// - Weld: CDI bean discovery and proxy generation for @ApplicationScoped services
-	// Note: Opens to all unnamed modules for Weld SE compatibility
-	opens de.ruu.app.jeeeraaah.backend.persistence.jpa.ee;
+	// - weld.se.shaded: CDI bean discovery and proxy generation for @ApplicationScoped services
+	opens de.ruu.app.jeeeraaah.backend.persistence.jpa.ee to weld.se.shaded;
 }

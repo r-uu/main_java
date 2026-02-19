@@ -13,6 +13,7 @@ module de.ruu.lib.jpa.core
 	requires static lombok;
 	requires java.desktop;
 
-	// Opens for reflection without hard binding to a specific module, e.g. Hibernate
-	opens de.ruu.lib.jpa.core;
+	// Opens for reflection by JPA providers (Hibernate)
+	// - org.hibernate.orm.core: for entity scanning and persistence operations
+	opens de.ruu.lib.jpa.core to org.hibernate.orm.core;
 }

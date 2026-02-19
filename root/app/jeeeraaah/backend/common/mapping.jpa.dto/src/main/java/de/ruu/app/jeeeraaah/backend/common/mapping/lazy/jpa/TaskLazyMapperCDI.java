@@ -14,8 +14,7 @@ import lombok.NonNull;
 @ApplicationScoped
 public class TaskLazyMapperCDI implements TaskLazyMapper
 {
-	@Override
-	public @NonNull TaskJPA map(@NonNull TaskGroupJPA taskGroup, @NonNull TaskLazy taskLazy)
+	public TaskJPA map(TaskGroupJPA taskGroup, TaskLazy taskLazy)
 	{
 		return Map_Task_Lazy_JPA.INSTANCE.map(taskLazy, taskGroup, new de.ruu.lib.mapstruct.ReferenceCycleTracking());
 	}

@@ -19,7 +19,7 @@
 		<module>domain</module>
 		<module>ws.rs</module>
 		<module>bean</module>
-		<module>mapping.bean.dto</module>
+		<module>mapping</module>
 	</modules>
 
 </project>

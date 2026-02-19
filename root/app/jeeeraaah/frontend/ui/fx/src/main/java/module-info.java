@@ -55,6 +55,10 @@ module de.ruu.app.jeeeraaah.frontend.ui.fx
 	exports de.ruu.app.jeeeraaah.frontend.ui.fx.util;  // Session retry executor
 
 	// Open packages for CDI bean discovery and proxy generation (Weld SE) and JavaFX reflection
+	// Opens are open without restrictions because:
+	// - javafx.fxml needs access for FXML controller instantiation and @FXML field injection
+	// - weld.se.shaded needs access for CDI @Inject and @ApplicationScoped proxy generation
+	// - unnamed modules (e.g., during application startup via runners) also need reflection access
 	opens de.ruu.app.jeeeraaah.frontend.ui.fx;
 	opens de.ruu.app.jeeeraaah.frontend.ui.fx.auth;
 	opens de.ruu.app.jeeeraaah.frontend.ui.fx.dash;
@@ -78,5 +82,5 @@ module de.ruu.app.jeeeraaah.frontend.ui.fx
 	opens de.ruu.app.jeeeraaah.frontend.ui.fx.taskgroup.edit;
 	opens de.ruu.app.jeeeraaah.frontend.ui.fx.taskgroup.selector;
 	opens de.ruu.app.jeeeraaah.frontend.ui.fx.test;
-	opens de.ruu.app.jeeeraaah.frontend.ui.fx.util;  // Session retry executor
+	opens de.ruu.app.jeeeraaah.frontend.ui.fx.util;
 }

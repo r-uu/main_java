@@ -1,7 +1,10 @@
 module de.ruu.lib.jpa.se.hibernate.postgres
 {
 	exports de.ruu.lib.jpa.se.hibernate.postgres;
-	opens   de.ruu.lib.jpa.se.hibernate.postgres;
+
+	// Open for Hibernate persistence provider reflection
+	// - org.hibernate.orm.core: entity scanning and persistence operations
+	opens de.ruu.lib.jpa.se.hibernate.postgres to org.hibernate.orm.core;
 
 	requires jakarta.annotation;
 	requires jakarta.cdi;

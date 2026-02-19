@@ -3,7 +3,6 @@ package de.ruu.app.jeeeraaah.common.api.domain;
 import de.ruu.lib.jpa.core.Entity;
 import de.ruu.lib.util.Strings;
 import jakarta.annotation.Nullable;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;

@@ -11,5 +11,7 @@ module de.ruu.lib.jsonb
 
 	requires static lombok;
 
-	opens de.ruu.lib.jsonb.recursion;
+	// Open for JSON-B serialization/deserialization reflection
+	// - org.eclipse.yasson: JSON-B implementation runtime reflection
+	opens de.ruu.lib.jsonb.recursion to org.eclipse.yasson;
 }

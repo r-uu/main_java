@@ -76,16 +76,11 @@ public class TaskDTO implements TaskEntity<TaskGroupDTO, TaskDTO>
 	// no lombok-generation of setter because of additional validation in manually
 	// created method
 	@Setter(AccessLevel.NONE)
-	@NonNull
-	private String name;
-	@Nullable
-	private String description;
-	@Nullable
-	private LocalDate start;
-	@Nullable
-	private LocalDate end;
-	@NonNull
-	private Boolean closed;
+	@NonNull  private String name;
+	@Nullable private String description;
+	@Nullable private LocalDate start;
+	@Nullable private LocalDate end;
+	@NonNull  private Boolean closed;
 
 	/** mutable non-null */
 	@NonNull
@@ -98,8 +93,7 @@ public class TaskDTO implements TaskEntity<TaskGroupDTO, TaskDTO>
 	@Nullable
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
-	@Getter(AccessLevel.NONE) // provide handmade getter that
-														// returns optional
+	@Getter(AccessLevel.NONE) // provide handmade getter that returns optional
 	@Setter(AccessLevel.NONE) // provide handmade setter that handles bidirectional relation properly
 	private TaskDTO superTask;
 

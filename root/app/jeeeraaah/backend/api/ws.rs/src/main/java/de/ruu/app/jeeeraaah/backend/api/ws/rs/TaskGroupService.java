@@ -95,7 +95,8 @@ public class TaskGroupService
 		description = "internal server error",
 		content = @Content(mediaType = APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))
 	)
-	@POST @RolesAllowed("taskgroup-create")
+	@RolesAllowed("taskgroup-create")
+	@POST
 	public Response create(@NonNull TaskGroupDTO dto)
 	{
 		try
@@ -112,9 +113,9 @@ public class TaskGroupService
 	}
 
 	@Operation(summary = "get task group by ID", description = "returns a task group by its ID") @APIResponse(responseCode = "200", description = "task group found", content = @Content(mediaType = APPLICATION_JSON, schema = @Schema(implementation = TaskGroupDTO.class))) @APIResponse(responseCode = "404", description = "task group not found")
-	@GET
 	@Path(TOKEN_BY_ID)
 	@RolesAllowed("taskgroup-read")
+	@GET
 	public Response read(
 			@Parameter(description = "ID of the task group", required = true) @PathParam("id") @NonNull Long id)
 	{
@@ -132,8 +133,8 @@ public class TaskGroupService
 	}
 
 	@Operation(summary = "update a persistent task group or create a new task group", description = "updates a persistent task group with the provided details or creates a new task group") @APIResponse(responseCode = "200", description = "persistent task group updated or non-persistent task group created successfully", content = @Content(mediaType = APPLICATION_JSON, schema = @Schema(implementation = TaskGroupDTO.class))) @APIResponse(responseCode = "400", description = "invalid input provided")
-	@PUT
 	@RolesAllowed("taskgroup-update")
+	@PUT
 	public Response update(@NonNull TaskGroupDTO dto)
 	{
 		try
@@ -155,9 +156,9 @@ public class TaskGroupService
 	}
 
 	@Operation(summary = "delete a task group", description = "deletes a task group by its ID") @APIResponse(responseCode = "200", description = "task group deleted successfully") @APIResponse(responseCode = "404", description = "task group not found")
-	@DELETE
 	@Path(TOKEN_BY_ID)
 	@RolesAllowed("taskgroup-delete")
+	@DELETE
 	public Response delete(
 			@Parameter(description = "ID of the task group to delete", required = true) @PathParam("id") @NonNull Long id)
 	{
@@ -188,9 +189,9 @@ public class TaskGroupService
 	 * @return a {@link Response} containing a set of flattened task group information
 	 */
 	@Operation(summary = "get all task groups (flat)", description = "retrieves a flat list of all task groups with minimal information for efficient loading") @APIResponse(responseCode = "200", description = "list of task groups retrieved successfully", content = @Content(mediaType = APPLICATION_JSON, schema = @Schema(implementation = TaskGroupDTO.class)))
-	@GET
 	@Path(TOKEN_ALL_FLAT)
 	@RolesAllowed("taskgroup-read")
+	@GET
 	public Response findAllFlat()
 	{
 		try
@@ -205,8 +206,9 @@ public class TaskGroupService
 		}
 	}
 
-	@GET @Path(TOKEN_WITH_TASKS + TOKEN_BY_ID)
+	@Path(TOKEN_WITH_TASKS + TOKEN_BY_ID)
 	@RolesAllowed("taskgroup-read")
+	@GET
 	public Response findWithTasks(
 			@Parameter(description = "id of the task group to retrieve", required = true) @PathParam("id") @NonNull Long id)
 	{
@@ -233,8 +235,9 @@ public class TaskGroupService
 		}
 	}
 
-	@GET @Path(TOKEN_WITH_TASKS_AND_DIRECT_NEIGHBOURS + TOKEN_BY_ID)
+	@Path(TOKEN_WITH_TASKS_AND_DIRECT_NEIGHBOURS + TOKEN_BY_ID)
 	@RolesAllowed("taskgroup-read")
+	@GET
 	public Response findWithTasksAndDirectNeighbours(
 			@Parameter(description = "id of the task group to retrieve with tasks and their direct neighbours", required = true) @PathParam("id") @NonNull Long id)
 	{

@@ -11,7 +11,7 @@ import java.util.Set;
 
 import de.ruu.app.jeeeraaah.common.api.bean.TaskBean;
 import de.ruu.app.jeeeraaah.common.api.bean.TaskGroupBean;
-import de.ruu.app.jeeeraaah.common.api.mapping.flat.bean.Map_TaskGroup_Flat_Bean;
+import de.ruu.app.jeeeraaah.common.api.mapping.bean_flat.TaskGroupMapper;
 import de.ruu.app.jeeeraaah.frontend.api.client.ws.rs.TaskGroupServiceClient;
 import de.ruu.app.jeeeraaah.frontend.api.client.ws.rs.TaskServiceClient;
 import de.ruu.app.jeeeraaah.frontend.common.mapping.bean.fxbean.Map_Task_Bean_FXBean;
@@ -126,7 +126,7 @@ class TaskManagementController extends DefaultFXCController<TaskManagement, Task
 			taskGroupServiceClient.findAllFlat()
 					// map to bean and then to fx-bean
 					.forEach(flat -> {
-						TaskGroupBean bean = Map_TaskGroup_Flat_Bean.INSTANCE.map(flat);
+						TaskGroupBean bean = TaskGroupMapper.INSTANCE.toBean(flat);
 						TaskGroupFXBean fxBean = Map_TaskGroup_Bean_FXBean.INSTANCE.map(bean, context);
 						cmbBxGroups.getItems().add(fxBean);
 					});

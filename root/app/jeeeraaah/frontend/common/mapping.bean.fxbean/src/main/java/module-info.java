@@ -14,6 +14,7 @@
  */
 module de.ruu.app.jeeeraaah.frontend.common.mapping.bean.fxbean
 {
+	// Public API exports - used by frontend UI
 	exports de.ruu.app.jeeeraaah.frontend.common.mapping;
 	exports de.ruu.app.jeeeraaah.frontend.common.mapping.bean.flatbean;
 	exports de.ruu.app.jeeeraaah.frontend.common.mapping.bean.fxbean;

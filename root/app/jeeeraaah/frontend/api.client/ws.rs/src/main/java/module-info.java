@@ -2,8 +2,13 @@ module de.ruu.app.jeeeraaah.frontend.api.client.ws.rs
 {
 	exports de.ruu.app.jeeeraaah.frontend.api.client.ws.rs;
 	exports de.ruu.app.jeeeraaah.frontend.api.client.ws.rs.auth;
+	exports de.ruu.app.jeeeraaah.frontend.api.client.ws.rs.dbcommand;
 	exports de.ruu.app.jeeeraaah.frontend.api.client.ws.rs.dto;
 
+	// Open packages for CDI bean discovery and proxy generation
+	// Opens are open without restrictions because:
+	// - weld.se.shaded needs access for @ApplicationScoped service clients and auth components
+	// - unnamed modules (e.g., during application startup via runners) also need reflection access
 	opens de.ruu.app.jeeeraaah.frontend.api.client.ws.rs;
 	opens de.ruu.app.jeeeraaah.frontend.api.client.ws.rs.auth;
 	opens de.ruu.app.jeeeraaah.frontend.api.client.ws.rs.dbcommand;
@@ -21,7 +26,7 @@ module de.ruu.app.jeeeraaah.frontend.api.client.ws.rs
 	// internal project modules
 	requires de.ruu.app.jeeeraaah.common.api.bean;
 	requires de.ruu.app.jeeeraaah.common.api.domain;
-	requires de.ruu.app.jeeeraaah.common.api.mapping.bean.dto;
+	requires de.ruu.app.jeeeraaah.common.api.mapping;
 	requires de.ruu.app.jeeeraaah.common.api.ws.rs;
 
 	// Java standard library modules

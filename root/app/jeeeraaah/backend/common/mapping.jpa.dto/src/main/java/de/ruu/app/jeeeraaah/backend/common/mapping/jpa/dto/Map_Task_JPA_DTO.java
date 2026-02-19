@@ -33,8 +33,8 @@ import lombok.NonNull;
 {
 	Map_Task_JPA_DTO INSTANCE = Mappers.getMapper(Map_Task_JPA_DTO.class);
 
-	@Mapping(target = "name", ignore = true) // set in constructor
-	@Mapping(target = "closed", ignore = true) // mapped in afterMapping
+	@Mapping(target = "name"        , ignore = true) // set in constructor
+	@Mapping(target = "closed"      , ignore = true) // mapped in afterMapping
 	@Mapping(target = "taskGroup"   , ignore = true) // ignore task group, because it is mapped in object factory
 	@Mapping(target = "superTask"   , ignore = true)
 	@Mapping(target = "subTasks"    , ignore = true)

@@ -18,9 +18,7 @@ import java.util.stream.Collectors;
 import de.ruu.app.jeeeraaah.common.api.bean.TaskBean;
 import de.ruu.app.jeeeraaah.common.api.bean.TaskGroupBean;
 import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupFlat;
-import de.ruu.app.jeeeraaah.common.api.mapping.bean.flat.Map_TaskGroup_Bean_Flat;
-import de.ruu.app.jeeeraaah.common.api.mapping.dto.bean.Map_TaskGroup_DTO_Bean;
-import de.ruu.app.jeeeraaah.common.api.mapping.flat.bean.Map_TaskGroup_Flat_Bean;
+import de.ruu.app.jeeeraaah.common.api.mapping.bean_flat.TaskGroupMapper;
 import de.ruu.app.jeeeraaah.frontend.api.client.ws.rs.TaskGroupServiceClient;
 import de.ruu.app.jeeeraaah.frontend.common.mapping.bean.fxbean.Map_TaskGroup_Bean_FXBean;
 import de.ruu.app.jeeeraaah.frontend.common.mapping.fxbean.bean.Map_TaskGroup_FXBean_Bean;
@@ -389,8 +387,9 @@ class DashController extends DefaultFXCController<Dash, DashService> implements 
 					"Update failed after re-login"
 				);
 
-				// update task group selector
-				taskGroupSelector.service().updateItem(Map_TaskGroup_Bean_Flat.INSTANCE.map(beanToUpdate));
+			// update task group selector
+			taskGroupSelector.service().updateItem(
+					TaskGroupMapper.INSTANCE.toFlat(beanToUpdate));
 			}
 			catch (TechnicalException | NonTechnicalException e)
 			{

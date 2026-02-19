@@ -343,7 +343,8 @@ public class TaskGroupServiceClient implements TaskGroupService<TaskGroupBean>
 	public @NonNull Set<TaskGroupFlat> findAllFlat() throws TechnicalException, NonTechnicalException
 	{
 		WebTarget webTarget = client.target(baseURL).path(TOKEN_DOMAIN).path(TOKEN_ALL_FLAT);
-		log.debug("web target: {}", webTarget);
+		log.debug("Retrieving all flat task groups from: {}", webTarget.getUri());
+
 		// Execute GET request with automatic Keycloak token handling
 		try (Response response = executeWithAuth(webTarget, requestBuilder -> requestBuilder.accept(APPLICATION_JSON).get()))
 		{
@@ -351,21 +352,41 @@ public class TaskGroupServiceClient implements TaskGroupService<TaskGroupBean>
 			{
 				// read the response as a string first to log it
 				String json = response.readEntity(String.class);
-				log.debug("raw json response}n{}", json);
+				log.debug("Received task groups JSON response:\n{}", json);
 				Set<TaskGroupDTOFlat> result = createObjectMapper().readValue(json, new TypeReference<Set<TaskGroupDTOFlat>>() {
 				});
+				log.info("Successfully retrieved {} task groups", result.size());
 				return result.stream().map(dto -> (TaskGroupFlat) dto).collect(Collectors.toSet());
 			}
 			else
 			{
 				String errorMsg = response.readEntity(String.class);
-				throw new TechnicalException("failed to retrieve task groups: " + errorMsg);
+				String detailedError = String.format(
+					"Failed to retrieve task groups from backend\n  Status: %d %s\n  URL: %s\n  Error: %s",
+					response.getStatus(),
+					response.getStatusInfo().getReasonPhrase(),
+					webTarget.getUri(),
+					errorMsg
+				);
+				log.error(detailedError);
+				throw new TechnicalException(detailedError);
 			}
+		}
+		catch (TechnicalException e)
+		{
+			// Re-throw TechnicalException from executeWithAuth (already has detailed message)
+			throw e;
 		}
 		catch (Exception e)
 		{
-			log.error("error retrieving task groups", e);
-			throw new TechnicalException("error retrieving task groups", e);
+			String detailedError = String.format(
+				"Unexpected error while retrieving task groups\n  URL: %s\n  Error type: %s\n  Message: %s",
+				webTarget.getUri(),
+				e.getClass().getSimpleName(),
+				e.getMessage()
+			);
+			log.error(detailedError, e);
+			throw new TechnicalException(detailedError, e);
 		}
 	}
 
@@ -550,8 +571,77 @@ public class TaskGroupServiceClient implements TaskGroupService<TaskGroupBean>
 		catch (ProcessingException e)
 		{
 			// Network error: server unreachable, timeout, connection refused, etc.
-			throw new TechnicalException("Communication error", e);
+			String detailedMessage = buildDetailedErrorMessage(webTarget, e);
+			log.error("Communication error: {}", detailedMessage, e);
+			throw new TechnicalException(detailedMessage, e);
 		}
+	}
+
+	/**
+	 * Builds a detailed error message for communication failures.
+	 *
+	 * @param webTarget the target URL that was being accessed
+	 * @param e the exception that occurred
+	 * @return a detailed error message
+	 */
+	private String buildDetailedErrorMessage(WebTarget webTarget, Exception e)
+	{
+		StringBuilder msg = new StringBuilder("Backend communication failed");
+
+		// Add target URL
+		if (webTarget != null)
+		{
+			msg.append("\n  Target URL: ").append(webTarget.getUri());
+		}
+
+		// Analyze exception type for specific guidance
+		String causeMsg = e.getMessage();
+		Throwable cause = e.getCause();
+
+		if (cause instanceof java.net.SocketTimeoutException)
+		{
+			msg.append("\n  Problem: Connection timeout - backend did not respond in time");
+			msg.append("\n  Possible causes:");
+			msg.append("\n    - Backend server is not running");
+			msg.append("\n    - Backend is overloaded or performing slow operations");
+			msg.append("\n    - Network connectivity issues");
+			msg.append("\n  Suggested actions:");
+			msg.append("\n    - Check if Liberty server is running: ps aux | grep liberty");
+			msg.append("\n    - Check Liberty logs for errors");
+			msg.append("\n    - Verify backend is accessible: curl ").append(baseURL).append("/health");
+		}
+		else if (cause instanceof java.net.ConnectException)
+		{
+			msg.append("\n  Problem: Connection refused - cannot reach backend");
+			msg.append("\n  Possible causes:");
+			msg.append("\n    - Backend server is not running");
+			msg.append("\n    - Wrong port configuration");
+			msg.append("\n    - Firewall blocking connection");
+			msg.append("\n  Suggested actions:");
+			msg.append("\n    - Start Liberty server: mvn liberty:dev");
+			msg.append("\n    - Check if port 9080 is listening: ss -tlnp | grep 9080");
+			msg.append("\n    - Verify configuration in microprofile-config.properties");
+		}
+		else if (cause instanceof java.net.UnknownHostException)
+		{
+			msg.append("\n  Problem: Cannot resolve hostname");
+			msg.append("\n  Possible causes:");
+			msg.append("\n    - DNS issue or invalid hostname");
+			msg.append("\n    - Wrong backend URL configuration");
+			msg.append("\n  Suggested actions:");
+			msg.append("\n    - Check backend.url in microprofile-config.properties");
+			msg.append("\n    - Try using localhost or 127.0.0.1 instead of hostname");
+		}
+		else
+		{
+			msg.append("\n  Problem: ").append(causeMsg != null ? causeMsg : e.getClass().getSimpleName());
+			if (cause != null)
+			{
+				msg.append("\n  Cause: ").append(cause.getClass().getSimpleName()).append(": ").append(cause.getMessage());
+			}
+		}
+
+		return msg.toString();
 	}
 
 	/**

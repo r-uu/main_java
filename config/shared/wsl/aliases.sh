@@ -49,6 +49,7 @@ alias ruu-clean='cd $RUU_HOME && mvn clean'
 alias ruu-install='cd $RUU_HOME && mvn clean install'
 alias ruu-install-fast='cd $RUU_HOME && mvn clean install -DskipTests'
 alias ruu-test='cd $RUU_HOME && mvn test'
+alias ruu-test-module='mvn test'  # Run in current directory
 alias ruu-verify='cd $RUU_HOME && mvn verify'
 
 # Einzelne Module
@@ -84,14 +85,10 @@ alias ruu-docker-start-all='bash $RUU_DOCKER/start-all-and-wait.sh'
 alias ruu-docker-startup='bash $RUU_DOCKER/startup-and-setup.sh'
 alias ruu-docker-status='bash $RUU_DOCKER/check-status.sh'
 
-# Docker - Alte Startup-Skripte (deprecated, bitte ruu-docker-startup verwenden)
-alias ruu-startup='bash $RUU_CONFIG/shared/scripts/startup-complete.sh'
-alias ruu-startup-fast='bash $RUU_CONFIG/shared/scripts/startup-docker-services.sh'
-
 # Docker - Test & Verifikation
-alias ruu-test='bash $RUU_CONFIG/shared/scripts/test-docker-autostart.sh'
-alias ruu-test-build='bash $RUU_CONFIG/shared/scripts/test-docker-autostart.sh --with-build'
-alias ruu-test-multidb='bash $RUU_CONFIG/shared/scripts/test-multi-db.sh'
+alias ruu-docker-test='bash $RUU_CONFIG/shared/scripts/test-docker-autostart.sh'
+alias ruu-docker-test-build='bash $RUU_CONFIG/shared/scripts/test-docker-autostart.sh --with-build'
+alias ruu-docker-test-multidb='bash $RUU_CONFIG/shared/scripts/test-multi-db.sh'
 
 # ═══════════════════════════════════════════════════════════════════
 # Docker - PostgreSQL (JEEERAaH)

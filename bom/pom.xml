@@ -635,7 +635,22 @@
 		</dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
+			<artifactId>r-uu.lib.jdbc.postgres</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.jpa.core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>r-uu</groupId>
+			<artifactId>r-uu.lib.jpa.se.hibernate.postgres</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>r-uu</groupId>
+			<artifactId>r-uu.lib.junit</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

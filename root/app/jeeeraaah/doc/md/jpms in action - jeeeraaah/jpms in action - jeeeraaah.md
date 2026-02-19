@@ -1,3 +1,36 @@
+# Architektur-Entscheidungen
+
+## Modulstruktur - EMPFEHLUNG: Aktuelle Struktur beibehalten
+
+Nach gründlicher Analyse: Die aktuelle Struktur ist **korrekt** und sollte beibehalten werden.
+
+### ✅ Warum die common-Ebene RICHTIG ist:
+
+1. **Domain-Driven Design**: `common/api/` definiert einen shared layer mit:
+   - Domain-Interfaces (domain/)
+   - DTOs für REST (ws.rs/)
+   - Beans für Business-Logik (bean/)
+   - Mappings zwischen Schichten (mapping.bean.dto/)
+
+2. **Mappings sitzen an der RICHTIGEN Stelle**:
+   ```
+   common/api/mapping.bean.dto     → Bean ↔ DTO (Business ↔ Transport)
+   backend/common/mapping.jpa.dto  → JPA ↔ DTO (Persistence ↔ Transport)
+   frontend/common/mapping.bean.fxbean → Bean ↔ FXBean (Business ↔ UI)
+   ```
+
+3. **JPMS-konform**: Klare Modulgrenzen und Abhängigkeiten
+
+### 🔧 Was geändert werden sollte:
+
+1. **Flat/Lazy-Typen**: 
+   - Zweck: Performance-Optimierung (Lazy) und vereinfachte Repräsentation (Flat)
+   - Verbleiben in `common/api/domain` als Sub-Packages organisieren
+
+2. **Module-Info optimieren**: CDI/Weld benötigt `opens`-Direktiven
+
+## TODOs (priorisiert)
+
 # JPMS in Aktion - jeeeraaah
 
 JPMS (Java Platform Module System) ist eine Technologie zur Modularisierung von Java Anwendungen. Es wurde 2017 mit der Java Version 9 veröffentlicht. Für das JDK selbst wird JPMS meist als großer Erfolg gewertet, da es seit dem nicht mehr als ein einziger riesiger Monolith (rt.jar) ausgeliefert werden muss, der schon aufgrund seiner Größe nicht mehr zum sich immer weiter verbreitenden Architekturmodell Microservices passte. In der Java User Community hingegen kämpft JPMS aus verschiedenen Gründen ((noch) nicht modularer legacy code, Probleme mit reflection, ...) weiter um Akzeptanz.
@@ -46,11 +79,26 @@ Jeeeraaah ist eine client-server Java Anwendung, deren Bestandteile (bis auf ein
 
 Das backend ist eine Jakarta EE 10 / Microprofile 6.1 Anwendung. Als Application Server wird Open Liberty verwendet. Im frontend kommt JavaFX 25 zum Einsatz.
 
-Beide Anwendungen sind weitestgehend mit JPMS modularisiert. Die Kommunikation zwischen frontend und backend erfolgt über REST APIs, die mit JAX-RS implementiert wurden. Die build Prozesse für beide Anwendungen werden mit Maven realisiert.
+Frontend und Backend sind weitestgehend mit JPMS modularisiert. Die Kommunikation zwischen ihnen erfolgt über REST APIs, die mit Jakarta-RS implementiert wurden. Die (De-) Serialisierung der Daten erfolgt mit Jackson, was einen komfortablen und gleichzeitig effizienten Umgang auch mit zirkulären Datenstrukturen (siehe Task / TaskGroup Objektmodell) erlaubt. Die build Prozesse für beide Anwendungen werden mit Apache Maven realisiert.
 
-Für das Identity and Access Management (IAM) wird Keycloak verwendet, das über OpenID Connect (OIDC) mit dem backend kommuniziert. Das frontend kommuniziert direkt mit Keycloak, um die Authentifizierung und Autorisierung der Benutzer zu gewährleisten.
+Für das Identity and Access Management (IAM) wird Keycloak verwendet. Das frontend kommuniziert direkt mit Keycloak, um die Authentifizierung der Benutzer durchführen zu lassen. Das Open Liberty backend ist so konfiguriert, dass es die von keycloak ausgestellten token akzeptiert und die Autorisierung für alle eingehenden Requests durchführen kann.
 
-Im Backend wird die Persistenz mit JPA (hibernate) und postgres realisiert. Postgres und Keycloak laufen in Docker Containern, die über docker-compose orchestriert werden. Der Postgres Container enthält im POC die Datenbank für sowohl für die Anwendung als auch für das IAM mit Keycloak.
+Die persistente Datenhaltung im backend wird mit einer postgres Datenbank realisiert. Sie wird genau wie keycloak in einem von docker-compose orchestrierten Container betrieben. In diesem POC liegen die jeeeraaah- zusammen mit den keycloak-Daten in ein und derselben Datenbank, sie sind aber jeweils explizit einem eigenen Schema zugeordnet. Die jeeeraaah Zugriffe auf die Datenbank sind durchgängig mit JPA (hibernate) umgesetzt.
+
+## Die Modulstruktur
+
+```
+jeeeraaah/
+├── backend/                    # Server-Komponenten
+│   ├── api/ws.rs/              # REST API Server (Open Liberty)
+│   ├── persistence/            # JPA Entities & Repositories
+│   └── common/                 # gemeinsame Backend-Klassen, Mappings DTO <-> JPA
+├── frontend/                   # Client-Komponenten
+│   ├── api.client/ws.rs/       # REST API Client
+│   ├── ui/fx/                  # JavaFX UI
+│   └── common/                 # gemeinsame Frontend-Klassen, Mappings DTO <-> Bean <-> JavaFXBean
+└── common/api/                 # API Domain Models (geteilt)
+```
 
 ## Architektur
 
@@ -77,6 +125,40 @@ Der Aufbau des Moduls spiegelt die Struktur des gesamten Projekts wider:
 - das Submodul common.api.ws.rs enthält die DTO Klassen, mit deren Hilfe frontend und backend kommunizieren. Die DTO Klassen implementieren die generischen Interfaces aus common.api.dommain.
 - das Submodul common.api.bean enthält (Java-)Bean-Implementierungen der Interfaces aus common.api.domain. Genaugenommen sind die Implementierungen keine Java-Beans, da sie fluent accessors anstelle der Java-Beans üblichen get-/set-accessors verwenden. Die Bean-Implementierungen aus diesem Modul sind für die Realisierung von Geschäftslogik im Projekt vorgesehen.
 
+Ergänzend zu den drei Submodulen enthält das common Modul noch das Submodul common.api.mapping.bean.dto, in dem die Mappings zwischen Java-Beans und DTOs definiert werden. Die Mappings werden aktuell mit MapStruct implementiert.
+
+---
+
+<details><summary>Hinweis 1: möglicher Verzicht auf DTOs</summary>
+Es ist durchaus denkbar, dass die Bean-Implementierungen aus common.api.bean auch für die Realisierung von DTOs verwendet werden könnten. In diesem Fall könnte das common.api.ws.rs Submodul entfallen. Aktuell ist es aber so, dass die DTOs und die Bean-Implementierungen getrennt sind, um eine klare Trennung zwischen den beiden Schichten zu gewährleisten.
+</details>
+
+---
+
+<details><summary>Hinweis 2: möglicher Verzicht auf MapStruct</summary>
+Die MapStruct Mappings implementieren die Umwandlung aktuell quasi "manuell", d. h. die typischen MapStruct Features wie automatisches Mapping von gleichnamigen Feldern oder die Verwendung von Mapping-Methoden für die Umwandlung von komplexeren Objekten werden nicht bzw. nur sehr eingeschränkt genutzt. Das hat sich im Laufe der Zeit in diese Richtung entwickelt.
+
+Im Nachhinein wäre ein Verzicht auf MapStruct und die Implementierung der Mappings von Hand wahrscheinlich die bessere Wahl gewesen, da die Verwendung von MapStruct hier mehr Komplexität z. B. im Build-Prozess mit sich bringt und die typischen Vorteile von MapStruct durch automatisierte Code-Generierung für die Umwandlung nicht zum Tragen kommt. Die aktuelle Implementierung funktioniert allerdings, ist gut getestet und es ist durchaus denkbar, dass durch zukünftige Erweiterung des Objektmodells die typischen Vorteile von Mapstruct zum Tragen kommen. 
+</details>
+
+---
+
 ### Modul backend
 
+Das backend besteht aus zwei Hauptmodulen: api und persistence. Das api Modul enthält die REST API Schnittstellen, die mit Jakarta-RS implementiert wurden. Im persistence Modul befindet sich die mit JPA (hibernate) implementiert Datenzugriffsschicht. Auch hier gibt es ein common Modul, das die Mappings zwischen JPA-Entity-Typen und Jakarta-RS-DTOs definiert.
 
+### Modul frontend
+
+Das frontend ist ebenfalls in zwei Module aufgeteilt: ui und api.client. Das ui Modul enthält die JavaFX Komponenten, die für die Darstellung der Benutzeroberfläche verantwortlich sind. Das api.client Modul enthält die Logik für die Kommunikation mit dem backend über REST APIs. Auch hier gibt es ein common Modul, das die Mappings zwischen JavaFX-Objekten und Jakarta-RS-DTOs definiert.
+
+## Identity and Access Management mit Keycloak
+
+Der jeeeraaah keycloak server läuft in einem Docker Container, der über docker-compose orchestriert wird. Damit das Identity and Access Management (IAM) mit Keycloak funktioniert, müssen folgende Schritte durchgeführt werden:
+
+### Konfiguration von Keycloak
+
+Die keycloak service Konfiguration erfolgt in docker-compose.yml. Dort wird der keycloak server mit den notwendigen Umgebungsvariablen konfiguriert, um die initiale Einrichtung von Realm, Client und User zu ermöglichen.
+
+Das openliberty backend ist so konfiguriert, dass es bei eingehenden requests mit keycloak über OpenID Connect (OIDC) kommuniziert, um die Authentifizierung und Autorisierung der Benutzer zu gewährleisten. Das frontend kommuniziert direkt mit Keycloak, um die Authentifizierung und Autorisierung der Benutzer zu gewährleisten.
+
+The Server Side

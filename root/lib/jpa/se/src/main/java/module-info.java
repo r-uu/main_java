@@ -1,7 +1,9 @@
 module de.ruu.lib.jpa.se
 {
 	exports de.ruu.lib.jpa.se;
-	opens   de.ruu.lib.jpa.se;
+
+	// Open for Hibernate persistence provider reflection
+	opens de.ruu.lib.jpa.se to org.hibernate.orm.core;
 
 	requires jakarta.annotation;
 	requires jakarta.inject;

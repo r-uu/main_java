@@ -10,7 +10,7 @@ import java.util.Optional;
 
 import de.ruu.app.jeeeraaah.common.api.bean.TaskGroupBean;
 import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupLazy;
-import de.ruu.app.jeeeraaah.common.api.mapping.flat.bean.Map_TaskGroup_Flat_Bean;
+import de.ruu.app.jeeeraaah.common.api.mapping.bean_flat.TaskGroupMapper;
 import de.ruu.app.jeeeraaah.frontend.api.client.ws.rs.TaskGroupServiceClient;
 import de.ruu.app.jeeeraaah.frontend.common.mapping.bean.fxbean.Map_TaskGroup_Bean_FXBean;
 import de.ruu.app.jeeeraaah.frontend.common.mapping.fxbean.bean.Map_TaskGroup_FXBean_Bean;
@@ -109,7 +109,7 @@ class TaskGroupManagementController extends DefaultFXCController<TaskGroupManage
 		{
 			client.findAllFlat().forEach(
 					flat -> {
-						TaskGroupBean bean = Map_TaskGroup_Flat_Bean.INSTANCE.map(flat);
+						TaskGroupBean bean = TaskGroupMapper.INSTANCE.toBean(flat);
 						TaskGroupFXBean fxBean = Map_TaskGroup_Bean_FXBean.INSTANCE.map(bean, context);
 						tv.getItems().add(fxBean);
 					});

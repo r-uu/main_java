@@ -77,8 +77,7 @@ public class TaskGroupDTO implements TaskGroupEntity<TaskDTO>
 	private @NonNull String name;
 
 	/** mutable nullable */
-	@Nullable
-	private String description;
+	private @Nullable String description;
 
 	/**
 	 * prevent direct access to this modifiable set from outside this class, use {@link #addTask(TaskDTO)} and

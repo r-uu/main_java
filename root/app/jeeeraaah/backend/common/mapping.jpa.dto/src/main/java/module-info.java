@@ -15,24 +15,30 @@
  */
 module de.ruu.app.jeeeraaah.backend.common.mapping.jpa.dto
 {
+	// Public API exports - used by backend services
 	exports de.ruu.app.jeeeraaah.backend.common.mapping;
 	exports de.ruu.app.jeeeraaah.backend.common.mapping.dto.jpa;
-	exports de.ruu.app.jeeeraaah.backend.common.mapping.jpa.dto to org.mapstruct;
 	exports de.ruu.app.jeeeraaah.backend.common.mapping.lazy.jpa;
 	exports de.ruu.app.jeeeraaah.backend.common.mapping.jpa.lazy;
 
-	// Open for CDI bean discovery (minimal, targeted access):
-	// - Weld: @ApplicationScoped bean proxying for CDI-managed mappers (e.g., TaskLazyMapperCDI)
-	// Note: Weld modules are provided by application server at runtime
-	opens de.ruu.app.jeeeraaah.backend.common.mapping;
-	opens de.ruu.app.jeeeraaah.backend.common.mapping.lazy.jpa;
+	// MapStruct processor needs access to generate mapper implementations
+	exports de.ruu.app.jeeeraaah.backend.common.mapping.jpa.dto to org.mapstruct;
 
-	requires de.ruu.app.jeeeraaah.backend.persistence.jpa;
-	requires de.ruu.app.jeeeraaah.common.api.ws.rs;
-	requires de.ruu.app.jeeeraaah.common.api.domain;
-	requires de.ruu.lib.mapstruct;
+	// Reflective access for frameworks (targeted to specific packages):
+	// - CDI (Weld): Needs reflection for bean discovery and injection
+	// - MapStruct: Needs reflection during annotation processing
+	opens de.ruu.app.jeeeraaah.backend.common.mapping to weld.core.impl, weld.spi;
+	opens de.ruu.app.jeeeraaah.backend.common.mapping.dto.jpa to weld.core.impl, weld.spi;
+	opens de.ruu.app.jeeeraaah.backend.common.mapping.jpa.dto to weld.core.impl, weld.spi;
+	opens de.ruu.app.jeeeraaah.backend.common.mapping.lazy.jpa to weld.core.impl, weld.spi;
+
+	// Use transitive requires for modules whose types are exposed in this module's public API
+	requires transitive de.ruu.app.jeeeraaah.backend.persistence.jpa;
+	requires transitive de.ruu.app.jeeeraaah.common.api.ws.rs;
+	requires transitive de.ruu.app.jeeeraaah.common.api.domain;
+	requires transitive de.ruu.lib.mapstruct;
 	requires de.ruu.lib.jpa.core;
-	requires jakarta.persistence;
+	requires transitive jakarta.persistence;
 	requires jakarta.cdi;
 
 	requires static lombok;

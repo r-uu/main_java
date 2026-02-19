@@ -30,13 +30,13 @@ import lombok.NonNull;
 {
 	Map_Task_DTO_JPA INSTANCE = Mappers.getMapper(Map_Task_DTO_JPA.class);
 
-	@Mapping(target = "name", ignore = true) // set in constructor
-	@Mapping(target = "superTask", ignore = true) // mapped in afterMapping
-	@Mapping(target = "closed", ignore = true) // mapped in afterMapping
-	@Mapping(target = "taskGroup", ignore = true) // ignore task group, because it is mapped in object factory
-	@Mapping(target = "description" , ignore = true) // mapped in afterMapping
-	@Mapping(target = "start"       , ignore = true) // mapped in afterMapping
-	@Mapping(target = "end"         , ignore = true) // mapped in afterMapping
+	@Mapping(target = "name"       , ignore = true) // set in constructor
+	@Mapping(target = "superTask"  , ignore = true) // mapped in afterMapping
+	@Mapping(target = "closed"     , ignore = true) // mapped in afterMapping
+	@Mapping(target = "taskGroup"  , ignore = true) // ignore task group, because it is mapped in object factory
+	@Mapping(target = "description", ignore = true) // mapped in afterMapping
+	@Mapping(target = "start"      , ignore = true) // mapped in afterMapping
+	@Mapping(target = "end"        , ignore = true) // mapped in afterMapping
 	@NonNull TaskJPA map(@NonNull TaskDTO in, @NonNull @Context ReferenceCycleTracking context);
 
 	/** annotating parameter {@code out} with {@link MappingTarget} is essential for this method being called */
