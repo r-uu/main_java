@@ -10,8 +10,8 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
 import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupEntity;
-import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupFlat;
-import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupLazy;
+import de.ruu.app.jeeeraaah.common.api.domain.flat.TaskGroupFlat;
+import de.ruu.app.jeeeraaah.common.api.domain.lazy.TaskGroupLazy;
 import de.ruu.lib.util.Strings;
 import jakarta.annotation.Nullable;
 import lombok.EqualsAndHashCode;

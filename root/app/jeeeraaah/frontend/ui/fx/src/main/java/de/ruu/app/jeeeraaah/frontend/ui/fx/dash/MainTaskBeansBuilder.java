@@ -2,7 +2,7 @@ package de.ruu.app.jeeeraaah.frontend.ui.fx.dash;
 
 import de.ruu.app.jeeeraaah.common.api.bean.TaskBean;
 import de.ruu.app.jeeeraaah.common.api.bean.TaskGroupBean;
-import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupLazy;
+import de.ruu.app.jeeeraaah.common.api.domain.lazy.TaskGroupLazy;
 import de.ruu.app.jeeeraaah.common.api.mapping.bean_lazy.TaskGroupMapper;
 import de.ruu.lib.mapstruct.ReferenceCycleTracking;
 import jakarta.enterprise.context.ApplicationScoped;

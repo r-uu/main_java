@@ -22,6 +22,8 @@
 module de.ruu.app.jeeeraaah.common.api.domain
 {
 	exports de.ruu.app.jeeeraaah.common.api.domain;
+	exports de.ruu.app.jeeeraaah.common.api.domain.flat;
+	exports de.ruu.app.jeeeraaah.common.api.domain.lazy;
 
 	requires transitive de.ruu.lib.jpa.core;
 	requires static transitive lombok;
@@ -36,5 +38,7 @@ module de.ruu.app.jeeeraaah.common.api.domain
 	// Open for reflection-based frameworks (minimal, targeted access):
 	// - Lombok: @AllArgsConstructor, @NoArgsConstructor, @Getter processing
 	// - Jackson: JSON serialization/deserialization via @JsonProperty
-	opens de.ruu.app.jeeeraaah.common.api.domain to lombok, com.fasterxml.jackson.databind;
+	opens de.ruu.app.jeeeraaah.common.api.domain      to lombok, com.fasterxml.jackson.databind;
+	opens de.ruu.app.jeeeraaah.common.api.domain.flat to lombok, com.fasterxml.jackson.databind;
+	opens de.ruu.app.jeeeraaah.common.api.domain.lazy to lombok, com.fasterxml.jackson.databind;
 }

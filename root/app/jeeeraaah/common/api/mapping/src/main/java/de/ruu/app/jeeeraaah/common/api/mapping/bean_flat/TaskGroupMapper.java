@@ -9,8 +9,8 @@ import org.mapstruct.ObjectFactory;
 import org.mapstruct.factory.Mappers;
 
 import de.ruu.app.jeeeraaah.common.api.bean.TaskGroupBean;
-import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupFlat;
-import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupFlat.TaskGroupFlatSimple;
+import de.ruu.app.jeeeraaah.common.api.domain.flat.TaskGroupFlat;
+import de.ruu.app.jeeeraaah.common.api.domain.flat.TaskGroupFlat.TaskGroupFlatSimple;
 import lombok.NonNull;
 
 /**
@@ -63,7 +63,8 @@ public interface TaskGroupMapper
 			@NonNull                TaskGroupFlat          in,
 			@NonNull @MappingTarget TaskGroupBean          out)
 	{
-		// No additional mappings needed
+		// Map Optional description manually
+		out.description(in.description().orElse(null));
 	}
 
 	@ObjectFactory default @NonNull TaskGroupBean createBean(@NonNull TaskGroupFlat in)

@@ -1,7 +1,7 @@
 package de.ruu.app.jeeeraaah.frontend.ui.fx.task.gantt;
 
-import de.ruu.app.jeeeraaah.common.api.domain.TaskFlat;
-import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupFlat.TaskGroupWithTasks;
+import de.ruu.app.jeeeraaah.common.api.domain.flat.TaskFlat;
+import de.ruu.app.jeeeraaah.common.api.domain.flat.TaskGroupFlat.TaskGroupWithTasks;
 import de.ruu.app.jeeeraaah.frontend.api.client.ws.rs.TaskGroupServiceClient;
 import de.ruu.lib.fx.comp.FXCController;
 import jakarta.enterprise.context.Dependent;

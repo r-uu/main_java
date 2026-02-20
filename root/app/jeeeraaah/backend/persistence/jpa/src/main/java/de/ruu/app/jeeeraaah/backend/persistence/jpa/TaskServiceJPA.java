@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import de.ruu.app.jeeeraaah.common.api.domain.RemoveNeighboursFromTaskConfig;
-import de.ruu.app.jeeeraaah.common.api.domain.TaskLazy;
+import de.ruu.app.jeeeraaah.common.api.domain.lazy.TaskLazy;
 import de.ruu.app.jeeeraaah.common.api.domain.TaskRelationException;
 import de.ruu.app.jeeeraaah.common.api.domain.TaskService;
 import de.ruu.app.jeeeraaah.common.api.ws.rs.TaskCreationData;

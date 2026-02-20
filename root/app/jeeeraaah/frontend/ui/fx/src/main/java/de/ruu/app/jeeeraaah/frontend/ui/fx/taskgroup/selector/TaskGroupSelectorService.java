@@ -2,7 +2,7 @@ package de.ruu.app.jeeeraaah.frontend.ui.fx.taskgroup.selector;
 
 import java.util.Set;
 
-import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupFlat;
+import de.ruu.app.jeeeraaah.common.api.domain.flat.TaskGroupFlat;
 import de.ruu.app.jeeeraaah.common.api.ws.rs.TaskGroupDTOFlat;
 import de.ruu.lib.cdi.se.EventDispatcher;
 import de.ruu.lib.fx.comp.FXCService;

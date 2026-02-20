@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupEntity;
-import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupFlat;
+import de.ruu.app.jeeeraaah.common.api.domain.flat.TaskGroupFlat;
 import de.ruu.lib.util.Strings;
 import jakarta.annotation.Nullable;
 import lombok.Getter;

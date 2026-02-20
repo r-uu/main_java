@@ -11,7 +11,7 @@ import java.util.Set;
 
 import de.ruu.app.jeeeraaah.common.api.domain.TaskEntity;
 import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupEntity;
-import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupFlat;
+import de.ruu.app.jeeeraaah.common.api.domain.flat.TaskGroupFlat;
 import de.ruu.lib.jpa.core.AbstractEntity;
 import de.ruu.lib.jpa.core.Entity;
 import de.ruu.lib.util.Strings;

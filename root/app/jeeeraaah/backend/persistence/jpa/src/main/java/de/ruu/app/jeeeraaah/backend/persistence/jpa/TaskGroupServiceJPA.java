@@ -1,7 +1,7 @@
 package de.ruu.app.jeeeraaah.backend.persistence.jpa;
 
-import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupFlat;
-import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupLazy;
+import de.ruu.app.jeeeraaah.common.api.domain.flat.TaskGroupFlat;
+import de.ruu.app.jeeeraaah.common.api.domain.lazy.TaskGroupLazy;
 import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupService;
 import jakarta.annotation.PostConstruct;
 import lombok.NonNull;

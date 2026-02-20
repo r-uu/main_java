@@ -9,7 +9,7 @@ import org.mapstruct.ObjectFactory;
 import org.mapstruct.factory.Mappers;
 
 import de.ruu.app.jeeeraaah.common.api.bean.TaskGroupBean;
-import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupLazy;
+import de.ruu.app.jeeeraaah.common.api.domain.lazy.TaskGroupLazy;
 import de.ruu.app.jeeeraaah.common.api.ws.rs.TaskGroupDTOLazy;
 import lombok.NonNull;
 
@@ -76,7 +76,8 @@ public interface TaskGroupMapper
 			@NonNull                TaskGroupLazy in,
 			@NonNull @MappingTarget TaskGroupBean out)
 	{
-		// No manual mappings in addition to those done by mapstruct
+		// Map Optional description manually
+		out.description(in.description().orElse(null));
 	}
 
 	@ObjectFactory default @NonNull TaskGroupBean createBean(@NonNull TaskGroupLazy in)

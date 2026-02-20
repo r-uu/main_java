@@ -36,7 +36,7 @@ import com.fasterxml.jackson.jakarta.rs.json.JacksonJsonProvider;
 
 import de.ruu.app.jeeeraaah.common.api.bean.TaskGroupBean;
 import de.ruu.app.jeeeraaah.common.api.domain.PathsTaskGroup;
-import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupFlat;
+import de.ruu.app.jeeeraaah.common.api.domain.flat.TaskGroupFlat;
 import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupService;
 import de.ruu.app.jeeeraaah.common.api.ws.rs.TaskGroupDTO;
 import de.ruu.app.jeeeraaah.common.api.ws.rs.TaskGroupDTOFlat;

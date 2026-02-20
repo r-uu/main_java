@@ -2,7 +2,7 @@ package de.ruu.app.jeeeraaah.backend.persistence.jpa.ee;
 
 import de.ruu.app.jeeeraaah.backend.persistence.jpa.TaskGroupRepositoryJPA;
 import de.ruu.app.jeeeraaah.backend.persistence.jpa.TaskGroupServiceJPA;
-import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupFlat;
+import de.ruu.app.jeeeraaah.common.api.domain.flat.TaskGroupFlat;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

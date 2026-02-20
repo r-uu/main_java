@@ -13,8 +13,9 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import de.ruu.app.jeeeraaah.common.api.domain.TaskEntity;
-import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupLazy;
-import de.ruu.app.jeeeraaah.common.api.domain.TaskLazy;
+import de.ruu.app.jeeeraaah.common.api.domain.flat.TaskFlat;
+import de.ruu.app.jeeeraaah.common.api.domain.lazy.TaskGroupLazy;
+import de.ruu.app.jeeeraaah.common.api.domain.lazy.TaskLazy;
 import jakarta.annotation.Nullable;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -125,6 +126,16 @@ public class TaskDTOLazy implements TaskLazy
 	public @NonNull Set<Long> subTaskIds    () { return Collections.unmodifiableSet(subTaskIds    ); }
 	public @NonNull Set<Long> predecessorIds() { return Collections.unmodifiableSet(predecessorIds); }
 	public @NonNull Set<Long> successorIds  () { return Collections.unmodifiableSet(successorIds  ); }
+
+	// Override from TaskFlat - return Optional<Long> instead of @Nullable Long
+	@Override public Optional<Long> superTaskId() { return Optional.ofNullable(superTaskId); }
+
+	// Setter for superTaskId (fluent style) - returns TaskFlat as required by interface
+	@Override public @NonNull TaskFlat superTaskId(@Nullable Long superTaskId)
+	{
+		this.superTaskId = superTaskId;
+		return this;
+	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 	// java bean style accessors for those who do not work with fluent style accessors (mapstruct)

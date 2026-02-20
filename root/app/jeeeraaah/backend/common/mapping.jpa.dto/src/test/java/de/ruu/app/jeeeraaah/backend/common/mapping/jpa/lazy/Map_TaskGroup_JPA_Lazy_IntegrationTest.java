@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import de.ruu.app.jeeeraaah.backend.common.mapping.jpa.dto.AbstractJPATest;
 import de.ruu.app.jeeeraaah.backend.persistence.jpa.TaskGroupJPA;
-import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupLazy;
+import de.ruu.app.jeeeraaah.common.api.domain.lazy.TaskGroupLazy;
 import de.ruu.app.jeeeraaah.common.api.ws.rs.TaskGroupDTOLazy;
 import de.ruu.lib.junit.DisabledOnServerNotListening;
 import de.ruu.lib.mapstruct.ReferenceCycleTracking;

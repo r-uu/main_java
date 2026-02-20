@@ -1,8 +1,8 @@
 package de.ruu.app.jeeeraaah.frontend.ui.fx.task.gantt;
 
 import de.ruu.app.jeeeraaah.common.api.bean.TaskGroupBean;
-import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupFlat;
-import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupFlat.TaskGroupWithTasks;
+import de.ruu.app.jeeeraaah.common.api.domain.flat.TaskGroupFlat;
+import de.ruu.app.jeeeraaah.common.api.domain.flat.TaskGroupFlat.TaskGroupWithTasks;
 import de.ruu.app.jeeeraaah.frontend.api.client.ws.rs.TaskGroupServiceClient;
 import de.ruu.app.jeeeraaah.frontend.ui.fx.taskgroup.selector.TaskGroupSelector;
 import de.ruu.app.jeeeraaah.frontend.ui.fx.taskgroup.selector.TaskGroupSelectorService.TaskGroupSelectorComponentReadyEvent;

@@ -1,6 +1,6 @@
 package de.ruu.app.jeeeraaah.backend.persistence.jpa;
 
-import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupFlat;
+import de.ruu.app.jeeeraaah.common.api.domain.flat.TaskGroupFlat;
 import de.ruu.app.jeeeraaah.common.api.ws.rs.TaskGroupDTOFlat;
 import de.ruu.lib.jpa.core.AbstractRepository;
 import de.ruu.lib.jpa.core.GraphType;

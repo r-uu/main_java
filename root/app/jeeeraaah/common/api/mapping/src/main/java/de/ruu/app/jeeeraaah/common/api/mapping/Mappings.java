@@ -2,9 +2,9 @@ package de.ruu.app.jeeeraaah.common.api.mapping;
 
 import de.ruu.app.jeeeraaah.common.api.bean.TaskBean;
 import de.ruu.app.jeeeraaah.common.api.bean.TaskGroupBean;
-import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupFlat;
-import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupLazy;
-import de.ruu.app.jeeeraaah.common.api.domain.TaskLazy;
+import de.ruu.app.jeeeraaah.common.api.domain.flat.TaskGroupFlat;
+import de.ruu.app.jeeeraaah.common.api.domain.lazy.TaskGroupLazy;
+import de.ruu.app.jeeeraaah.common.api.domain.lazy.TaskLazy;
 import de.ruu.app.jeeeraaah.common.api.ws.rs.TaskDTO;
 import de.ruu.app.jeeeraaah.common.api.ws.rs.TaskDTOLazy;
 import de.ruu.app.jeeeraaah.common.api.ws.rs.TaskGroupDTO;

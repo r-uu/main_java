@@ -11,7 +11,7 @@ import org.mapstruct.factory.Mappers;
 
 import de.ruu.app.jeeeraaah.backend.persistence.jpa.TaskGroupJPA;
 import de.ruu.app.jeeeraaah.backend.persistence.jpa.TaskJPA;
-import de.ruu.app.jeeeraaah.common.api.domain.TaskLazy;
+import de.ruu.app.jeeeraaah.common.api.domain.lazy.TaskLazy;
 import de.ruu.lib.mapstruct.ReferenceCycleTracking;
 import lombok.NonNull;
 

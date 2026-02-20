@@ -9,7 +9,7 @@ import java.util.Set;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 
-import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupFlat;
+import de.ruu.app.jeeeraaah.common.api.domain.flat.TaskGroupFlat;
 import de.ruu.lib.fx.comp.FXCController.DefaultFXCController;
 import de.ruu.lib.fx.control.autocomplete.textfield.TextFieldAutoCompleteClearableWithArrowButton;
 import de.ruu.lib.fx.control.autocomplete.textfield.TextFieldAutoCompleteClearableWithArrowButtonBuilder;

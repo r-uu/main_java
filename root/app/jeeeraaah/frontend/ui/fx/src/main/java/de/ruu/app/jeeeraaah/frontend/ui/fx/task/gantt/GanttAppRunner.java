@@ -13,6 +13,13 @@ public class GanttAppRunner extends FXCAppRunner
 	public static void main(String[] args)
 	{
 		log.info("Starting GanttAppRunner...");
+
+		// Set config file path if not already set (portable solution)
+		if (System.getProperty("config.file.name") == null)
+		{
+			System.setProperty("config.file.name", "../../../testing.properties");
+		}
+
 		// Configure JPMS module access for Weld CDI
 		FXCAppRunner.configureModuleAccessForCDI();
 		// Register application-specific events for CDI

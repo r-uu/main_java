@@ -16,7 +16,7 @@ import org.mapstruct.factory.Mappers;
 import de.ruu.app.jeeeraaah.backend.common.mapping.jpa.dto.Map_Task_JPA_DTO;
 import de.ruu.app.jeeeraaah.backend.persistence.jpa.TaskGroupJPA;
 import de.ruu.app.jeeeraaah.backend.persistence.jpa.TaskJPA;
-import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupLazy;
+import de.ruu.app.jeeeraaah.common.api.domain.lazy.TaskGroupLazy;
 import de.ruu.app.jeeeraaah.common.api.ws.rs.TaskDTO;
 import de.ruu.app.jeeeraaah.common.api.ws.rs.TaskGroupDTO;
 import de.ruu.app.jeeeraaah.common.api.ws.rs.TaskGroupDTOLazy;

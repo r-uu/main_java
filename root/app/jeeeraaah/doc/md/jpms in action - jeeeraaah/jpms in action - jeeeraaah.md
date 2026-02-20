@@ -1,36 +1,3 @@
-# Architektur-Entscheidungen
-
-## Modulstruktur - EMPFEHLUNG: Aktuelle Struktur beibehalten
-
-Nach gründlicher Analyse: Die aktuelle Struktur ist **korrekt** und sollte beibehalten werden.
-
-### ✅ Warum die common-Ebene RICHTIG ist:
-
-1. **Domain-Driven Design**: `common/api/` definiert einen shared layer mit:
-   - Domain-Interfaces (domain/)
-   - DTOs für REST (ws.rs/)
-   - Beans für Business-Logik (bean/)
-   - Mappings zwischen Schichten (mapping.bean.dto/)
-
-2. **Mappings sitzen an der RICHTIGEN Stelle**:
-   ```
-   common/api/mapping.bean.dto     → Bean ↔ DTO (Business ↔ Transport)
-   backend/common/mapping.jpa.dto  → JPA ↔ DTO (Persistence ↔ Transport)
-   frontend/common/mapping.bean.fxbean → Bean ↔ FXBean (Business ↔ UI)
-   ```
-
-3. **JPMS-konform**: Klare Modulgrenzen und Abhängigkeiten
-
-### 🔧 Was geändert werden sollte:
-
-1. **Flat/Lazy-Typen**: 
-   - Zweck: Performance-Optimierung (Lazy) und vereinfachte Repräsentation (Flat)
-   - Verbleiben in `common/api/domain` als Sub-Packages organisieren
-
-2. **Module-Info optimieren**: CDI/Weld benötigt `opens`-Direktiven
-
-## TODOs (priorisiert)
-
 # JPMS in Aktion - jeeeraaah
 
 JPMS (Java Platform Module System) ist eine Technologie zur Modularisierung von Java Anwendungen. Es wurde 2017 mit der Java Version 9 veröffentlicht. Für das JDK selbst wird JPMS meist als großer Erfolg gewertet, da es seit dem nicht mehr als ein einziger riesiger Monolith (rt.jar) ausgeliefert werden muss, der schon aufgrund seiner Größe nicht mehr zum sich immer weiter verbreitenden Architekturmodell Microservices passte. In der Java User Community hingegen kämpft JPMS aus verschiedenen Gründen ((noch) nicht modularer legacy code, Probleme mit reflection, ...) weiter um Akzeptanz.
@@ -97,6 +64,7 @@ jeeeraaah/
 │   ├── api.client/ws.rs/       # REST API Client
 │   ├── ui/fx/                  # JavaFX UI
 │   └── common/                 # gemeinsame Frontend-Klassen, Mappings DTO <-> Bean <-> JavaFXBean
+├── common/api/                 # API Domain Models (geteilt)
 └── common/api/                 # API Domain Models (geteilt)
 ```
 
@@ -112,20 +80,26 @@ Das Bindeglied zwischen frontend und backend ist das common Modul, das Objekte u
 
 Das common.api.domain Modul enthält zentrale Schnittstellen und Basisklassen des Domänenmodells. Dieses Modul bildet das Fundament für das Jeeeraaah Task-Management-System und definiert:
 
-- Zentrale Domain-Entitäten und deren Verträge,
-- Lazy-Loading-Varianten zur Performanceoptimierung
-- Flache Repräsentationen für vereinfachten Datentransfer
+- Zentrale Domain-Entitäten und deren Verträge
+- **Lazy-Loading-Varianten** zur Performanceoptimierung (`domain.lazy` Package)
+- **Flache Repräsentationen** für vereinfachten Datentransfer (`domain.flat` Package)
 - Konfigurationen für Beziehungen zwischen Tasks
 
 Das Modul ist so konzipiert, dass es transitiv sowohl vom Frontend als auch vom Backend benötigt wird, um ein konsistentes Domänenmodell über alle Anwendungsschichten hinweg zu gewährleisten.
 
 Der Aufbau des Moduls spiegelt die Struktur des gesamten Projekts wider:
 
-- das Submodul common.api.domain enthält vor allem die zentralen Interfaces des Domänenmodells, die von beiden Seiten (frontend und backend) verwendet werden. Um die Verwendung der Interfaces auf beiden Seiten möglichst konsistent halten zu können, sind sie generisch, was eine sehr starke Typisierung in den implementierenden Klassen ermöglicht.
-- das Submodul common.api.ws.rs enthält die DTO Klassen, mit deren Hilfe frontend und backend kommunizieren. Die DTO Klassen implementieren die generischen Interfaces aus common.api.dommain.
-- das Submodul common.api.bean enthält (Java-)Bean-Implementierungen der Interfaces aus common.api.domain. Genaugenommen sind die Implementierungen keine Java-Beans, da sie fluent accessors anstelle der Java-Beans üblichen get-/set-accessors verwenden. Die Bean-Implementierungen aus diesem Modul sind für die Realisierung von Geschäftslogik im Projekt vorgesehen.
+- das Submodul **common.api.domain** enthält vor allem die zentralen Interfaces des Domänenmodells, die von beiden Seiten (frontend und backend) verwendet werden. Um die Verwendung der Interfaces auf beiden Seiten möglichst konsistent halten zu können, sind sie generisch, was eine sehr starke Typisierung in den implementierenden Klassen ermöglicht.
 
-Ergänzend zu den drei Submodulen enthält das common Modul noch das Submodul common.api.mapping.bean.dto, in dem die Mappings zwischen Java-Beans und DTOs definiert werden. Die Mappings werden aktuell mit MapStruct implementiert.
+- das Submodul **common.api.domain.flat** enthält flache (flat) Repräsentationen von Domain-Objekten, die nur Kern-Felder ohne teure Beziehungen enthalten. Diese sind für Performance-optimierte Szenarien gedacht, z.B. beim Aufbau von Hierarchien im Gantt-Diagramm.
+
+- das Submodul **common.api.domain.lazy** enthält Lazy-Loading-Varianten, die IDs anstelle von vollständigen Objekten verwenden. Dies ermöglicht verzögertes Laden von Beziehungen und reduziert die Netzwerk- und Speicherlast.
+
+- das Submodul **common.api.ws.rs** enthält die DTO Klassen, mit deren Hilfe frontend und backend kommunizieren. Die DTO Klassen implementieren die generischen Interfaces aus common.api.domain.
+
+- das Submodul **common.api.bean** enthält (Java-)Bean-Implementierungen der Interfaces aus common.api.domain. Genaugenommen sind die Implementierungen keine Java-Beans, da sie fluent accessors anstelle der Java-Beans üblichen get-/set-accessors verwenden. Die Bean-Implementierungen aus diesem Modul sind für die Realisierung von Geschäftslogik im Projekt vorgesehen.
+
+Ergänzend zu den Submodulen enthält das common Modul noch das Submodul **common.api.mapping**, in dem die Mappings zwischen Java-Beans und DTOs definiert werden. Die Mappings werden aktuell mit MapStruct implementiert.
 
 ---
 

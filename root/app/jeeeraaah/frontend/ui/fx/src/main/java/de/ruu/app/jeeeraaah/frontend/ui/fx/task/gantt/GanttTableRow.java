@@ -1,6 +1,6 @@
 package de.ruu.app.jeeeraaah.frontend.ui.fx.task.gantt;
 
-import de.ruu.app.jeeeraaah.common.api.domain.TaskFlat;
+import de.ruu.app.jeeeraaah.common.api.domain.flat.TaskFlat;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import lombok.Getter;

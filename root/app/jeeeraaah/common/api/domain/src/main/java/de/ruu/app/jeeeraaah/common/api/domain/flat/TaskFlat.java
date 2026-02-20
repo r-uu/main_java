@@ -1,5 +1,6 @@
-package de.ruu.app.jeeeraaah.common.api.domain;
+package de.ruu.app.jeeeraaah.common.api.domain.flat;
 
+import de.ruu.app.jeeeraaah.common.api.domain.TaskEntity;
 import de.ruu.lib.jpa.core.Entity;
 import jakarta.annotation.Nullable;
 import lombok.*;
@@ -97,4 +98,5 @@ public interface TaskFlat extends Entity<Long>
 		}
 	}
 }
+
 

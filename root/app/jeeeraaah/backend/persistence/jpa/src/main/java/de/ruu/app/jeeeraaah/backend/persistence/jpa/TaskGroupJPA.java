@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupEntity;
-import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupLazy;
+import de.ruu.app.jeeeraaah.common.api.domain.lazy.TaskGroupLazy;
 import de.ruu.lib.jpa.core.AbstractEntity;
 import de.ruu.lib.util.Strings;
 import jakarta.annotation.Nullable;

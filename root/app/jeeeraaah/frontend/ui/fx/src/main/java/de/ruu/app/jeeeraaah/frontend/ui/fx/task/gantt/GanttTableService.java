@@ -1,6 +1,6 @@
 package de.ruu.app.jeeeraaah.frontend.ui.fx.task.gantt;
 
-import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupFlat.TaskGroupWithTasks;
+import de.ruu.app.jeeeraaah.common.api.domain.flat.TaskGroupFlat.TaskGroupWithTasks;
 import de.ruu.lib.fx.comp.FXCService;
 import lombok.NonNull;
 

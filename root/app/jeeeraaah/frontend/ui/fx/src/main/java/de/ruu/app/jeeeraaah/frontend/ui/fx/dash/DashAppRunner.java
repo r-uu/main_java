@@ -18,6 +18,13 @@ public class DashAppRunner extends FXCAppRunner
 	public static void main(String[] args) throws ClassNotFoundException
 	{
 		log.debug("starting {}", DashAppRunner.class.getName());
+
+		// Set config file path if not already set (portable solution)
+		if (System.getProperty("config.file.name") == null)
+		{
+			System.setProperty("config.file.name", "../../../testing.properties");
+		}
+
 		FXCAppStartedEvent        .addReadsUnnamedModule();
 		PostgresBackupUIReadyEvent.addReadsUnnamedModule();
 		DashAppRunner             .addReadsUnnamedModule();

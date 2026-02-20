@@ -3,7 +3,7 @@ package de.ruu.app.jeeeraaah.frontend.api.client.ws.rs.dbcommand;
 import de.ruu.app.jeeeraaah.common.api.bean.TaskBean;
 import de.ruu.app.jeeeraaah.common.api.bean.TaskGroupBean;
 import de.ruu.app.jeeeraaah.common.api.domain.RemoveNeighboursFromTaskConfig;
-import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupFlat;
+import de.ruu.app.jeeeraaah.common.api.domain.flat.TaskGroupFlat;
 import de.ruu.app.jeeeraaah.frontend.api.client.ws.rs.TaskGroupServiceClient;
 import de.ruu.app.jeeeraaah.frontend.api.client.ws.rs.TaskServiceClient;
 import de.ruu.app.jeeeraaah.frontend.api.client.ws.rs.auth.KeycloakAuthService;

@@ -1,4 +1,8 @@
-package de.ruu.app.jeeeraaah.common.api.domain;
+package de.ruu.app.jeeeraaah.common.api.domain.flat;
+
+import de.ruu.app.jeeeraaah.common.api.domain.TaskEntity;
+import de.ruu.app.jeeeraaah.common.api.domain.TaskGroup;
+import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupEntity;
 
 import de.ruu.lib.jpa.core.Entity;
 import de.ruu.lib.util.Strings;

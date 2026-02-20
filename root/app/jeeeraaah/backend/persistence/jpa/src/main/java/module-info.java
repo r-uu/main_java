@@ -27,7 +27,7 @@ module de.ruu.app.jeeeraaah.backend.persistence.jpa
 	requires de.ruu.lib.jpa.core;
 	requires de.ruu.lib.mapstruct;
 	requires de.ruu.lib.util;
-	requires de.ruu.app.jeeeraaah.common.api.mapping.bean.dto;
+	requires de.ruu.app.jeeeraaah.common.api.mapping;
 	requires de.ruu.app.jeeeraaah.common.api.domain;
 	requires de.ruu.app.jeeeraaah.common.api.ws.rs;
 	requires org.slf4j;

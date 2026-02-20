@@ -12,7 +12,7 @@ import org.mapstruct.factory.Mappers;
 
 import de.ruu.app.jeeeraaah.common.api.bean.TaskBean;
 import de.ruu.app.jeeeraaah.common.api.bean.TaskGroupBean;
-import de.ruu.app.jeeeraaah.common.api.domain.TaskLazy;
+import de.ruu.app.jeeeraaah.common.api.domain.lazy.TaskLazy;
 import de.ruu.app.jeeeraaah.common.api.ws.rs.TaskDTOLazy;
 import de.ruu.lib.mapstruct.ReferenceCycleTracking;
 import lombok.NonNull;
@@ -100,7 +100,10 @@ public interface TaskMapper
 			@NonNull                TaskLazy in,
 			@NonNull @MappingTarget TaskBean out)
 	{
-		// No manual mappings in addition to those done by mapstruct
+		// Map Optional fields manually
+		out.description(in.description().orElse(null));
+		out.start(in.start().orElse(null));
+		out.end(in.end().orElse(null));
 	}
 
 	@ObjectFactory default @NonNull TaskBean createBean(@NonNull TaskGroupBean group, @NonNull TaskLazy in)

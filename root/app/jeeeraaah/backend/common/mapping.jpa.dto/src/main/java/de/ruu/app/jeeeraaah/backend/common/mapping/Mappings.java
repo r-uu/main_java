@@ -10,8 +10,8 @@ import de.ruu.app.jeeeraaah.backend.common.mapping.lazy.jpa.Map_TaskGroup_Lazy_J
 import de.ruu.app.jeeeraaah.backend.common.mapping.lazy.jpa.Map_Task_Lazy_JPA;
 import de.ruu.app.jeeeraaah.backend.persistence.jpa.TaskGroupJPA;
 import de.ruu.app.jeeeraaah.backend.persistence.jpa.TaskJPA;
-import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupLazy;
-import de.ruu.app.jeeeraaah.common.api.domain.TaskLazy;
+import de.ruu.app.jeeeraaah.common.api.domain.lazy.TaskGroupLazy;
+import de.ruu.app.jeeeraaah.common.api.domain.lazy.TaskLazy;
 import de.ruu.app.jeeeraaah.common.api.ws.rs.TaskDTO;
 import de.ruu.app.jeeeraaah.common.api.ws.rs.TaskGroupDTO;
 import de.ruu.lib.mapstruct.ReferenceCycleTracking;

@@ -8,7 +8,7 @@ import java.util.Set;
 
 import de.ruu.app.jeeeraaah.common.api.domain.TaskEntity;
 import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupEntity;
-import de.ruu.app.jeeeraaah.common.api.domain.TaskGroupFlat;
+import de.ruu.app.jeeeraaah.common.api.domain.flat.TaskGroupFlat;
 import de.ruu.lib.util.BooleanFunctions;
 import jakarta.annotation.Nullable;
 import javafx.beans.property.SimpleStringProperty;
