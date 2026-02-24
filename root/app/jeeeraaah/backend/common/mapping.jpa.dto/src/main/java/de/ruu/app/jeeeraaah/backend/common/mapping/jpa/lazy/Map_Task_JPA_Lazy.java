@@ -9,12 +9,10 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.ObjectFactory;
 import org.mapstruct.factory.Mappers;
 
-import de.ruu.app.jeeeraaah.backend.common.mapping.Mappings;
 import de.ruu.app.jeeeraaah.backend.persistence.jpa.TaskGroupJPA;
 import de.ruu.app.jeeeraaah.backend.persistence.jpa.TaskJPA;
 import de.ruu.app.jeeeraaah.common.api.domain.lazy.TaskLazy;
 import de.ruu.app.jeeeraaah.common.api.ws.rs.TaskDTOLazy;
-import de.ruu.app.jeeeraaah.common.api.ws.rs.TaskGroupDTO;
 import de.ruu.lib.mapstruct.ReferenceCycleTracking;
 import lombok.NonNull;
 
@@ -56,6 +54,6 @@ import lombok.NonNull;
 	/** mapstruct object factory */
 	@ObjectFactory default @NonNull TaskLazy create(@NonNull TaskJPA in)
 	{
-		return new TaskDTOLazy(Mappings.toLazy(in.taskGroup(), new ReferenceCycleTracking()), in);
+		return new TaskDTOLazy(Map_TaskGroup_JPA_Lazy.INSTANCE.map(in.taskGroup(), new ReferenceCycleTracking()), in);
 	}
 }

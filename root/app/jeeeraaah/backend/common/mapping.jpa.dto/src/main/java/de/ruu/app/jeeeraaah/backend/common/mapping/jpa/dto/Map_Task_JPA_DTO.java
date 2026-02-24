@@ -13,7 +13,6 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.ObjectFactory;
 import org.mapstruct.factory.Mappers;
 
-import de.ruu.app.jeeeraaah.backend.common.mapping.Mappings;
 import de.ruu.app.jeeeraaah.backend.persistence.jpa.TaskJPA;
 import de.ruu.app.jeeeraaah.backend.persistence.jpa.TaskJPA_;
 import de.ruu.app.jeeeraaah.common.api.ws.rs.TaskDTO;
@@ -75,7 +74,7 @@ import lombok.NonNull;
 				TaskDTO relatedTaskMapped = context.get(relatedTask, TaskDTO.class);
 				if (isNull(relatedTaskMapped))
 						// start new mapping for related task
-						out.superTask(Mappings.toDTO(relatedTask, context));
+						out.superTask(INSTANCE.map(relatedTask, context));
 				else
 						// use already mapped related task
 						out.superTask(relatedTaskMapped);
@@ -92,7 +91,7 @@ import lombok.NonNull;
 					TaskDTO relatedTaskMapped = context.get(relatedTask, TaskDTO.class);
 					if (isNull(relatedTaskMapped))
 							// start new mapping for related task
-							out.addSubTask(Mappings.toDTO(relatedTask, context));
+							out.addSubTask(INSTANCE.map(relatedTask, context));
 					else
 							// use already mapped related task
 							out.addSubTask(relatedTaskMapped);
@@ -110,7 +109,7 @@ import lombok.NonNull;
 					TaskDTO relatedTaskMapped = context.get(relatedTask, TaskDTO.class);
 					if (isNull(relatedTaskMapped))
 							// start new mapping for related task
-							out.addPredecessor(Mappings.toDTO(relatedTask, context));
+							out.addPredecessor(INSTANCE.map(relatedTask, context));
 					else
 							// use already mapped related task
 							out.addPredecessor(relatedTaskMapped);
@@ -128,7 +127,7 @@ import lombok.NonNull;
 					TaskDTO relatedTaskMapped = context.get(relatedTask, TaskDTO.class);
 					if (isNull(relatedTaskMapped))
 							// start new mapping for related task
-							out.addSuccessor(Mappings.toDTO(relatedTask, context));
+							out.addSuccessor(INSTANCE.map(relatedTask, context));
 					else
 							// use already mapped related task
 							out.addSuccessor(relatedTaskMapped);

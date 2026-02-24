@@ -13,7 +13,6 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.ObjectFactory;
 import org.mapstruct.factory.Mappers;
 
-import de.ruu.app.jeeeraaah.backend.common.mapping.Mappings;
 import de.ruu.app.jeeeraaah.backend.persistence.jpa.TaskGroupJPA;
 import de.ruu.app.jeeeraaah.backend.persistence.jpa.TaskJPA;
 import de.ruu.app.jeeeraaah.common.api.ws.rs.TaskDTO;
@@ -58,7 +57,7 @@ import lombok.NonNull;
 				TaskJPA relatedTaskMapped = context.get(relatedTask, TaskJPA.class);
 				if (isNull(relatedTaskMapped))
 						// start new mapping for related task, task will be added to this task group during mapping
-						Mappings.toJPA(relatedTask, context);
+						Map_Task_DTO_JPA.INSTANCE.map(relatedTask, context);
 			}
 		}
 		// Map mutable fields

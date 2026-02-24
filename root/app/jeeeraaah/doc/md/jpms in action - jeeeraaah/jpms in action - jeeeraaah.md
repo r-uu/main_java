@@ -1,10 +1,16 @@
 # JPMS in Aktion - jeeeraaah
 
-JPMS (Java Platform Module System) ist eine Technologie zur Modularisierung von Java Anwendungen. Es wurde 2017 mit der Java Version 9 veröffentlicht. Für das JDK selbst wird JPMS meist als großer Erfolg gewertet, da es seit dem nicht mehr als ein einziger riesiger Monolith (rt.jar) ausgeliefert werden muss, der schon aufgrund seiner Größe nicht mehr zum sich immer weiter verbreitenden Architekturmodell Microservices passte. In der Java User Community hingegen kämpft JPMS aus verschiedenen Gründen ((noch) nicht modularer legacy code, Probleme mit reflection, ...) weiter um Akzeptanz.
+JPMS (Java Platform Module System) ist eine Technologie zur Modularisierung von Java Anwendungen. Es wurde 2017 mit der Java Version 9 veröffentlicht.
+
+Für das JDK selbst wird JPMS meist als großer Erfolg gewertet, da es seit dem nicht mehr als ein einziger riesiger Monolith (rt.jar) ausgeliefert werden muss, der schon aufgrund seiner Größe nicht mehr zum sich immer weiter verbreitenden Architekturmodell Microservices passte.
+
+In der Java User Community hingegen kämpft JPMS aus verschiedenen Gründen wie (noch) nicht modularer legacy code, Probleme mit reflection, ... weiter um Akzeptanz.
 
 Modularisierung ist aber ein entscheidender Faktor für die Entwicklung von gut wartbaren, gut verständlichen und gut erweiterbaren, großen Softwaresystemen (siehe Artikel [modular software in java](../modular-software-in-java/modular-software-in-java.md)).
 
-Das Projekt jeeeraaah wurde als "proof of concept" (POC) für die Verwendung von JPMS in Enterprise Java Systemen gestartet. Ziel ist, anhand einer überschaubaren, aber nicht trivialen Anwendung zu überprüfen, ob und wie Modularisierung großer Java Applikationen mit JPMS eine valide Alternative zu anderen Architekturansätzen wie z. B. Microservices ist.
+Das Projekt jeeeraaah wurde als "proof of concept" (POC) für die Möglichkeit der Verwendung von JPMS in Enterprise Java Systemen gestartet. Ziel ist, anhand einer überschaubaren, aber nicht trivialen Anwendung zu überprüfen, ob und wie Modularisierung großer Java Applikationen mit JPMS eine valide Alternative zu anderen Architekturansätzen wie z. B. Microservices ist.
+
+Gleichzeitig soll kritisch geprüft werden, ob die Vorteile von Modularisierung mit JPMS die Nachteile überwiegen, z. B. die Komplexität der Modularisierung selbst, die Komplexität der Build- und Deployment-Prozesse, ... .
 
 Fachlich geht es im Projekt jeeeraaah im Kern um die Verwaltung von Aufgaben (Tasks) und die Planung von Arbeitsabläufen. Dazu sollen zusammengehörige Tasks in Gruppen (TaskGroups) organisiert werden. **Abb. 10** zeigt das zentrale Objektmodell:
 
@@ -64,9 +70,14 @@ jeeeraaah/
 │   ├── api.client/ws.rs/       # REST API Client
 │   ├── ui/fx/                  # JavaFX UI
 │   └── common/                 # gemeinsame Frontend-Klassen, Mappings DTO <-> Bean <-> JavaFXBean
-├── common/api/                 # API Domain Models (geteilt)
-└── common/api/                 # API Domain Models (geteilt)
+└── common/api/                 # API Domain Model Types (geteilt)
 ```
+
+Bis auf das maven Modul r-uu.app.jeeeraaah.backend.api sind alle Module mit JPMS modularisiert. Das Modul r-uu.app.jeeeraaah.backend.api ist nicht modularisiert, da es die REST API Schnittstellen enthält, die mit Jakarta-RS implementiert wurden. 
+
+xxx folgender Abschnitt muss noch überarbeitet werden, da er so nicht mehr ganz korrekt ist, siehe weiter unten xxx
+
+Jakarta-RS verwendet reflection, um die REST API Schnittstellen zu implementieren, was mit JPMS nicht kompatibel ist. Daher wurde dieses Modul bewusst nicht modularisiert, um die Verwendung von Jakarta-RS zu ermöglichen. Alle anderen Module sind modularisiert, um die Vorteile von Modularisierung mit JPMS nutzen zu können, z. B. die Möglichkeit, die Abhängigkeiten zwischen den Modulen explizit zu machen.
 
 ## Architektur
 

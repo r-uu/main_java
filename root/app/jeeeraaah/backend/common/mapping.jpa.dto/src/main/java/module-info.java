@@ -8,31 +8,54 @@
  * </ul>
  * <p>
  * These mappers handle the complexity of JPA entity graphs, lazy loading,
- * and proper detachment for network transfer. Includes CDI-managed mappers
- * for dependency injection in the backend services.
+ * and proper detachment for network transfer.
+ * <p>
+ * <b>Architecture:</b>
+ * <ul>
+ *   <li>Public API: {@code Mappings} facade (exported to backend REST services only)</li>
+ *   <li>Internal Implementation: MapStruct mapper interfaces (not exported)</li>
+ * </ul>
+ * This ensures strong encapsulation and prevents direct usage of mapper implementations.
  *
  * @since 0.0.1
  */
 module de.ruu.app.jeeeraaah.backend.common.mapping.jpa.dto
 {
-	// Public API exports - used by backend services
+	// ============================================================
+	// Public Exports
+	// ============================================================
+
+	// Main mapping facade - for backend REST services
+	// Note: backend.api.ws.rs is currently an automatic module (no module-info.java),
+	// so we cannot use qualified exports. Once it becomes a proper JPMS module,
+	// change this to: exports ... to de.ruu.app.jeeeraaah.backend.api.ws.rs;
 	exports de.ruu.app.jeeeraaah.backend.common.mapping;
-	exports de.ruu.app.jeeeraaah.backend.common.mapping.dto.jpa;
-	exports de.ruu.app.jeeeraaah.backend.common.mapping.lazy.jpa;
-	exports de.ruu.app.jeeeraaah.backend.common.mapping.jpa.lazy;
 
-	// MapStruct processor needs access to generate mapper implementations
-	exports de.ruu.app.jeeeraaah.backend.common.mapping.jpa.dto to org.mapstruct;
+	// MapStruct processor access (unchanged)
+	exports de.ruu.app.jeeeraaah.backend.common.mapping.jpa.dto
+		to org.mapstruct;
 
-	// Reflective access for frameworks (targeted to specific packages):
-	// - CDI (Weld): Needs reflection for bean discovery and injection
-	// - MapStruct: Needs reflection during annotation processing
-	opens de.ruu.app.jeeeraaah.backend.common.mapping to weld.core.impl, weld.spi;
-	opens de.ruu.app.jeeeraaah.backend.common.mapping.dto.jpa to weld.core.impl, weld.spi;
-	opens de.ruu.app.jeeeraaah.backend.common.mapping.jpa.dto to weld.core.impl, weld.spi;
-	opens de.ruu.app.jeeeraaah.backend.common.mapping.lazy.jpa to weld.core.impl, weld.spi;
+	// ============================================================
+	// Reflective access for frameworks
+	// ============================================================
 
-	// Use transitive requires for modules whose types are exposed in this module's public API
+	// CDI (Weld): Needs reflection for bean discovery and injection
+	opens de.ruu.app.jeeeraaah.backend.common.mapping
+		to weld.core.impl, weld.spi;
+	opens de.ruu.app.jeeeraaah.backend.common.mapping.dto.jpa
+		to weld.core.impl, weld.spi;
+	opens de.ruu.app.jeeeraaah.backend.common.mapping.jpa.dto
+		to weld.core.impl, weld.spi;
+	opens de.ruu.app.jeeeraaah.backend.common.mapping.lazy.jpa
+		to weld.core.impl, weld.spi;
+	opens de.ruu.app.jeeeraaah.backend.common.mapping.jpa.lazy
+		to weld.core.impl, weld.spi;
+
+	// ============================================================
+	// Dependencies
+	// ============================================================
+
+	// Transitive: types exposed in public API
 	requires transitive de.ruu.app.jeeeraaah.backend.persistence.jpa;
 	requires transitive de.ruu.app.jeeeraaah.common.api.ws.rs;
 	requires transitive de.ruu.app.jeeeraaah.common.api.domain;
@@ -41,6 +64,7 @@ module de.ruu.app.jeeeraaah.backend.common.mapping.jpa.dto
 	requires transitive jakarta.persistence;
 	requires jakarta.cdi;
 
+	// Build-time only
 	requires static lombok;
 	requires static org.slf4j;
 }
