@@ -12,7 +12,7 @@ Das Projekt jeeeraaah wurde als "proof of concept" (POC) für die Möglichkeit d
 
 Gleichzeitig soll kritisch geprüft werden, ob die Vorteile von Modularisierung mit JPMS die Nachteile überwiegen, z. B. die Komplexität der Modularisierung selbst, die Komplexität der Build- und Deployment-Prozesse, ... .
 
-Fachlich geht es im Projekt jeeeraaah im Kern um die Verwaltung von Aufgaben (Tasks) und die Planung von Arbeitsabläufen. Dazu sollen zusammengehörige Tasks in Gruppen (TaskGroups) organisiert werden. **Abb. 10** zeigt das zentrale Objektmodell:
+Fachlich geht es im Projekt jeeeraaah im Kern um die Verwaltung von Aufgaben (Tasks) und die Planung von Arbeitsabläufen. Dazu sollen zusammengehörige Tasks in Gruppen (TaskGroups) organisiert werden. **Abb. 1** zeigt das zentrale Objektmodell:
 
 <p align="center">
   <img src="jeeeraaah-uml-taskgroup-task.drawio.svg" alt="TaskGroup - Task" width="350"/>
@@ -140,7 +140,29 @@ Das `frontend` ist ebenfalls in zwei maven Module aufgeteilt: `ui` und `api.clie
 
 ## Vorteile von JPMS im Projekt jeeeraaah
 
+### Starke Kapselung durch module-info
 
+Durch JPMS können Module explizit definieren, welche Packages nach außen sichtbar sind (`exports`) und welche intern bleiben. Dies verhindert ungewollte Abhängigkeiten und fördert saubere Architekturen.
+
+### Explizite Abhängigkeiten
+
+Jedes Modul deklariert seine Abhängigkeiten mit `requires`, was die Abhängigkeitsstruktur transparent macht und zirkuläre Abhängigkeiten zur Compile-Zeit verhindert.
+
+### Verbesserte Wartbarkeit
+
+Die klare Modultrennung (z.B. `common.api.domain`, `backend.persistence`, `frontend.ui`) erleichtert das Verständnis der Architektur und ermöglicht gezielte Änderungen ohne unerwartete Seiteneffekte.
+
+### Reduzierte JAR-Größe
+
+Durch die Modularisierung können mit `jlink` Custom Runtime Images erstellt werden, die nur die tatsächlich benötigten Module enthalten. Dies reduziert die Deployment-Größe erheblich.
+
+### Compile-Time-Validierung
+
+JPMS prüft bereits zur Compile-Zeit, ob alle Abhängigkeiten aufgelöst werden können und ob auf nicht exportierte Packages zugegriffen wird. Dies verhindert viele Runtime-Fehler.
+
+### Klare Schnittstellen
+
+Die
 
 
 ## Identity and Access Management mit Keycloak
