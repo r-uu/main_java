@@ -44,6 +44,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.jakarta.rs.json.JacksonJsonProvider;
 
 import de.ruu.app.jeeeraaah.common.api.bean.TaskBean;
+import de.ruu.app.jeeeraaah.common.api.bean.TaskGroupBean;
 import de.ruu.app.jeeeraaah.common.api.domain.InterTaskRelationData;
 import de.ruu.app.jeeeraaah.common.api.domain.PathsTask;
 import de.ruu.app.jeeeraaah.common.api.domain.RemoveNeighboursFromTaskConfig;
@@ -76,7 +77,7 @@ import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 
 @Singleton @Slf4j
-public class TaskServiceClient implements TaskService<TaskBean>
+public class TaskServiceClient implements TaskService<TaskGroupBean, TaskBean>
 {
 	// error message constants
 	private static final String UNEXPECTED_STATUS = "unexpected status: ";

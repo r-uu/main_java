@@ -26,6 +26,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import de.ruu.app.jeeeraaah.common.api.bean.TaskBean;
 import org.eclipse.microprofile.config.ConfigProvider;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -64,7 +65,7 @@ import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 
 @Singleton @Slf4j
-public class TaskGroupServiceClient implements TaskGroupService<TaskGroupBean>
+public class TaskGroupServiceClient implements TaskGroupService<TaskGroupBean, TaskBean>
 {
 	// error message constants
 	private static final String UNEXPECTED_STATUS = "unexpected status: ";

@@ -23,7 +23,14 @@ import java.util.stream.Collectors;
 
 import static jakarta.persistence.criteria.JoinType.LEFT;
 
+/**
+ * Repository for TaskGroupJPA entities.
+ * <p>
+ * Note: This repository extends AutoCloseable but is CDI-managed and should NOT be closed manually.
+ * The @SuppressWarnings("resource") annotation suppresses false-positive warnings.
+ */
 @Slf4j
+@SuppressWarnings("resource") // Repository is CDI-managed, not manually closed
 public abstract class TaskGroupRepositoryJPA extends AbstractRepository<TaskGroupJPA, Long>
 {
 	/**

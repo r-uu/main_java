@@ -96,13 +96,15 @@ class EntityManagerFactoryProducerTest
 
 		log.debug("entity manager factory producer\n{}", producer);
 
-		EntityManagerFactory entityManagerFactory = producer.produce(databaseUser, databasePass);
+		try (EntityManagerFactory entityManagerFactory = producer.produce(databaseUser, databasePass))
+		{
+			assertThat(entityManagerFactory).isNotNull();
 
-		assertThat(entityManagerFactory).isNotNull();
-
-		EntityManager entityManager = entityManagerFactory.createEntityManager();
-
-		assertThat(entityManager).isNotNull();
-		assertThat(entityManager.getTransaction()).isNotNull();
+			try (EntityManager entityManager = entityManagerFactory.createEntityManager())
+			{
+				assertThat(entityManager).isNotNull();
+				assertThat(entityManager.getTransaction()).isNotNull();
+			}
+		}
 	}
 }

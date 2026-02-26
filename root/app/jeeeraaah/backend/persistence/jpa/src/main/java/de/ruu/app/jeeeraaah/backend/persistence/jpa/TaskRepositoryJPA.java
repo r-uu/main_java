@@ -14,7 +14,14 @@ import java.util.Optional;
 
 import static de.ruu.lib.util.BooleanFunctions.not;
 
+/**
+ * Repository for TaskJPA entities.
+ * <p>
+ * Note: This repository extends AutoCloseable but is CDI-managed and should NOT be closed manually.
+ * The @SuppressWarnings("resource") annotation suppresses false-positive warnings.
+ */
 @Slf4j
+@SuppressWarnings("resource") // Repository is CDI-managed, not manually closed
 public abstract class TaskRepositoryJPA extends AbstractRepository<TaskJPA, Long>
 {
 	public Optional<TaskJPA> findWithRelated(@NonNull Long id)

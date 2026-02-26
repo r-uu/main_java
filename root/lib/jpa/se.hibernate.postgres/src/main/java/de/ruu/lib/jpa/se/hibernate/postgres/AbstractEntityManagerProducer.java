@@ -27,7 +27,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public abstract class AbstractEntityManagerProducer
 {
-    private EntityManager entityManager;
+	private EntityManager        entityManager;
+	private EntityManagerFactory entityManagerFactory;
 
 	@Inject
 	@ConfigProperty(name = "de.ruu.lib.jpa.se.hibernate.postgres.host", defaultValue = "localhost")
@@ -85,12 +86,37 @@ public abstract class AbstractEntityManagerProducer
 		EntityManagerFactoryProducer factoryProducer = new EntityManagerFactoryProducer(persistenceUnitInfo,
 				hibernateProperties);
 
-		EntityManagerFactory entityManagerFactory = factoryProducer.produce(username, password);
+		entityManagerFactory = factoryProducer.produce(username, password);
 
 		entityManager = entityManagerFactory.createEntityManager();
 		log.debug("created entity manager: {}", entityManager);
 
 		return entityManager;
+	}
+
+	/**
+	 * Disposes the EntityManager and EntityManagerFactory.
+	 * Call this method from a method annotated with {@link jakarta.enterprise.inject.Disposes}
+	 * in subclasses.
+	 *
+	 * @param entityManager the EntityManager to dispose
+	 */
+	protected void dispose(EntityManager entityManager)
+	{
+		if (entityManager != null && entityManager.isOpen())
+		{
+			log.debug("closing entity manager: {}", entityManager);
+			entityManager.close();
+		}
+
+		if (entityManagerFactory != null && entityManagerFactory.isOpen())
+		{
+			log.debug("closing entity manager factory");
+			entityManagerFactory.close();
+		}
+
+		this.entityManager = null;
+		this.entityManagerFactory = null;
 	}
 
 	public abstract List<Class<?>> managedClasses();

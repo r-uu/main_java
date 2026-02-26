@@ -10,9 +10,12 @@ import java.util.Set;
 /**
  * Generic, technology (JPA, JSONB, JAXB, MapStruct, ...) agnostic service interface for task groups.
  *
+ * @param <TG> TaskGroup implementation type
+ * @param <T>  Task implementation type belonging to the TaskGroup
+ *
  * TODO wouldn't it be better to throw more specific exceptions like TaskGroupNotFoundException instead of Exception?
  */
-public interface TaskGroupService<TG extends TaskGroup<?>>
+public interface TaskGroupService<TG extends TaskGroup<T>, T extends Task<?, ?>>
 {
 	/**
 	 * creates a new task group in the backend

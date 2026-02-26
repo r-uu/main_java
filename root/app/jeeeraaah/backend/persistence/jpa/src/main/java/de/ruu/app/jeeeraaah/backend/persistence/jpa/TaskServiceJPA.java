@@ -10,7 +10,7 @@ import java.util.Set;
 import de.ruu.app.jeeeraaah.common.api.domain.RemoveNeighboursFromTaskConfig;
 import de.ruu.app.jeeeraaah.common.api.domain.lazy.TaskLazy;
 import de.ruu.app.jeeeraaah.common.api.domain.TaskRelationException;
-import de.ruu.app.jeeeraaah.common.api.domain.TaskService;
+import de.ruu.app.jeeeraaah.common.api.domain.TaskEntityService;
 import de.ruu.app.jeeeraaah.common.api.ws.rs.TaskCreationData;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityNotFoundException;
@@ -18,9 +18,20 @@ import jakarta.ws.rs.NotFoundException;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
-/** TODO: rename and move this type (no JPA suffix) */
+/**
+ * JPA-based implementation of TaskEntityService.
+ * Provides CRUD operations and queries for TaskJPA entities.
+ * <p>
+ * Note: The repositories are CDI-managed beans and should NOT be closed manually.
+ * The @SuppressWarnings("resource") annotation suppresses false-positive warnings
+ * about try-with-resources for the repository() calls.
+ *
+ * @see TaskEntityService
+ * @see TaskJPA
+ */
 @Slf4j
-public abstract class TaskServiceJPA implements TaskService<TaskJPA>
+@SuppressWarnings("resource") // Repositories are CDI-managed, not manually closed
+public abstract class TaskServiceJPA implements TaskEntityService<TaskGroupJPA, TaskJPA>
 {
 	protected abstract TaskRepositoryJPA repository();
 
@@ -42,10 +53,7 @@ public abstract class TaskServiceJPA implements TaskService<TaskJPA>
 	 * dependency.
 	 */
 	@FunctionalInterface
-	public interface TaskLazyMapper {
-		@NonNull
-		TaskJPA map(@NonNull TaskGroupJPA taskGroup, @NonNull TaskLazy taskLazy);
-	}
+	public interface TaskLazyMapper { @NonNull TaskJPA map(@NonNull TaskGroupJPA taskGroup, @NonNull TaskLazy taskLazy); }
 
 	protected abstract TaskLazyMapper taskLazyMapper();
 

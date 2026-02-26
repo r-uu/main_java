@@ -5,7 +5,13 @@ import java.util.Set;
 
 import lombok.NonNull;
 
-public interface TaskService<T extends Task<? extends TaskGroup<?>, ? extends Task<?, ?>>> {
+/**
+ * Generic, technology (JPA, JSONB, JAXB, MapStruct, ...) agnostic service interface for tasks.
+ *
+ * @param <TG> TaskGroup implementation type that the tasks belong to
+ * @param <T>  Task implementation type
+ */
+public interface TaskService<TG extends TaskGroup<T>, T extends Task<TG, T>> {
 	@NonNull
 	T create(@NonNull T task) throws Exception;
 
