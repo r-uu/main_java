@@ -75,10 +75,14 @@ class ClasspathTest
 
 		assertThat(classpathResourcesWithoutFilter.size() > classpathResourcesWithFilter.size()).isTrue();
 
-		log.debug(
-				"\nnumber of resources with filter: " + classpathResourcesWithFilter.size() +
-				"\nnumber of resources without filter: " + classpathResourcesWithoutFilter.size() +
-				"\nclasspath\n" + System.getProperty("java.class.path"));
+		log.debug("""
+				number of resources with filter: {}
+				number of resources without filter: {}
+				classpath:
+				{}""",
+				classpathResourcesWithFilter.size(),
+				classpathResourcesWithoutFilter.size(),
+				System.getProperty("java.class.path"));
 	}
 
 //	@Disabled("TODO find out why this test fails under maven from command line")
@@ -105,9 +109,11 @@ class ClasspathTest
 
 		assertThat(classpathResourceListsWithoutFilter.size() > classpathResourceListsWithFilter.size()).isTrue();
 
-		log.debug(
-				"\nnumber of resources with filter: " + classpathResourceListsWithFilter.size() +
-				"\nnumber of resources without filter: " + classpathResourceListsWithoutFilter.size());
+		log.debug("""
+				number of resources with filter: {}
+				number of resources without filter: {}""",
+				classpathResourceListsWithFilter.size(),
+				classpathResourceListsWithoutFilter.size());
 	}
 
 	@Test void testReportClasspathResourcesByResourceContainerName() throws IOException

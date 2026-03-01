@@ -26,16 +26,31 @@ class TestJsonBWithMaxEncapsulationForData
 
 	@Test void toJson()
 	{
-		log.debug("\nparents with children as json\n" +  getContext().toJson(createTestData()));
+		log.debug("""
+				parents with children as json:
+				{}""",
+				getContext().toJson(createTestData()));
 	}
 
 	@Test void fromJson()
 	{
 		Set<Parent> parentsWithChildrenIn = createTestData();
 		Jsonb jsonb = getContext();
-		log.debug("\n" + "-".repeat(80) + "\nattempting to serialise set of parents\n" + "-".repeat(80) );
+		log.debug("""
+				{}
+				attempting to serialise set of parents
+				{}""",
+				"-".repeat(80),
+				"-".repeat(80));
 		String json = jsonb.toJson(parentsWithChildrenIn);
-		log.debug("\n" + "-".repeat(80) + "\nreturned from serialise set of parents\n" + json + "\n" + "-".repeat(80));
+		log.debug("""
+				{}
+				returned from serialise set of parents:
+				{}
+				{}""",
+				"-".repeat(80),
+				json,
+				"-".repeat(80));
 		Set<Parent> parentsWithChildrenOut = jsonb.fromJson(json, SET_OF_PARENTS);
 		StringBuilder sb = sb("\nparents with children\n");
 		parentsWithChildrenOut.forEach(p -> sb.append(p).append("\n"));

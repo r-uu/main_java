@@ -190,9 +190,16 @@ alias ruu-help='cat $RUU_HOME/config/shared/wsl/aliases.sh | grep "^alias ruu-" 
 alias ruu-docs='ls -1 $RUU_HOME/config/*.md && echo "" && cat $RUU_HOME/START-HERE.md'
 
 # ═══════════════════════════════════════════════════════════════════
-# Application Runner (uses Maven exec:java for correct JPMS module path)
+# Application - Frontend Runner (uses Maven exec:java for correct JPMS module path)
 # ═══════════════════════════════════════════════════════════════════
 alias ruu-dash='cd $RUU_ROOT/app/jeeeraaah/frontend/ui/fx && mvn exec:java'
+
+# ═══════════════════════════════════════════════════════════════════
+# Application - Backend (Open Liberty)
+# ═══════════════════════════════════════════════════════════════════
+alias ruu-liberty-start='cd $RUU_ROOT/app/jeeeraaah/backend/api/ws.rs && mvn liberty:dev'
+alias ruu-liberty-run='cd $RUU_ROOT/app/jeeeraaah/backend/api/ws.rs && mvn liberty:run'
+alias ruu-liberty-stop='cd $RUU_ROOT/app/jeeeraaah/backend/api/ws.rs && mvn liberty:stop'
 
 # ═══════════════════════════════════════════════════════════════════
 # Initialisierung & Git-Kompatibilität
@@ -203,6 +210,8 @@ export SSH_ASKPASS=""
 
 echo "✓ r-uu Projekt-Aliase geladen"
 echo "  📚 Hilfe: ruu-help | ruu-docs"
-echo "  🚀 Start: ruu-startup"
+echo "  🚀 Quick Start: ruu-docker-startup"
 echo "  🔨 Build: ruu-build"
 echo "  🐳 Docker: ruu-docker-ps"
+echo "  🖥️  Backend: ruu-liberty-start"
+echo "  🎨 Frontend: ruu-dash"

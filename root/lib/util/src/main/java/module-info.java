@@ -4,7 +4,8 @@ module de.ruu.lib.util
     requires transitive org.slf4j;
     requires transitive java.compiler;
     
-    requires static lombok; // Lombok is only needed at compile-time
+    // Lombok @NonNull annotations are used in public APIs, so transitive is needed
+    requires static transitive lombok;
     requires static java.instrument;
     requires static com.fasterxml.jackson.databind;
 

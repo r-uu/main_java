@@ -1,41 +1,64 @@
 # Project TODO List
 
-**Last Updated:** 2026-02-09  
-**Status:** After major cleanup completion
+**Last Updated:** 2026-03-01  
+**Status:** Build successful, Documentation consolidated
 
 ---
 
-## ✅ Recently Completed (2026-02-09)
+## ✅ Recently Completed (2026-03-01)
 
-- ✅ Translate German comments to English
-- ✅ Archive obsolete documentation (29+ files)
-- ✅ Fix DashController.java compilation error
-- ✅ Resolve JPMS module conflicts (weld-se-core)
-- ✅ Consolidate gantt2 package into gantt
-- ✅ Delete obsolete scripts (remove-old-gantt-package.sh)
-- ✅ Update INTELLIJ-CACHE-CLEANUP.md
+### Documentation Consolidation 🎯
+- ✅ **MAJOR:** Consolidated 40 root MD files → 11 files (82% reduction!)
+- ✅ Created JPMS-REFERENCE.md (consolidated 7 JPMS docs)
+- ✅ Archived 15 historical documents (reports + fixes → docs/archive/)
+- ✅ Deleted 10 duplicate/obsolete documentation files
+- ✅ Updated DOCUMENTATION-INDEX.md to reflect current state
+- ✅ Created DOCUMENTATION-CONSOLIDATION-PLAN.md
+
+### Scripts & Aliases
+- ✅ Removed 8 obsolete conversion scripts (Hamcrest/AssertJ migration completed)
+- ✅ Added 3 Liberty aliases: ruu-liberty-start, ruu-liberty-run, ruu-liberty-stop
+- ✅ Updated alias help output to show backend/frontend commands
+
+### Publication Preparation
+- ✅ Audited "JPMS in Action - jeeeraaah" document (⚠️ needs completion)
+- ✅ Audited "Modular Software in Java" document (✅ complete)
+
+### VS Code & IDE
+- ✅ Documented VS Code error vs Maven build discrepancy (VSCODE-ERRORS-EXPLAINED-2026-03-01.md)
+- ✅ Clarified WAR module intentionally has no JPMS (backend.api.ws.rs)
+- ✅ Updated .vscode/settings.json to suppress classpath warnings
+
+### Code Quality
+- ✅ Consolidated multi-line log statements using text blocks in:
+  - lib.util (ClasspathTest.java - 3 statements)
+  - lib.jsonb (TestJsonBWithMaxEncapsulationForData.java - 2 statements)
+  - frontend.ui.fx.test (DataFactory.java - simplified)
 
 ---
 
-## 🔥 Priority 1 - Critical (Do Next)
+## 🔥 Priority 1 - Publication Preparation
 
-### Build & Compilation
-- [x] Update JavaFX runtime to version 25.x (currently 24.0.2, FXML expects 25) - **✅ DONE: Updated to v25**
-- [x] Fix DataItemFactory CDI warning (add explicit constructor) - **✅ NOT NEEDED: Already removed**
-- [x] Implement proper TaskBean to TaskTreeTableDataItem mapping - **✅ NOT NEEDED: Already solved via TaskFlat**
-- [x] Run full Maven build and verify all modules compile - **✅ BUILD SUCCESS**
+### Complete JPMS in Action Document
+- [ ] **CRITICAL:** Complete Keycloak chapter in JPMS in Action document  
+  → Document ends abruptly at "The Server Side"
+  → File: [root/app/jeeeraaah/doc/md/jpms in action - jeeeraaah/jpms in action - jeeeraaah.md](root/app/jeeeraaah/doc/md/jpms in action - jeeeraaah/jpms in action - jeeeraaah.md)
 
-### JPMS & Dependencies
-- [x] Test weld-se-core exclusions work correctly - **✅ Working**
-- [x] Verify no remaining "reads package from both" errors - **✅ No errors**
-- [x] Review and update module-info.java files if needed - **✅ Not needed**
+### Verify Publication Documents
+- [ ] Check all images in JPMS in Action (SVG/PNG files present?)
+- [ ] Check all images in Modular Software in Java
+- [ ] Decide: English translation needed for publication?
+
+---
+
+## 📋 Priority 2 - Development
 
 ---
 
 ## 📋 Priority 2 - Important (This Week)
 
 ### Code Quality
-- [x] Consolidate multi-line log statements using text blocks (`"""`) - **✅ HealthCheckRunner updated**
+- [x] Consolidate multi-line log statements using text blocks (`"""`) - **✅ COMPLETED 2026-03-01**
 - [x] Remove recursion guard in TaskTreeTableController if not needed - **✅ KEPT: Necessary for circular refs**
 - [ ] Fix remaining compiler warnings in DashController.java
 - [ ] Review and fix unused parameter warnings

@@ -49,11 +49,8 @@ class DataFactory
 			mainTask.addSubTask(createSubTaskBean(group, groupId, mainTaskId, subTaskId));
 		}
 //		mainTask.subTasks().ifPresent(c -> createPredecessorsAndSuccessorsAmongChildren(c));
-		log.debug(
-				"group {}, mainTask {}, mainTask.subTasks.size {}",
-				groupId,
-				mainTaskId,
-				mainTask.subTasks().get().size());
+		log.debug("group {}, mainTask {}, mainTask.subTasks.size {}",
+				groupId, mainTaskId, mainTask.subTasks().get().size());
 	}
 
 	private TaskBean createSubTaskBean(TaskGroupBean group, int groupId, int mainTaskId, int subTaskId)
