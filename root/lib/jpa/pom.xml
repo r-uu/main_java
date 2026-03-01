@@ -18,13 +18,13 @@
 
 	<modules>
 		<module>core</module>
-		<module>core.mapstruct</module>
-		<module>core.mapstruct.test</module>
-		<module>core.mapstruct.demo.bidirectional</module>
+		<module>core_mapstruct</module>
+		<module>core_mapstruct_test</module>
+		<module>core_mapstruct_demo_bidirectional</module>
 		<module>se</module>
-		<module>se.hibernate</module>
-		<module>se.hibernate.postgres</module>
-		<module>se.hibernate.postgres.demo</module>
+		<module>se_hibernate</module>
+		<module>se_hibernate_postgres</module>
+		<module>se_hibernate_postgres_demo</module>
 	</modules>
 
 </project>

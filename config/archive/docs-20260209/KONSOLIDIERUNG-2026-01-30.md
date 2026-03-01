@@ -153,11 +153,11 @@ ruu-docs               # Listet Doku-Dateien
    - Container-Architektur
    - Init-Scripts Dokumentation
 
-3. **root/lib/docker.health/README.md**
+3. **root/lib/docker_health/README.md**
    - Health Check System
    - Verwendung & Extension
 
-4. **root/lib/keycloak.admin/README.md**
+4. **root/lib/keycloak_admin/README.md**
    - Keycloak Setup
    - Realm Konfiguration
    - User/Role Management
@@ -197,7 +197,7 @@ volumes:
 ```bash
 docker compose down -v
 docker compose up -d
-cd ~/develop/github/main/root/lib/keycloak.admin
+cd ~/develop/github/main/root/lib/keycloak_admin
 mvn exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSetup"
 ```
 
@@ -229,7 +229,7 @@ mvn exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSet
 - ✅ `config/shared/docker/full-reset.sh` (NEU - automatisches Environment-Reset)
 - ✅ `QUICKSTART-ZUSAMMENFASSUNG.md` (NEU - Schnellüberblick Änderungen)
 - ✅ `KONSOLIDIERUNG-2026-01-30.md` (aktualisiert)
-- ✅ `root/lib/jpa/se.hibernate.postgres.demo/.../microprofile-config.properties` (Port 5432)
+- ✅ `root/lib/jpa/se_hibernate_postgres_demo/.../microprofile-config.properties` (Port 5432)
 - ✅ `root/lib/jdbc/postgres/.../microprofile-config.properties` (ENV-Namen)
 
 ### 🔄 Bereit für Testing

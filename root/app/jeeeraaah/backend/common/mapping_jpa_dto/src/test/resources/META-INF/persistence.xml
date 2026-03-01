@@ -8,8 +8,8 @@
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
 		<!-- Entity classes -->
-		<class>de.ruu.app.jeeeraaah.backend.persistence.jpa.TaskGroupJPA</class>
-		<class>de.ruu.app.jeeeraaah.backend.persistence.jpa.TaskJPA</class>
+		<class>de.ruu.app.jeeeraaah.backend.persistence.jpa.entity.TaskGroupJPA</class>
+		<class>de.ruu.app.jeeeraaah.backend.persistence.jpa.entity.TaskJPA</class>
 
 		<properties>
 			<!-- H2 in-memory database -->

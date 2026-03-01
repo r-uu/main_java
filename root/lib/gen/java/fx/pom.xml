@@ -15,8 +15,8 @@
 
     <modules>
         <module>bean</module>
-        <module>bean.editor</module>
-        <module>bean.editor.demo</module>
+        <module>bean_editor</module>
+        <module>bean_editor_demo</module>
         <module>comp</module>
         <module>tableview</module>
     </modules>

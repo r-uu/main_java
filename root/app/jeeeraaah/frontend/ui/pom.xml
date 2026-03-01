@@ -17,8 +17,8 @@
 
 	<modules>
 		<module>fx</module>
-		<module>fx.executable</module>
-		<module>fx.model</module>
+		<module>fx_executable</module>
+		<module>fx_model</module>
 	</modules>
 
 </project>

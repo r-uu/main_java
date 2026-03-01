@@ -167,7 +167,7 @@ GanttAppRunner startet
 ### Compile-Check:
 ```bash
 cd /home/r-uu/develop/github/main/root
-mvn clean compile -pl lib/docker.health -am
+mvn clean compile -pl lib/docker_health -am
 # ✅ BUILD SUCCESS
 ```
 

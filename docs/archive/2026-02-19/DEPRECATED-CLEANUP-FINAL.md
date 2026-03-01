@@ -22,7 +22,7 @@ Remove all deprecated components from the project to:
 ### 2. Deprecated Code Removed
 **Deleted Classes:**
 1. **`DockerHealthCheck.java`**
-   - Location: `root/lib/docker.health/src/main/java/de/ruu/lib/docker/health/DockerHealthCheck.java`
+   - Location: `root/lib/docker_health/src/main/java/de/ruu/lib/docker/health/DockerHealthCheck.java`
    - Marked: `@Deprecated(since = "0.0.1", forRemoval = true)`
    - Replacement: `HealthCheckRunner` with `HealthCheckProfiles`
    - Usage: **Not used anywhere** - safe to delete

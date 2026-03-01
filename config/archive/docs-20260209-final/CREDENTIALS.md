@@ -152,7 +152,7 @@ keycloak.admin.password=${KEYCLOAK_ADMIN_PASSWORD}
 
 ### 3. OpenLiberty server.xml
 
-**Datei:** `root/app/jeeeraaah/backend/api/ws.rs/src/main/liberty/config/server.xml`
+**Datei:** `root/app/jeeeraaah/backend/api/ws_rs/src/main/liberty/config/server.xml`
 
 ```xml
 <dataSource id="jeeeraaahDS">
@@ -172,7 +172,7 @@ keycloak.admin.password=${KEYCLOAK_ADMIN_PASSWORD}
 
 ### 4. Keycloak Realm Setup (Java)
 
-**Datei:** `root/lib/keycloak.admin/src/main/java/.../KeycloakRealmSetup.java`
+**Datei:** `root/lib/keycloak_admin/src/main/java/.../KeycloakRealmSetup.java`
 
 ```java
 @Inject

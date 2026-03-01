@@ -10,7 +10,7 @@
 		<version>0.0.1</version>
 	</parent>
 
-	<artifactId>r-uu.lib.docker.health</artifactId>
+	<artifactId>r-uu.lib.docker_health</artifactId>
 	<name>r-uu.lib.docker.health</name>
 	<description>Docker environment health check utilities</description>
 
@@ -37,7 +37,7 @@
 		<!-- MicroProfile Config utilities -->
 		<dependency>
 			<groupId>r-uu</groupId>
-			<artifactId>r-uu.lib.mp.config</artifactId>
+			<artifactId>r-uu.lib.mp_config</artifactId>
 		</dependency>
 
 		<!-- Utility library (required by mp.config) -->
@@ -49,7 +49,7 @@
 		<!-- Keycloak Admin library (for auto-fix strategy) -->
 		<dependency>
 			<groupId>r-uu</groupId>
-			<artifactId>r-uu.lib.keycloak.admin</artifactId>
+			<artifactId>r-uu.lib.keycloak_admin</artifactId>
 			<optional>true</optional>
 		</dependency>
 

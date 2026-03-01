@@ -61,7 +61,7 @@ mvn clean install
 
 ```bash
 # In neuem Terminal
-cd ~/develop/github/main/root/app/jeeeraaah/backend/api/ws.rs
+cd ~/develop/github/main/root/app/jeeeraaah/backend/api/ws_rs
 mvn liberty:dev
 ```
 
@@ -160,7 +160,7 @@ ruu-help              # Alle Aliase anzeigen
 main/
 ├── root/                          # Maven Multi-Module Projekt
 │   ├── app/jeeeraaah/            # Hauptanwendung
-│   │   ├── backend/api/ws.rs/    # JAX-RS Backend (Liberty)
+│   │   ├── backend/api/ws_rs/    # JAX-RS Backend (Liberty)
 │   │   ├── frontend/ui/fx/       # JavaFX Frontend
 │   │   └── common/               # Shared Code
 │   ├── lib/                      # Wiederverwendbare Bibliotheken

@@ -159,7 +159,7 @@ if [ $FAILED -eq 0 ]; then
     echo ""
     echo "Nächste Schritte:"
     echo "  → Projekt bauen: cd $PROJECT_ROOT/root && mvn clean install"
-    echo "  → Backend starten: cd $PROJECT_ROOT/root/app/jeeeraaah/backend/api/ws.rs && mvn liberty:dev"
+    echo "  → Backend starten: cd $PROJECT_ROOT/root/app/jeeeraaah/backend/api/ws_rs && mvn liberty:dev"
     echo "  → Frontend starten: IntelliJ → Run 'DashAppRunner'"
     echo ""
     exit 0

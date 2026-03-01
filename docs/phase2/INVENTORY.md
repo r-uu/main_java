@@ -69,7 +69,7 @@
 
 ## 🗂️ Modul 2: `backend.common.mapping.jpa.dto`
 
-**Pfad**: `root/app/jeeeraaah/backend/common/mapping.jpa.dto/`  
+**Pfad**: `root/app/jeeeraaah/backend/common/mapping_jpa_dto/`  
 **Verantwortung**: JPA ↔ DTO, JPA ↔ Lazy (GEMISCHT!)
 
 ### Mapper (10 Stück)
@@ -125,7 +125,7 @@
 
 ## 🗂️ Modul 3: `frontend.common.mapping.bean.fxbean`
 
-**Pfad**: `root/app/jeeeraaah/frontend/common/mapping.bean.fxbean/`  
+**Pfad**: `root/app/jeeeraaah/frontend/common/mapping_bean_fxbean/`  
 **Verantwortung**: Bean ↔ FXBean, Bean → FlatBean (FAST KORREKT)
 
 ### Mapper (5 Stück)

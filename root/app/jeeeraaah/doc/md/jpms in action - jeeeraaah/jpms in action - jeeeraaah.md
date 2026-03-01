@@ -63,11 +63,11 @@ Die persistente Datenhaltung im Backend wird mit einer postgres Datenbank realis
 ```
 jeeeraaah/
 ├── backend/                    # Server-Komponenten
-│   ├── api/ws.rs/              # REST API Server (Open Liberty)
+│   ├── api/ws_rs/              # REST API Server (Open Liberty)
 │   ├── persistence/            # JPA Entities & Repositories
 │   └── common/                 # gemeinsame Backend-Klassen, Mappings DTO <-> JPA
 ├── frontend/                   # Client-Komponenten
-│   ├── api.client/ws.rs/       # REST API Client
+│   ├── api.client/ws_rs/       # REST API Client
 │   ├── ui/fx/                  # JavaFX UI
 │   └── common/                 # gemeinsame Frontend-Klassen, Mappings DTO <-> Bean <-> JavaFXBean
 └── common/api/                 # API Domain Model Types (geteilt)

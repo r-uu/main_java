@@ -117,7 +117,7 @@ new DockerContainerStartStrategy("/custom/docker/dir", 60)
 ### KeycloakRealmSetupStrategy
 
 ```java
-// Default: ~/develop/github/main/root/lib/keycloak.admin
+// Default: ~/develop/github/main/root/lib/keycloak_admin
 new KeycloakRealmSetupStrategy()
 
 // Custom:

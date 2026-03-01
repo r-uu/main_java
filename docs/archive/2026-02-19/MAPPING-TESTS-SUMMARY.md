@@ -5,7 +5,7 @@
 ### common/api/mapping.bean.dto
 - ✅ `Map_Task_DTO_Bean_Test.java` - Prüft Mapper-Existenz
 - ✅ `Map_TaskGroup_DTO_Bean_Test.java` - Prüft Mapper-Existenz
-### frontend/common/mapping.bean.fxbean
+### frontend/common/mapping_bean_fxbean
 - ✅ `Map_Task_Bean_FXBean_Test.java` - Prüft Mapper-Existenz  
 - ✅ `Map_TaskGroup_Bean_FXBean_Test.java` - Prüft Mapper-Existenz
 ## 📋 Mapper ohne dedizierte Tests
@@ -22,7 +22,7 @@ Die folgenden Mapper haben noch keine dedizierten Unit-Tests, werden aber durch 
 - `Map_Task_FXBean_Bean.java` - Wird indirekt getestet
 - `Map_TaskGroup_Bean_FlatBean.java` - Wird indirekt getestet
 ## ✅ Bestehende umfangreiche Tests
-### backend/common/mapping.jpa.dto (63 Tests)
+### backend/common/mapping_jpa_dto (63 Tests)
 - ✅ `Map_Task_JPA_DTO_Test.java` (7 Tests)
 - ✅ `Map_Task_JPA_DTO_IntegrationTest.java` (6 Tests)
 - ✅ `Map_TaskGroup_JPA_DTO_Test.java` (9 Tests)
@@ -32,7 +32,7 @@ Die folgenden Mapper haben noch keine dedizierten Unit-Tests, werden aber durch 
 - ✅ `Map_TaskGroup_Lazy_JPA_IntegrationTest.java` (5 Tests)
 - ✅ `MapperFieldCompletenessTest.java` (5 Tests)
 - ✅ `MapTaskMappingTest.java` (1 Test)
-### frontend/common/mapping.bean.fxbean (4 Tests)
+### frontend/common/mapping_bean_fxbean (4 Tests)
 - ✅ `MapperFieldCompletenessTest.java` (4 Tests)
 ### frontend/ui/fx (22 Tests)
 - ✅ `Test_Map_Task_Bean_FXBean.java` (4 Tests)

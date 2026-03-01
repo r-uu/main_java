@@ -25,7 +25,7 @@
 | Consolidate multi-line log statements | ✅ DONE | HealthCheckRunner updated with text blocks |
 | Update DOCUMENTATION-INDEX.md | ✅ DONE | Reflects current structure |
 ### Multi-line Log Consolidation
-**File Updated:** `root/lib/docker.health/src/main/java/de/ruu/lib/docker/health/HealthCheckRunner.java`
+**File Updated:** `root/lib/docker_health/src/main/java/de/ruu/lib/docker/health/HealthCheckRunner.java`
 **Before:**
 ```java
 log.info("════════════════════════════════════════════════════════════════");

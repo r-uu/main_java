@@ -48,7 +48,7 @@
 
 | Document | Description |
 |----------|-------------|
-| [root/lib/keycloak.admin/README.md](root/lib/keycloak.admin/README.md) | Keycloak Admin Library & Setup |
+| [root/lib/keycloak_admin/README.md](root/lib/keycloak_admin/README.md) | Keycloak Admin Library & Setup |
 | [config/KEYCLOAK-ADMIN-CONSOLE.md](config/KEYCLOAK-ADMIN-CONSOLE.md) | Keycloak admin console guide |
 | [config/AUTHENTICATION-CREDENTIALS.md](config/AUTHENTICATION-CREDENTIALS.md) | ⭐ Authentication & credentials |
 | [config/CREDENTIALS-OVERVIEW.md](config/CREDENTIALS-OVERVIEW.md) | Credentials overview |
@@ -69,7 +69,7 @@
 ### Backend
 | Document | Description |
 |----------|-------------|
-| [root/app/jeeeraaah/backend/api/ws.rs/README.md](root/app/jeeeraaah/backend/api/ws.rs/README.md) | Backend REST API documentation |
+| [root/app/jeeeraaah/backend/api/ws_rs/README.md](root/app/jeeeraaah/backend/api/ws_rs/README.md) | Backend REST API documentation |
 
 ### Frontend
 | Document | Description |
@@ -80,8 +80,8 @@
 ### Libraries
 | Document | Description |
 |----------|-------------|
-| [root/lib/docker.health/README.md](root/lib/docker.health/README.md) | Docker Health Check Library |
-| [root/lib/mp.config/README.md](root/lib/mp.config/README.md) | MicroProfile Config Integration |
+| [root/lib/docker_health/README.md](root/lib/docker_health/README.md) | Docker Health Check Library |
+| [root/lib/mp_config/README.md](root/lib/mp_config/README.md) | MicroProfile Config Integration |
 
 ---
 
@@ -125,7 +125,7 @@
 | Document | Description |
 |----------|-------------|
 | [config/TROUBLESHOOTING.md](config/TROUBLESHOOTING.md) | ⭐ General troubleshooting |
-| [root/app/jeeeraaah/backend/api/ws.rs/src/main/liberty/config/TROUBLESHOOTING-DATABASE.md](root/app/jeeeraaah/backend/api/ws.rs/src/main/liberty/config/TROUBLESHOOTING-DATABASE.md) | Database problems |
+| [root/app/jeeeraaah/backend/api/ws_rs/src/main/liberty/config/TROUBLESHOOTING-DATABASE.md](root/app/jeeeraaah/backend/api/ws_rs/src/main/liberty/config/TROUBLESHOOTING-DATABASE.md) | Database problems |
 | [config/JWT-TROUBLESHOOTING.md](config/JWT-TROUBLESHOOTING.md) | JWT/Authentication issues |
 
 ---
@@ -157,7 +157,7 @@ See [DEPRECATED-FILES.md](DEPRECATED-FILES.md) for details.
 ### MapStruct & Bidirektionale Relationen
 | Dokument | Beschreibung |
 |----------|--------------|
-| [root/lib/jpa/core.mapstruct.demo.bidirectional/bidirectional-relations-with-mapstruct.md](root/lib/jpa/core.mapstruct.demo.bidirectional/bidirectional-relations-with-mapstruct.md) | Bidirektionale Relationen mit MapStruct |
+| [root/lib/jpa/core_mapstruct_demo_bidirectional/bidirectional-relations-with-mapstruct.md](root/lib/jpa/core_mapstruct_demo_bidirectional/bidirectional-relations-with-mapstruct.md) | Bidirektionale Relationen mit MapStruct |
 
 ---
 

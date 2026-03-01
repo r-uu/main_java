@@ -272,7 +272,7 @@ git config --global credential.helper store
 
 ```bash
 # Logs prüfen
-cd root/app/jeeeraaah/backend/api/ws.rs
+cd root/app/jeeeraaah/backend/api/ws_rs
 mvn liberty:dev
 
 # server.xml prüfen

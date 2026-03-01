@@ -6,8 +6,8 @@ import de.ruu.app.jeeeraaah.frontend.ui.fx.task.view.hierarchy.supersub.add.Acti
 import de.ruu.lib.fx.control.dialog.AlertDialog;
 import de.ruu.lib.fx.control.dialog.ExceptionDialog;
 import de.ruu.lib.mapstruct.ReferenceCycleTracking;
-import de.ruu.lib.ws.rs.NonTechnicalException;
-import de.ruu.lib.ws.rs.TechnicalException;
+import de.ruu.lib.ws_rs.NonTechnicalException;
+import de.ruu.lib.ws_rs.TechnicalException;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;

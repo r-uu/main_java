@@ -22,7 +22,7 @@
 - ✅ Nur `HealthCheckResult.failure()` zurückgeben
 - ✅ AutoFixRunner übernimmt das Fixing (wie designed)
 
-**Datei:** `root/lib/docker.health/src/main/java/de/ruu/lib/docker/health/check/KeycloakRealmHealthCheck.java`
+**Datei:** `root/lib/docker_health/src/main/java/de/ruu/lib/docker/health/check/KeycloakRealmHealthCheck.java`
 - **Gelöscht:** ~50 Zeilen redundanter Code
 - **Vereinfacht:** Klare Separation of Concerns
 - **Status:** Kompiliert erfolgreich (nur Warnings wegen deprecated URL)
@@ -36,8 +36,8 @@
 #### Backup-Dateien gelöscht:
 ```
 ✅ config/shared/docker/fix-keycloak-container.sh~
-✅ root/lib/docker.health/src/main/java/.../KeycloakRealmHealthCheck.java.bak
-✅ root/app/jeeeraaah/backend/common/mapping.jpa.dto/**/*.bak (15 Dateien)
+✅ root/lib/docker_health/src/main/java/.../KeycloakRealmHealthCheck.java.bak
+✅ root/app/jeeeraaah/backend/common/mapping_jpa_dto/**/*.bak (15 Dateien)
 ✅ Alle weiteren *.bak und *~ Dateien im Projekt
 ```
 

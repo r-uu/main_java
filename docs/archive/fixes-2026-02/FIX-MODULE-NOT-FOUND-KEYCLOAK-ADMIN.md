@@ -78,7 +78,7 @@ requires de.ruu.lib.keycloak.admin;  // Required for docker.health auto-fix
 
 ## 📊 Geänderte Dateien
 
-### 1. lib/docker.health/pom.xml
+### 1. lib/docker_health/pom.xml
 ```xml
 <!-- VORHER -->
 <dependency>
@@ -94,7 +94,7 @@ requires de.ruu.lib.keycloak.admin;  // Required for docker.health auto-fix
 </dependency>
 ```
 
-### 2. lib/docker.health/module-info.java
+### 2. lib/docker_health/module-info.java
 ```java
 // VORHER
 requires de.ruu.lib.keycloak.admin;
@@ -155,7 +155,7 @@ fx
 ### Build-Check:
 ```bash
 cd /home/r-uu/develop/github/main/root
-mvn clean install -pl lib/docker.health,app/jeeeraaah/frontend/ui/fx -am -DskipTests
+mvn clean install -pl lib/docker_health,app/jeeeraaah/frontend/ui/fx -am -DskipTests
 ```
 
 **Ergebnis:** ✅ **BUILD SUCCESS**

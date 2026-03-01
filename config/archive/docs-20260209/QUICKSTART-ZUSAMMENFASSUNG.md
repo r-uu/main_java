@@ -61,7 +61,7 @@ config/shared/docker/
     ├── 02-init-lib_test.sql               [AKTUALISIERT]
     └── 03-init-keycloak.sql               [AKTUALISIERT]
 
-root/lib/jpa/se.hibernate.postgres.demo/
+root/lib/jpa/se_hibernate_postgres_demo/
 └── src/test/resources/META-INF/
     └── microprofile-config.properties      [AKTUALISIERT: Port 5434→5432]
 
@@ -92,7 +92,7 @@ QUICKSTART-ZUSAMMENFASSUNG.md              [NEU - diese Datei]
 3. **Anwendung starten:**
    ```bash
    # Terminal 1: Backend
-   cd ~/develop/github/main/root/app/jeeeraaah/backend/api/ws.rs
+   cd ~/develop/github/main/root/app/jeeeraaah/backend/api/ws_rs
    mvn liberty:dev
 
    # Terminal 2: Frontend (in IntelliJ)
@@ -158,7 +158,7 @@ curl http://localhost:9080/health
 - `QUICKSTART.md` - Schnellstart für neue Entwickler
 - `config/shared/docker/README.md` - Docker Details
 - `KONSOLIDIERUNG-2026-01-30.md` - Vollständige Änderungsliste
-- `root/lib/keycloak.admin/README.md` - Keycloak Setup
+- `root/lib/keycloak_admin/README.md` - Keycloak Setup
 
 ### ⚠️ Breaking Changes
 
@@ -185,7 +185,7 @@ docker rm -f <alte-container-ids>
 
 **Lösung:**
 ```bash
-cd ~/develop/github/main/root/lib/keycloak.admin
+cd ~/develop/github/main/root/lib/keycloak_admin
 mvn exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSetup"
 ```
 
@@ -211,7 +211,7 @@ docker exec postgres psql -U postgres -c "\l" | grep -E "jeeeraaah|lib_test|keyc
 
 # Tests neu ausführen
 cd ~/develop/github/main/root
-mvn clean test -pl lib/jpa/se.hibernate.postgres.demo
+mvn clean test -pl lib/jpa/se_hibernate_postgres_demo
 ```
 
 **Details:** Siehe `POSTGRESQL-AUTH-FIX.md`

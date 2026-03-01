@@ -6,7 +6,7 @@
 
 ## 🎯 START HERE
 
-**👉 Für den schnellsten Einstieg: [STARTUP-QUICK-GUIDE.md](STARTUP-QUICK-GUIDE.md)**
+**👉 Für den schnellsten Einstieg: [GETTING-STARTED.md](GETTING-STARTED.md)**
 
 **📚 Vollständiger Dokumentations-Index: [DOCUMENTATION-INDEX.md](DOCUMENTATION-INDEX.md)**
 
@@ -34,11 +34,11 @@ mvn clean install
 
 | Dokument | Beschreibung |
 |----------|--------------|
-| **[STARTUP-QUICK-GUIDE.md](STARTUP-QUICK-GUIDE.md)** | ⭐ **Schnellstart-Anleitung** |
+| **[GETTING-STARTED.md](GETTING-STARTED.md)** | ⭐ **Schnellstart-Anleitung** |
 | [DOCUMENTATION-INDEX.md](DOCUMENTATION-INDEX.md) | 📚 Vollständiger Dokumentations-Index |
-| [config/shared/docker/LIB-TEST-FIX.md](config/shared/docker/LIB-TEST-FIX.md) | 🔧 Warum lib_test funktioniert |
-| [config/DOCKER-AUTO-FIX.md](config/DOCKER-AUTO-FIX.md) | 🏥 Health Check & Auto-Fix System |
-| [root/lib/keycloak.admin/README.md](root/lib/keycloak.admin/README.md) | 🔐 Keycloak Setup & Management |
+| [config/shared/docker/README.md](config/shared/docker/README.md) | 🐳 Docker Setup & Container |
+| [DOCKER-HEALTH-CHECK-FIX.md](DOCKER-HEALTH-CHECK-FIX.md) | 🏥 Health Check & Auto-Fix System |
+| [root/lib/keycloak_admin/README.md](root/lib/keycloak_admin/README.md) | 🔐 Keycloak Setup & Management |
 
 ---
 
@@ -101,7 +101,7 @@ ruu-versions            # Tool-Versionen prüfen
 
 ### Backend (Liberty Server):
 ```bash
-cd /home/r-uu/develop/github/main/root/app/jeeeraaah/backend/api/ws.rs
+cd /home/r-uu/develop/github/main/root/app/jeeeraaah/backend/api/ws_rs
 mvn liberty:dev
 ```
 
@@ -131,7 +131,7 @@ main/
 │   ├── app/
 │   │   └── jeeeraaah/
 │   │       ├── backend/          # OpenLiberty REST API (Port 9080)
-│   │       │   ├── api/ws.rs/    # REST Endpoints
+│   │       │   ├── api/ws_rs/    # REST Endpoints
 │   │       │   └── persistence/  # JPA Entities
 │   │       └── frontend/         # JavaFX UI
 │   │           ├── api.client/   # REST Client
@@ -186,7 +186,7 @@ cd /home/r-uu/develop/github/main/root
 mvn clean install
 
 # Nur Backend bauen
-cd /home/r-uu/develop/github/main/root/app/jeeeraaah/backend/api/ws.rs
+cd /home/r-uu/develop/github/main/root/app/jeeeraaah/backend/api/ws_rs
 mvn clean package
 ```
 
@@ -210,7 +210,7 @@ docker ps
 
 ```bash
 # Setup ausführen
-cd /home/r-uu/develop/github/main/root/lib/keycloak.admin
+cd /home/r-uu/develop/github/main/root/lib/keycloak_admin
 mvn exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSetup"
 
 # Admin Console
@@ -222,7 +222,7 @@ mvn exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSet
 
 ```bash
 # Dev-Modus (Hot Reload)
-cd /home/r-uu/develop/github/main/root/app/jeeeraaah/backend/api/ws.rs
+cd /home/r-uu/develop/github/main/root/app/jeeeraaah/backend/api/ws_rs
 mvn liberty:dev
 
 # Nur starten
@@ -351,7 +351,7 @@ jeeeraaah.rest-api.port=9080
 docker compose up -d
 
 # 2. Backend starten
-cd /home/r-uu/develop/github/main/root/app/jeeeraaah/backend/api/ws.rs
+cd /home/r-uu/develop/github/main/root/app/jeeeraaah/backend/api/ws_rs
 mvn liberty:dev
 
 # 3. Frontend in IntelliJ starten
@@ -375,7 +375,7 @@ docker compose down -v
 docker compose up -d
 
 # Keycloak Realm neu erstellen
-cd /home/r-uu/develop/github/main/root/lib/keycloak.admin
+cd /home/r-uu/develop/github/main/root/lib/keycloak_admin
 mvn exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSetup"
 ```
 
@@ -383,8 +383,8 @@ mvn exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSet
 
 ## 📚 WEITERFÜHRENDE DOKUMENTATION
 
-- **Backend Details:** `root/app/jeeeraaah/backend/api/ws.rs/README.md`
-- **Keycloak Setup:** `KEYCLOAK-SETUP-VOLLAUTOMATISCH.md`
+- **Backend Details:** `root/app/jeeeraaah/backend/api/ws_rs/README.md`
+- **Keycloak Setup:** `IAM-KEYCLOAK-LIBERTY-GUIDE.md`
 - **Docker Setup:** `config/shared/docker/README.md`
 
 ---

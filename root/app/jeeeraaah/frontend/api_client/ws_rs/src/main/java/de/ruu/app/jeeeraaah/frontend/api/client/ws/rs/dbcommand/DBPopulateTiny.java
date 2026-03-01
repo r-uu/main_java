@@ -6,7 +6,7 @@ import de.ruu.app.jeeeraaah.frontend.api.client.ws.rs.TaskGroupServiceClient;
 import de.ruu.app.jeeeraaah.frontend.api.client.ws.rs.TaskServiceClient;
 import de.ruu.app.jeeeraaah.frontend.api.client.ws.rs.auth.KeycloakAuthService;
 import de.ruu.lib.cdi.se.CDIContainer;
-import de.ruu.lib.ws.rs.TechnicalException;
+import de.ruu.lib.ws_rs.TechnicalException;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Inject;

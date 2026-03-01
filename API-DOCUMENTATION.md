@@ -18,7 +18,7 @@ The backend REST API is automatically documented using **MicroProfile OpenAPI**.
 ## 🚀 Quick Start
 ### 1. Start Backend
 ```bash
-cd /home/r-uu/develop/github/main/root/app/jeeeraaah/backend/api/ws.rs
+cd /home/r-uu/develop/github/main/root/app/jeeeraaah/backend/api/ws_rs
 mvn liberty:dev
 ```
 ### 2. Open API Documentation
@@ -246,7 +246,7 @@ curl http://localhost:9080/openapi
 - Resource is in correct package (auto-scanned)
 **Check server logs:**
 ```bash
-cd /home/r-uu/develop/github/main/root/app/jeeeraaah/backend/api/ws.rs
+cd /home/r-uu/develop/github/main/root/app/jeeeraaah/backend/api/ws_rs
 mvn liberty:dev
 # Watch console for errors
 ```

@@ -6,8 +6,8 @@ import de.ruu.app.jeeeraaah.frontend.ui.fx.task.view.hierarchy.successor.add.sup
 import de.ruu.app.jeeeraaah.frontend.ui.fx.task.view.hierarchy.successor.add.super_sub_or_successor.ConfiguratorService;
 import de.ruu.app.jeeeraaah.frontend.ui.fx.task.view.hierarchy.successor.add.super_sub_or_successor.ConfiguratorService.ActionAddToSuperSubOrSuccessorConfigurationResult;
 import de.ruu.lib.fx.control.dialog.ExceptionDialog;
-import de.ruu.lib.ws.rs.NonTechnicalException;
-import de.ruu.lib.ws.rs.TechnicalException;
+import de.ruu.lib.ws_rs.NonTechnicalException;
+import de.ruu.lib.ws_rs.TechnicalException;
 import jakarta.enterprise.inject.spi.CDI;
 import javafx.scene.Parent;
 import javafx.scene.control.ButtonType;

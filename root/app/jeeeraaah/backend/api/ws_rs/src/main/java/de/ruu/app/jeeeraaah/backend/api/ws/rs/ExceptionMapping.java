@@ -5,7 +5,7 @@ import static jakarta.ws.rs.core.Response.Status.CONFLICT;
 import static jakarta.ws.rs.core.Response.Status.INTERNAL_SERVER_ERROR;
 
 import de.ruu.app.jeeeraaah.common.api.domain.TaskRelationException;
-import de.ruu.lib.ws.rs.ErrorResponse;
+import de.ruu.lib.ws_rs.ErrorResponse;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;

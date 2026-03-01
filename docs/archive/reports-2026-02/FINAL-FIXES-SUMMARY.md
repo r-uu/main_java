@@ -108,7 +108,7 @@ public boolean fix(String serviceName)
 ## 📊 Build-Ergebnis
 
 ```bash
-cd /home/r-uu/develop/github/main/root/lib/docker.health
+cd /home/r-uu/develop/github/main/root/lib/docker_health
 mvn clean compile
 ```
 

@@ -16,7 +16,7 @@ mvn clean install -DskipTests
 Suchen Sie nach Fehlern in diesen Modulen (Reihenfolge wichtig!):
 1. `common/api/domain` 
 2. `common/api/bean`
-3. `common/api/ws.rs`
+3. `common/api/ws_rs`
 4. `common/api/mapping.bean.dto` ← KRITISCH
 
 ### Schritt 3: Falls Mapping-Modul nicht baut

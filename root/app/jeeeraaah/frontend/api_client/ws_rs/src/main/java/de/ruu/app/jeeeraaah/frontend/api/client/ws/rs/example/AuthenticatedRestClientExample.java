@@ -6,7 +6,7 @@ import de.ruu.app.jeeeraaah.common.api.bean.TaskGroupBean;
 import de.ruu.app.jeeeraaah.common.api.ws.rs.TaskGroupDTO;
 import de.ruu.app.jeeeraaah.frontend.api.client.ws.rs.auth.KeycloakAuthService;
 import de.ruu.lib.mapstruct.ReferenceCycleTracking;
-import de.ruu.lib.ws.rs.TechnicalException;
+import de.ruu.lib.ws_rs.TechnicalException;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.ProcessingException;
 import jakarta.ws.rs.client.Client;

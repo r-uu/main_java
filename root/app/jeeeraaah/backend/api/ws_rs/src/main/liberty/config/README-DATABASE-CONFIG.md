@@ -8,7 +8,7 @@ Die Datenbank-Host-Konfiguration befindet sich in der Datei `server.env` im Libe
 
 ### Speicherort
 ```
-app/jeeeraaah/backend/api/ws.rs/src/main/liberty/config/server.env
+app/jeeeraaah/backend/api/ws_rs/src/main/liberty/config/server.env
 ```
 
 ### Konfiguration anpassen

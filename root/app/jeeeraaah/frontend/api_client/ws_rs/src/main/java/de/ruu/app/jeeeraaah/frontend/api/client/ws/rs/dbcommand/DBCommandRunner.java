@@ -1,8 +1,8 @@
 package de.ruu.app.jeeeraaah.frontend.api.client.ws.rs.dbcommand;
 
 import de.ruu.lib.cdi.se.CDIContainer;
-import de.ruu.lib.ws.rs.NonTechnicalException;
-import de.ruu.lib.ws.rs.TechnicalException;
+import de.ruu.lib.ws_rs.NonTechnicalException;
+import de.ruu.lib.ws_rs.TechnicalException;
 import jakarta.enterprise.inject.spi.CDI;
 
 public class DBCommandRunner

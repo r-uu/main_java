@@ -28,14 +28,14 @@
 - **Roadmap:** Eclipse MicroProfile plant JPMS Support für 4.x
 
 **Betroffene Module:**
-- `lib/mp.config` (requires transitive) ⚠️
+- `lib/mp_config` (requires transitive) ⚠️
 - `lib/util`
 - `lib/junit`
 - `lib/gen/core`
-- `lib/jpa/se.hibernate.postgres`
+- `lib/jpa/se_hibernate_postgres`
 - `app/jeeeraaah/frontend/ui/fx`
-- `app/jeeeraaah/frontend/api.client/ws.rs`
-- `app/jeeeraaah/backend/api/ws.rs`
+- `app/jeeeraaah/frontend/api_client/ws_rs`
+- `app/jeeeraaah/backend/api/ws_rs`
 
 ---
 
@@ -49,7 +49,7 @@
 - **Action:** TODO - Jersey 3.x auf JPMS-Support prüfen
 
 **Betroffene Module:**
-- `app/jeeeraaah/frontend/api.client/ws.rs`
+- `app/jeeeraaah/frontend/api_client/ws_rs`
 
 #### 3. Keycloak Admin Client
 - **Artifact:** `org.keycloak:keycloak-admin-client:26.0.7`
@@ -59,7 +59,7 @@
 - **Action:** Regelmäßig auf Updates prüfen
 
 **Betroffenes Modul:**
-- `lib/keycloak.admin`
+- `lib/keycloak_admin`
 
 #### 4. Keycloak Client Common
 - **Artifact:** `org.keycloak:keycloak-client-common-synced:26.0.7`
@@ -76,7 +76,7 @@
 - [x] Jakarta Activation: Dokumentiert (2.0.1 bleibt wegen Kompatibilität)
 
 ### 2. Requires Transitive reviewed
-- [x] `lib/mp.config` - **Berechtigt** (ConfigSource Provider)
+- [x] `lib/mp_config` - **Berechtigt** (ConfigSource Provider)
 - [x] `lib/gen/java/fx/bean` - **Berechtigt** (ArchUnit in Public API)
 - [x] `lib/mapstruct` - **Berechtigt** (MapStruct Annotations)
 

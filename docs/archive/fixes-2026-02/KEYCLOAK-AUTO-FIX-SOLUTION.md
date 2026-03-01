@@ -62,7 +62,7 @@ else
     return HealthCheckResult.failure(  // ✅ Nur Fehler melden
         "Keycloak Realm",
         "Realm '" + realmName + "' does not exist",
-        "cd ~/develop/github/main/root/lib/keycloak.admin && mvn exec:java...",
+        "cd ~/develop/github/main/root/lib/keycloak_admin && mvn exec:java...",
         "ruu-keycloak-setup"
     );
 }
@@ -159,7 +159,7 @@ GanttAppRunner startet
 
 ### Kompilierung:
 ```bash
-cd /home/r-uu/develop/github/main/root/lib/docker.health
+cd /home/r-uu/develop/github/main/root/lib/docker_health
 mvn clean compile
 # ✅ BUILD SUCCESS (nur Warnings wegen deprecated URL)
 ```

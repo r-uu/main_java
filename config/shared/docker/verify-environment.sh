@@ -51,7 +51,7 @@ echo "  • Test User:     jeeeraaah / jeeeraaah"
 echo ""
 echo "Next Steps:"
 echo "  1. Build project: cd ~/develop/github/main/root && mvn clean install"
-echo "  2. Start backend: cd ~/develop/github/main/root/app/jeeeraaah/backend/api/ws.rs && mvn liberty:dev"
+echo "  2. Start backend: cd ~/develop/github/main/root/app/jeeeraaah/backend/api/ws_rs && mvn liberty:dev"
 echo "  3. Start frontend: Run DashAppRunner in IntelliJ"
 echo "════════════════════════════════════════════════════════════════════"
 

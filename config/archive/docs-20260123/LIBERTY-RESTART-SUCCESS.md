@@ -22,7 +22,7 @@ No functional changes were detected.
 pkill -f "liberty:dev"
 
 # 2. Liberty neu gestartet
-cd ~/develop/github/main/root/app/jeeeraaah/backend/api/ws.rs
+cd ~/develop/github/main/root/app/jeeeraaah/backend/api/ws_rs
 mvn liberty:dev
 ```
 

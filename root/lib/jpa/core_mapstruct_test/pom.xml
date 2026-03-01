@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>r-uu.lib.jpa.core.mapstruct.test</artifactId>
+	<artifactId>r-uu.lib.jpa.core_mapstruct_test</artifactId>
 	<name>${project.artifactId}</name>
 
 	<parent>
@@ -16,7 +16,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>r-uu</groupId>
-			<artifactId>r-uu.lib.jpa.core.mapstruct</artifactId>
+			<artifactId>r-uu.lib.jpa.core_mapstruct</artifactId>
 		            <version>${project.version}</version>
         </dependency>
 		<dependency>

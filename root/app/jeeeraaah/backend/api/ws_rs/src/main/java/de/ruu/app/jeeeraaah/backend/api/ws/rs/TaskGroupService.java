@@ -27,7 +27,7 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import de.ruu.app.jeeeraaah.backend.persistence.jpa.TaskGroupDTOService;
 import de.ruu.app.jeeeraaah.common.api.domain.exception.EntityNotFoundException;
 import de.ruu.app.jeeeraaah.common.api.ws.rs.TaskGroupDTO;
-import de.ruu.lib.ws.rs.ErrorResponse;
+import de.ruu.lib.ws_rs.ErrorResponse;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

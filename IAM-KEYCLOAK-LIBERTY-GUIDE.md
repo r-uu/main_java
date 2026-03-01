@@ -381,7 +381,7 @@ Das Projekt enthält eine automatische Setup-Klasse:
 docker-compose up -d
 
 # Setup ausführen (im Projekt)
-cd root/lib/keycloak.admin
+cd root/lib/keycloak_admin
 mvn exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSetup"
 ```
 
@@ -737,7 +737,7 @@ postgres   Up 2 minutes (healthy)
 #### Schritt 2: Keycloak automatisch konfigurieren
 
 ```bash
-cd root/lib/keycloak.admin
+cd root/lib/keycloak_admin
 mvn exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSetup"
 ```
 
@@ -774,7 +774,7 @@ mvn exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSet
 #### Schritt 4: Open Liberty Server starten
 
 ```bash
-cd root/app/jeeeraaah/backend/api/ws.rs
+cd root/app/jeeeraaah/backend/api/ws_rs
 
 # Mit Maven
 mvn liberty:dev

@@ -1,4 +1,4 @@
-package de.ruu.lib.ws.rs;
+package de.ruu.lib.ws_rs;
 
 import jakarta.ws.rs.core.Response;
 

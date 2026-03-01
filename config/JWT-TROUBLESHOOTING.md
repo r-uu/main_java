@@ -60,7 +60,7 @@ Access token (first 50 chars): eyJhbGciOi...
 
 **Command:**
 ```bash
-cd ~/develop/github/main/root/app/jeeeraaah/backend/api/ws.rs
+cd ~/develop/github/main/root/app/jeeeraaah/backend/api/ws_rs
 grep "groupNameAttribute" target/liberty/wlp/usr/servers/defaultServer/server.xml
 ```
 
@@ -89,7 +89,7 @@ CWWKG0017I: The server configuration was successfully updated
 **Wenn NICHT vorhanden:**
 ```bash
 # Force reload
-cd ~/develop/github/main/root/app/jeeeraaah/backend/api/ws.rs
+cd ~/develop/github/main/root/app/jeeeraaah/backend/api/ws_rs
 touch src/main/liberty/config/server.xml
 
 # Warte 10 Sekunden, dann nochmal prüfen
@@ -102,7 +102,7 @@ touch src/main/liberty/config/server.xml
 ### Schritt 1: Liberty Config aktualisieren
 
 ```bash
-cd ~/develop/github/main/root/app/jeeeraaah/backend/api/ws.rs
+cd ~/develop/github/main/root/app/jeeeraaah/backend/api/ws_rs
 
 # Trigger Config Reload
 touch src/main/liberty/config/server.xml
@@ -187,7 +187,7 @@ No functional changes were detected.
 
 **Lösung - Liberty MUSS neu gestartet werden:**
 ```bash
-cd ~/develop/github/main/root/app/jeeeraaah/backend/api/ws.rs
+cd ~/develop/github/main/root/app/jeeeraaah/backend/api/ws_rs
 
 # Stoppe Liberty
 pkill -f "liberty:dev"
@@ -212,7 +212,7 @@ grep "groupNameAttribute" ... → NICHTS gefunden
 
 **Lösung:**
 ```bash
-cd ~/develop/github/main/root/app/jeeeraaah/backend/api/ws.rs
+cd ~/develop/github/main/root/app/jeeeraaah/backend/api/ws_rs
 
 # Lösche target, dann rebuild
 mvn clean

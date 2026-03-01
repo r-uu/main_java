@@ -111,7 +111,7 @@ String command = String.format(
 
 ### Compile-Check:
 ```bash
-cd /home/r-uu/develop/github/main/root/lib/docker.health
+cd /home/r-uu/develop/github/main/root/lib/docker_health
 mvn clean compile
 # ✅ BUILD SUCCESS - Keine Warnings!
 ```
@@ -124,7 +124,7 @@ GanttAppRunner startet
           ├─> KeycloakRealmHealthCheck: Realm incomplete ❌
           ├─> KeycloakRealmSetupStrategy.fix():
           │   ├─> Expand ~ → /home/r-uu
-          │   ├─> cd /home/r-uu/develop/github/main/root/lib/keycloak.admin
+          │   ├─> cd /home/r-uu/develop/github/main/root/lib/keycloak_admin
           │   ├─> /opt/maven/maven/bin/mvn exec:java ...
           │   └─> ✅ Exit code: 0
           ├─> Thread.sleep(2000) - Warte auf Keycloak

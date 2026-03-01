@@ -74,7 +74,7 @@ docker compose up -d
 # Warten bis Container healthy sind
 sleep 30
 # Keycloak-Realm neu erstellen
-cd ~/develop/github/main/root/lib/keycloak.admin
+cd ~/develop/github/main/root/lib/keycloak_admin
 mvn exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSetup"
 ```
 Oder verwende den Alias:

@@ -55,7 +55,7 @@ keycloak.test.password=test
 ### 3. Keycloak Realm Setup durchgeführt
 
 ```bash
-cd ~/develop/github/main/root/lib/keycloak.admin
+cd ~/develop/github/main/root/lib/keycloak_admin
 mvn -q exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSetup"
 ```
 

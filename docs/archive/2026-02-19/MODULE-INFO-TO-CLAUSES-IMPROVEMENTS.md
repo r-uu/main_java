@@ -32,7 +32,7 @@ exports de.ruu.app.jeeeraaah.backend.common.mapping;
 ## 📋 Durchgeführte Änderungen
 
 ### **1. Backend Mapping (JPA-DTO)**
-**Datei:** `root/app/jeeeraaah/backend/common/mapping.jpa.dto/src/main/java/module-info.java`
+**Datei:** `root/app/jeeeraaah/backend/common/mapping_jpa_dto/src/main/java/module-info.java`
 
 ```java
 // Vorher:
@@ -73,7 +73,7 @@ opens de.ruu.app.jeeeraaah.frontend.ui.fx.util to weld.se.shaded;
 ---
 
 ### **3. Frontend API Client**
-**Datei:** `root/app/jeeeraaah/frontend/api.client/ws.rs/src/main/java/module-info.java`
+**Datei:** `root/app/jeeeraaah/frontend/api_client/ws_rs/src/main/java/module-info.java`
 
 ```java
 // Nachher:
@@ -119,7 +119,7 @@ opens de.ruu.lib.jpa.core to org.hibernate.orm.core;
 ```
 
 #### **JPA SE Hibernate Postgres**
-**Datei:** `root/lib/jpa/se.hibernate.postgres/src/main/java/module-info.java`
+**Datei:** `root/lib/jpa/se_hibernate_postgres/src/main/java/module-info.java`
 
 ```java
 // Nachher:
@@ -135,7 +135,7 @@ opens de.ruu.lib.jsonb.recursion to org.eclipse.yasson;
 ```
 
 #### **Postgres Util UI**
-**Datei:** `root/lib/postgres.util.ui/src/main/java/module-info.java`
+**Datei:** `root/lib/postgres_util_ui/src/main/java/module-info.java`
 
 ```java
 // Nachher:

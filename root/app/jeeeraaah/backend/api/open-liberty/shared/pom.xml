@@ -95,8 +95,8 @@
 							<!-- ensure only smallrye jandex is copied -->
 							<excludeGroupIds>org.jboss:jandex</excludeGroupIds>
 							<outputDirectory>
-								${project.basedir}/../../ws.rs/src/main/liberty/config/lib/global
-<!--								${project.parent.parent.basedir}/app/jeeeraaah/backend/api/ws.rs/src/main/liberty/config/lib/global-->
+								${project.basedir}/../../ws_rs/src/main/liberty/config/lib/global
+<!--								${project.parent.parent.basedir}/app/jeeeraaah/backend/api/ws_rs/src/main/liberty/config/lib/global-->
 							</outputDirectory>
 							<excludeTransitive>false</excludeTransitive>
 							<overWriteReleases>true</overWriteReleases>

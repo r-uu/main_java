@@ -5,7 +5,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>r-uu.app.jeeeraaah.frontend.ui.fx.model</artifactId>
+	<artifactId>r-uu.app.jeeeraaah.frontend.ui.fx_model</artifactId>
 	<name>${project.artifactId}</name>
 
 	<parent>

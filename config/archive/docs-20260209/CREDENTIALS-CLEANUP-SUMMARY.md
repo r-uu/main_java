@@ -144,7 +144,7 @@ Um zu testen, ob die Credentials korrekt geladen werden:
 
 ```bash
 cd ~/develop/github/main/root
-mvn test -pl lib/jpa/se.hibernate.postgres.demo
+mvn test -pl lib/jpa/se_hibernate_postgres_demo
 ```
 
 Erwartetes Ergebnis:

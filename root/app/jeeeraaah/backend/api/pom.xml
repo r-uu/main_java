@@ -22,7 +22,7 @@
 		we include the open-liberty module here to make it is invoked before the ws.rs module
 		-->
 		<module>open-liberty</module>
-		<module>ws.rs</module>
+		<module>ws_rs</module>
 	</modules>
 
 </project>

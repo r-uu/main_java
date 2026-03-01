@@ -70,7 +70,7 @@ docker exec -it postgres psql -U lib_test -d lib_test
 
 **Realm Setup:**
 ```bash
-cd ~/develop/github/main/root/lib/keycloak.admin
+cd ~/develop/github/main/root/lib/keycloak_admin
 mvn exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSetup"
 ```
 
@@ -203,7 +203,7 @@ curl http://localhost:8080/health/ready
 
 **Lösung:**
 ```bash
-cd ~/develop/github/main/root/lib/keycloak.admin
+cd ~/develop/github/main/root/lib/keycloak_admin
 mvn exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSetup"
 ```
 
@@ -234,14 +234,14 @@ cd ~/develop/github/main/config/shared/docker
 docker compose down -v
 docker volume prune -f
 docker compose up -d
-cd ~/develop/github/main/root/lib/keycloak.admin
+cd ~/develop/github/main/root/lib/keycloak_admin
 mvn exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSetup"
 ```
 
 ## 📚 Weitere Dokumentation
 
-- **Keycloak Realm Setup:** `~/develop/github/main/root/lib/keycloak.admin/README.md`
-- **Docker Health Checks:** `~/develop/github/main/root/lib/docker.health/README.md`
+- **Keycloak Realm Setup:** `~/develop/github/main/root/lib/keycloak_admin/README.md`
+- **Docker Health Checks:** `~/develop/github/main/root/lib/docker_health/README.md`
 - **Project Quickstart:** `~/develop/github/main/QUICKSTART.md`
 - **Konsolidierung:** `~/develop/github/main/KONSOLIDIERUNG-2026-01-30.md`
 

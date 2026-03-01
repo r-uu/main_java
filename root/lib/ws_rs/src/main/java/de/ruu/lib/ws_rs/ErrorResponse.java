@@ -1,4 +1,4 @@
-package de.ruu.lib.ws.rs;
+package de.ruu.lib.ws_rs;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;

@@ -139,7 +139,7 @@ docker compose ps
    ```
 3. **Backend starten**:
    ```bash
-   cd ~/develop/github/main/root/app/jeeeraaah/backend/api/ws.rs
+   cd ~/develop/github/main/root/app/jeeeraaah/backend/api/ws_rs
    mvn liberty:dev
    ```
 4. **Frontend starten**: 

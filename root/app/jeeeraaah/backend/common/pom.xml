@@ -12,6 +12,6 @@
 		<version>0.0.1</version>
 	</parent>
 	<modules>
-		<module>mapping.jpa.dto</module>
+		<module>mapping_jpa_dto</module>
 	</modules>
 </project>

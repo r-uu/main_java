@@ -1,4 +1,4 @@
-package de.ruu.lib.ws.rs.filter.logging;
+package de.ruu.lib.ws_rs.filter.logging;
 
 import jakarta.ws.rs.client.ClientRequestContext;
 import jakarta.ws.rs.client.ClientRequestFilter;

@@ -1,4 +1,4 @@
-package de.ruu.lib.ws.rs;
+package de.ruu.lib.ws_rs;
 
 /**
  * Exception thrown when authentication/authorization fails and re-login is required.

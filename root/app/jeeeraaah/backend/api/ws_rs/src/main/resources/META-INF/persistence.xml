@@ -10,8 +10,8 @@
         <non-jta-data-source>jdbc/datasource_postgresql</non-jta-data-source>
 
         <!-- Entity Classes -->
-        <class>de.ruu.app.jeeeraaah.backend.persistence.jpa.TaskGroupJPA</class>
-        <class>de.ruu.app.jeeeraaah.backend.persistence.jpa.TaskJPA</class>
+        <class>de.ruu.app.jeeeraaah.backend.persistence.jpa.entity.TaskGroupJPA</class>
+        <class>de.ruu.app.jeeeraaah.backend.persistence.jpa.entity.TaskJPA</class>
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 

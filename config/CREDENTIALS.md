@@ -126,7 +126,7 @@ When starting DashApp or GanttApp:
 ### Keycloak Setup
 Run once to create realm and test user:
 ```bash
-cd ~/develop/github/main/root/lib/keycloak.admin
+cd ~/develop/github/main/root/lib/keycloak_admin
 mvn exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSetup"
 ```
 Creates:

@@ -142,7 +142,7 @@ docker ps
 **Prüfe Liberty Server Logs:**
 
 ```bash
-cd ~/develop/github/main/root/app/jeeeraaah/backend/api/ws.rs
+cd ~/develop/github/main/root/app/jeeeraaah/backend/api/ws_rs
 tail -50 target/liberty/wlp/usr/servers/defaultServer/logs/messages.log | grep -i "forbidden\|unauthorized"
 ```
 

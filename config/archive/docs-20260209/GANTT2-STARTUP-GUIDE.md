@@ -62,7 +62,7 @@ docker-compose up -d
 
 **Wenn Backend-API benötigt wird:**
 ```bash
-cd /home/r-uu/develop/github/main/root/app/jeeeraaah/backend/api/ws.rs
+cd /home/r-uu/develop/github/main/root/app/jeeeraaah/backend/api/ws_rs
 mvn liberty:dev
 ```
 
@@ -181,7 +181,7 @@ docker logs -f keycloak
 
 **Lösung 1: Backend-API starten**
 ```bash
-cd /home/r-uu/develop/github/main/root/app/jeeeraaah/backend/api/ws.rs
+cd /home/r-uu/develop/github/main/root/app/jeeeraaah/backend/api/ws_rs
 mvn liberty:dev
 ```
 

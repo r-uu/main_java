@@ -12,7 +12,7 @@ Resource leak: 'entityManagerFactory' is not closed
 ---
 ## 🔄 Durchgeführte Fixes
 ### 1. EntityManagerFactoryProducerTest - try-with-resources
-**Datei:** `lib/jpa/se.hibernate/src/test/java/.../EntityManagerFactoryProducerTest.java`
+**Datei:** `lib/jpa/se_hibernate/src/test/java/.../EntityManagerFactoryProducerTest.java`
 **Vorher:**
 ```java
 EntityManagerFactory entityManagerFactory = producer.produce(databaseUser, databasePass);
@@ -37,7 +37,7 @@ try (EntityManagerFactory entityManagerFactory = producer.produce(databaseUser, 
 ```
 ---
 ### 2. AbstractEntityManagerProducer - CDI Disposer Pattern
-**Datei:** `lib/jpa/se.hibernate.postgres/src/main/java/.../AbstractEntityManagerProducer.java`
+**Datei:** `lib/jpa/se_hibernate_postgres/src/main/java/.../AbstractEntityManagerProducer.java`
 **Problem:** EntityManagerFactory wurde als lokale Variable erstellt und nie geschlossen.
 **Änderungen:**
 #### a) EntityManagerFactory als Feld speichern

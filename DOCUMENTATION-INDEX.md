@@ -81,7 +81,7 @@
 ### Backend
 | Document | Description |
 |----------|-------------|
-| [root/app/jeeeraaah/backend/api/ws.rs/README.md](root/app/jeeeraaah/backend/api/ws.rs/README.md) | Backend REST API documentation |
+| [root/app/jeeeraaah/backend/api/ws_rs/README.md](root/app/jeeeraaah/backend/api/ws_rs/README.md) | Backend REST API documentation |
 
 ### Frontend
 | Document | Description |
@@ -92,8 +92,8 @@
 ### Libraries
 | Document | Description |
 |----------|-------------|
-| [root/lib/docker.health/README.md](root/lib/docker.health/README.md) | Docker Health Check Library |
-| [root/lib/mp.config/README.md](root/lib/mp.config/README.md) | MicroProfile Config Integration |
+| [root/lib/docker_health/README.md](root/lib/docker_health/README.md) | Docker Health Check Library |
+| [root/lib/mp_config/README.md](root/lib/mp_config/README.md) | MicroProfile Config Integration |
 
 ---
 

@@ -11,7 +11,7 @@
 // TODO: Implement full verification via Admin API if needed
 // For now, OpenID config check is sufficient
 ```
-**Datei:** `root/lib/docker.health/src/main/java/de/ruu/lib/docker/health/check/KeycloakRealmHealthCheck.java`
+**Datei:** `root/lib/docker_health/src/main/java/de/ruu/lib/docker/health/check/KeycloakRealmHealthCheck.java`
 **Zeile:** 144
 
 ### ✨ Implementierte Lösung:

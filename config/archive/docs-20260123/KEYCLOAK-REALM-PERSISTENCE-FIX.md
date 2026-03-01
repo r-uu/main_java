@@ -43,7 +43,7 @@ volumes:
 
 ### 2. Auto-Fix im Health Check implementiert
 
-**Datei:** `root/lib/docker.health/.../KeycloakRealmHealthCheck.java`
+**Datei:** `root/lib/docker_health/.../KeycloakRealmHealthCheck.java`
 
 **Neue Funktionen:**
 
@@ -107,7 +107,7 @@ private boolean autoFixRealm()
     "-q"
   );
   
-  pb.directory(new File(projectDir + "/root/lib/keycloak.admin"));
+  pb.directory(new File(projectDir + "/root/lib/keycloak_admin"));
   Process process = pb.start();
   int exitCode = process.waitFor();
   

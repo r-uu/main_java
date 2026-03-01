@@ -4,7 +4,7 @@ Dieses Modul stellt das Frontend für die jeeeraaah-Anwendung bereit.
 
 ## Module
 
-### api.client/ws.rs
+### api.client/ws_rs
 REST Client für Zugriff auf das Backend:
 - TaskGroupServiceClient
 - TaskServiceClient  

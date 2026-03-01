@@ -101,7 +101,7 @@ if (!report.isFullyValid()) {
 
 ## Integration im jeeeraaah-Backend
 
-Das Backend-Modul `app/jeeeraaah/backend/api/ws.rs` verwendet diese Utilities für:
+Das Backend-Modul `app/jeeeraaah/backend/api/ws_rs` verwendet diese Utilities für:
 
 ### 1. Startup-Validierung
 
@@ -178,7 +178,7 @@ docker exec keycloak /opt/keycloak/bin/kcadm.sh add-roles \
 Umfassende Unit-Tests sind vorhanden:
 
 ```bash
-mvn test -pl lib/keycloak.admin
+mvn test -pl lib/keycloak_admin
 ```
 
 ## Dependencies

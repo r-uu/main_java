@@ -47,7 +47,7 @@ ruu-keycloak-setup
 ruu-liberty-dev
 
 # Oder manuell:
-cd ~/develop/github/main/root/app/jeeeraaah/backend/api/ws.rs
+cd ~/develop/github/main/root/app/jeeeraaah/backend/api/ws_rs
 mvn liberty:dev
 ```
 
@@ -221,10 +221,10 @@ ruu-liberty-stop
 
 ## 📚 Weitere Dokumentation
 
-- **Backend API**: `root/app/jeeeraaah/backend/api/ws.rs/README.md`
+- **Backend API**: `root/app/jeeeraaah/backend/api/ws_rs/README.md`
 - **Docker Setup**: `config/shared/docker/README.md`
-- **Keycloak**: `root/lib/keycloak.admin/README.md`
-- **Health Checks**: `root/lib/docker.health/README.md`
+- **Keycloak**: `root/lib/keycloak_admin/README.md`
+- **Health Checks**: `root/lib/docker_health/README.md`
 
 ## 🎯 Nächste Schritte
 

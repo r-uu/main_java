@@ -290,10 +290,10 @@ Tests for the utility class:
 
 ```bash
 # Run all tests in the module
-mvn test -pl lib/mp.config
+mvn test -pl lib/mp_config
 
 # Run a specific test class
-mvn test -pl lib/mp.config -Dtest=WritableFileConfigSourceTest
+mvn test -pl lib/mp_config -Dtest=WritableFileConfigSourceTest
 ```
 
 ## Common Use Cases

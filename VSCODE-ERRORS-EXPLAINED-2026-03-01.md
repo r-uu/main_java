@@ -88,7 +88,7 @@ Erstelle `.vscode/settings.json`:
 ```json
 {
   "java.project.excludedFolders": [
-    "**/backend/api/ws.rs"
+    "**/backend/api/ws_rs"
   ]
 }
 ```

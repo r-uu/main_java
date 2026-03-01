@@ -90,7 +90,7 @@ main/
     │   └── keycloak.admin/README.md    📚 Keycloak Setup
     │
     └── app/jeeeraaah/
-        ├── backend/api/ws.rs/README.md 📚 Backend API
+        ├── backend/api/ws_rs/README.md 📚 Backend API
         └── frontend/ui/fx/INTELLIJ-RUN-CONFIG.md 📚 Frontend Setup
 ```
 ---

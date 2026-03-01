@@ -17,8 +17,8 @@ import de.ruu.app.jeeeraaah.frontend.ui.fx.task.view.hierarchy.predecessor.add.A
 import de.ruu.app.jeeeraaah.frontend.ui.fx.task.view.hierarchy.predecessor.add.ActionAdd.Context;
 import de.ruu.lib.fx.control.dialog.AlertDialog;
 import de.ruu.lib.fx.control.dialog.ExceptionDialog;
-import de.ruu.lib.ws.rs.NonTechnicalException;
-import de.ruu.lib.ws.rs.TechnicalException;
+import de.ruu.lib.ws_rs.NonTechnicalException;
+import de.ruu.lib.ws_rs.TechnicalException;
 import jakarta.annotation.Nullable;
 import jakarta.inject.Inject;
 import javafx.beans.property.ObjectProperty;

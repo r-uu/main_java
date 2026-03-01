@@ -77,7 +77,7 @@ public abstract class TaskGroupServiceJPA
 
 ### 3. **TaskGroupServiceClient.java** (Frontend API Client)
 
-**Datei:** `root/app/jeeeraaah/frontend/api.client/ws.rs/src/main/java/.../TaskGroupServiceClient.java`
+**Datei:** `root/app/jeeeraaah/frontend/api_client/ws_rs/src/main/java/.../TaskGroupServiceClient.java`
 
 **Vorher:**
 ```java

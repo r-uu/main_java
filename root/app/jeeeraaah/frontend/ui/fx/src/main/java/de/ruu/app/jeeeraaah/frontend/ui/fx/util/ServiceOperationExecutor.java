@@ -2,9 +2,9 @@ package de.ruu.app.jeeeraaah.frontend.ui.fx.util;
 
 import de.ruu.app.jeeeraaah.frontend.ui.fx.auth.AuthenticationHelper;
 import de.ruu.lib.fx.control.dialog.ExceptionDialog;
-import de.ruu.lib.ws.rs.NonTechnicalException;
-import de.ruu.lib.ws.rs.SessionExpiredException;
-import de.ruu.lib.ws.rs.TechnicalException;
+import de.ruu.lib.ws_rs.NonTechnicalException;
+import de.ruu.lib.ws_rs.SessionExpiredException;
+import de.ruu.lib.ws_rs.TechnicalException;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 

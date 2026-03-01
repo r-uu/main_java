@@ -17,9 +17,9 @@ Eine zentrale Aufgabe von Softwarearchitektur ist, tragfähige Strukturen für g
 Jein. Soll ein System entwickelt werden, entwerfen Softwarearchitekten meist sinnvolle Strukturen, die den bekannten Anforderungen genügen (v1 in **Abb. 1**).
 
 <p align="center">
-  <img src="system-architecture-evolving-3d-beige.svg"
+  <img src="system-architecture-evolving-3d-beige.drawio.svg"
        alt="Erosion einer Systemarchitektur"
-       width="450"
+       width="500"
        style="border:1px solid #ccc; padding:0.5cm; background-color:beige;"/>
   <br/>
   <em>Abb. 1: Erosion einer Systemarchitektur</em>
@@ -41,7 +41,7 @@ Zu wenig Platz wie in **Abb. 2** ist bei Softwaresystemen heute normalerweise ni
 
 ## Anpassungsfähige Systeme - Entworfen für Änderbarkeit
 
-Gesucht wird also nach Ansätzen, die Softwaresysteme besser anpassbar machen. Moderne Softwaresysteme müssen erweiterbar sein, ohne dass dadurch ihre Komplexität Überhand nimmt. Die Zuverlässigkeit von Software muss durch Qualitätssicherung effektiv gesteigert werden, Software muss so entworfen werden, dass sie langfristig effektiv testbar ist. Solange aber innerhalb der Systeme zu viele Abhängigkeiten existieren, ist die Beherrschung dieser Abhängigkeiten ein Beitrag zur Lösung. Was hier Hoffnung macht ist, dass eine große Menge dieser Abhängigkeiten weder gewollt noch nötig ist!
+Gesucht wird also nach Ansätzen, die Softwaresysteme besser anpassbar machen. Moderne Systeme müssen erweiterbar sein, ohne dass dadurch ihre Komplexität Überhand nimmt. Die Zuverlässigkeit von Software muss durch Qualitätssicherung effektiv gesteigert werden, Software muss so entworfen werden, dass sie langfristig effektiv testbar ist. Solange aber innerhalb der Systeme zu viele Abhängigkeiten existieren, ist die Beherrschung dieser Abhängigkeiten ein Beitrag zur Lösung. Was hier Hoffnung macht ist, dass eine große Menge dieser Abhängigkeiten weder gewollt noch nötig ist!
 
 Warum gibt es sie dann? Zwei Gründe sind zumindest für Java-basierte (Alt-) Systeme meist ausschlaggebend:
 
@@ -57,7 +57,8 @@ Ein geradezu klassisches Beispiel für unnötige und aus Architektursicht ungewo
 Sehr häufig wird die Datenzugriffsschicht jedoch umgangen und es wird oft sowohl lesend als auch schreibend auf persistente Daten z. B. direkt aus den Klassen für die Benutzeroberfläche zugegriffen. Dadurch entsteht eine zusätzliche Abhängigkeit (siehe **Abb. 3**).
 
 <p align="center">
-  <img src="layered-enterprise-architecture.svg" alt="good and bad practise accessing the data layer ..." width="200"/>
+  <img src="layered-enterprise-architecture.svg"
+	     alt="good and bad practise accessing the data layer ..." width="200"/>
   <br/>
   <em>Abb. 3: Architekturkonformer und nicht architekturkonformer Zugriff auf den data-layer ...</em>
 </p>
@@ -94,13 +95,13 @@ Dies erleichtert vieles, hat aber auch seinen Preis: Innerhalb eines solchen Mon
 
 Sicher machte man sich auch in Java von Beginn an bekannte Konzepte wie Kapselung von Objektstruktur und -verhalten in Klassen und die Organisation von Code in Packages zunutze, um eine interne Struktur des Gesamtsystems herzustellen ([vgl. unten](#wie-code-in-java-strukturiert-wird---kapselung-durch-zugriffskontrolle-und-packages)).
 
-> Bei Kapselung von Objekten geht es um deren Schutz vor unerwünschtem Zugriff auf interne Daten von aussen. Dies erreicht man durch sorgfältiges Design von Schnittstellen und der damit verbundenen Steuerung von Zugriffsmöglichkeiten. Die Kapselungsmechanismen in Java waren lange aber zu durchlässig, um die Einhaltung der Strukturen, also die Sicherstellung einer konsistenten Architektur, systemweit zu erzwingen.
-
 So beruhte in Java bis einschließlich zur Version 8 eine gute Systemarchitektur oft auf viel Disziplin bei der Einhaltung von Konventionen. (Unbewusste) Verstösse gegen diese mussten dabei aber erst einmal mit viel Mühe erkannt werden, bevor sie korrigiert werden konnten. Tools wie z. B. [archunit](https://www.archunit.org/) ermöglichen eine automatisierte und regelbasierte Unterstützung dabei, die Regeln aber müssen für jedes System korrekt und möglichst vollständig konfiguriert und getestet werden. Ist die automatisierte Überprüfung der Systemstruktur in den Buildprozess integriert, erhält man frühzeitig Hinweise auf Verstöße. Natürlich darf in solchen Fällen nicht einfach die entsprechende Regel gelockert, ignoriert oder gar deaktiviert werden. Stattdessen muss der Code so geändert (refaktorisiert) werden, dass die Regeln eingehalten werden. Das ist natürlich nicht immer einfach, aber es war lange der einzige Weg, um die Modularisierung des Systems zu verbessern und damit die Beherrschbarkeit zu erhöhen.
 
 ---
 
 <details><summary>Wie Code in Java strukturiert wird - Kapselung durch Zugriffskontrolle und Packages</summary>
+
+> Bei Kapselung von Objekten geht es um deren Schutz vor unerwünschtem Zugriff auf interne Daten von aussen. Dies erreicht man durch sorgfältiges Design von Schnittstellen und der damit verbundenen Steuerung von Zugriffsmöglichkeiten. Die Kapselungsmechanismen in Java waren lange aber zu durchlässig, um die Einhaltung der Strukturen, also die Sicherstellung einer konsistenten Architektur, systemweit zu erzwingen.
 
 > Um dem Wildwuchs an Abhängigkeiten ("big ball of mud") besser Herr zu werden, strukturiert man Java Code schon lange in Konstrukte wie ```interface```s, ```class```es und ```package```s und verwendet access level (```public```, ```protected```, ```private``` ...), um Zugriff auf interne Teile dieser Einheiten gezielt zu steuern und ggf. zu unterbinden.
 >
@@ -155,7 +156,7 @@ So beruhte in Java bis einschließlich zur Version 8 eine gute Systemarchitektur
 
 ---
 
-Die Typen objektorientierter Programmiersprachen (also Klassen, Interfaces, ...) werden insofern als (Lego-) Bausteine aufgefasst, als sich aus ihnen größere Konstruktionen zusammensetzen lassen. Benutzer der größeren Einheiten sollen dabei keinen direkten Zugriff auf die internen Bausteine der Einheiten haben, es sei denn, der Zugriff wird über eine öffentliche Schnittstelle explizit erlaubt. Code wird also so organisiert, dass große Bausteine aus kleineren zusammengesetzt werden können. Dieses Muster lässt sich natürlich beliebig oft wiederholen.
+Typen in objektorientierten Programmiersprachen (also Klassen, Interfaces, ...) werden insofern als (Lego-) Bausteine aufgefasst, als sich aus ihnen größere Konstruktionen zusammensetzen lassen. Benutzer der größeren Einheiten sollen dabei keinen direkten Zugriff auf die internen Bausteine der Einheiten haben. Code wird also so organisiert, dass große Bausteine aus kleineren zusammengesetzt werden können. Dieses Muster lässt sich natürlich beliebig oft wiederholen.
 
 Leider zeigt sich schnell, dass die beschriebenen Mechanismen nicht ausreichend sind, um die Entstehung von big balls of mud wirksam zu verhindern (vgl. **Abb. 5**).
 
@@ -170,7 +171,7 @@ Dies liegt unter anderem an einem Mangel der java-```package```s: Will man eine 
   <em>Abb. 6: Java Package Sichtbarkeit - Alles oder nichts</em>
 </p>
 
-Genau dies ist ein Ausgangspunkt für die Entstehung von big balls of mud: Früher oder später wird es dazu kommen, dass die Klasse von "weit entfernten" Stellen aus verwendet wird, die eigentlich keinen Zugriff haben sollten, da die Klasse für sie ein zu verbergendes Implementierungsdetail eines größeren Bausteins ist.
+Genau dies ist ein Ausgangspunkt für die Entstehung von big balls of mud: Früher oder später wird es dazu kommen, dass eine öffentliche Klasse von "weit entfernten" Stellen aus verwendet wird, die eigentlich keinen Zugriff haben sollten, da die Klasse für sie ein zu verbergendes Implementierungsdetail eines größeren Bausteins ist.
 
 ## Microservices
 
@@ -222,7 +223,7 @@ Die oben nur kurz beschriebenen Eigenschaften von Monolithen auf der einen und M
 
 Sollte es nicht möglich sein, Softwaresysteme zu konstruieren, die strukturell deutlich weniger komplex sind als die klassischen Monolithen, trotzdem aber deren einfachere Handhabbarkeit im Produktivbetrieb nutzen? Gibt es gleichzeitig eine Möglichkeit, bei Bedarf die Vorteile von Microservices z. B. in Sachen Skalierbarkeit mit einzubringen?
 
-Dieser Beitrag zeigt, dass ein modular aufgebauter Monolith genau dies realisiert. Dieses Konzept taucht seit einiger Zeit in der Literatur unter dem Kunstbegriff "Modulith" auf.
+Dieser Beitrag vertritt die Auffassung, dass ein modular aufgebauter Monolith genau dies realisiert. Dieses Konzept taucht seit einiger Zeit in der Literatur unter dem Kunstbegriff "Modulith" auf.
 
 Bevor dieses Konzept im Folgenden näher beschrieben wird, sollen zunächst konventionelle Ansätze zur Strukturierung und Kapselung von Code in Java vorgestellt werden.
 

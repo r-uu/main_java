@@ -180,7 +180,7 @@ Package-Struktur vereinfachen:
 frontend/common/mapping/bean/fxbean/
 frontend/common/mapping/fxbean/bean/
 # Nachher:
-frontend/common/mapping.bean.fxbean/
+frontend/common/mapping_bean_fxbean/
   ├── BeanToFXBeanMapper.java
   └── FXBeanToBeanMapper.java
 ```

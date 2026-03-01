@@ -106,7 +106,7 @@ docker compose up -d keycloak jasperreports
 # Warte auf Keycloak Health Status
 sleep 30
 # Keycloak Realm Setup (erstellt test/test User)
-cd ~/develop/github/main/root/lib/keycloak.admin
+cd ~/develop/github/main/root/lib/keycloak_admin
 mvn exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSetup"
 ```
 ---

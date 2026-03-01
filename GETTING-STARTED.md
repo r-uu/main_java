@@ -23,7 +23,7 @@ cd /home/r-uu/develop/github/main/config/shared/docker
 - Waits until all services are healthy (~2-3 minutes)
 ### 2️⃣ Start Backend
 ```bash
-cd /home/r-uu/develop/github/main/root/app/jeeeraaah/backend/api/ws.rs
+cd /home/r-uu/develop/github/main/root/app/jeeeraaah/backend/api/ws_rs
 mvn liberty:dev
 ```
 **Backend runs at:** http://localhost:9080
@@ -75,7 +75,7 @@ mvn clean install
 # 1. Docker (if not running)
 ruu-docker-startup
 # 2. Backend (in terminal)
-cd /home/r-uu/develop/github/main/root/app/jeeeraaah/backend/api/ws.rs
+cd /home/r-uu/develop/github/main/root/app/jeeeraaah/backend/api/ws_rs
 mvn liberty:dev
 # 3. Frontend (in IntelliJ)
 # Run > DashAppRunner or GanttAppRunner
@@ -119,13 +119,13 @@ See: [INTELLIJ-CACHE-CLEANUP.md](INTELLIJ-CACHE-CLEANUP.md)
 - Task dependencies
 ### Explore the Code
 **Backend:**
-- `root/app/jeeeraaah/backend/api/ws.rs` - REST API
+- `root/app/jeeeraaah/backend/api/ws_rs` - REST API
 - `root/app/jeeeraaah/backend/common/jpa` - Database
 **Frontend:**
 - `root/app/jeeeraaah/frontend/ui/fx` - JavaFX apps
-- `root/app/jeeeraaah/frontend/api.client` - REST client
+- `root/app/jeeeraaah/frontend/api_client` - REST client
 **Libraries:**
-- `root/lib/docker.health` - Health checks
+- `root/lib/docker_health` - Health checks
 - `root/lib/fx/comp` - JavaFX components
 ### Documentation
 - [QUICK-REFERENCE.md](QUICK-REFERENCE.md) - Command reference
@@ -156,7 +156,7 @@ All configuration is in `config/` directory:
 cd /home/r-uu/develop/github/main/root
 mvn test
 # Run specific module tests
-cd root/app/jeeeraaah/backend/api/ws.rs
+cd root/app/jeeeraaah/backend/api/ws_rs
 mvn test
 ```
 ---
@@ -167,7 +167,7 @@ This project uses Java modules. See:
 - [JPMS-RUN-CONFIGURATIONS.md](JPMS-RUN-CONFIGURATIONS.md)
 ### Docker Health Checks
 Automatic health monitoring and fixes:
-- `root/lib/docker.health` - Health check library
+- `root/lib/docker_health` - Health check library
 - Monitors: PostgreSQL, Keycloak, JasperReports
 - Auto-fix: Starts stopped containers
 ### MapStruct

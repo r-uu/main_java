@@ -26,16 +26,16 @@
 		<module>jpa</module>
 		<module>jsonb</module>
 		<module>junit</module>
-		<module>keycloak.admin</module>
+		<module>keycloak_admin</module>
 		<module>mapstruct</module>
 		<module>mapstruct/spi</module>
-		<module>mp.config</module>
-		<module>docker.health</module>
+		<module>mp_config</module>
+		<module>docker_health</module>
 		<module>office</module>
 		<module>postgres</module>
-		<module>postgres.util.ui</module>
+		<module>postgres_util_ui</module>
 		<module>util</module>
-		<module>ws.rs</module>
+		<module>ws_rs</module>
 	</modules>
 
 </project>

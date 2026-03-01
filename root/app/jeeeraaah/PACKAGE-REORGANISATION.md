@@ -87,7 +87,7 @@ import de.ruu.app.jeeeraaah.common.api.domain.lazy.TaskGroupLazy;
 
 **Betroffene Module:**
 - ✅ `common/api/domain` (TaskGroupService.java)
-- ✅ `common/api/ws.rs` (TaskDTOLazy, TaskGroupDTOLazy, TaskDTOFlat, TaskGroupDTOFlat)
+- ✅ `common/api/ws_rs` (TaskDTOLazy, TaskGroupDTOLazy, TaskDTOFlat, TaskGroupDTOFlat)
 - ✅ `common/api/mapping` (alle Mapper-Interfaces)
 - ✅ `backend/common/mapping.*` (alle JPA-Mapper)
 - ✅ `frontend/ui/fx` (alle UI-Controller)

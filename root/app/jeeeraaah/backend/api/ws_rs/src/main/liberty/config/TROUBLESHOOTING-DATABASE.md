@@ -83,7 +83,7 @@ sudo -u postgres psql -c "ALTER USER r_uu CREATEDB;"
 
 ### 1. Liberty neu starten
 ```bash
-cd /home/r-uu/develop/github/space-02/r-uu/app/jeeeraaah/backend/api/ws.rs
+cd /home/r-uu/develop/github/space-02/r-uu/app/jeeeraaah/backend/api/ws_rs
 
 # Liberty stoppen (falls läuft)
 mvn liberty:stop

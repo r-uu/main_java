@@ -20,7 +20,7 @@ Liberty Server konnte die Rollen im JWT Token nicht finden, weil **`groupNameAtt
 
 ### Geänderte Datei
 
-**`root/app/jeeeraaah/backend/api/ws.rs/src/main/liberty/config/server.xml`**
+**`root/app/jeeeraaah/backend/api/ws_rs/src/main/liberty/config/server.xml`**
 
 ```xml
 <mpJwt id="jwtConsumer"

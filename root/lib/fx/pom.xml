@@ -18,7 +18,7 @@
 	<modules>
 		<module>core</module>
 		<module>comp</module>
-		<module>comp.demo</module>
+		<module>comp_demo</module>
 		<module>demo</module>
 	</modules>
 

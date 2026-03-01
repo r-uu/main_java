@@ -19,7 +19,7 @@
 - **Status:** ✅ Bereits korrekt
 
 ### 3. Keycloak Realm Setup (bereits korrekt)
-- **Datei:** `root/lib/keycloak.admin/src/main/java/.../KeycloakRealmSetup.java`
+- **Datei:** `root/lib/keycloak_admin/src/main/java/.../KeycloakRealmSetup.java`
 - **Konfiguration:**
   ```java
   private static final String TEST_USER = "test";
@@ -49,7 +49,7 @@ cd ~/develop/github/main/config/shared/docker
 ### Keycloak Realm Setup (bei Bedarf)
 ```bash
 # Realm und User erstellen/aktualisieren
-cd ~/develop/github/main/root/lib/keycloak.admin
+cd ~/develop/github/main/root/lib/keycloak_admin
 mvn exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSetup"
 ```
 
@@ -107,7 +107,7 @@ curl http://localhost:8080/health/ready
 ### Problem: Login schlägt fehl mit "invalid_grant"
 **Lösung:** Keycloak Realm Setup ausführen
 ```bash
-cd ~/develop/github/main/root/lib/keycloak.admin
+cd ~/develop/github/main/root/lib/keycloak_admin
 mvn exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSetup"
 ```
 

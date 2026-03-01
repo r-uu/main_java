@@ -22,7 +22,7 @@ source ~/.bashrc        # Lädt Aliase (automatisch bei jedem Terminal-Start)
 ### 2. Backend starten (OpenLiberty)
 
 ```bash
-cd /home/r-uu/develop/github/main/root/app/jeeeraaah/backend/api/ws.rs
+cd /home/r-uu/develop/github/main/root/app/jeeeraaah/backend/api/ws_rs
 mvn liberty:dev
 ```
 
@@ -67,7 +67,7 @@ ruu-docker-restart
 ```bash
 # Liberty erkennt Änderungen automatisch
 # ODER: Strg+C und dann:
-cd /home/r-uu/develop/github/main/root/app/jeeeraaah/backend/api/ws.rs
+cd /home/r-uu/develop/github/main/root/app/jeeeraaah/backend/api/ws_rs
 mvn liberty:dev
 ```
 

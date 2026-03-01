@@ -120,7 +120,7 @@ curl -s http://localhost:8080/realms/jeeeraaah-realm/.well-known/openid-configur
 
 ```bash
 cd ~/develop/github/main/root
-mvn test -pl lib/jpa/se.hibernate.postgres.demo
+mvn test -pl lib/jpa/se_hibernate_postgres_demo
 ```
 
 **Expected Output:**

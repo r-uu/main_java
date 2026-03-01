@@ -53,7 +53,7 @@ docker exec postgres psql -U lib_test -d lib_test -c "SELECT current_user;"
 
 ```bash
 cd ~/develop/github/main/root
-mvn clean test -pl lib/jpa/se.hibernate.postgres.demo
+mvn clean test -pl lib/jpa/se_hibernate_postgres_demo
 ```
 
 ## Was die Init-Scripts tun

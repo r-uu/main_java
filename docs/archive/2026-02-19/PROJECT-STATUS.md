@@ -106,7 +106,7 @@ BUILD SUCCESS
 - ✅ Automatic Token Refresh
 - ✅ Session Expiry Handling
 
-**Dokumentation:** [root/lib/keycloak.admin/README.md](root/lib/keycloak.admin/README.md)
+**Dokumentation:** [root/lib/keycloak_admin/README.md](root/lib/keycloak_admin/README.md)
 
 ---
 

@@ -16,11 +16,11 @@ jeeeraaah ist eine JPMS-basierte Modulith-Anwendung für Task- und TaskGroup-Ver
 ```
 jeeeraaah/
 ├── backend/                    # Server-Komponenten
-│   ├── api/ws.rs/              # REST API (Open Liberty)
+│   ├── api/ws_rs/              # REST API (Open Liberty)
 │   ├── persistence/            # JPA Entities & Repositories
 │   └── common/                 # Backend-gemeinsame Klassen
 ├── frontend/                   # Client-Komponenten
-│   ├── api.client/ws.rs/       # REST Client
+│   ├── api.client/ws_rs/       # REST Client
 │   ├── ui/fx/                  # JavaFX UI
 │   └── common/                 # Frontend-gemeinsame Klassen
 ├── common/api/                 # API Domain Models (geteilt)
@@ -32,7 +32,7 @@ jeeeraaah/
 
 ### Backend (Open Liberty)
 ```bash
-mvn liberty:dev -pl app/jeeeraaah/backend/api/ws.rs
+mvn liberty:dev -pl app/jeeeraaah/backend/api/ws_rs
 ```
 
 **Zugriff:** http://localhost:9080/jeeeraaah

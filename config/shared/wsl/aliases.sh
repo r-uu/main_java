@@ -197,9 +197,9 @@ alias ruu-dash='cd $RUU_ROOT/app/jeeeraaah/frontend/ui/fx && mvn exec:java'
 # ═══════════════════════════════════════════════════════════════════
 # Application - Backend (Open Liberty)
 # ═══════════════════════════════════════════════════════════════════
-alias ruu-liberty-start='cd $RUU_ROOT/app/jeeeraaah/backend/api/ws.rs && mvn liberty:dev'
-alias ruu-liberty-run='cd $RUU_ROOT/app/jeeeraaah/backend/api/ws.rs && mvn liberty:run'
-alias ruu-liberty-stop='cd $RUU_ROOT/app/jeeeraaah/backend/api/ws.rs && mvn liberty:stop'
+alias ruu-liberty-start='cd $RUU_ROOT/app/jeeeraaah/backend/api/ws_rs && mvn liberty:dev'
+alias ruu-liberty-run='cd $RUU_ROOT/app/jeeeraaah/backend/api/ws_rs && mvn liberty:run'
+alias ruu-liberty-stop='cd $RUU_ROOT/app/jeeeraaah/backend/api/ws_rs && mvn liberty:stop'
 
 # ═══════════════════════════════════════════════════════════════════
 # Initialisierung & Git-Kompatibilität
