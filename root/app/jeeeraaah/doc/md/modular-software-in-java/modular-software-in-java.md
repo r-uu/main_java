@@ -1,6 +1,8 @@
 # Entwicklung modularer Software mit Java
 
-Modularisierung ist ein wichtiges Qualitätsmerkmal für große Softwaresysteme. Sie verbessert die Möglichkeit, diese zu verstehen, erhöht dadurch ihre Beherrschbarkeit und trägt zu deren effektiverer Wart-, Test- und Erweiterbarkeit bei.
+Das vielleicht wichtigste Ziel von Softwarearchitektur ist die Verringerung von Systemkomplexität, und damit die Verringerung von kognitiver Last für Entwickler (und Architekten).
+
+Eine wichtige Rolle hierbei spielt Modularisierung. Sie ist ein messbares Qualitätsmerkmal. Sie verbessert gerade für große Systeme die Möglichkeit, diese zu verstehen, erhöht dadurch ihre Beherrschbarkeit und trägt zu deren effektiverer Wart-, Test- und Erweiterbarkeit bei.
 
 Dieser Beitrag beschreibt unzureichende Modularisierung als eine Ursache für die Schwierigkeit, komplexe Software zu beherrschen und wie es insbesondere in Java-Anwendungen zu Defiziten in der Modularisierung kommt. Der Beitrag zeigt ausserdem Strategien für Modularisierung in Java auf und liefert Beispiele für deren praktische Umsetzung.
 

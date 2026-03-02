@@ -4,11 +4,15 @@ JPMS (Java Platform Module System) ist eine Technologie zur Modularisierung von 
 
 Für das JDK selbst wird JPMS meist als großer Erfolg gewertet, da es seit dem nicht mehr als ein einziger riesiger Monolith (rt.jar) ausgeliefert werden muss, der schon aufgrund seiner Größe nicht mehr zum sich immer weiter verbreitenden Architekturmodell Microservices passte.
 
-In der Java User Community hingegen kämpft JPMS aus verschiedenen Gründen wie (noch) nicht modularer legacy code, Probleme mit reflection, ... weiter um Akzeptanz.
+In der Java User Community hingegen kämpft JPMS aus verschiedenen Gründen weiter um Akzeptanz:
 
-Modularisierung ist aber ein entscheidender Faktor für die Entwicklung von gut wartbaren, gut verständlichen und gut erweiterbaren, großen Softwaresystemen (siehe Artikel [modular software in java](../modular-software-in-java/modular-software-in-java.md)).
+- Der oft nicht zu vermeidende Einsatz von (noch) nicht modularem legacy code erschwert den Einsatz von JPMS (Stichwort "split packages"). Der Nutzen ist dann ohnehin einschränkt: nicht modularer code "landet" in "automatic modules", die zwar auch Module heißen, aber nicht die Vorteile von JPMS Modulen mit sich bringen (dazu später mehr).
+- Probleme mit reflection, die mit JPMS gesondert behandelt werden muss.
+- Für die effektive Nutzung der JPMS features muss auch eine gewisse Lernkurve in Kauf genommen werden.
 
-Das Projekt jeeeraaah wurde als "proof of concept" (POC) für die Möglichkeit der Verwendung von JPMS in Enterprise Java Systemen gestartet. Ziel ist, anhand einer überschaubaren, aber nicht trivialen Anwendung zu überprüfen, ob und wie Modularisierung großer Java Applikationen mit JPMS eine valide Alternative zu anderen Architekturansätzen wie z. B. Microservices ist.
+Modularisierung ist aber ein entscheidender Faktor für die Entwicklung von gut wartbaren, gut verständlichen und gut erweiterbaren, großen Softwaresystemen (siehe den Beitrag [modular software in java](../modular-software-in-java/modular-software-in-java.md)).
+
+[Das Projekt jeeeraaah](https://github.com/r-uu/main/tree/main/root/app/jeeeraaah) wurde als "proof of concept" (POC) für die Möglichkeit der Verwendung von JPMS in Enterprise Java Systemen gestartet. Ziel ist, anhand einer überschaubaren, aber nicht trivialen Anwendung zu überprüfen, ob und wie Modularisierung großer Java Applikationen mit JPMS eine valide Alternative zu anderen Architekturansätzen wie z. B. Microservices ist.
 
 Gleichzeitig soll kritisch geprüft werden, ob die Vorteile von Modularisierung mit JPMS die Nachteile überwiegen, z. B. die Komplexität der Modularisierung selbst, die Komplexität der Build- und Deployment-Prozesse, ... .
 
@@ -52,9 +56,9 @@ Jeeeraaah ist eine client-server Java Anwendung, deren Bestandteile (bis auf ein
 
 Das Backend ist eine Jakarta EE 10 / Microprofile 6.1 Anwendung. Als Application Server wird Open Liberty verwendet. Im Frontend kommt JavaFX 25 zum Einsatz.
 
-Frontend und Backend sind weitestgehend mit JPMS modularisiert. Die Kommunikation zwischen ihnen erfolgt über REST APIs, die mit Jakarta-RS implementiert wurden. Die (De-) Serialisierung der Daten erfolgt mit Jackson, was einen komfortablen und gleichzeitig effizienten Umgang auch mit zirkulären Datenstrukturen (siehe Task / TaskGroup Objektmodell) erlaubt. Die build Prozesse für beide Anwendungen werden mit Apache Maven realisiert.
+Frontend und Backend sind weitestgehend mit JPMS modularisiert. Die Kommunikation zwischen ihnen erfolgt über REST APIs, die mit Jakarta-RS implementiert wurden. Die (De-) Serialisierung der Daten erfolgt mit Jackson, was einen komfortablen und gleichzeitig effizienten Umgang auch mit zirkulären Datenstrukturen (siehe Task/TaskGroup Objektmodell) erlaubt. Die build Prozesse für beide Anwendungen werden mit Apache Maven realisiert.
 
-Für das Identity and Access Management (IAM) wird Keycloak verwendet. Das frontend kommuniziert direkt mit Keycloak, um die Authentifizierung der Benutzer durchführen zu lassen. Das Open Liberty backend ist so konfiguriert, dass es die von keycloak ausgestellten token akzeptiert und die Autorisierung für alle eingehenden Requests durchführen kann.
+Für das Identity and Access Management (IAM) wird Keycloak verwendet. Das frontend kommuniziert direkt mit Keycloak, um die Authentifizierung der Benutzer durchführen zu lassen. Das Open Liberty backend ist so konfiguriert, dass es die von keycloak ausgestellten Token akzeptiert und die Autorisierung für alle eingehenden Requests durchführen kann.
 
 Die persistente Datenhaltung im Backend wird mit einer postgres Datenbank realisiert. Sie wird genau wie keycloak in einem von docker-compose orchestrierten Container betrieben. In diesem POC liegen die jeeeraaah- zusammen mit den keycloak-Daten in ein und derselben Datenbank, sie sind aber jeweils explizit einem eigenen Schema zugeordnet. Die jeeeraaah Zugriffe auf die Datenbank sind durchgängig mit JPA (hibernate) umgesetzt.
 
@@ -73,30 +77,30 @@ jeeeraaah/
 └── common/api/                 # API Domain Model Types (geteilt)
 ```
 
-Bis auf das maven Modul r-uu.app.jeeeraaah.backend.api sind alle Module mit JPMS modularisiert. Warum das Modul r-uu.app.jeeeraaah.backend.api eine Ausnahme ist, wird in [module backend](#modul-backend) beschrieben.
+Bis auf das maven Modul r-uu.app.jeeeraaah.backend.api.ws_rs sind alle Module mit JPMS modularisiert. Warum das Modul r-uu.app.jeeeraaah.backend.api eine Ausnahme ist, wird in [module backend](#modul-backend) beschrieben.
 
 ## Architektur
 
-Das Backend ist in zwei maven Hauptmodule aufgeteilt: `api` und `persistence`. Das `api` Modul enthält die REST API Schnittstellen, die mit Jakarta-RS implementiert wurden. Im `persistence` Modul befindet sich die Datenzugriffsschicht, die mit JPA (hibernate) implementiert wurde.
+Das Backend ist in zwei maven Hauptmodule aufgeteilt: api und persistence. Das api Modul enthält die REST API Schnittstellen, die mit Jakarta-RS implementiert wurden. Im persistence Modul befindet sich die Datenzugriffsschicht, die mit JPA (hibernate) implementiert wurde.
 
-Das frontend ist ebenfalls in zwei maven Module aufgeteilt: `ui` und `api.client`. Das `ui` Modul enthält die JavaFX Komponenten, die für die Darstellung der Benutzeroberfläche verantwortlich sind. Das `api.client` Modul enthält die Logik für die Kommunikation mit dem backend über REST APIs.
+Das frontend ist ebenfalls in zwei maven Module aufgeteilt: ui und api.client. Das ui Modul enthält die JavaFX Komponenten, die für die Darstellung der Benutzeroberfläche verantwortlich sind. Das api.client Modul enthält die Logik für die Kommunikation mit dem backend über REST APIs.
 
-Das Bindeglied zwischen frontend und backend ist das maven Modul `common`, das Objekte und Objekt-Mappings enthält, die von beiden Seiten verwendet werden.
+Das Bindeglied zwischen frontend und backend ist das maven Modul common, das Objekte und Objekt-Mappings enthält, die von beiden Seiten verwendet werden.
 
 ### Modul common
 
-Das `common.api.domain` maven Modul enthält zentrale Schnittstellen und Basisklassen des Domänenmodells. Dieses Modul bildet das Fundament für das Jeeeraaah Task-Management-System und definiert:
+Das `common.api.domain` maven Modul enthält zentrale Schnittstellen und Basisklassen des Domänenmodells. Dieses Modul bildet das Fundament für das jeeeraaah Task-Management-System und definiert:
 
 - Zentrale Domain-Entitäten und deren Verträge
-- **Lazy-Loading-Varianten** zur Performanceoptimierung (`domain.lazy` Package)
-- **Flache Repräsentationen** für vereinfachten Datentransfer (`domain.flat` Package)
+- **Lazy-Loading-Varianten** zur Performanceoptimierung (domain.lazy package)
+- **Flache Repräsentationen** für vereinfachten Datentransfer `domain.flat package)
 - Konfigurationen für Beziehungen zwischen Tasks
 
 Das Modul ist so konzipiert, dass es als Bindeglied zwischen Frontend und Backend fungiert, um ein konsistentes Domänenmodell über alle Anwendungsschichten hinweg zu gewährleisten.
 
 Der Aufbau des Moduls spiegelt die Struktur des gesamten Projekts wider:
 
-- das Submodul **...common.api.domain** enthält vor allem die zentralen Interfaces des Domänenmodells, die von beiden Seiten (Frontend und Backend) verwendet werden. Um die Verwendung der Interfaces auf beiden Seiten möglichst konsistent halten zu können, sind sie generisch, was eine sehr starke Typisierung in den implementierenden Klassen ermöglicht.
+- das Submodul **...common.api.domain** enthält vor allem die zentralen Interfaces des Domänenmodells, die von beiden Seiten (Frontend und Backend) verwendet werden. Um die Verwendung der Interfaces auf beiden Seiten möglichst konsistent halten zu können, sind sie generisch, was eine starke Typisierung in den implementierenden Klassen ermöglicht.
 
 - das Submodul **...common.api.domain.flat** enthält "flache" Repräsentationen von Domain-Objekten, die nur Kern-Felder ohne teure Beziehungen enthalten.
 
@@ -106,7 +110,7 @@ Der Aufbau des Moduls spiegelt die Struktur des gesamten Projekts wider:
 
 - das Submodul **...common.api.bean** enthält (Java-)Bean-Implementierungen der Interfaces aus common.api.domain. Genaugenommen sind die Implementierungen keine Java-Beans, da sie fluent accessors anstelle der Java-Beans üblichen get-/set-accessors verwenden. Die Bean-Implementierungen aus diesem Modul sind für die Realisierung von Geschäftslogik im Projekt vorgesehen.
 
-Ergänzend zu den Submodulen enthält das `common` Modul noch das Submodul **common.api.mapping**, in dem die Mappings zwischen Java-Beans und DTOs definiert werden. Die Mappings werden aktuell mit MapStruct implementiert.
+Ergänzend zu den Submodulen enthält das common Modul noch das Submodul **common.api.mapping**, in dem die Mappings zwischen Java-Beans und DTOs definiert werden. Die Mappings werden aktuell mit MapStruct implementiert.
 
 ---
 
@@ -126,9 +130,9 @@ Im Nachhinein wäre ein Verzicht auf MapStruct und die Implementierung der Mappi
 
 ### Modul backend
 
-Das `backend` maven Modul besteht wieder aus zwei Hauptmodulen: `api.ws.rs` und `persistence`.
+Das backend maven Modul besteht wieder aus zwei Hauptmodulen: api.ws_rs und persistence.
 
-Das `api.ws.rs` Modul enthält die REST API Schnittstellen, die mit Jakarta-RS implementiert wurden. Es ist das einzige maven Modul im Projekt jeeeraaah, das nicht mit JPMS implementiert wurde.
+Das api.ws_rs Modul enthält die REST API Schnittstellen, die mit Jakarta-RS implementiert wurden. Es ist das einzige maven Modul im Projekt jeeeraaah, das nicht mit JPMS implementiert wurde.
 
 Der Grund hierfür liegt in der WAR Deployment Architektur, die Standard für Jakarta EE Application Server wie Open Liberty ist. Jakarta EE Application Server deployen WAR-Dateien standardmäßig auf dem `classpath`. Theoretisch ließe sich das WAR auch mit JPMS bauen und auf dem `modulepath` deployen. Die Jakarta EE Server APIs, mit denen das WAR interagiert, sind aber selbst nicht JPMS konform, was dazu führt, dass die JPMS Kapselungsmechanismen nicht greifen würden. Da JPMS in diesem Kontext also keine signifikanten Vorteile bringen würde, wurde auf die in diesem Fall entstehende zusätzlische Komplexität für das Deployment des Moduls mit JPMS verzichtet.
 
@@ -305,7 +309,7 @@ module de.ruu.app.jeeeraaah.common.api.domain {
 
 ### Transitive Dependencies Management
 
-JPMS erlaubt präzise Kontrolle über transitive Abhängigkeiten durch `requires transitive`. Module, die eine API exportieren, können sicherstellen, dass konsumende Module automatisch Zugriff auf benötigte Typen haben.
+JPMS erlaubt präzise Kontrolle über transitive Abhängigkeiten durch `requires transitive`. Module, die eine API exportieren, können sicherstellen, dass konsumierende Module automatisch Zugriff auf benötigte Typen haben.
 
 **Beispiel:** Das Modul `common.api.domain` deklariert `requires transitive de.ruu.lib.jpa.core`, sodass alle Module, die `common.api.domain` verwenden, automatisch Zugriff auf JPA-Core-Typen haben – ohne diese explizit zu deklarieren.
 
@@ -409,7 +413,7 @@ Dies wird zur **Compile-Zeit** erzwungen, nicht erst durch Code-Reviews oder Tes
 
 ### Pragmatische Ausnahme: backend.api.ws.rs
 
-Interessanterweise ist `backend.api.ws.rs` bewusst **nicht** mit JPMS modularisiert. Der Grund: Jakarta EE Server wie Open Liberty deployen WARs traditionell auf dem Classpath. Da die Jakarta EE APIs selbst nicht vollständig JPMS-konform sind, würden die Kapselungsvorteile nicht greifen.
+Interessanterweise ist `backend.api.ws.rs` bewusst **nicht** mit JPMS modularisiert. Der Grund: Jakarta EE Server wie Open Liberty deployen WARs traditionell auf dem classpath (nicht dem modulepath). Da die Jakarta EE APIs selbst nicht vollständig JPMS-konform sind, würden die Kapselungsvorteile nicht greifen.
 
 **Diese pragmatische Entscheidung zeigt:** JPMS wird dort eingesetzt, wo es echten Mehrwert bringt, nicht dogmatisch überall.
 
@@ -444,5 +448,3 @@ Der jeeeraaah keycloak server läuft in einem Docker Container, der über docker
 Die keycloak service Konfiguration erfolgt in docker-compose.yml. Dort wird der keycloak server mit den notwendigen Umgebungsvariablen konfiguriert, um die initiale Einrichtung von Realm, Client und User zu ermöglichen.
 
 Das openliberty backend ist so konfiguriert, dass es bei eingehenden requests mit keycloak über OpenID Connect (OIDC) kommuniziert, um die Authentifizierung und Autorisierung der Benutzer zu gewährleisten. Das frontend kommuniziert direkt mit Keycloak, um die Authentifizierung und Autorisierung der Benutzer zu gewährleisten.
-
-The Server Side
