@@ -199,6 +199,21 @@
 							</systemProperties>
 						</configuration>
 					</execution>
+					<execution>
+						<id>main</id>
+						<goals>
+							<goal>java</goal>
+						</goals>
+						<configuration>
+							<mainClass>de.ruu.app.jeeeraaah.frontend.ui.fx.MainAppRunner</mainClass>
+							<systemProperties>
+								<systemProperty>
+									<key>glass.gtk.uiScale</key>
+									<value>1.5</value>
+								</systemProperty>
+							</systemProperties>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 		</plugins>

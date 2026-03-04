@@ -2,6 +2,7 @@ package de.ruu.app.jeeeraaah.frontend.ui.fx;
 
 import static de.ruu.lib.fx.FXUtil.getStage;
 
+import de.ruu.app.jeeeraaah.frontend.ui.fx.dash.Dash;
 import de.ruu.app.jeeeraaah.frontend.ui.fx.task.TaskManagement;
 import de.ruu.app.jeeeraaah.frontend.ui.fx.task.gantt.GanttTable;
 import de.ruu.app.jeeeraaah.frontend.ui.fx.taskgroup.TaskGroupManagement;
@@ -58,6 +59,8 @@ class MainController extends DefaultFXCController<Main, MainService> implements 
 	private AnchorPane root;
 
 	@Inject
+	private Dash dash;
+	@Inject
 	private TaskGroupManagement taskGroupManagement;
 	@Inject
 	private TaskManagement taskManagement;
@@ -83,14 +86,14 @@ class MainController extends DefaultFXCController<Main, MainService> implements 
 	private void onDash(ActionEvent e)
 	{
 		ObservableList<Node> mainRootChildren = root.getChildren();
-		Parent taskGroupManagementRoot = taskGroupManagement.localRoot();
+		Parent dashRoot = dash.localRoot();
 
 		mainRootChildren.remove(main);
-		mainRootChildren.add(taskGroupManagementRoot);
+		mainRootChildren.add(dashRoot);
 
-		FXUtil.setAnchorsInAnchorPaneTo(taskGroupManagementRoot, 0);
+		FXUtil.setAnchorsInAnchorPaneTo(dashRoot, 0);
 
-		getStage(root).ifPresent(s -> s.setTitle(APP_TITLE + " - task groups"));
+		getStage(root).ifPresent(s -> s.setTitle(APP_TITLE + " - dash"));
 	}
 
 	private void onTaskGroups(ActionEvent e)
