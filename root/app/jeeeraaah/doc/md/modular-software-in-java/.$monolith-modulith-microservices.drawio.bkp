@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.5.2 Chrome/142.0.7444.265 Electron/39.6.1 Safari/537.36" version="29.5.2">
   <diagram id="MbxZkrTN2pbunhBNJNgr" name="Seite-1">
-    <mxGraphModel dx="1152" dy="838" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="#E6E6E6" math="0" shadow="0">
+    <mxGraphModel dx="1152" dy="838" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="#ffffff" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -27,6 +27,12 @@
         <mxCell id="arrow_mono_db" edge="1" parent="1" source="monolith_bg" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="200" y="470" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="big_arrow" edge="1" parent="1" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;fillColor=#fff2cc;strokeColor=#d6b656;" value="refactoring">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="390" y="269.5" as="sourcePoint" />
+            <mxPoint x="520" y="269.5" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="ms_a_bg" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;verticalAlign=middle;fontStyle=1;" value="microservice a" vertex="1">
@@ -91,9 +97,6 @@
             <mxPoint x="800" y="310" as="sourcePoint" />
             <mxPoint x="760" y="310" as="targetPoint" />
           </mxGeometry>
-        </mxCell>
-        <mxCell id="vqv9V0m_T19yldTQg6eq-1" parent="1" style="triangle;whiteSpace=wrap;html=1;" value="refactoring&amp;nbsp; &amp;nbsp;" vertex="1">
-          <mxGeometry height="100" width="80" x="420" y="220" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
