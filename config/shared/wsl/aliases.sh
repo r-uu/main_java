@@ -3,13 +3,6 @@
 # Diese Datei wird versioniert und mit allen Entwicklern geteilt
 
 # ═══════════════════════════════════════════════════════════════════
-# Java / GraalVM
-# ═══════════════════════════════════════════════════════════════════
-export GRAALVM_HOME="/opt/graalvm-jdk-25"
-export JAVA_HOME="$GRAALVM_HOME"
-export PATH="$JAVA_HOME/bin:$PATH"
-
-# ═══════════════════════════════════════════════════════════════════
 # Projekt-Pfade
 # ═══════════════════════════════════════════════════════════════════
 export RUU_HOME="/home/r-uu/develop/github/main"
@@ -17,7 +10,10 @@ export RUU_BOM="$RUU_HOME/bom"
 export RUU_ROOT="$RUU_HOME/root"
 export RUU_CONFIG="$RUU_HOME/config"
 export RUU_DOCKER="$RUU_CONFIG/shared/docker"
+export RUU_WSL="$RUU_CONFIG/shared/wsl"
 export RUU_JASPER="$RUU_ROOT/sandbox/office/microsoft/word/jasperreports"
+
+alias ruu-reload-aliases='source $RUU_WSL/aliases.sh && echo "✅ Aliase neu geladen"'
 
 # ═══════════════════════════════════════════════════════════════════
 # Navigation
@@ -29,6 +25,7 @@ alias ruu-lib='cd $RUU_ROOT/lib'
 alias ruu-app='cd $RUU_ROOT/app'
 alias ruu-config='cd $RUU_CONFIG'
 alias ruu-docker='cd $RUU_DOCKER'
+alias ruu-wsl='cd $RUU_WSL'
 alias ruu-jasper='cd $RUU_JASPER'
 
 # ═══════════════════════════════════════════════════════════════════

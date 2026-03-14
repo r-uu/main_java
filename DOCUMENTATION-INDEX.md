@@ -1,7 +1,16 @@
 # Project Documentation - Index
-**📌 Main Entry Point: [README.md](README.md)**  
-**Last Updated:** 2026-03-01  
+**📌 KI-Kontext: [CLAUDE.md](CLAUDE.md)** | **Einstieg: [README.md](README.md)**  
+**Last Updated:** 2026-03-14  
 **Status:** ✅ Consolidated and up-to-date
+
+---
+
+## 🤖 KI-Kontext (Claude)
+
+| Datei | Inhalt |
+|-------|--------|
+| [CLAUDE.md](CLAUDE.md) | ⭐ **Automatisch geladener Projekt-Kontext für Claude** |
+| [root/app/jeeeraaah/CLAUDE.md](root/app/jeeeraaah/CLAUDE.md) | App-Architektur, Datenmodell, JPMS-Konventionen |
 
 ---
 
@@ -30,7 +39,6 @@
 
 | Document | Description |
 |----------|-------------|
-| [BUILD-STATUS-2026-02-28.md](BUILD-STATUS-2026-02-28.md) | Current build status and warnings |
 | [VSCODE-ERRORS-EXPLAINED-2026-03-01.md](VSCODE-ERRORS-EXPLAINED-2026-03-01.md) | ⚠️ **Why VS Code shows errors** |
 | [VSCODE-TASKS-GUIDE.md](VSCODE-TASKS-GUIDE.md) | ⭐ **VS Code Tasks & Shortcuts** (Liberty, Frontend) |
 | [BUILD-TROUBLESHOOTING.md](BUILD-TROUBLESHOOTING.md) | Build troubleshooting guide |
@@ -159,24 +167,25 @@
 
 ---
 
-## 📊 Consolidation Report
+## 📊 Konsolidierungshistorie
 
-| Document | Description |
-|----------|-------------|
-| [DOCUMENTATION-CONSOLIDATION-PLAN.md](DOCUMENTATION-CONSOLIDATION-PLAN.md) | ⭐ **Documentation consolidation plan 2026-03-01** |
+**2026-03-14:**
+- ✅ `CLAUDE.md` (root) und `root/app/jeeeraaah/CLAUDE.md` erstellt
+- ✅ `BUILD-STATUS-2026-02-28.md` nach `docs/archive/2026-03/` verschoben
+- ✅ `DOCUMENTATION-CONSOLIDATION-PLAN.md` nach `docs/archive/2026-03/` verschoben
+- ✅ `config/STATUS.md` (leer) gelöscht
 
-**Summary of Consolidation (2026-03-01):**
+**2026-03-01:**
 - ✅ **40 → 11 root-level MD files** (82% reduction)
 - ✅ **15 files archived** (historical reports & fixes)
 - ✅ **7 JPMS documents → 1 JPMS-REFERENCE.md**
-- ✅ **10 duplicates/obsolete files deleted**
-- ✅ **8 conversion scripts removed** (migration completed)
 - ✅ **3 Liberty aliases added** (ruu-liberty-start/run/stop)
 
 ---
 
 ## 📖 Reading Order for New Developers
 
+0. **[CLAUDE.md](CLAUDE.md)** - KI-Kontext & schnelle Orientierung
 1. **[README.md](README.md)** - Start here!
 2. **[GETTING-STARTED.md](GETTING-STARTED.md)** - Complete guide
 3. **[VSCODE-TASKS-GUIDE.md](VSCODE-TASKS-GUIDE.md)** - ⚡ **Liberty & Frontend mit Shortcuts starten**

@@ -1,0 +1,109 @@
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# Minimale, aufgeräumte Konfiguration für WSL2
+
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+# History configuration
+HISTCONTROL=ignoreboth
+shopt -s histappend
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+# Check window size after each command
+shopt -s checkwinsize
+
+# Make less more friendly for non-text input files
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# Set a fancy prompt
+case "$TERM" in
+    xterm-color|*-256color) color_prompt=yes;;
+esac
+
+if [ "$color_prompt" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+fi
+unset color_prompt
+
+# Window title
+if [[ $- == *i* ]]; then
+  case "$TERM" in
+    xterm*|rxvt*|linux|screen*|tmux*)
+      printf '\033]0;%s - bash\007' "$(hostname)"
+      ;;
+  esac
+fi
+
+# Enable color support
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    alias grep='grep --color=auto'
+fi
+
+# Basic ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+# Docker aliases - nur das Wichtigste
+if [ -f ~/.bash_aliases_docker ]; then
+    . ~/.bash_aliases_docker
+fi
+
+# Bash completion
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+
+# Auto-start Docker containers beim Boot
+if service docker status >/dev/null 2>&1; then
+    # Docker daemon läuft bereits
+    :
+else
+    # Docker daemon starten
+    sudo service docker start >/dev/null 2>&1
+fi
+
+# Docker-Compose Container auto-start (main project)
+if command -v docker &> /dev/null; then
+    DOCKER_COMPOSE_DIR="/home/r-uu/develop/github/main/config/shared/docker"
+    if [ -f "$DOCKER_COMPOSE_DIR/docker-compose.yml" ]; then
+        (cd "$DOCKER_COMPOSE_DIR" && docker compose up -d >/dev/null 2>&1 &)
+    fi
+fi
+# ═══════════════════════════════════════════════════════════════════
+# r-uu project configuration
+# ═══════════════════════════════════════════════════════════════════
+
+# ═══════════════════════════════════════════════════════════════════
+# - r-uu java / graalVM
+# ═══════════════════════════════════════════════════════════════════
+export GRAALVM_HOME="/opt/graalvm-jdk-25"
+export JAVA_HOME="$GRAALVM_HOME"
+export PATH="$JAVA_HOME/bin:$PATH"
+
+# ═══════════════════════════════════════════════════════════════════
+# - r-uu aliases
+# ═══════════════════════════════════════════════════════════════════
+if [ -f ~/develop/github/main/config/shared/wsl/aliases.sh ]; then
+    source ~/develop/github/main/config/shared/wsl/aliases.sh
+fi
+
+# ═══════════════════════════════════════════════════════════════════
+# r-uu docker services
+# ═══════════════════════════════════════════════════════════════════
+# Docker Services können manuell mit 'ruu-startup' gestartet werden
+# (Alias definiert in ~/develop/github/main/config/shared/wsl/aliases.sh)
+
+# removed broken code alias (was forcing cmd.exe and breaking UNC paths)
