@@ -46,7 +46,7 @@ jeeeraaah/
 TaskGroup (1) ──── (*) Task
 ```
 
-- **TaskGroup**: Fasst Tasks zusammen. Ein Task gehört immer zu genau einer TaskGroup.
+- **TaskGroup**: Fasst `Task`s zusammen. Ein `Task` gehört immer zu genau einer `TaskGroup`.
 - **Task**: Zentrales Geschäftsobjekt mit folgenden Beziehungen:
   - **Super-/Sub-Tasks**: Aufgaben-Hierarchie (Eltern/Kinder)
   - **Predecessors/Successors**: Abhängigkeitsreihenfolge (Vorgänger/Nachfolger)

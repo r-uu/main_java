@@ -1,0 +1,157 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" width="900" height="560" font-family="'Segoe UI', Arial, sans-serif">
+
+  <!-- Background -->
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f1c2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a2e4a;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#e8632a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f5a623;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1a73e8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#34a8f5;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1db954;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4ade80;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Main background -->
+  <rect width="900" height="560" fill="url(#bgGrad)" rx="16"/>
+
+  <!-- Top accent bar -->
+  <rect x="0" y="0" width="900" height="6" fill="url(#accentGrad)" rx="3"/>
+
+  <!-- Header -->
+  <text x="450" y="52" text-anchor="middle" fill="#ffffff" font-size="28" font-weight="700" letter-spacing="1">JPMS in Action</text>
+  <text x="450" y="78" text-anchor="middle" fill="#e8632a" font-size="15" font-weight="600" letter-spacing="3">jeeeraaah — Enterprise Java POC</text>
+
+  <!-- Subtitle line -->
+  <line x1="60" y1="92" x2="840" y2="92" stroke="#2a4a6e" stroke-width="1"/>
+
+  <!-- Tech Stack pills (row) -->
+  <text x="450" y="115" text-anchor="middle" fill="#8bafd4" font-size="11">Tech Stack</text>
+
+  <!-- Pills -->
+  <rect x="60" y="122" width="90" height="24" rx="12" fill="#1e3a5f"/>
+  <text x="105" y="138" text-anchor="middle" fill="#34a8f5" font-size="11" font-weight="600">Java 25</text>
+
+  <rect x="160" y="122" width="110" height="24" rx="12" fill="#1e3a5f"/>
+  <text x="215" y="138" text-anchor="middle" fill="#34a8f5" font-size="11" font-weight="600">Jakarta EE 10</text>
+
+  <rect x="280" y="122" width="110" height="24" rx="12" fill="#1e3a5f"/>
+  <text x="335" y="138" text-anchor="middle" fill="#34a8f5" font-size="11" font-weight="600">Open Liberty</text>
+
+  <rect x="400" y="122" width="90" height="24" rx="12" fill="#1e3a5f"/>
+  <text x="445" y="138" text-anchor="middle" fill="#34a8f5" font-size="11" font-weight="600">JavaFX 25</text>
+
+  <rect x="500" y="122" width="80" height="24" rx="12" fill="#1e3a5f"/>
+  <text x="540" y="138" text-anchor="middle" fill="#34a8f5" font-size="11" font-weight="600">Keycloak</text>
+
+  <rect x="590" y="122" width="90" height="24" rx="12" fill="#1e3a5f"/>
+  <text x="635" y="138" text-anchor="middle" fill="#34a8f5" font-size="11" font-weight="600">Postgres</text>
+
+  <rect x="690" y="122" width="80" height="24" rx="12" fill="#1e3a5f"/>
+  <text x="730" y="138" text-anchor="middle" fill="#34a8f5" font-size="11" font-weight="600">Maven</text>
+
+  <rect x="780" y="122" width="70" height="24" rx="12" fill="#1e3a5f"/>
+  <text x="815" y="138" text-anchor="middle" fill="#34a8f5" font-size="11" font-weight="600">JPMS</text>
+
+  <!-- Divider -->
+  <line x1="60" y1="162" x2="840" y2="162" stroke="#2a4a6e" stroke-width="1"/>
+
+  <!-- === METRIC CARDS === -->
+  <!-- Card 1: Encapsulation Rate -->
+  <rect x="40" y="175" width="190" height="120" rx="12" fill="#0d2137" filter="url(#shadow)"/>
+  <rect x="40" y="175" width="190" height="5" rx="3" fill="url(#accentGrad)"/>
+  <text x="135" y="215" text-anchor="middle" fill="#e8632a" font-size="42" font-weight="800" filter="url(#glow)">53.7%</text>
+  <text x="135" y="237" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="600">Kapselungsrate</text>
+  <text x="135" y="254" text-anchor="middle" fill="#8bafd4" font-size="10">80 von 149 public Typen</text>
+  <text x="135" y="269" text-anchor="middle" fill="#8bafd4" font-size="10">vollständig verborgen</text>
+  <text x="135" y="284" text-anchor="middle" fill="#4ade80" font-size="10">▲ +46.4 Pkt. Verbesserung</text>
+
+  <!-- Card 2: Modules -->
+  <rect x="245" y="175" width="190" height="120" rx="12" fill="#0d2137" filter="url(#shadow)"/>
+  <rect x="245" y="175" width="190" height="5" rx="3" fill="url(#blueGrad)"/>
+  <text x="340" y="215" text-anchor="middle" fill="#34a8f5" font-size="42" font-weight="800">10</text>
+  <text x="340" y="237" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="600">JPMS Module</text>
+  <text x="340" y="254" text-anchor="middle" fill="#8bafd4" font-size="10">24 exportierte Packages</text>
+  <text x="340" y="269" text-anchor="middle" fill="#8bafd4" font-size="10">reduziert von 46</text>
+  <text x="340" y="284" text-anchor="middle" fill="#4ade80" font-size="10">0 Split-Package-Konflikte</text>
+
+  <!-- Card 3: Runtime size -->
+  <rect x="450" y="175" width="190" height="120" rx="12" fill="#0d2137" filter="url(#shadow)"/>
+  <rect x="450" y="175" width="190" height="5" rx="3" fill="url(#greenGrad)"/>
+  <text x="545" y="215" text-anchor="middle" fill="#4ade80" font-size="42" font-weight="800">75%</text>
+  <text x="545" y="237" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="600">Runtime-Einsparung</text>
+  <text x="545" y="254" text-anchor="middle" fill="#8bafd4" font-size="10">jlink Custom Runtime:</text>
+  <text x="545" y="269" text-anchor="middle" fill="#8bafd4" font-size="10">~80 MB statt 320 MB</text>
+  <text x="545" y="284" text-anchor="middle" fill="#8bafd4" font-size="10">(JDK 25 vollständig)</text>
+
+  <!-- Card 4: opens directives -->
+  <rect x="655" y="175" width="210" height="120" rx="12" fill="#0d2137" filter="url(#shadow)"/>
+  <rect x="655" y="175" width="210" height="5" rx="3" fill="#9b59b6"/>
+  <text x="760" y="215" text-anchor="middle" fill="#c39bd3" font-size="42" font-weight="800">27</text>
+  <text x="760" y="237" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="600">qualifizierte opens</text>
+  <text x="760" y="254" text-anchor="middle" fill="#8bafd4" font-size="10">nur für spezifische</text>
+  <text x="760" y="269" text-anchor="middle" fill="#8bafd4" font-size="10">Frameworks (CDI, Hibernate)</text>
+  <text x="760" y="284" text-anchor="middle" fill="#8bafd4" font-size="10">keine offenen opens</text>
+
+  <!-- === MODULE DIAGRAM === -->
+  <text x="450" y="330" text-anchor="middle" fill="#8bafd4" font-size="11" letter-spacing="2">MODULSTRUKTUR</text>
+  <line x1="60" y1="337" x2="840" y2="337" stroke="#2a4a6e" stroke-width="1"/>
+
+  <!-- common.api (center top) -->
+  <rect x="355" y="348" width="190" height="34" rx="8" fill="#1e3a5f" stroke="#34a8f5" stroke-width="1.5"/>
+  <text x="450" y="369" text-anchor="middle" fill="#34a8f5" font-size="11" font-weight="600">common.api.domain</text>
+
+  <!-- backend group -->
+  <rect x="48" y="405" width="370" height="34" rx="8" fill="#2a1f1a" stroke="#e8632a" stroke-width="1.5"/>
+  <text x="233" y="426" text-anchor="middle" fill="#e8632a" font-size="10" font-weight="600">backend: persistence.jpa  ·  api.ws_rs  ·  common</text>
+
+  <!-- frontend group -->
+  <rect x="482" y="405" width="370" height="34" rx="8" fill="#1a2a1a" stroke="#4ade80" stroke-width="1.5"/>
+  <text x="667" y="426" text-anchor="middle" fill="#4ade80" font-size="10" font-weight="600">frontend: ui.fx  ·  api.client.ws_rs  ·  common</text>
+
+  <!-- Arrows from common to backend/frontend -->
+  <line x1="390" y1="382" x2="233" y2="405" stroke="#34a8f5" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+  <line x1="510" y1="382" x2="667" y2="405" stroke="#34a8f5" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+
+  <defs>
+    <marker id="arr" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+      <polygon points="0 0, 7 3.5, 0 7" fill="#34a8f5"/>
+    </marker>
+  </defs>
+
+  <!-- lib row -->
+  <rect x="100" y="460" width="700" height="28" rx="8" fill="#151f2e" stroke="#2a4a6e" stroke-width="1"/>
+  <text x="450" y="478" text-anchor="middle" fill="#5a7fa0" font-size="10">lib: jpa · cdi · util · ws_rs · jackson · mapstruct · keycloak_admin · junit · fx · ...</text>
+
+  <!-- Arrows from backend/frontend to lib -->
+  <line x1="233" y1="439" x2="300" y2="460" stroke="#e8632a" stroke-width="1" stroke-dasharray="3,3" opacity="0.6"/>
+  <line x1="667" y1="439" x2="600" y2="460" stroke="#4ade80" stroke-width="1" stroke-dasharray="3,3" opacity="0.6"/>
+
+  <!-- Bottom tagline -->
+  <line x1="60" y1="508" x2="840" y2="508" stroke="#2a4a6e" stroke-width="1"/>
+  <text x="450" y="530" text-anchor="middle" fill="#5a7fa0" font-size="11">"Architekturverstöße werden nicht durch Code-Reviews verhindert — sondern zur</text>
+  <text x="450" y="547" text-anchor="middle" fill="#e8632a" font-size="12" font-weight="600">Compile-Zeit."</text>
+
+  <!-- GitHub badge -->
+  <rect x="720" y="520" width="160" height="26" rx="13" fill="#1e3a5f"/>
+  <text x="800" y="537" text-anchor="middle" fill="#8bafd4" font-size="10">github.com/r-uu/main</text>
+
+</svg>
