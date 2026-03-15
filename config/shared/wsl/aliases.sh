@@ -52,7 +52,7 @@ ruu-mvn-build-all() {
     return $exit_code
 }
 
-alias ruu-mvn-build='ruu-build-all'
+alias ruu-mvn-build='ruu-mvn-build-all'
 alias ruu-mvn-clean='cd $RUU_MAIN && mvn clean'
 alias ruu-mvn-install='cd $RUU_MAIN && mvn clean install'
 alias ruu-mvn-install-fast='cd $RUU_MAIN && mvn clean install -DskipTests'
@@ -103,7 +103,7 @@ alias ruu-docker-test-multidb='bash $RUU_CONFIG/shared/scripts/test-multi-db.sh'
 # ═══════════════════════════════════════════════════════════════════
 alias ruu-pg-start='cd $RUU_DOCKER && docker compose up -d postgres-jeeeraaah'
 alias ruu-pg-stop='docker container stop postgres-jeeeraaah'
-alias ruu-pg-restart='ruu-postgres-stop && ruu-postgres-start'
+alias ruu-pg-restart='ruu-pg-stop && ruu-pg-start'
 alias ruu-pg-logs='docker logs -f postgres-jeeeraaah'
 alias ruu-pg-shell='docker exec -it postgres-jeeeraaah psql -U r_uu -d jeeeraaah'
 alias ruu-pg-shell-admin='docker exec -it postgres-jeeeraaah psql -U postgres'
@@ -118,7 +118,7 @@ alias ruu-pg-reset-lib-test='docker exec -i postgres-jeeeraaah psql -U postgres_
 # ═══════════════════════════════════════════════════════════════════
 alias ruu-kc-start='cd $RUU_DOCKER && docker compose up -d keycloak'
 alias ruu-kc-stop='docker container stop keycloak'
-alias ruu-kc-restart='ruu-keycloak-stop && ruu-keycloak-start'
+alias ruu-kc-restart='ruu-kc-stop && ruu-kc-start'
 alias ruu-kc-logs='docker logs -f keycloak'
 alias ruu-kc-admin='echo "Keycloak Admin: http://localhost:8080/admin (User: keycloak_admin_username / keycloak_admin_password)"'
 
@@ -156,6 +156,8 @@ alias ruu-jasper-test='curl http://localhost:8090/health'
 # ═══════════════════════════════════════════════════════════════════
 alias ruu-gb-up='cd $RUU_MAIN/greenbone && docker compose up -d'
 alias ruu-gb-down='cd $RUU_MAIN/greenbone && docker compose down'
+alias ruu-gb-restart='ruu-gb-down && ruu-gb-up'
+alias ruu-gb-logs='cd $RUU_MAIN/greenbone && docker compose logs -f'
 alias ruu-gb-status='cd $RUU_MAIN/greenbone && docker compose ps --format "table {{.Name}}\t{{.Status}}"'
 alias ruu-gb-unhealthy='cd $RUU_MAIN/greenbone && docker compose ps --format "table {{.Name}}\t{{.Status}}" | grep "(unhealthy)\|Exit"'
 
@@ -182,6 +184,7 @@ alias ruu-tree-full='cd $RUU_MAIN && tree -I target'
 # Java & Tool Versions
 # ═══════════════════════════════════════════════════════════════════
 alias ruu-java-version='java --version'
+alias ruu-maven-version='mvn --version'
 alias ruu-docker-version='docker --version && docker compose version'
 alias ruu-graalvm-version='echo "GraalVM: $(java --version | head -n1)" && echo "Path: $JAVA_HOME"'
 alias ruu-versions='echo "=== Tool Versions ==" && ruu-java-version && echo "" && ruu-maven-version && echo "" && ruu-docker-version'
@@ -195,7 +198,6 @@ alias ruu-ij-fix='bash $RUU_CONFIG/shared/scripts/fix-intellij-indexing.sh'
 # Shell & Aliases
 # ═══════════════════════════════════════════════════════════════════
 alias ruu-shell-reset='clear && exec $SHELL'
-alias ruu-aliases-reload='source ~/.bashrc'
 alias ruu-aliases-edit='${EDITOR:-nano} $RUU_MAIN/config/shared/wsl/aliases.sh'
 
 # ═══════════════════════════════════════════════════════════════════
@@ -244,15 +246,6 @@ alias ruu-ol-start='cd $RUU_ROOT/app/jeeeraaah/backend/api/ws_rs && mvn liberty:
 alias ruu-ol-run='cd $RUU_ROOT/app/jeeeraaah/backend/api/ws_rs && mvn liberty:run'
 alias ruu-ol-stop='cd $RUU_ROOT/app/jeeeraaah/backend/api/ws_rs && mvn liberty:stop'
 
-# ═══════════════════════════════════════════════════════════════════
-# Greenbone - Docker Stack
-# ═══════════════════════════════════════════════════════════════════
-alias ruu-gb-start='cd $RUU_MAIN/greenbone && docker compose up -d'
-alias ruu-gb-stop='cd $RUU_MAIN/greenbone && docker compose down'
-alias ruu-gb-logs='cd $RUU_MAIN/greenbone && docker compose logs -f'
-alias ruu-gb-status-short='cd $RUU_MAIN/greenbone && docker compose ps --format "table {{.Name}}\t{{.Status}}'
-#alias ruu-gb-status-unhealthy='cd $RUU_MAIN/greenbone && docker compose ps | grep -v "healthy" | grep -v "NAME"'
-alias ruu-gb-status-unhealthy='cd $RUU_MAIN/greenbone && docker compose ps --format "table {{.Name}}\t{{.Status}} | grep -v "healthy" | grep -v "NAME"'
 
 # ═══════════════════════════════════════════════════════════════════
 # Initialisation & Git Compatibility
