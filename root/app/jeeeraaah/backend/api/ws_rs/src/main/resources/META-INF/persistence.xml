@@ -18,9 +18,6 @@
         <properties>
             <!-- Hibernate Provider -->
             <property name="jakarta.persistence.provider" value="org.hibernate.jpa.HibernatePersistenceProvider"/>
-            
-            <!-- Database Dialect -->
-            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
 
             <!-- Transaction Management -->
             <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.WebSphereLibertyJtaPlatform"/>
@@ -56,13 +53,6 @@
             
             <!-- JMX -->
             <property name="hibernate.jmx.enabled" value="false"/>
-
-            <!-- Disable runtime bytecode enhancement (JPMS+Liberty compatibility)
-                 ByteBuddy cannot resolve JPMS-encapsulated parent types at runtime.
-                 Build-time enhancement or no enhancement is the correct approach here. -->
-            <property name="hibernate.enhancer.enableDirtyTracking" value="false"/>
-            <property name="hibernate.enhancer.enableAssociationManagement" value="false"/>
-            <property name="hibernate.enhancer.enableLazyInitialization" value="false"/>
 
             <!-- Remove duplicate/legacy properties -->
             <!-- hibernate.hbm2ddl.ddl_auto is redundant with hibernate.hbm2ddl.auto -->

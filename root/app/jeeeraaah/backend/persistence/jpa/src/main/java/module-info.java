@@ -65,4 +65,8 @@ module de.ruu.app.jeeeraaah.backend.persistence.jpa
 
 	// - weld.se.shaded: CDI access to internal service implementations (not exported, only via CDI)
 	opens de.ruu.app.jeeeraaah.backend.persistence.jpa.internal to weld.se.shaded;
+
+	// Open ee package for Liberty CDI proxy generation of TaskGroupRepositoryJPAEE
+	// (Liberty Weld module name differs - unrestricted opens required)
+	opens de.ruu.app.jeeeraaah.backend.persistence.jpa.ee;
 }

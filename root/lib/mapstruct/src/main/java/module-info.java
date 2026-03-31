@@ -8,5 +8,5 @@ module de.ruu.lib.mapstruct
 	requires transitive org.mapstruct;
 	requires de.ruu.lib.util;
 
-	opens de.ruu.lib.mapstruct to org.mapstruct;
+	opens de.ruu.lib.mapstruct;
 }
