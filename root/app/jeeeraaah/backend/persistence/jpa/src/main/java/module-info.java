@@ -58,15 +58,11 @@ module de.ruu.app.jeeeraaah.backend.persistence.jpa
 
 	requires static lombok;
 
-	// Open for reflection-based frameworks (minimal, targeted access):
-	// - org.hibernate.orm.core: JPA entity scanning and proxy generation for entity package
-	// - weld.se.shaded: CDI bean discovery (although entities are not CDI beans)
-	opens de.ruu.app.jeeeraaah.backend.persistence.jpa.entity to org.hibernate.orm.core, weld.se.shaded;
-
-	// - weld.se.shaded: CDI access to internal service implementations (not exported, only via CDI)
-	opens de.ruu.app.jeeeraaah.backend.persistence.jpa.internal to weld.se.shaded;
-
-	// Open ee package for Liberty CDI proxy generation of TaskGroupRepositoryJPAEE
-	// (Liberty Weld module name differs - unrestricted opens required)
+	// Unrestricted opens required for Jakarta EE container (Liberty):
+	// Liberty bundles Hibernate and Weld as unnamed/container modules with non-standard
+	// module names - targeted "opens ... to X" is not reliable in this context.
+	// This is Jakarta EE's recommended approach for JPMS + container-managed frameworks.
+	opens de.ruu.app.jeeeraaah.backend.persistence.jpa.entity;
+	opens de.ruu.app.jeeeraaah.backend.persistence.jpa.internal;
 	opens de.ruu.app.jeeeraaah.backend.persistence.jpa.ee;
 }
