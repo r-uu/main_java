@@ -66,6 +66,12 @@ fi
 # r-uu project configuration
 # ═══════════════════════════════════════════════════════════════════
 
+# - r-uu WSL2/WSLg graphics (fixes IntelliJ rendering artifacts)
+export LIBGL_ALWAYS_SOFTWARE=1          # force Mesa software rendering
+export MESA_LOADER_DRIVER_OVERRIDE=softpipe  # stable softpipe instead of llvmpipe
+export _JAVA_AWT_WM_NONREPARENTING=1    # fixes floating/detached windows in tiling WMs
+export GDK_BACKEND=x11                  # force X11 backend (avoid Wayland quirks in WSLg)
+
 # - r-uu java / graalVM
 export GRAALVM_HOME="/opt/graalvm-jdk-25"
 export JAVA_HOME="$GRAALVM_HOME"

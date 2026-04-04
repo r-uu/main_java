@@ -53,12 +53,12 @@ ruu-mvn-build-all() {
 }
 
 alias ruu-mvn-build='ruu-mvn-build-all'
-alias ruu-mvn-clean='cd $RUU_MAIN && mvn clean'
-alias ruu-mvn-install='cd $RUU_MAIN && mvn clean install'
-alias ruu-mvn-install-fast='cd $RUU_MAIN && mvn clean install -DskipTests'
-alias ruu-mvn-test='cd $RUU_MAIN && mvn test'
+alias ruu-mvn-clean='cd $RUU_ROOT && mvn clean'
+alias ruu-mvn-install='cd $RUU_ROOT && mvn liberty:stop -pl app/jeeeraaah/backend/api/ws_rs --fail-at-end; mvn clean install'
+alias ruu-mvn-install-fast='cd $RUU_ROOT && mvn liberty:stop -pl app/jeeeraaah/backend/api/ws_rs --fail-at-end; mvn clean install -DskipTests'
+alias ruu-mvn-test='cd $RUU_ROOT && mvn test'
 alias ruu-mvn-test-module='mvn test'  # Run in current directory
-alias ruu-mvn-verify='cd $RUU_MAIN && mvn verify'
+alias ruu-mvn-verify='cd $RUU_ROOT && mvn verify'
 
 # Individual modules
 alias ruu-mvn-bom-install='cd $RUU_BOM && mvn clean install'
@@ -190,9 +190,14 @@ alias ruu-graalvm-version='echo "GraalVM: $(java --version | head -n1)" && echo 
 alias ruu-versions='echo "=== Tool Versions ==" && ruu-java-version && echo "" && ruu-maven-version && echo "" && ruu-docker-version'
 
 # ═══════════════════════════════════════════════════════════════════
-# IntelliJ IDEA
+# IntelliJ IDEA / JetBrains Toolbox (WSL-native via WSLg)
 # ═══════════════════════════════════════════════════════════════════
+# _JAVA_AWT_WM_NONREPARENTING=1 → behebt Fenster-/Rendering-Artefakte unter WSLg
+# LIBGL_ALWAYS_SOFTWARE=1 entfernt → verschlechterte Java2D-Rendering
 alias ruu-ij-fix='bash $RUU_CONFIG/shared/scripts/fix-intellij-indexing.sh'
+alias ruu-ij-fix-rendering='bash $RUU_CONFIG/shared/scripts/fix-intellij-wsl-rendering.sh'
+alias ruu-toolbox='_JAVA_AWT_WM_NONREPARENTING=1 jetbrains-toolbox &'
+alias ruu-ij='cd ~/develop/github/main/root && _JAVA_AWT_WM_NONREPARENTING=1 idea . &'
 
 # ═══════════════════════════════════════════════════════════════════
 # Shell & Aliases
@@ -264,5 +269,5 @@ echo "  📚 help:        ruu-help | ruu-groups"
 echo "  🚀 quick start: ruu-docker-startup"
 echo "  🔨 build:       ruu-mvn-install-fast"
 echo "  🐳 docker:      ruu-docker-ps"
-echo "  🖥️  backend:     ruu-ol-start"
+echo "  🖥️ backend:     ruu-ol-start"
 echo "  🎨 frontend:    ruu-app-dash"
