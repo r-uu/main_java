@@ -77,6 +77,24 @@ export GRAALVM_HOME="/opt/graalvm-jdk-25"
 export JAVA_HOME="$GRAALVM_HOME"
 export PATH="$JAVA_HOME/bin:$PATH"
 
+# - r-uu maven
+export MAVEN_HOME="/opt/maven/maven"
+export PATH="$MAVEN_HOME/bin:$PATH"
+
+# - r-uu X Display — auto-fallback to Xvfb for headless/WSL environments
+# Only activates when the current DISPLAY is missing or unreachable.
+# Safe on all machines: does nothing when a real display is available.
+# Prerequisite (one-time, only on headless machines): sudo apt-get install -y xvfb
+if ! xdpyinfo &>/dev/null 2>&1; then
+    if command -v Xvfb &>/dev/null; then
+        if ! pgrep -x Xvfb &>/dev/null; then
+            Xvfb :99 -screen 0 1920x1080x24 &>/dev/null &
+            disown
+        fi
+        export DISPLAY=:99
+    fi
+fi
+
 # - r-uu aliases
 if [ -f ~/develop/github/main/config/shared/wsl/aliases.sh ]; then
     source ~/develop/github/main/config/shared/wsl/aliases.sh
