@@ -24,7 +24,6 @@
         <dependency>
             <groupId>r-uu</groupId>
             <artifactId>r-uu.sandbox.jasperreports.model</artifactId>
-            <version>${project.version}</version>
         </dependency>
 
         <!-- JasperReports -->
@@ -85,7 +84,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.5.1</version>
                 <executions>
                     <execution>
                         <phase>package</phase>

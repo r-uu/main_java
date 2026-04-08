@@ -17,13 +17,11 @@
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.jdbc.core</artifactId>
-		            <version>${project.version}</version>
         </dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.junit</artifactId>
 			<scope>test</scope>
-		            <version>${project.version}</version>
         </dependency>
 
 		<!-- External dependencies alphabetisch nach artifactId -->

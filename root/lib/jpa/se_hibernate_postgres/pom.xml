@@ -18,22 +18,18 @@
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.jdbc.core</artifactId>
-		            <version>${project.version}</version>
         </dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.jdbc.postgres</artifactId>
-		            <version>${project.version}</version>
         </dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.jpa.se</artifactId>
-		            <version>${project.version}</version>
         </dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.jpa.se_hibernate</artifactId>
-		            <version>${project.version}</version>
         </dependency>
 
 		<!-- External dependencies -->

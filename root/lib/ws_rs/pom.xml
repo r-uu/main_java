@@ -30,7 +30,6 @@
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.util</artifactId>
-		            <version>${project.version}</version>
         </dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>

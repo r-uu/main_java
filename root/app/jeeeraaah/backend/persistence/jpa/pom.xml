@@ -80,11 +80,6 @@
 			<artifactId>hibernate-jpamodelgen</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>r-uu</groupId>
-			<artifactId>r-uu.app.jeeeraaah.common.api.mapping.bean.dto</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 
 	</dependencies>
 
@@ -103,26 +98,6 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<annotationProcessorPaths>
-						<!-- Lombok -->
-						<path>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-							<version>1.18.38</version>
-						</path>
-						<!-- MapStruct -->
-						<path>
-							<groupId>org.mapstruct</groupId>
-							<artifactId>mapstruct-processor</artifactId>
-							<version>1.6.3</version>
-						</path>
-						<!-- Hibernate JPA Metamodel Generator -->
-						<path>
-							<groupId>org.hibernate.orm</groupId>
-							<artifactId>hibernate-jpamodelgen</artifactId>
-							<version>6.6.5.Final</version>
-						</path>
-					</annotationProcessorPaths>
 					<compilerArgs>
 						<arg>-Aorg.hibernate.jpamodelgen.JPA_STATIC_METAMODEL_PROCESSING=enable</arg>
 					</compilerArgs>
@@ -131,7 +106,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>3.4.2</version>
 			</plugin>
 		</plugins>
 	</build>

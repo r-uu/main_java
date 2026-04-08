@@ -9,11 +9,9 @@ import static javafx.scene.control.ButtonType.CANCEL;
 import static javafx.scene.control.ButtonType.OK;
 import static javafx.scene.layout.Priority.ALWAYS;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import de.ruu.app.jeeeraaah.common.api.bean.TaskBean;
 import de.ruu.app.jeeeraaah.common.api.bean.TaskGroupBean;
@@ -71,378 +69,375 @@ import lombok.extern.slf4j.Slf4j;
 // 4. Cannot use @Observes(IF_EXISTS) with @Dependent, hence EventDispatcher pattern
 class DashController extends DefaultFXCController<Dash, DashService> implements DashService
 {
-	@FXML private HBox hBxGroupSelector;
-
-	@FXML private AnchorPane nchrPnPredecessors;
-	@FXML private AnchorPane nchrPnSuperSubTasks;
-	@FXML private AnchorPane nchrPnSuccessors;
-
-	@FXML private Button buttonAdd;
-	@FXML private Button buttonEdit;
-	@FXML private Button buttonRemove;
-
-	@FXML private Button buttonBackup;
-
-	@FXML private Button buttonExit;
-
-	// cannot use @Observes(IF_EXISTS) directly because @Dependent beans don't support conditional observers
-	@Inject private EventDispatcher<                  FXCAppStartedEvent>             appStartedEventDispatcher;
-	@Inject private EventDispatcher<TaskGroupSelectorComponentReadyEvent> taskGroupSelectorReadyEventDispatcher;
-
-	// inject components that are used in the user interface
-	@Inject private TaskGroupSelector taskGroupSelector;
-
-	@Inject private TaskHierarchyPredecessors  taskHierarchyPredecessors;
-	@Inject private TaskHierarchySuperSubTasks taskHierarchySuperSubTasks;
-	@Inject private TaskHierarchySuccessors    taskHierarchySuccessors;
-
-	// inject service clients that are used to fetch data from the server
-	@Inject private TaskGroupServiceClient taskGroupServiceClient;
-
-	// inject the centralized executor for service operations with session retry handling
-	@Inject private ServiceOperationExecutor executor;
-
-	@Inject private TaskGroupEditor  taskGroupEditor;
-	@Inject private PostgresBackupUI postgresBackupUI;
-
-	private Optional<TaskGroupFlat> selectedTaskGroupDTOFlat = Optional.empty();
-
-	private Parent taskGroupEditorLocalRoot;
-
-	/**
-	 * <ul>
-	 *   <li>register listeners to all required dispatchers:
-	 *     <ul>
-	 *       <li>{@link #appStartedEventDispatcher} - fired when app is fully started (sets window title)
-	 *       <li>{@link #taskGroupSelectorReadyEventDispatcher} - fired when task group selector is ready
-	 *     </ul>
-	 *   <li>force ui components to initialise themselves by calling their localRoot() methods and
-	 *       compose the ui by adding their return values into the ui containers
-	 *   <li>register listeners to all button actions
-	 *   <li>register listener to {@link #taskHierarchySuperSubTasks} selection changed actions
-	 *   <li>fetch all task groups from the backend and populate the task group selector
-	 * </ul>
-	 * @see DefaultFXCController#initialize()
-	 */
-	@Override @FXML protected void initialize()
-	{
-		appStartedEventDispatcher            .add(e -> onAppStarted            (e));
-		taskGroupSelectorReadyEventDispatcher.add(e -> onTaskGroupSelectorReady(e));
-
-		// force task group editor to initialise itself and store its local root so that it can be used in
-		// onAdd(...) and onEdit(immediately
-		taskGroupEditorLocalRoot = taskGroupEditor.localRoot();
-
-		// force task group selector to initialise itself and compose its local root into the ui
-		HBox.setHgrow(taskGroupSelector.localRoot(), ALWAYS);
-		hBxGroupSelector.getChildren().add(taskGroupSelector.localRoot());
-
-		// force task hierarchy views to initialise themselves and add their local roots to the anchor panes
-		nchrPnPredecessors .getChildren().add(taskHierarchyPredecessors .localRoot());
-		nchrPnSuperSubTasks.getChildren().add(taskHierarchySuperSubTasks.localRoot());
-		nchrPnSuccessors   .getChildren().add(taskHierarchySuccessors   .localRoot());
-
-		FXUtil.setAnchorsInAnchorPaneTo(taskHierarchyPredecessors .localRoot(), 0);
-		FXUtil.setAnchorsInAnchorPaneTo(taskHierarchySuperSubTasks.localRoot(), 0);
-		FXUtil.setAnchorsInAnchorPaneTo(taskHierarchySuccessors   .localRoot(), 0);
-
-		// register listeners to all button actions
-		buttonAdd   .setOnAction(event -> onAdd   (event));
-		buttonEdit  .setOnAction(event -> onEdit  (event));
-		buttonRemove.setOnAction(event -> onRemove(event));
-		buttonBackup.setOnAction(event -> onBackup(event));
-		buttonExit  .setOnAction(event -> onExit  (event));
-
-		// register listener to task hierarchy super/sub tasks selection changed actions
-		taskHierarchySuperSubTasks.service().selectedItem()
-				.addListener((obs, old, val) -> onSelectedSuperSubTaskChanged(obs, old, val));
-
-		// NOTE: Data loading moved to loadInitialData() method
-		// This is called after authentication is complete in DashApp.start()
-	}
-
-	/**
-	 * Loads initial data from backend after authentication is complete.
-	 *
-	 * <p>This method is called from DashApp.start() AFTER the user has been authenticated.
-	 * It must not be called from initialize() because authentication happens after FXML loading.</p>
-	 */
-	public void loadInitialData()
-	{
-		log.info("Loading initial data from backend...");
-		fetchTaskGroupsFromBackendAndPopulateTaskGroupSelector();
-	}
-
-	private void fetchTaskGroupsFromBackendAndPopulateTaskGroupSelector()
-	{
-		try
-		{
-			Set<TaskGroupFlat> groups = executor.execute(
-				() -> taskGroupServiceClient.findAllFlat(),
-				"fetching task groups",
-				"Failed to load task groups",
-				"Load failed after re-login"
-			);
-
-			// now we are ready to hand over the groups to groupSelector
-			taskGroupSelector.service().items(groups);
-		}
-		catch (TechnicalException | NonTechnicalException e)
-		{
-			log.error("failure fetching task groups from backend", e);
-			ExceptionDialog.showAndWait("failure fetching task groups from backend", e);
-		}
-	}
-
-	/**
-	 * is called as soon as the task group selector is available, performs various initialisations that depend on
-	 * task group selector.
-	 *
-	 * @param e the event that indicates that the groupSelector component is ready
-	 */
-	private void onTaskGroupSelectorReady(TaskGroupSelectorComponentReadyEvent e)
-	{
-		@NonNull ReadOnlyObjectProperty<TaskGroupFlat> selectedTaskGroupProperty =
-				taskGroupSelector.service().selectedTaskGroupProperty();
-
-		// disable buttons if no task group is selected
-		buttonEdit  .disableProperty().bind(selectedTaskGroupProperty.isNull());
-		buttonRemove.disableProperty().bind(selectedTaskGroupProperty.isNull());
-
-		// make sure the listener method is called whenever the selected group in groupSelector changes
-		selectedTaskGroupProperty.addListener((obs, old, act) -> onSelectedTaskGroupChanged(act));
-	}
-
-	private void onSelectedTaskGroupChanged(TaskGroupFlat actSelection)
-	{
-		selectedTaskGroupDTOFlat = Optional.ofNullable(actSelection);
-
-		if (isNull(actSelection)) return;
-
-		// fetch the task group with its tasks and their neighbour tasks from the server
-		try
-		{
-			Optional<TaskGroupBean> optional = executor.execute(
-					() -> taskGroupServiceClient.findWithTasksAndDirectNeighbours(requireNonNull(actSelection.id())),
-					"fetching task group details for id: " + actSelection.id(),
-					"Failed to load task group details",
-					"Load failed after re-login"
-			);
-
-		if (optional.isPresent())
-		{
-			TaskGroupBean taskGroupBean = optional.get();
-
-				// collect all of group's tasks together with the ids of their related tasks from the server
-				List<TaskBean> mainTasks = new ArrayList<>();
-
-				if (taskGroupBean.tasks().isPresent())
-						mainTasks =
-								taskGroupBean
-										.tasks()
-										.get().stream().filter(taskBean -> taskBean.superTask().isEmpty()).collect(Collectors.toList());
-
-				mainTasks.sort(COMPARATOR);
-
-				taskHierarchySuperSubTasks.service().populate(mainTasks);
-				taskHierarchySuperSubTasks.service().focusRootItem();
-
-				taskHierarchyPredecessors .service().activeTaskGroupProperty().set(taskGroupBean);
-				taskHierarchySuperSubTasks.service().activeTaskGroupProperty().set(taskGroupBean);
-				taskHierarchySuccessors   .service().activeTaskGroupProperty().set(taskGroupBean);
-
-				taskHierarchySuperSubTasks.service().activeTaskGroupProperty()
-						.addListener((obs, old, act) -> onActiveTaskPropertyChangedInSuperSubTaskHierarchy(act));
-			}
-			else log.debug("no lazy group could be retrieved");
-		}
-		catch (TechnicalException | NonTechnicalException e)
-		{
-			ExceptionDialog.showAndWait("failure fetching task group from backend", e);
-		}
-	}
-
-	/**
-	 * Called when the FX application has fully started.
-	 * Sets the window title after all components are initialized.
-	 */
-	private void onAppStarted(FXCAppStartedEvent e)
-	{
-		getStage(hBxGroupSelector).ifPresent(s -> s.setTitle("jeee RAAAH - dashboard"));
-	}
-
-	private void onAdd(ActionEvent event)
-	{
-		Dialog<TaskGroupFXBean> dialog = new Dialog<>();
-
-		DialogPane pane = dialog.getDialogPane();
-		pane.setContent(taskGroupEditorLocalRoot);
-		pane.getButtonTypes().addAll(CANCEL, OK);
-
-		dialog.setTitle("new task group");
-		dialog.setResultConverter(this::dialogResultConverterFXBean);
-
-		// populate editor with new item, call to service() has to be done after call to localRoot() to make sure internal
-		// java fx bindings can be established (see initialize)
-		TaskGroupBean   taskGroupBean   = new TaskGroupBean("new task group");
-		TaskGroupFXBean taskGroupFXBean = Map_TaskGroup_Bean_FXBean.INSTANCE.map(taskGroupBean, new ReferenceCycleTracking());
-
-		taskGroupEditor.service().taskGroup(taskGroupFXBean);
-
-		Optional<TaskGroupFXBean> optional = dialog.showAndWait();
-
-		if (optional.isPresent())
-		{
-			taskGroupFXBean = optional.get();
-			final TaskGroupBean beanToCreate = Map_TaskGroup_FXBean_Bean.INSTANCE.map(taskGroupFXBean, new ReferenceCycleTracking());
-
-			// let task group service client create a new item in the backend
-			try
-			{
-				executor.execute(
-					() -> taskGroupServiceClient.create(beanToCreate),
-					"creating task group",
-					"Failed to create task group",
-					"Creation failed after re-login"
-				);
-
-				// repopulate and then focus task group selector
-				fetchTaskGroupsFromBackendAndPopulateTaskGroupSelector();
-			}
-			catch (TechnicalException | NonTechnicalException e)
-			{
-				ExceptionDialog.showAndWait(
-					"failure creating task group",
-					"task\n\n" + beanToCreate + "\n\ncould not be created",
-					e.getMessage(),
-					e
-				);
-			}
-		}
-	}
-
-	private void onEdit(ActionEvent event)
-	{
-		if (selectedTaskGroupDTOFlat.isEmpty())
-				return; // should never happen because button edit should be disabled in this case and hence this method should
-				        // not be called
-
-		// try to fetch the persisted task group from backend
-		final Long id = selectedTaskGroupDTOFlat.get().id();
-		Optional<TaskGroupBean> optionalPersisted;
-
-		try
-		{
-			optionalPersisted = executor.execute(
-				() -> taskGroupServiceClient.read(id),
-				"reading task group for id: " + id,
-				"Failed to read task group",
-				"Read failed after re-login"
-			);
-		}
-		catch (TechnicalException | NonTechnicalException e)
-		{
-			ExceptionDialog.showAndWait("failure reading task group for id: " + id, e);
-			return;
-		}
-
-		// fail fast if task group does not exist
-		if (optionalPersisted.isEmpty())
-		{
-			AlertDialog.showAndWait("task group for id [" + id + "] does not exist");
-			return;
-		}
-
-		// populate editor with selected item, call to getService() has to be done after call to getLocalRoot() to make
-		// sure editor internal java fx bindings can be established (see initialize)
-		TaskGroupBean   taskGroupBean   = optionalPersisted.get();
-		TaskGroupFXBean taskGroupFXBean = Map_TaskGroup_Bean_FXBean.INSTANCE.map(taskGroupBean, new ReferenceCycleTracking());
-		taskGroupEditor.service().taskGroup(taskGroupFXBean);
-
-		Dialog<TaskGroupFXBean> dialog = new Dialog<>();
-
-		DialogPane pane = dialog.getDialogPane();
-		pane.setContent(taskGroupEditorLocalRoot);
-		pane.getButtonTypes().addAll(CANCEL, OK);
-
-		dialog.setTitle("edit task group");
-		dialog.setResultConverter(this::dialogResultConverterFXBean);
-
-		Optional<TaskGroupFXBean> optional = dialog.showAndWait();
-
-		if (optional.isPresent())
-		{
-			final TaskGroupBean beanToUpdate = Map_TaskGroup_FXBean_Bean.INSTANCE.map(optional.get(), new ReferenceCycleTracking());
-
-			// let client update the item in backend
-			try
-			{
-				executor.execute(
-					() -> {
-						taskGroupServiceClient.update(beanToUpdate);
-						return null; // Void operation
-					},
-					"updating task group",
-					"Failed to update task group",
-					"Update failed after re-login"
-				);
-
-			// update task group selector
-			taskGroupSelector.service().updateItem(
-					TaskGroupMapper.INSTANCE.toFlat(beanToUpdate));
-			}
-			catch (TechnicalException | NonTechnicalException e)
-			{
-				ExceptionDialog.showAndWait("failure updating task groups in backend", e);
-			}
-		}
-	}
-
-	private void onRemove(ActionEvent event) { AlertDialog.showAndWait("not yet implemented"); }
-
-	private void onBackup(ActionEvent event)
-	{
-		Dialog<Void> dialog = new Dialog<>();
-		dialog.setTitle("PostgreSQL Backup");
-
-		// create dialog pane and add PostgresBackupUI
-		DialogPane dialogPane = dialog.getDialogPane();
-		dialogPane.setContent(postgresBackupUI.localRoot());
-
-		// add close button
-		ButtonType closeButtonType = new ButtonType("Close", ButtonType.CLOSE.getButtonData());
-		dialogPane.getButtonTypes().add(closeButtonType);
-
-		// show dialog
-		dialog.showAndWait();
-	}
-
-	private void onExit  (ActionEvent event) { AlertDialog.showAndWait("not yet implemented"); }
-
-	private void onSelectedSuperSubTaskChanged(
-			ObservableValue<? extends TreeItem<TaskBean>> obs, TreeItem<TaskBean> old, TreeItem<TaskBean> act)
-	{
-		taskHierarchyPredecessors.service().selectedSuperSubTaskTreeItemChanged(act);
-		taskHierarchySuccessors  .service().selectedSuperSubTaskTreeItemChanged(act);
-	}
-
-	/**
-	 * Whenever the active task group changes in the super/sub task hierarchy view, we have to set the new active task
-	 * group in the predecessor and successor hierarchy views, too, to propagate possible changes in the active
-	 * {@link TaskGroupBean#tasks()}.
-	 *
-	 * @param act the new active task group
-	 */
-	private void onActiveTaskPropertyChangedInSuperSubTaskHierarchy(TaskGroupBean act)
-	{
-		taskHierarchyPredecessors.service().activeTaskGroupProperty().set(act);
-		taskHierarchySuccessors  .service().activeTaskGroupProperty().set(act);
-	}
-
-	private TaskGroupFXBean dialogResultConverterFXBean(ButtonType btn)
-	{
-		if (btn.getButtonData() == OK_DONE)
-				return taskGroupEditor.service().taskGroup().orElse(null);
-		return null;
-	}
+        @FXML private HBox hBxGroupSelector;
+
+        @FXML private AnchorPane nchrPnPredecessors;
+        @FXML private AnchorPane nchrPnSuperSubTasks;
+        @FXML private AnchorPane nchrPnSuccessors;
+
+        @FXML private Button buttonAdd;
+        @FXML private Button buttonEdit;
+        @FXML private Button buttonRemove;
+
+        @FXML private Button buttonBackup;
+
+        @FXML private Button buttonExit;
+
+        // cannot use @Observes(IF_EXISTS) directly because @Dependent beans don't support conditional observers
+        @Inject private EventDispatcher<                  FXCAppStartedEvent>             appStartedEventDispatcher;
+        @Inject private EventDispatcher<TaskGroupSelectorComponentReadyEvent> taskGroupSelectorReadyEventDispatcher;
+
+        // inject components that are used in the user interface
+        @Inject private TaskGroupSelector taskGroupSelector;
+
+        @Inject private TaskHierarchyPredecessors  taskHierarchyPredecessors;
+        @Inject private TaskHierarchySuperSubTasks taskHierarchySuperSubTasks;
+        @Inject private TaskHierarchySuccessors    taskHierarchySuccessors;
+
+        // inject service clients that are used to fetch data from the server
+        @Inject private TaskGroupServiceClient taskGroupServiceClient;
+
+        // inject the centralized executor for service operations with session retry handling
+        @Inject private ServiceOperationExecutor executor;
+
+        @Inject private TaskGroupEditor  taskGroupEditor;
+        @Inject private PostgresBackupUI postgresBackupUI;
+
+        private Optional<TaskGroupFlat> selectedTaskGroupDTOFlat = Optional.empty();
+
+        private Parent taskGroupEditorLocalRoot;
+
+        /**
+         * <ul>
+         *   <li>register listeners to all required dispatchers:
+         *     <ul>
+         *       <li>{@link #appStartedEventDispatcher} - fired when app is fully started (sets window title)
+         *       <li>{@link #taskGroupSelectorReadyEventDispatcher} - fired when task group selector is ready
+         *     </ul>
+         *   <li>force ui components to initialise themselves by calling their localRoot() methods and
+         *       compose the ui by adding their return values into the ui containers
+         *   <li>register listeners to all button actions
+         *   <li>register listener to {@link #taskHierarchySuperSubTasks} selection changed actions
+         *   <li>fetch all task groups from the backend and populate the task group selector
+         * </ul>
+         * @see DefaultFXCController#initialize()
+         */
+        @Override @FXML protected void initialize()
+        {
+                appStartedEventDispatcher            .add(this::onAppStarted            );
+                taskGroupSelectorReadyEventDispatcher.add(this::onTaskGroupSelectorReady);
+
+                // force task group editor to initialise itself and store its local root so that it can be used in
+                // onAdd(...) and onEdit(immediately
+                taskGroupEditorLocalRoot = taskGroupEditor.localRoot();
+
+                // force task group selector to initialise itself and compose its local root into the ui
+                HBox.setHgrow(taskGroupSelector.localRoot(), ALWAYS);
+                hBxGroupSelector.getChildren().add(taskGroupSelector.localRoot());
+
+                // force task hierarchy views to initialise themselves and add their local roots to the anchor panes
+                nchrPnPredecessors .getChildren().add(taskHierarchyPredecessors .localRoot());
+                nchrPnSuperSubTasks.getChildren().add(taskHierarchySuperSubTasks.localRoot());
+                nchrPnSuccessors   .getChildren().add(taskHierarchySuccessors   .localRoot());
+
+                FXUtil.setAnchorsInAnchorPaneTo(taskHierarchyPredecessors .localRoot(), 0);
+                FXUtil.setAnchorsInAnchorPaneTo(taskHierarchySuperSubTasks.localRoot(), 0);
+                FXUtil.setAnchorsInAnchorPaneTo(taskHierarchySuccessors   .localRoot(), 0);
+
+                // register listeners to all button actions
+                buttonAdd   .setOnAction(this::onAdd   );
+                buttonEdit  .setOnAction(this::onEdit  );
+                buttonRemove.setOnAction(this::onRemove);
+                buttonBackup.setOnAction(this::onBackup);
+                buttonExit  .setOnAction(this::onExit  );
+
+                // register listener to task hierarchy super/sub tasks selection changed actions
+                taskHierarchySuperSubTasks.service().selectedItem()
+                                .addListener(this::onSelectedSuperSubTaskChanged);
+
+                // NOTE: Data loading moved to loadInitialData() method
+                // This is called after authentication is complete in DashApp.start()
+        }
+
+        /**
+         * Loads initial data from backend after authentication is complete.
+         *
+         * <p>This method is called from DashApp.start() AFTER the user has been authenticated.
+         * It must not be called from initialize() because authentication happens after FXML loading.</p>
+         */
+        public void loadInitialData()
+        {
+                log.info("Loading initial data from backend...");
+                fetchTaskGroupsFromBackendAndPopulateTaskGroupSelector();
+        }
+
+        private void fetchTaskGroupsFromBackendAndPopulateTaskGroupSelector()
+        {
+                try
+                {
+                        Set<TaskGroupFlat> groups = executor.execute(
+                                () -> taskGroupServiceClient.findAllFlat(),
+                                "fetching task groups",
+                                "Failed to load task groups",
+                                "Load failed after re-login"
+                        );
+
+                        // now we are ready to hand over the groups to groupSelector
+                        taskGroupSelector.service().items(groups);
+                }
+                catch (TechnicalException | NonTechnicalException e)
+                {
+                        log.error("failure fetching task groups from backend", e);
+                        ExceptionDialog.showAndWait("failure fetching task groups from backend", e);
+                }
+        }
+
+        /**
+         * is called as soon as the task group selector is available, performs various initialisations that depend on
+         * task group selector.
+         *
+         * @param e the event that indicates that the groupSelector component is ready
+         */
+        private void onTaskGroupSelectorReady(TaskGroupSelectorComponentReadyEvent e)
+        {
+                @NonNull ReadOnlyObjectProperty<TaskGroupFlat> selectedTaskGroupProperty =
+                                taskGroupSelector.service().selectedTaskGroupProperty();
+
+                // disable buttons if no task group is selected
+                buttonEdit  .disableProperty().bind(selectedTaskGroupProperty.isNull());
+                buttonRemove.disableProperty().bind(selectedTaskGroupProperty.isNull());
+
+                // make sure the listener method is called whenever the selected group in groupSelector changes
+                selectedTaskGroupProperty.addListener((obs, old, act) -> onSelectedTaskGroupChanged(act));
+        }
+
+        private void onSelectedTaskGroupChanged(TaskGroupFlat actSelection)
+        {
+                selectedTaskGroupDTOFlat = Optional.ofNullable(actSelection);
+
+                if (isNull(actSelection)) return;
+
+                // fetch the task group with its tasks and their neighbour tasks from the server
+                try
+                {
+                        Optional<TaskGroupBean> optional = executor.execute(
+                                        () -> taskGroupServiceClient.findWithTasksAndDirectNeighbours(requireNonNull(actSelection.id())),
+                                        "fetching task group details for id: " + actSelection.id(),
+                                        "Failed to load task group details",
+                                        "Load failed after re-login"
+                        );
+
+                        if (optional.isPresent())
+                        {
+                                TaskGroupBean taskGroupBean = optional.get();
+
+                                // collect root tasks (without super task), sorted
+                                List<TaskBean> mainTasks = taskGroupBean.tasks()
+                                                .map(tasks -> tasks.stream()
+                                                                .filter(taskBean -> taskBean.superTask().isEmpty())
+                                                                .sorted(COMPARATOR)
+                                                                .toList())
+                                                .orElse(List.of());
+
+                                taskHierarchySuperSubTasks.service().populate(mainTasks);
+                                taskHierarchySuperSubTasks.service().focusRootItem();
+
+                                taskHierarchyPredecessors .service().activeTaskGroupProperty().set(taskGroupBean);
+                                taskHierarchySuperSubTasks.service().activeTaskGroupProperty().set(taskGroupBean);
+                                taskHierarchySuccessors   .service().activeTaskGroupProperty().set(taskGroupBean);
+
+                                taskHierarchySuperSubTasks.service().activeTaskGroupProperty()
+                                                .addListener((obs, old, act) -> onActiveTaskPropertyChangedInSuperSubTaskHierarchy(act));
+                        }
+                        else log.debug("no lazy group could be retrieved");
+                }
+                catch (TechnicalException | NonTechnicalException e)
+                {
+                        ExceptionDialog.showAndWait("failure fetching task group from backend", e);
+                }
+        }
+
+        /**
+         * Called when the FX application has fully started.
+         * Sets the window title after all components are initialized.
+         */
+        private void onAppStarted(FXCAppStartedEvent e)
+        {
+                getStage(hBxGroupSelector).ifPresent(s -> s.setTitle("jeee RAAAH - dashboard"));
+        }
+
+        private void onAdd(ActionEvent event)
+        {
+                Dialog<TaskGroupFXBean> dialog = new Dialog<>();
+
+                DialogPane pane = dialog.getDialogPane();
+                pane.setContent(taskGroupEditorLocalRoot);
+                pane.getButtonTypes().addAll(CANCEL, OK);
+
+                dialog.setTitle("new task group");
+                dialog.setResultConverter(this::dialogResultConverterFXBean);
+
+                // populate editor with new item, call to service() has to be done after call to localRoot() to make sure internal
+                // java fx bindings can be established (see initialize)
+                TaskGroupBean   taskGroupBean   = new TaskGroupBean("new task group");
+                TaskGroupFXBean taskGroupFXBean = Map_TaskGroup_Bean_FXBean.INSTANCE.map(taskGroupBean, new ReferenceCycleTracking());
+
+                taskGroupEditor.service().taskGroup(taskGroupFXBean);
+
+                Optional<TaskGroupFXBean> optional = dialog.showAndWait();
+
+                if (optional.isPresent())
+                {
+                        taskGroupFXBean = optional.get();
+                        final TaskGroupBean beanToCreate = Map_TaskGroup_FXBean_Bean.INSTANCE.map(taskGroupFXBean, new ReferenceCycleTracking());
+
+                        // let task group service client create a new item in the backend
+                        try
+                        {
+                                executor.execute(
+                                        () -> taskGroupServiceClient.create(beanToCreate),
+                                        "creating task group",
+                                        "Failed to create task group",
+                                        "Creation failed after re-login"
+                                );
+
+                                // repopulate and then focus task group selector
+                                fetchTaskGroupsFromBackendAndPopulateTaskGroupSelector();
+                        }
+                        catch (TechnicalException | NonTechnicalException e)
+                        {
+                                ExceptionDialog.showAndWait(
+                                        "failure creating task group",
+                                        "task\n\n" + beanToCreate + "\n\ncould not be created",
+                                        e.getMessage(),
+                                        e
+                                );
+                        }
+                }
+        }
+
+        private void onEdit(ActionEvent event)
+        {
+                if (selectedTaskGroupDTOFlat.isEmpty())
+                        return; // should never happen because button edit should be disabled in this case and hence this method should
+                                // not be called
+
+                // try to fetch the persisted task group from backend
+                final Long id = selectedTaskGroupDTOFlat.get().id();
+                Optional<TaskGroupBean> optionalPersisted;
+
+                try
+                {
+                        optionalPersisted = executor.execute(
+                                () -> taskGroupServiceClient.read(id),
+                                "reading task group for id: " + id,
+                                "Failed to read task group",
+                                "Read failed after re-login"
+                        );
+                }
+                catch (TechnicalException | NonTechnicalException e)
+                {
+                        ExceptionDialog.showAndWait("failure reading task group for id: " + id, e);
+                        return;
+                }
+
+                // fail fast if task group does not exist
+                if (optionalPersisted.isEmpty())
+                {
+                        AlertDialog.showAndWait("task group for id [" + id + "] does not exist");
+                        return;
+                }
+
+                // populate editor with selected item, call to getService() has to be done after call to getLocalRoot() to make
+                // sure editor internal java fx bindings can be established (see initialize)
+                TaskGroupBean   taskGroupBean   = optionalPersisted.get();
+                TaskGroupFXBean taskGroupFXBean = Map_TaskGroup_Bean_FXBean.INSTANCE.map(taskGroupBean, new ReferenceCycleTracking());
+                taskGroupEditor.service().taskGroup(taskGroupFXBean);
+
+                Dialog<TaskGroupFXBean> dialog = new Dialog<>();
+
+                DialogPane pane = dialog.getDialogPane();
+                pane.setContent(taskGroupEditorLocalRoot);
+                pane.getButtonTypes().addAll(CANCEL, OK);
+
+                dialog.setTitle("edit task group");
+                dialog.setResultConverter(this::dialogResultConverterFXBean);
+
+                Optional<TaskGroupFXBean> optional = dialog.showAndWait();
+
+                if (optional.isPresent())
+                {
+                        final TaskGroupBean beanToUpdate = Map_TaskGroup_FXBean_Bean.INSTANCE.map(optional.get(), new ReferenceCycleTracking());
+
+                        // let client update the item in backend
+                        try
+                        {
+                                executor.execute(
+                                        () -> {
+                                                taskGroupServiceClient.update(beanToUpdate);
+                                                return null; // Void operation
+                                        },
+                                        "updating task group",
+                                        "Failed to update task group",
+                                        "Update failed after re-login"
+                                );
+
+                        // update task group selector
+                        taskGroupSelector.service().updateItem(
+                                TaskGroupMapper.INSTANCE.toFlat(beanToUpdate));
+                        }
+                        catch (TechnicalException | NonTechnicalException e)
+                        {
+                                ExceptionDialog.showAndWait("failure updating task groups in backend", e);
+                        }
+                }
+        }
+
+        private void onRemove(ActionEvent event) { AlertDialog.showAndWait("not yet implemented"); }
+
+        private void onBackup(ActionEvent event)
+        {
+                Dialog<Void> dialog = new Dialog<>();
+                dialog.setTitle("PostgreSQL Backup");
+
+                // create dialog pane and add PostgresBackupUI
+                DialogPane dialogPane = dialog.getDialogPane();
+                dialogPane.setContent(postgresBackupUI.localRoot());
+
+                // add close button
+                ButtonType closeButtonType = new ButtonType("Close", ButtonType.CLOSE.getButtonData());
+                dialogPane.getButtonTypes().add(closeButtonType);
+
+                // show dialog
+                dialog.showAndWait();
+        }
+
+        private void onExit  (ActionEvent event) { AlertDialog.showAndWait("not yet implemented"); }
+
+        private void onSelectedSuperSubTaskChanged(
+                ObservableValue<? extends TreeItem<TaskBean>> obs, TreeItem<TaskBean> old, TreeItem<TaskBean> act)
+        {
+                taskHierarchyPredecessors.service().selectedSuperSubTaskTreeItemChanged(act);
+                taskHierarchySuccessors  .service().selectedSuperSubTaskTreeItemChanged(act);
+        }
+
+        /**
+         * Whenever the active task group changes in the super/sub task hierarchy view, we have to set the new active task
+         * group in the predecessor and successor hierarchy views, too, to propagate possible changes in the active
+         * {@link TaskGroupBean#tasks()}.
+         *
+         * @param act the new active task group
+         */
+        private void onActiveTaskPropertyChangedInSuperSubTaskHierarchy(TaskGroupBean act)
+        {
+                taskHierarchyPredecessors.service().activeTaskGroupProperty().set(act);
+                taskHierarchySuccessors  .service().activeTaskGroupProperty().set(act);
+        }
+
+        private TaskGroupFXBean dialogResultConverterFXBean(ButtonType btn)
+        {
+                if (btn.getButtonData() == OK_DONE)
+                        return taskGroupEditor.service().taskGroup().orElse(null);
+                return null;
+        }
 }

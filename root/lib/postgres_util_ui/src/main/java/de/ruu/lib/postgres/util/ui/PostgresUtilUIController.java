@@ -290,8 +290,17 @@ class PostgresUtilUIController extends DefaultFXCController<PostgresUtilUI, Post
 		{
 			log.debug("saving configuration to file {}", configSource.getName());
 
-			String targetFileDirectory = tfTargetFile.getText().substring(0, tfTargetFile.getText().lastIndexOf(File.separator));
-			String sourceFileDirectory = tfSourceFile.getText().substring(0, tfSourceFile.getText().lastIndexOf(File.separator));
+			String targetFileAsString = tfTargetFile.getText();
+			String sourceFileAsString = tfSourceFile.getText();
+
+			if (targetFileAsString.isBlank() || sourceFileAsString.isBlank())
+			{
+				targetFileAsString = ".";
+				sourceFileAsString = ".";
+			}
+
+			String targetFileDirectory = targetFileAsString.substring(0, targetFileAsString.lastIndexOf(File.separator));
+			String sourceFileDirectory = sourceFileAsString.substring(0, sourceFileAsString.lastIndexOf(File.separator));
 
 			configSource.setProperty(POSTGRES_BACKUP_FILE_KEY     , targetFileDirectory          );
 			configSource.setProperty(POSTGRES_RESTORE_FILE_KEY    , sourceFileDirectory          );

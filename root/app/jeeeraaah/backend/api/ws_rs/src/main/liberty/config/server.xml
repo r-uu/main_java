@@ -204,8 +204,8 @@
 	<application id="jeeeraaah"
 		name="jeeeraaah"
 		type="war"
-		contextRoot="/"
-		location="r-uu.app.jeeeraaah.backend.api.ws.rs-0.0.1.war" />
+		contextRoot="/jeeeraaah"
+		location="r-uu.app.jeeeraaah.backend.api.ws_rs-0.0.1.war" />
 
 	<!-- ===================================================================
 	     JVM OPTIONS

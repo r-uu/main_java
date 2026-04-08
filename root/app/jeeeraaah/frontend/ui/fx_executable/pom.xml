@@ -11,7 +11,6 @@
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.app.jeeeraaah.frontend.ui.fx</artifactId>
-		            <version>${project.version}</version>
         </dependency>
 	</dependencies>
 

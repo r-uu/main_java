@@ -24,42 +24,34 @@
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.cdi.common</artifactId>
-		            <version>${project.version}</version>
         </dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.cdi.se</artifactId>
-		            <version>${project.version}</version>
         </dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.fx.comp</artifactId>
-		            <version>${project.version}</version>
         </dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.fx.core</artifactId>
-		            <version>${project.version}</version>
         </dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.gen.java.fx.bean</artifactId>
-		            <version>${project.version}</version>
         </dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.gen.java.fx.comp</artifactId>
-		            <version>${project.version}</version>
         </dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.gen.java.fx.bean_editor</artifactId>
-		            <version>${project.version}</version>
         </dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.util</artifactId>
-		            <version>${project.version}</version>
         </dependency>
 	</dependencies>
 

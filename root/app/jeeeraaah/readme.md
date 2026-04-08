@@ -1,4 +1,4 @@
-# jeeeraaah - Task Management Anwendung
+# jeeeraaah - A Task Management System built on JPMS
 
 Enterprise Task-Management-System mit JavaFX Frontend und Open Liberty Backend.
 

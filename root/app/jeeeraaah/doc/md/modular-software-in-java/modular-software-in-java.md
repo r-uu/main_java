@@ -180,7 +180,7 @@ Genau dies ist ein Ausgangspunkt für die Entstehung von big balls of mud: Früh
 Mehrere Probleme monolithischer Systeme ([siehe "Kapselung in Java-Monolithen"](#klassische-ansätze---kapselung-in-java-monolithen)) haben vor Jahren das Aufkommen von Microservices stark begünstigt.
 
 <p align="center">
-  <img src="monolith-modulith-microservices.svg"
+  <img src="monolith-modulith-microservices.drawio.svg"
        alt="Monolith/Modulith - Microservices"
        width="1000"
        style="border:1px solid #ccc; padding:0.5cm; background-color:beige;"/>

@@ -79,65 +79,53 @@
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.cdi.common</artifactId>
-		            <version>${project.version}</version>
         </dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.cdi.se</artifactId>
-		            <version>${project.version}</version>
         </dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.jackson</artifactId>
-		            <version>${project.version}</version>
         </dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.mapstruct</artifactId>
-		            <version>${project.version}</version>
         </dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.mapstruct.spi</artifactId>
 			<scope>provided</scope>
-		            <version>${project.version}</version>
         </dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.mp_config</artifactId>
-		            <version>${project.version}</version>
         </dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.util</artifactId>
-		            <version>${project.version}</version>
         </dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.ws_rs</artifactId>
-		            <version>${project.version}</version>
         </dependency>
 
 		<!-- common api dependencies -->
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.app.jeeeraaah.common.api.bean</artifactId>
-		            <version>${project.version}</version>
         </dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.app.jeeeraaah.common.api.domain</artifactId>
-		            <version>${project.version}</version>
         </dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.app.jeeeraaah.common.api.mapping</artifactId>
-		            <version>${project.version}</version>
         </dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.app.jeeeraaah.common.api.ws_rs</artifactId>
-		            <version>${project.version}</version>
         </dependency>
 
 		<!-- Lombok -->
@@ -153,7 +141,6 @@
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.junit</artifactId>
 			<scope>test</scope>
-		            <version>${project.version}</version>
         </dependency>
 		<dependency>
 			<groupId>org.assertj</groupId>
@@ -216,7 +203,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.1.2</version>
 				<configuration>
 					<forkCount>1</forkCount>
 					<reuseForks>false</reuseForks>
@@ -245,7 +231,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>3.1.2</version>
 				<configuration>
 					<!-- Respect skipITs property for explicit test skipping -->
 					<skipITs>${skipITs}</skipITs>
@@ -283,7 +268,6 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
-				<version>3.1.0</version>
 				<configuration>
 					<!-- Default configuration for exec:java (better for debugging) -->
 					<mainClass>de.ruu.app.jeeeraaah.frontend.api.client.ws.rs.dbcommand.DBCommandRunner</mainClass>

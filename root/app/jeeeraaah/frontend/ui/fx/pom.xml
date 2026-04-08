@@ -52,28 +52,23 @@
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.fx.comp</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.fx.core</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.app.jeeeraaah.common.api.bean</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.app.jeeeraaah.common.api.domain</artifactId>
-			<version>${project.version}</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.app.jeeeraaah.frontend.api_client.ws_rs</artifactId>
-			<version>${project.version}</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
@@ -101,41 +96,34 @@
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.app.jeeeraaah.frontend.ui.fx_model</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.app.jeeeraaah.frontend.common.mapping_bean_fxbean</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.gen.java.fx.bean</artifactId>
-			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.gen.java.fx.bean_editor</artifactId>
-			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.gen.java.fx.tableview</artifactId>
-			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.postgres_util_ui</artifactId>
-			<version>${project.version}</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.docker_health</artifactId>
-			<version>${project.version}</version>
 			<scope>compile</scope>
 		</dependency>
 		<!-- PostgreSQL JDBC driver - required by docker_health runtime -->
@@ -146,7 +134,6 @@
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.keycloak_admin</artifactId>
-			<version>${project.version}</version>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
@@ -164,7 +151,6 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
-				<version>3.1.0</version>
 				<executions>
 					<execution>
 						<id>default-cli</id>
@@ -176,7 +162,7 @@
 							<systemProperties>
 								<systemProperty>
 									<key>glass.gtk.uiScale</key>
-									<value>1.5</value>
+									<value>1.0</value>
 								</systemProperty>
 							</systemProperties>
 							<additionalClasspathElements>
@@ -194,7 +180,7 @@
 							<systemProperties>
 								<systemProperty>
 									<key>glass.gtk.uiScale</key>
-									<value>1.5</value>
+									<value>1.0</value>
 								</systemProperty>
 							</systemProperties>
 						</configuration>
@@ -209,7 +195,7 @@
 							<systemProperties>
 								<systemProperty>
 									<key>glass.gtk.uiScale</key>
-									<value>1.5</value>
+									<value>1.0</value>
 								</systemProperty>
 							</systemProperties>
 						</configuration>

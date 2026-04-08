@@ -20,18 +20,15 @@
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.jpa.core</artifactId>
-		            <version>${project.version}</version>
         </dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.mapstruct</artifactId>
-		            <version>${project.version}</version>
         </dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.mapstruct.spi</artifactId>
 			<scope>provided</scope>
-		            <version>${project.version}</version>
         </dependency>
 		<!-- Annotations used by interfaces -->
 		<dependency>

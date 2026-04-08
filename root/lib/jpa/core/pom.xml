@@ -50,7 +50,6 @@
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.util</artifactId>
-		            <version>${project.version}</version>
         </dependency>
 
 		<!-- Test dependencies -->

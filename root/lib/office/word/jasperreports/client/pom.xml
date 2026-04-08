@@ -18,7 +18,6 @@
         <dependency>
             <groupId>r-uu</groupId>
             <artifactId>r-uu.sandbox.jasperreports.model</artifactId>
-            <version>${project.version}</version>
         </dependency>
 
         <!-- HTTP Client (Java 11+) - no external dependency needed -->

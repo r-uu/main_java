@@ -15,17 +15,14 @@
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.archunit</artifactId>
-		            <version>${project.version}</version>
         </dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.gen.core</artifactId>
-		            <version>${project.version}</version>
         </dependency>
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.gen.java.core</artifactId>
-		            <version>${project.version}</version>
         </dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>

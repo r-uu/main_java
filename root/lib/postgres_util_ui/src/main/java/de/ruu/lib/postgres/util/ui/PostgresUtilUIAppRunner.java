@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
  * access should be registered after configureModuleAccessForCDI() and before {@code FXCAppRunner.run()}.
  */
 @Slf4j
-class PostgresUtilUIAppRunner extends FXCAppRunner
+public class PostgresUtilUIAppRunner extends FXCAppRunner
 {
 	public static void main(String[] args)
 	{

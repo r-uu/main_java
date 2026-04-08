@@ -46,7 +46,6 @@
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.lib.mp_config</artifactId>
-		            <version>${project.version}</version>
         </dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>

@@ -49,13 +49,11 @@
             <groupId>r-uu</groupId>
             <artifactId>r-uu.lib.junit</artifactId>
             <scope>test</scope>
-                    <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>r-uu</groupId>
             <artifactId>r-uu.lib.cdi.common</artifactId>
             <scope>test</scope>
-                    <version>${project.version}</version>
         </dependency>
     </dependencies>
 
