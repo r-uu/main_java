@@ -3,13 +3,6 @@
 # Diese Datei wird versioniert und mit allen Entwicklern geteilt
 
 # ═══════════════════════════════════════════════════════════════════
-# Java / GraalVM
-# ═══════════════════════════════════════════════════════════════════
-export GRAALVM_HOME="/opt/graalvm-jdk-25"
-export JAVA_HOME="$GRAALVM_HOME"
-export PATH="$JAVA_HOME/bin:$PATH"
-
-# ═══════════════════════════════════════════════════════════════════
 # Projekt-Pfade
 # ═══════════════════════════════════════════════════════════════════
 export RUU_HOME="/home/r-uu/develop/github/main"
