@@ -5,17 +5,14 @@ import static com.fasterxml.jackson.databind.SerializationFeature.FAIL_ON_EMPTY_
 import static com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS;
 import static de.ruu.app.jeeeraaah.common.api.domain.PathsCommon.PATH_JEEERAAAH_ROOT;
 import static de.ruu.app.jeeeraaah.common.api.domain.PathsCommon.TOKEN_BY_ID;
-import static de.ruu.app.jeeeraaah.common.api.domain.PathsTaskGroup.TOKEN_ALL_FLAT;
-import static de.ruu.app.jeeeraaah.common.api.domain.PathsTaskGroup.TOKEN_DOMAIN;
-import static de.ruu.app.jeeeraaah.common.api.domain.PathsTaskGroup.TOKEN_REMOVE_TASK_FROM_GROUP;
-import static de.ruu.app.jeeeraaah.common.api.domain.PathsTaskGroup.TOKEN_WITH_TASKS;
-import static de.ruu.app.jeeeraaah.common.api.domain.PathsTaskGroup.TOKEN_WITH_TASKS_AND_DIRECT_NEIGHBOURS;
+import static de.ruu.app.jeeeraaah.common.api.domain.PathsTaskGroup.*;
 import static de.ruu.app.jeeeraaah.common.api.mapping.Mappings.toBean;
 import static de.ruu.app.jeeeraaah.common.api.mapping.Mappings.toDTO;
 import static jakarta.ws.rs.client.Entity.entity;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import static jakarta.ws.rs.core.Response.Status.NOT_FOUND;
 import static jakarta.ws.rs.core.Response.Status.Family.SUCCESSFUL;
+import static org.eclipse.microprofile.config.ConfigProvider.getConfig;
 import static org.glassfish.jersey.client.ClientProperties.CONNECT_TIMEOUT;
 import static org.glassfish.jersey.client.ClientProperties.MOXY_JSON_FEATURE_DISABLE;
 import static org.glassfish.jersey.client.ClientProperties.READ_TIMEOUT;
@@ -68,16 +65,16 @@ import lombok.extern.slf4j.Slf4j;
 public class TaskGroupServiceClient implements TaskGroupService<TaskGroupBean, TaskBean>
 {
 	// error message constants
-	private static final String UNEXPECTED_STATUS = "unexpected status: ";
+//	private static final String UNEXPECTED_STATUS = "unexpected status: ";
 
-	private final String scheme = ConfigProvider.getConfig().getOptionalValue("jeeeraaah.rest-api.scheme", String.class)
+	private final String scheme = getConfig().getOptionalValue("jeeeraaah.rest-api.scheme", String.class)
 			.orElse("http");
 
 	private final String host =
 			// ConfigProvider.getConfig().getOptionalValue("jeeeraaah.rest-api.host" , String.class).orElse("127.0.0.1");
-			ConfigProvider.getConfig().getOptionalValue("jeeeraaah.rest-api.host", String.class).orElse("localhost");
+			getConfig().getOptionalValue("jeeeraaah.rest-api.host", String.class).orElse("localhost");
 
-	private final Integer port = ConfigProvider.getConfig().getOptionalValue("jeeeraaah.rest-api.port", Integer.class)
+	private final Integer port = getConfig().getOptionalValue("jeeeraaah.rest-api.port", Integer.class)
 			.orElse(9080);
 
 	/**
@@ -103,11 +100,14 @@ public class TaskGroupServiceClient implements TaskGroupService<TaskGroupBean, T
 	 */
 	private ObjectMapper createObjectMapper()
 	{
-		return new ObjectMapper().registerModule(new Jdk8Module()) // for Java 8 Optional support
-				.registerModule(new JavaTimeModule()) // for java 8 Date/Time support
-				.disable(FAIL_ON_EMPTY_BEANS) // don't fail on empty beans
-				.disable(FAIL_ON_UNKNOWN_PROPERTIES) // don't fail on unknown properties
-				.disable(WRITE_DATES_AS_TIMESTAMPS); // write dates as ISO-8601 strings
+		return
+				new ObjectMapper()
+						.registerModule(new Jdk8Module    ()) // for Java 8 Optional support
+						.registerModule(new JavaTimeModule()) // for java 8 Date/Time support
+						.disable(FAIL_ON_EMPTY_BEANS        ) // don't fail on empty beans
+						.disable(FAIL_ON_UNKNOWN_PROPERTIES ) // don't fail on unknown properties
+						.disable(WRITE_DATES_AS_TIMESTAMPS  ) // write dates as ISO-8601 strings
+		;
 	}
 
 	@PostConstruct public void postConstruct()
@@ -120,11 +120,9 @@ public class TaskGroupServiceClient implements TaskGroupService<TaskGroupBean, T
 		log.debug("host          : {}", host);
 		log.debug("port          : {}", port);
 		log.debug("schemeHostPort: {}", schemeHostPort);
-		log.debug("root          : {}", PathsTaskGroup.PATH_DOMAIN);
+		log.debug("root          : {}", PATH_DOMAIN);
 		log.debug("baseURL       : {}", baseURL);
 
-// Create a properly configured ObjectMapper for JSON serialization/deserialization
-		// Supports Java 8 Optional, LocalDate/LocalDateTime, and Lombok-generated code
 		ObjectMapper objectMapper = createObjectMapper();
 
 		// Create a JacksonJsonProvider with our custom ObjectMapper

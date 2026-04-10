@@ -55,14 +55,13 @@ import lombok.extern.slf4j.Slf4j;
 @Path(TOKEN_DOMAIN) @ApplicationScoped @OpenAPIDefinition(info = @Info(version = "a version", title = "a title")) @Produces(APPLICATION_JSON) @Consumes(APPLICATION_JSON) @Timed @Slf4j
 public class TaskGroupService
 {
-	private static final String MSG_TASK_NOT_FOUND = "task with id %d not found";
-	private static final String MSG_TASK_GROUP_NOT_FOUND = "task group with id %d not found";
-	private static final String MSG_TASK_GROUP_READ_FAILED = "failed to read task group with id %d: %s";
-	private static final String MSG_TASK_GROUP_READ_FAILED_XCPTN = "failed to create task group with id %d: %s";
+//	private static final String MSG_TASK_NOT_FOUND             = "task with id %d not found";
+	private static final String MSG_TASK_GROUP_NOT_FOUND     = "task group with id %d not found";
+	private static final String MSG_TASK_GROUP_READ_FAILED   = "failed to read task group with id %d: %s";
 	private static final String MSG_TASK_GROUP_CREATE_FAILED = "failed to create task group: %s";
 	private static final String MSG_TASK_GROUP_UPDATE_FAILED = "failed to update task group with id %d: %s";
 	private static final String MSG_TASK_GROUP_DELETE_FAILED = "failed to delete task group with id %d: %s";
-	private static final String MSG_TASK_REMOVAL_FAILED = "failed to remove task with id %d from group %d: %s";
+//	private static final String MSG_TASK_REMOVAL_FAILED        = "failed to remove task with id %d from group %d: %s";
 
 	@Inject
 	private TaskGroupDTOService service;
@@ -121,7 +120,7 @@ public class TaskGroupService
 		catch (Exception e)
 		{
 			log.error(String.format(MSG_TASK_GROUP_READ_FAILED, id, e));
-			return status(INTERNAL_SERVER_ERROR).entity(String.format(MSG_TASK_GROUP_READ_FAILED_XCPTN, id, e.getMessage()))
+			return status(INTERNAL_SERVER_ERROR).entity(String.format(MSG_TASK_GROUP_READ_FAILED, id, e.getMessage()))
 					.build();
 		}
 	}
@@ -222,7 +221,7 @@ public class TaskGroupService
 		catch (Exception e)
 		{
 			log.error(String.format(MSG_TASK_GROUP_READ_FAILED, id, e.getMessage()), e);
-			return status(INTERNAL_SERVER_ERROR).entity(String.format(MSG_TASK_GROUP_READ_FAILED_XCPTN, id, e.getMessage()))
+			return status(INTERNAL_SERVER_ERROR).entity(String.format(MSG_TASK_GROUP_READ_FAILED, id, e.getMessage()))
 					.build();
 		}
 	}
@@ -250,7 +249,7 @@ public class TaskGroupService
 		catch (Exception e)
 		{
 			log.error(String.format(MSG_TASK_GROUP_READ_FAILED, id, e.getMessage()), e);
-			return status(INTERNAL_SERVER_ERROR).entity(String.format(MSG_TASK_GROUP_READ_FAILED_XCPTN, id, e.getMessage()))
+			return status(INTERNAL_SERVER_ERROR).entity(String.format(MSG_TASK_GROUP_READ_FAILED, id, e.getMessage()))
 					.build();
 		}
 	}
