@@ -6,7 +6,7 @@ echo "🧪 Docker Autostart - Kompletter Test"
 echo "════════════════════════════════════════════════════════════════════"
 echo ""
 
-PROJECT_ROOT="/home/r-uu/develop/github/main"
+PROJECT_ROOT="/home/r-uu/develop/github/java/main"
 DOCKER_DIR="$PROJECT_ROOT/config/shared/docker"
 
 FAILED=0

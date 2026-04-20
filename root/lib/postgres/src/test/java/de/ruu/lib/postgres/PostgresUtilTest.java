@@ -17,7 +17,7 @@ public class PostgresUtilTest
 	@Test
 	void testInitializePostgresUtilConfigDefaultPath()
 	{
-		WritableFileConfigSource config = PostgresUtil.initializePostgresUtilConfig();
+		WritableFileConfigSource config = PostgresToolBox.initializePostgresUtilConfig();
 
 		File configFile = new File("postgresutil.config.properties");
 
@@ -48,7 +48,7 @@ public class PostgresUtilTest
 	{
 		File configFile = tempDir.resolve("custom-postgres.config").toFile();
 
-		WritableFileConfigSource config = PostgresUtil.initializePostgresUtilConfig(configFile.getAbsolutePath());
+		WritableFileConfigSource config = PostgresToolBox.initializePostgresUtilConfig(configFile.getAbsolutePath());
 
 		assertThat(configFile.exists()).as("Config file should be created at custom path").isEqualTo(true);
 		assertThat(config.getPropertyNames().size()).as("Should have all postgres properties").isGreaterThanOrEqualTo(9);

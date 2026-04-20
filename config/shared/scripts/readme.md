@@ -10,7 +10,7 @@ Gemeinsame Entwicklungs-Skripte für das r-uu Projekt.
 Installiert GraalVM JDK 25 und ersetzt das existierende JDK.
 
 ```bash
-cd ~/develop/github/main/config/shared/scripts
+cd ~/develop/github/java/main/config/shared/scripts
 sudo ./install-graalvm.sh
 ```
 
@@ -38,7 +38,7 @@ ruu-graalvm-version
 
 ```bash
 # Direkt ausführen
-bash ~/develop/github/main/config/shared/scripts/check-java.sh
+bash ~/develop/github/java/main/config/shared/scripts/check-java.sh
 
 # Oder mit Alias (nach source ~/.bashrc)
 ruu-java-check
@@ -80,7 +80,7 @@ ruu-java-check
 Richtet die lokale Entwicklungsumgebung ein.
 
 ```bash
-cd ~/develop/github/main/config/shared/scripts
+cd ~/develop/github/java/main/config/shared/scripts
 ./setup-dev-env.sh
 ```
 
@@ -130,7 +130,7 @@ Verwaltet Docker-Container und -Services.
 Alle Skripte sollten ausführbar sein:
 
 ```bash
-cd ~/develop/github/main/config/shared/scripts
+cd ~/develop/github/java/main/config/shared/scripts
 chmod +x *.sh
 ```
 
@@ -139,7 +139,7 @@ chmod +x *.sh
 ### Pfade
 Alle Skripte erwarten, dass das Projekt unter folgendem Pfad liegt:
 ```
-/home/r-uu/develop/github/main
+/home/r-uu/develop/github/java/main
 ```
 
 ### WSL-Umgebung
@@ -154,19 +154,19 @@ Einige Skripte benötigen sudo-Rechte:
 
 ### "Permission denied"
 ```bash
-chmod +x ~/develop/github/main/config/shared/scripts/*.sh
+chmod +x ~/develop/github/java/main/config/shared/scripts/*.sh
 ```
 
 ### "Command not found"
 Stelle sicher, dass du im richtigen Verzeichnis bist:
 ```bash
-cd ~/develop/github/main/config/shared/scripts
+cd ~/develop/github/java/main/config/shared/scripts
 ```
 
 ### Aliase nicht verfügbar
 Füge zur `~/.bashrc` hinzu:
 ```bash
-source ~/develop/github/main/config/shared/wsl/aliases.sh
+source ~/develop/github/java/main/config/shared/wsl/aliases.sh
 ```
 
 Dann:

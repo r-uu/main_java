@@ -136,7 +136,7 @@ else
     log_warn "Keycloak realm 'jeeeraaah-realm' missing - creating now..."
 
     # Attempt to create realm via KeycloakRealmSetup
-    KEYCLOAK_ADMIN_DIR="/home/r-uu/develop/github/main/root/lib/keycloak.admin"
+    KEYCLOAK_ADMIN_DIR="/home/r-uu/develop/github/java/main/root/lib/keycloak.admin"
 
     if [ -f "$KEYCLOAK_ADMIN_DIR/pom.xml" ]; then
         log_info "  Running KeycloakRealmSetup.java..."

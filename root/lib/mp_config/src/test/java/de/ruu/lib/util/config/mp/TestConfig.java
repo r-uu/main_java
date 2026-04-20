@@ -57,7 +57,7 @@ public class TestConfig implements Config
 	@Override
 	public <T> List<T> getValues(String propertyName, Class<T> propertyType)
 	{
-		return getOptionalValues(propertyName, propertyType).orElse(Collections.emptyList());
+		return getOptionalValues(propertyName, propertyType).orElse(List.of());
 	}
 
 	@Override
@@ -104,7 +104,7 @@ public class TestConfig implements Config
 	@Override
 	public Iterable<ConfigSource> getConfigSources()
 	{
-		return Collections.emptyList();
+		return List.of();
 	}
 
 	@Override

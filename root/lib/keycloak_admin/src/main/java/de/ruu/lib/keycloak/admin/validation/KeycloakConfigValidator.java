@@ -193,7 +193,7 @@ public class KeycloakConfigValidator
 		
 		public List<String> getRecommendations()
 		{
-			if (valid) return Collections.emptyList();
+			if (valid) return List.of();
 			
 			List<String> recommendations = new ArrayList<>();
 			recommendations.add("Add missing roles in Keycloak Admin Console:");
@@ -230,7 +230,7 @@ public class KeycloakConfigValidator
 		
 		public List<String> getRecommendations()
 		{
-			if (valid) return Collections.emptyList();
+			if (valid) return List.of();
 			
 			List<String> recommendations = new ArrayList<>();
 			recommendations.add("Configure audience mapper in Keycloak:");
@@ -266,7 +266,7 @@ public class KeycloakConfigValidator
 		
 		public List<String> getRecommendations()
 		{
-			if (consistent) return Collections.emptyList();
+			if (consistent) return List.of();
 			
 			List<String> recommendations = new ArrayList<>();
 			recommendations.add("Consider standardizing role names:");
@@ -301,7 +301,7 @@ public class KeycloakConfigValidator
 		
 		public List<String> getRecommendations()
 		{
-			if (warnings.isEmpty()) return Collections.emptyList();
+			if (warnings.isEmpty()) return List.of();
 			
 			List<String> recommendations = new ArrayList<>();
 			recommendations.add("Review token lifetime configuration in Keycloak:");

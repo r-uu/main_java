@@ -2,7 +2,7 @@ package de.ruu.app.jeeeraaah.frontend.ui.fx.dash;
 
 import de.ruu.lib.fx.comp.FXCAppRunner;
 import de.ruu.lib.fx.comp.FXCAppStartedEvent;
-import de.ruu.lib.postgres.util.ui.PostgresBackupUIService.PostgresBackupUIReadyEvent;
+import de.ruu.lib.postgres.toolbox.ui.PostgresBackupUIService.PostgresBackupUIReadyEvent;
 import lombok.extern.slf4j.Slf4j;
 
 /**

@@ -78,7 +78,7 @@ echo "🔐 Setting up Keycloak Realm"
 echo "════════════════════════════════════════════════════════════"
 echo ""
 
-cd ~/develop/github/main/root/lib/keycloak.admin
+cd ~/develop/github/java/main/root/lib/keycloak.admin
 mvn -q exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSetup"
 
 if [ $? -eq 0 ]; then
@@ -97,7 +97,7 @@ echo "🛑 Checking Liberty Server"
 echo "════════════════════════════════════════════════════════════"
 echo ""
 
-LIBERTY_DIR=~/develop/github/main/root/app/jeeeraaah/backend/api/ws_rs
+LIBERTY_DIR=~/develop/github/java/main/root/app/jeeeraaah/backend/api/ws_rs
 
 if [ -d "$LIBERTY_DIR/target/liberty/wlp/usr/servers/defaultServer" ]; then
     echo "   Stopping Liberty if running..."
@@ -124,6 +124,6 @@ echo "✅ Environment is ready!"
 echo "════════════════════════════════════════════════════════════"
 echo ""
 echo "Next steps:"
-echo "  1. Start Liberty: cd ~/develop/github/main/root/app/jeeeraaah/backend/api/ws_rs && mvn liberty:dev"
+echo "  1. Start Liberty: cd ~/develop/github/java/main/root/app/jeeeraaah/backend/api/ws_rs && mvn liberty:dev"
 echo "  2. Start DashAppRunner in IntelliJ"
 echo ""

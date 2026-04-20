@@ -40,6 +40,7 @@ public interface TaskMapper
 	@Mapping(target = "description", ignore = true) // mapped in afterMapping
 	@Mapping(target = "start", ignore = true)
 	@Mapping(target = "end", ignore = true)
+	@Mapping(target = "superTaskId", ignore = true) // mapped in afterMapping
 	@NonNull
 	TaskLazy toLazy(@NonNull TaskBean in);
 
@@ -60,6 +61,8 @@ public interface TaskMapper
 		out.description(in.description().orElse(null));
 		out.start(in.start().orElse(null));
 		out.end(in.end().orElse(null));
+		// Map superTask reference to superTaskId (ID only, no full object)
+		out.superTaskId(in.superTask().map(t -> t.id()).orElse(null));
 	}
 
 	@ObjectFactory default @NonNull TaskLazy createLazy(@NonNull TaskBean in)

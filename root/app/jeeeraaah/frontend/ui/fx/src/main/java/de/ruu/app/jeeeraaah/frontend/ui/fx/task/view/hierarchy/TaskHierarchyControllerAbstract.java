@@ -1,18 +1,5 @@
 package de.ruu.app.jeeeraaah.frontend.ui.fx.task.view.hierarchy;
 
-import static de.ruu.app.jeeeraaah.frontend.common.mapping.Mappings.toBean;
-import static de.ruu.app.jeeeraaah.frontend.common.mapping.Mappings.toFXBean;
-import static de.ruu.lib.util.BooleanFunctions.not;
-import static java.util.Objects.isNull;
-import static javafx.scene.control.ButtonBar.ButtonData.OK_DONE;
-import static javafx.scene.control.ButtonType.CANCEL;
-import static javafx.scene.control.ButtonType.OK;
-import static javafx.scene.control.SelectionMode.SINGLE;
-import static lombok.AccessLevel.PROTECTED;
-
-import java.util.List;
-import java.util.Optional;
-
 import de.ruu.app.jeeeraaah.common.api.bean.TaskBean;
 import de.ruu.app.jeeeraaah.common.api.bean.TaskGroupBean;
 import de.ruu.app.jeeeraaah.frontend.api.client.ws.rs.TaskServiceClient;
@@ -27,23 +14,34 @@ import de.ruu.lib.fx.control.dialog.ExceptionDialog;
 import de.ruu.lib.mapstruct.ReferenceCycleTracking;
 import de.ruu.lib.ws_rs.NonTechnicalException;
 import de.ruu.lib.ws_rs.TechnicalException;
+import jakarta.annotation.Nullable;
 import jakarta.inject.Inject;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.DialogPane;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
+import java.util.Optional;
+
+import static de.ruu.app.jeeeraaah.frontend.common.mapping.Mappings.toBean;
+import static de.ruu.app.jeeeraaah.frontend.common.mapping.Mappings.toFXBean;
+import static de.ruu.lib.util.BooleanFunctions.not;
+import static de.ruu.lib.util.Collections.asList;
+import static java.util.Collections.emptyList;
+import static java.util.Objects.isNull;
+import static javafx.scene.control.ButtonBar.ButtonData.OK_DONE;
+import static javafx.scene.control.ButtonType.CANCEL;
+import static javafx.scene.control.ButtonType.OK;
+import static javafx.scene.control.SelectionMode.SINGLE;
+import static lombok.AccessLevel.PROTECTED;
 
 /**
  * Java FX Component View Controller
@@ -100,6 +98,8 @@ public abstract class TaskHierarchyControllerAbstract
 		buttonAdd   .setOnAction(e -> onAdd   (e));
 		buttonEdit  .setOnAction(e -> onEdit  (e));
 		buttonRemove.setOnAction(e -> onRemove(e));
+
+//		activeTaskGroupProperty.addListener((obs, old, act) -> onActiveTaskGroupChanged(act));
 	}
 
 	@Override public void populate(@NonNull List<TaskBean> tasks)
@@ -186,6 +186,19 @@ public abstract class TaskHierarchyControllerAbstract
 
 	/** override this method to implement the remove functionality specifically to the actual task hierarchy */
 	protected abstract void onRemove(ActionEvent e);
+
+//	private void onActiveTaskGroupChanged(@Nullable TaskGroupBean activeTaskGroup)
+//	{
+//		log.debug("handle me");
+//		if (isNull(activeTaskGroup)) populate(emptyList());
+//		else
+//		{
+//			if (activeTaskGroup.tasks().isPresent())
+//					populate(asList(activeTaskGroup.tasks().get()));
+//			else
+//					populate(emptyList());
+//		}
+//	}
 
 	private void onSelectedTaskChanged(TreeItem<TaskBean> act)
 	{

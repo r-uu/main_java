@@ -55,7 +55,7 @@ elif echo "$RESPONSE" | grep -q "invalid_grant"; then
     echo "  3. Realm 'jeeeraaah-realm' existiert nicht"
     echo ""
     echo "Lösung: Führe Realm Setup aus"
-    echo "  cd ~/develop/github/main/root/lib/keycloak.admin"
+    echo "  cd ~/develop/github/java/main/root/lib/keycloak.admin"
     echo "  mvn exec:java -Dexec.mainClass=\"de.ruu.lib.keycloak.admin.setup.KeycloakRealmSetup\""
     exit 1
 elif echo "$RESPONSE" | grep -q "error"; then

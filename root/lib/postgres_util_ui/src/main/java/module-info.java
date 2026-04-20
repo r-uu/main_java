@@ -1,11 +1,11 @@
 module de.ruu.lib.postgres.util.ui
 {
-	exports de.ruu.lib.postgres.util.ui;
+	exports de.ruu.lib.postgres.toolbox.ui;
 
 	// Open package for CDI bean discovery and proxy generation (Weld SE) and JavaFX reflection
 	// - javafx.fxml: for FXML controller instantiation
 	// - weld.se.shaded: for CDI @Inject and @ApplicationScoped proxying
-	opens de.ruu.lib.postgres.util.ui;
+	opens de.ruu.lib.postgres.toolbox.ui;
 
 	requires de.ruu.lib.fx.comp;
 	requires de.ruu.lib.util.config.mp;

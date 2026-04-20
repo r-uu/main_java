@@ -1,8 +1,8 @@
-package de.ruu.lib.postgres.util.ui;
+package de.ruu.lib.postgres.toolbox.ui;
 
 import de.ruu.lib.fx.comp.FXCAppRunner;
-import de.ruu.lib.postgres.PostgresUtil;
-import de.ruu.lib.postgres.util.ui.PostgresRestoreUIService.PostgresRestoreUIReadyEvent;
+import de.ruu.lib.postgres.PostgresToolBox;
+import de.ruu.lib.postgres.toolbox.ui.PostgresBackupUIService.PostgresBackupUIReadyEvent;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -15,21 +15,21 @@ import lombok.extern.slf4j.Slf4j;
  * access should be registered after configureModuleAccessForCDI() and before {@code FXCAppRunner.run()}.
  */
 @Slf4j
-class PostgresRestoreUIAppRunner extends FXCAppRunner
+class PostgresBackupUIAppRunner extends FXCAppRunner
 {
 	public static void main(String[] args)
 	{
-		log.debug("starting {}", PostgresRestoreUIAppRunner.class.getName());
+		log.debug("starting {}", PostgresBackupUIAppRunner.class.getName());
 
 		// Initialize config file with defaults BEFORE CDI starts
-		PostgresUtil.initializePostgresUtilConfig();
+		PostgresToolBox.initializePostgresUtilConfig();
 
 		// configure jpms module access for cdi
 		FXCAppRunner.configureModuleAccessForCDI(); // configure for fxc framework events
-		PostgresRestoreUIReadyEvent.addReadsUnnamedModule(); // configure for this component's events
+		PostgresBackupUIReadyEvent.addReadsUnnamedModule(); // configure for this component's events
 
-		FXCAppRunner.run(PostgresRestoreUIApp.class, args);
+		FXCAppRunner.run(PostgresBackupUIApp.class, args);
 
-		log.debug("finished {}", PostgresRestoreUIAppRunner.class.getName());
+		log.debug("finished {}", PostgresBackupUIAppRunner.class.getName());
 	}
 }

@@ -1,12 +1,15 @@
 package de.ruu.app.jeeeraaah.frontend.ui.fx.task.view.hierarchy.successor;
 
 import de.ruu.app.jeeeraaah.common.api.bean.TaskBean;
+import de.ruu.app.jeeeraaah.common.api.bean.TaskGroupBean;
+import de.ruu.app.jeeeraaah.common.api.domain.TaskGroup;
 import de.ruu.app.jeeeraaah.frontend.ui.fx.task.view.hierarchy.TaskHierarchyControllerAbstract;
 import de.ruu.app.jeeeraaah.frontend.ui.fx.task.view.hierarchy.successor.add.ActionAdd;
 import de.ruu.app.jeeeraaah.frontend.ui.fx.task.view.hierarchy.successor.add.ActionAdd.Context;
 import de.ruu.app.jeeeraaah.frontend.api.client.ws.rs.TaskServiceClient;
 import de.ruu.lib.fx.control.dialog.AlertDialog;
 import de.ruu.lib.fx.control.dialog.ExceptionDialog;
+import de.ruu.lib.util.Collections;
 import de.ruu.lib.ws_rs.NonTechnicalException;
 import de.ruu.lib.ws_rs.TechnicalException;
 import jakarta.annotation.Nullable;
@@ -18,12 +21,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TreeItem;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static de.ruu.lib.util.BooleanFunctions.not;
+import static de.ruu.lib.util.Collections.asList;
+import static java.util.Collections.emptyList;
 import static java.util.Objects.isNull;
 import static javafx.geometry.NodeOrientation.LEFT_TO_RIGHT;
 import static javafx.geometry.NodeOrientation.RIGHT_TO_LEFT;

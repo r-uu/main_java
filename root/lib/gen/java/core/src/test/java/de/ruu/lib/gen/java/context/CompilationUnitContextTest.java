@@ -5,9 +5,10 @@ import static de.ruu.lib.gen.java.context.CompilationUnitContext.context;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import de.ruu.lib.gen.java.Generator;
 
@@ -26,7 +27,7 @@ class CompilationUnitContextTest
 		assertThat(context.simpleFileName().toString()).isEqualTo(simpleFileName);
 
 		assertThat(context.registeredGenerators()).isNotNull();
-		assertThat(context.registeredGenerators()).isEqualTo(Collections.emptyList());
+		assertThat(context.registeredGenerators()).isEqualTo(List.of());
 
 		assertThat(context.importManager().targetCompilationUnitPackageName()).isEqualTo(packageName);
 		assertThat(context.importManager().targetCompilationUnitSimpleName() ).isEqualTo(simpleFileName);

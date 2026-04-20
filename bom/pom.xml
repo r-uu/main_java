@@ -1109,7 +1109,6 @@
 							<arg>-parameters</arg>
 							<arg>-Amapstruct.defaultComponentModel=default</arg>
 							<arg>-Amapstruct.suppressGeneratorTimestamp=true</arg>
-							<arg>-Amapstruct.suppressGeneratorVersionComment=true</arg>
 							<!-- Keep varargs warnings disabled for now (less critical) -->
 							<arg>-Xlint:-varargs</arg>
 							<!-- REMOVED: -Xlint:-module to enable JPMS/Module warnings! -->

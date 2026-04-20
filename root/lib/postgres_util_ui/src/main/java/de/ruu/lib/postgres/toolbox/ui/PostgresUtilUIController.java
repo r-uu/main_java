@@ -1,9 +1,9 @@
-package de.ruu.lib.postgres.util.ui;
+package de.ruu.lib.postgres.toolbox.ui;
 
 import de.ruu.lib.fx.comp.FXCController.DefaultFXCController;
 import de.ruu.lib.fx.control.dialog.AlertDialog;
 import de.ruu.lib.fx.control.dialog.ExceptionDialog;
-import de.ruu.lib.postgres.PostgresUtil;
+import de.ruu.lib.postgres.PostgresToolBox;
 import de.ruu.lib.util.config.mp.ConfigSourceUtil;
 import de.ruu.lib.util.config.mp.WritableFileConfigSource;
 import jakarta.inject.Inject;
@@ -204,7 +204,7 @@ class PostgresUtilUIController extends DefaultFXCController<PostgresUtilUI, Post
 	{
 		try
 		{
-			PostgresUtil
+			PostgresToolBox
 					.backup
 					(
 						Path.of(postgresExeBackup),
@@ -234,7 +234,7 @@ class PostgresUtilUIController extends DefaultFXCController<PostgresUtilUI, Post
 	{
 		try
 		{
-			PostgresUtil
+			PostgresToolBox
 					.restore
 					(
 							Path.of(tfExecutableRestore.getText()),

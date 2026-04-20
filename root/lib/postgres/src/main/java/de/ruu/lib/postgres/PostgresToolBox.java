@@ -13,7 +13,7 @@ import de.ruu.lib.util.config.mp.WritableFileConfigSource;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public abstract class PostgresUtil
+public abstract class PostgresToolBox
 {
 	public static void backup(
 			Path executable, String host, int port, String dbName, String username, String password, Path backupFile)

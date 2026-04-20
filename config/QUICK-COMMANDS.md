@@ -36,7 +36,7 @@ ruu-postgres-setup
 build-all
 
 # Oder klassisch
-cd ~/develop/github/main/root
+cd ~/develop/github/java/main/root
 mvn clean install
 ```
 
@@ -193,7 +193,7 @@ curl -X POST http://localhost:8090/api/report/generate \
 
 ```bash
 # Maven Cache leeren
-cd ~/develop/github/main/root
+cd ~/develop/github/java/main/root
 mvn clean
 
 # Komplett neu bauen
@@ -207,7 +207,7 @@ build-all
 ruu-docker-restart
 
 # Oder komplett neu
-docker compose -f ~/develop/github/main/config/shared/docker/docker-compose.yml down
+docker compose -f ~/develop/github/java/main/config/shared/docker/docker-compose.yml down
 ruu-startup
 ```
 
@@ -239,13 +239,13 @@ ruu-help
 
 ```bash
 # Zentrale Dokumentation
-cat ~/develop/github/main/config/PROJEKT-DOKUMENTATION.md
+cat ~/develop/github/java/main/config/PROJEKT-DOKUMENTATION.md
 
 # Hauptdokumentation
-cat ~/develop/github/main/README.md
+cat ~/develop/github/java/main/README.md
 
 # Troubleshooting
-cat ~/develop/github/main/config/TROUBLESHOOTING.md
+cat ~/develop/github/java/main/config/TROUBLESHOOTING.md
 ```
 
 ---

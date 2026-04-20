@@ -86,7 +86,7 @@ Funktioniert sofort, keine weitere Konfiguration nötig!
 
 Für die beste Erfahrung, wechsle zu SSH:
 ```bash
-cd /home/r-uu/develop/github/main
+cd /home/r-uu/develop/github/java/main
 
 # Remote auf SSH umstellen
 git remote set-url origin git@github.com:r-uu/main.git
@@ -112,7 +112,7 @@ ssh -T git@github.com
 
 ```bash
 # Zum neuen Projekt wechseln
-cd /home/r-uu/develop/github/main
+cd /home/r-uu/develop/github/java/main
 
 # Git Status
 git status
@@ -124,7 +124,7 @@ source ~/.bashrc
 ruu-pull
 
 # Alte Backups aufräumen (VORSICHT!)
-# rm -rf /home/r-uu/develop/github/main.backup.*
+# rm -rf /home/r-uu/develop/github/java/main.backup.*
 # rm -rf /home/r-uu/develop/github/backup.r-uu.*
 ```
 
@@ -138,21 +138,21 @@ ruu-pull
 ```bash
 source ~/.bashrc
 # oder
-source /home/r-uu/develop/github/main/config/shared/wsl/aliases.sh
+source /home/r-uu/develop/github/java/main/config/shared/wsl/aliases.sh
 ```
 
 ### Problem: Ich brauche Dateien aus dem alten Projekt
 **Lösung:**
 ```bash
 # Kopiere aus dem Backup
-cp /home/r-uu/develop/github/main.backup.20260111_235114/some-file.txt \
-   /home/r-uu/develop/github/main/
+cp /home/r-uu/develop/github/java/main.backup.20260111_235114/some-file.txt \
+   /home/r-uu/develop/github/java/main/
 ```
 
 ### Problem: Scripts haben falsche Zeilenenden
 **Lösung:**
 ```bash
-cd /home/r-uu/develop/github/main
+cd /home/r-uu/develop/github/java/main
 bash setup-fresh-clone.sh
 ```
 
@@ -177,7 +177,7 @@ bash setup-fresh-clone.sh
 
 ```bash
 # Im Terminal (Alt+F12 in IntelliJ)
-cd /home/r-uu/develop/github/main
+cd /home/r-uu/develop/github/java/main
 
 # Test 1: Git funktioniert
 git status
@@ -207,5 +207,5 @@ Wenn alle 3 Tests erfolgreich sind: **✅ Alles funktioniert!**
 
 **Erstellt:** 2026-01-11 23:51
 **Repository:** https://github.com/r-uu/main.git
-**Lokaler Pfad:** /home/r-uu/develop/github/main
+**Lokaler Pfad:** /home/r-uu/develop/github/java/main
 

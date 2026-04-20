@@ -104,7 +104,7 @@ config/
 
 ```bash
 # In ~/.bashrc sollte stehen:
-source ~/develop/github/main/config/shared/wsl/aliases.sh
+source ~/develop/github/java/main/config/shared/wsl/aliases.sh
 ```
 
 ---

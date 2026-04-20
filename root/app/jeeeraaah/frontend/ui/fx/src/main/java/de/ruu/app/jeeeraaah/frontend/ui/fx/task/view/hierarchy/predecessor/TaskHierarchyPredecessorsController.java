@@ -1,6 +1,8 @@
 package de.ruu.app.jeeeraaah.frontend.ui.fx.task.view.hierarchy.predecessor;
 
 import static de.ruu.lib.util.BooleanFunctions.not;
+import static de.ruu.lib.util.Collections.asList;
+import static java.util.Collections.emptyList;
 import static java.util.Objects.isNull;
 import static javafx.geometry.NodeOrientation.RIGHT_TO_LEFT;
 import static javafx.scene.control.Alert.AlertType.ERROR;
@@ -11,6 +13,8 @@ import java.util.List;
 import java.util.Set;
 
 import de.ruu.app.jeeeraaah.common.api.bean.TaskBean;
+import de.ruu.app.jeeeraaah.common.api.bean.TaskGroupBean;
+import de.ruu.app.jeeeraaah.common.api.domain.TaskGroup;
 import de.ruu.app.jeeeraaah.frontend.api.client.ws.rs.TaskServiceClient;
 import de.ruu.app.jeeeraaah.frontend.ui.fx.task.view.hierarchy.TaskHierarchyControllerAbstract;
 import de.ruu.app.jeeeraaah.frontend.ui.fx.task.view.hierarchy.predecessor.add.ActionAdd;

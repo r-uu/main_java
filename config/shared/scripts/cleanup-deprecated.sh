@@ -11,7 +11,7 @@
 
 set -e
 
-PROJECT_ROOT="/home/r-uu/develop/github/main"
+PROJECT_ROOT="/home/r-uu/develop/github/java/main"
 ARCHIVE_DIR="$PROJECT_ROOT/config/archive/docs-20260130"
 
 echo "════════════════════════════════════════════════════════════"

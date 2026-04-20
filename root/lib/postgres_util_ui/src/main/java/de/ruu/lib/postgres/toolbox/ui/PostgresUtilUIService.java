@@ -1,4 +1,4 @@
-package de.ruu.lib.postgres.util.ui;
+package de.ruu.lib.postgres.toolbox.ui;
 
 import de.ruu.lib.fx.comp.FXCService;
 

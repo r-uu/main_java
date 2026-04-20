@@ -9,7 +9,7 @@
 set -e  # Exit on any error
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-KEYCLOAK_ADMIN_DIR="$HOME/develop/github/main/root/lib/keycloak.admin"
+KEYCLOAK_ADMIN_DIR="$HOME/develop/github/java/main/root/lib/keycloak.admin"
 
 echo "════════════════════════════════════════════════════════════════"
 echo "🔄 Complete Docker Environment Reset"
@@ -137,7 +137,7 @@ echo ""
 echo "🔍 Next steps:"
 echo "   1. Check container status: docker compose ps"
 echo "   2. View logs: docker compose logs -f"
-echo "   3. Build project: cd ~/develop/github/main/root && mvn clean install"
-echo "   4. Start Liberty: cd ~/develop/github/main/root/app/jeeeraaah/backend/api/ws_rs && mvn liberty:dev"
+echo "   3. Build project: cd ~/develop/github/java/main/root && mvn clean install"
+echo "   4. Start Liberty: cd ~/develop/github/java/main/root/app/jeeeraaah/backend/api/ws_rs && mvn liberty:dev"
 echo "   5. Start Frontend: Run DashAppRunner in IntelliJ"
 echo ""

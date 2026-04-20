@@ -4,7 +4,7 @@
 
 set -e
 
-RUU_HOME="/home/r-uu/develop/github/main"
+RUU_HOME="/home/r-uu/develop/github/java/main"
 CONFIG="$RUU_HOME/config"
 ARCHIVE="$CONFIG/archive"
 

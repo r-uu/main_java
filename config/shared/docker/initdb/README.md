@@ -68,13 +68,13 @@ POSTGRES_KEYCLOAK_PASSWORD=keycloak
 Um die Init-Skripte erneut auszuführen (WARNUNG: löscht alle Daten):
 ```bash
 # Kompletter Reset
-cd ~/develop/github/main/config/shared/docker
+cd ~/develop/github/java/main/config/shared/docker
 docker compose down -v
 docker compose up -d
 # Warten bis Container healthy sind
 sleep 30
 # Keycloak-Realm neu erstellen
-cd ~/develop/github/main/root/lib/keycloak_admin
+cd ~/develop/github/java/main/root/lib/keycloak_admin
 mvn exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSetup"
 ```
 Oder verwende den Alias:

@@ -253,7 +253,7 @@ Jeder versteht sofort: "Ah, hier werden die Datenbanken konfiguriert!"
 
 ```bash
 # Container mit neuer Lösung starten
-cd /home/r-uu/develop/github/main/config/shared/docker
+cd /home/r-uu/develop/github/java/main/config/shared/docker
 docker compose down
 docker compose up -d
 

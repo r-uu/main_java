@@ -79,12 +79,12 @@ Nach erfolgreicher Anmeldung siehst du:
 
 2. Prüfe die .env Datei:
    ```bash
-   cat ~/develop/github/main/config/shared/docker/.env | grep kc_admin
+   cat ~/develop/github/java/main/config/shared/docker/.env | grep kc_admin
    ```
 
 3. Falls Credentials nicht stimmen, Container neu erstellen:
    ```bash
-   cd ~/develop/github/main/config/shared/docker
+   cd ~/develop/github/java/main/config/shared/docker
    docker compose down keycloak
    docker volume rm docker_keycloak-data
    docker compose up -d keycloak

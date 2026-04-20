@@ -1,4 +1,4 @@
-package de.ruu.lib.postgres.util.ui.generate;
+package de.ruu.lib.postgres.toolbox.ui.generate;
 
 import de.ruu.lib.gen.GeneratorException;
 import de.ruu.lib.gen.java.fx.comp.GeneratorFXCompBundle;

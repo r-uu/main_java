@@ -61,7 +61,7 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>de.ruu.lib.postgres.util.ui.PostgresUtilUIAppRunner</mainClass>
+					<mainClass>de.ruu.lib.postgres.toolbox.ui.PostgresUtilUIAppRunner</mainClass>
 					<systemProperties>
 						<systemProperty>
 							<key>glass.gtk.uiScale</key>

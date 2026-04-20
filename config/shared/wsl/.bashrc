@@ -4,7 +4,7 @@
 # WICHTIG: Diese Datei lebt im Repo unter config/shared/wsl/.bashrc
 # ~/.bashrc ist ein Symlink auf diese Datei.
 # Einmalig einrichten (pro Maschine):
-#   ln -sf ~/develop/github/main/config/shared/wsl/.bashrc ~/.bashrc
+#   ln -sf ~/develop/github/java/main/config/shared/wsl/.bashrc ~/.bashrc
 # Danach synchronisiert git pull/push diese Datei zwischen allen Maschinen.
 # ACHTUNG: Manche Installer (sdkman, nvm, conda) ersetzen ~/.bashrc anstatt
 # nur anzuhängen — das löscht den Symlink. Danach einfach neu anlegen.
@@ -96,8 +96,8 @@ if ! xdpyinfo &>/dev/null 2>&1; then
 fi
 
 # - r-uu aliases
-if [ -f ~/develop/github/main/config/shared/wsl/aliases.sh ]; then
-    source ~/develop/github/main/config/shared/wsl/aliases.sh
+if [ -f ~/develop/github/java/main/config/shared/wsl/aliases.sh ]; then
+    source ~/develop/github/java/main/config/shared/wsl/aliases.sh
 fi
 
 # - r-uu auto-start docker containers
@@ -111,7 +111,7 @@ fi
 
 # - r-uu docker-compose container auto-start (main project)
 if command -v docker &> /dev/null; then
-    DOCKER_COMPOSE_DIR="/home/r-uu/develop/github/main/config/shared/docker"
+    DOCKER_COMPOSE_DIR="/home/r-uu/develop/github/java/main/config/shared/docker"
     if [ -f "$DOCKER_COMPOSE_DIR/docker-compose.yml" ]; then
         (cd "$DOCKER_COMPOSE_DIR" && docker compose up -d >/dev/null 2>&1 &)
     fi

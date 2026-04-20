@@ -20,7 +20,7 @@ echo "   docker pull hello-world"
 echo ""
 
 echo "🔨 JasperReports Container bauen:"
-echo "   cd /home/r-uu/develop/github/main/config/shared/docker"
+echo "   cd /home/r-uu/develop/github/java/main/config/shared/docker"
 echo "   ./docker-compose-build.sh jasperreports"
 echo ""
 

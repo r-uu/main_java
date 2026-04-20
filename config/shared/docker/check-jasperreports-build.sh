@@ -25,7 +25,7 @@ else
         docker images | grep -E "REPOSITORY|jasperreports"
         echo ""
         echo "🚀 Nächster Schritt: Container starten"
-        echo "   cd /home/r-uu/develop/github/main/config/shared/docker"
+        echo "   cd /home/r-uu/develop/github/java/main/config/shared/docker"
         echo "   docker compose up -d jasperreports"
     else
         echo "❌ JasperReports Image nicht gefunden"

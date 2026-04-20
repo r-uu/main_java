@@ -5,7 +5,7 @@
 # ═══════════════════════════════════════════════════════════════════
 # Project Paths
 # ═══════════════════════════════════════════════════════════════════
-export RUU_MAIN="/home/r-uu/develop/github/main"
+export RUU_MAIN="/home/r-uu/develop/github/java/main"
 export RUU_BOM="$RUU_MAIN/bom"
 export RUU_ROOT="$RUU_MAIN/root"
 export RUU_CONFIG="$RUU_MAIN/config"
@@ -196,8 +196,17 @@ alias ruu-versions='echo "=== Tool Versions ==" && ruu-java-version && echo "" &
 # LIBGL_ALWAYS_SOFTWARE=1 entfernt → verschlechterte Java2D-Rendering
 alias ruu-ij-fix='bash $RUU_CONFIG/shared/scripts/fix-intellij-indexing.sh'
 alias ruu-ij-fix-rendering='bash $RUU_CONFIG/shared/scripts/fix-intellij-wsl-rendering.sh'
+alias ruu-ij-white-theme='cat > $HOME/.config/JetBrains/IntelliJIdea2026.1/options/laf.xml << '"'"'EOF'"'"'
+<application>
+  <component name="LafManager">
+    <laf themeId="r-uu.WhiteBackground" />
+    <preferredLightLaf themeId="r-uu.WhiteBackground" />
+  </component>
+</application>
+EOF
+echo "✅ laf.xml: White Background Theme gesetzt"'
 alias ruu-toolbox='_JAVA_AWT_WM_NONREPARENTING=1 jetbrains-toolbox &'
-alias ruu-ij='cd ~/develop/github/main/root && _JAVA_AWT_WM_NONREPARENTING=1 idea . &'
+alias ruu-ij='cd ~/develop/github/java/main/root && _JAVA_AWT_WM_NONREPARENTING=1 idea . &'
 
 # ═══════════════════════════════════════════════════════════════════
 # Shell & Aliases

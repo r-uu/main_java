@@ -13,7 +13,7 @@ Dieses Verzeichnis enthält die Docker Compose Konfiguration für die Entwicklun
 
 ```bash
 # Komplette Umgebung neu aufsetzen
-cd ~/develop/github/main/config/shared/docker
+cd ~/develop/github/java/main/config/shared/docker
 ./full-reset.sh
 
 # Oder manuell:
@@ -70,7 +70,7 @@ docker exec -it postgres psql -U lib_test -d lib_test
 
 **Realm Setup:**
 ```bash
-cd ~/develop/github/main/root/lib/keycloak_admin
+cd ~/develop/github/java/main/root/lib/keycloak_admin
 mvn exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSetup"
 ```
 
@@ -203,7 +203,7 @@ curl http://localhost:8080/health/ready
 
 **Lösung:**
 ```bash
-cd ~/develop/github/main/root/lib/keycloak_admin
+cd ~/develop/github/java/main/root/lib/keycloak_admin
 mvn exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSetup"
 ```
 
@@ -225,7 +225,7 @@ kill <PID>
 ### Alles kaputt - Komplett-Reset
 
 ```bash
-cd ~/develop/github/main/config/shared/docker
+cd ~/develop/github/java/main/config/shared/docker
 
 # Variante 1: Reset-Script (empfohlen)
 ./full-reset.sh
@@ -234,16 +234,16 @@ cd ~/develop/github/main/config/shared/docker
 docker compose down -v
 docker volume prune -f
 docker compose up -d
-cd ~/develop/github/main/root/lib/keycloak_admin
+cd ~/develop/github/java/main/root/lib/keycloak_admin
 mvn exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSetup"
 ```
 
 ## 📚 Weitere Dokumentation
 
-- **Keycloak Realm Setup:** `~/develop/github/main/root/lib/keycloak_admin/README.md`
-- **Docker Health Checks:** `~/develop/github/main/root/lib/docker_health/README.md`
-- **Project Quickstart:** `~/develop/github/main/QUICKSTART.md`
-- **Konsolidierung:** `~/develop/github/main/KONSOLIDIERUNG-2026-01-30.md`
+- **Keycloak Realm Setup:** `~/develop/github/java/main/root/lib/keycloak_admin/README.md`
+- **Docker Health Checks:** `~/develop/github/java/main/root/lib/docker_health/README.md`
+- **Project Quickstart:** `~/develop/github/java/main/QUICKSTART.md`
+- **Konsolidierung:** `~/develop/github/java/main/KONSOLIDIERUNG-2026-01-30.md`
 
 ## 🔐 Sicherheitshinweise
 

@@ -76,7 +76,7 @@ echo ""
 
 # Step 6: Setup Keycloak Realm
 echo "🔐 Step 6/6: Creating Keycloak realm 'jeeeraaah-realm'..."
-cd ~/develop/github/main/root/lib/keycloak.admin
+cd ~/develop/github/java/main/root/lib/keycloak.admin
 mvn exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSetup" -q
 
 if [ $? -eq 0 ]; then
@@ -103,7 +103,7 @@ echo "   • JasperReports:          http://localhost:8090"
 echo ""
 echo "▶️  Next Steps:"
 echo "   1. Start Liberty Server:"
-echo "      cd ~/develop/github/main/root/app/jeeeraaah/backend/api/ws_rs"
+echo "      cd ~/develop/github/java/main/root/app/jeeeraaah/backend/api/ws_rs"
 echo "      mvn liberty:dev"
 echo ""
 echo "   2. Start DashAppRunner in IntelliJ"

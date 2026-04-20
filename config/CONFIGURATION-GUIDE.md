@@ -84,7 +84,7 @@ database.password=${POSTGRES_JEEERAAAH_PASSWORD:jeeeraaah}
 ### 1. Create Local `.env` File
 
 ```bash
-cd ~/develop/github/main/config/shared/docker
+cd ~/develop/github/java/main/config/shared/docker
 cp .env.template .env
 # Edit .env and set real passwords
 ```
@@ -157,7 +157,7 @@ Note: lib_test uses the same PostgreSQL container as jeeeraaah (host/port).
 **Cause:** MicroProfile Config didn't find the environment variable, so it used the fallback value literally.
 
 **Solution:**
-1. Check `.env` file exists: `ls -la ~/develop/github/main/config/shared/docker/.env`
+1. Check `.env` file exists: `ls -la ~/develop/github/java/main/config/shared/docker/.env`
 2. Check variable names are UPPERCASE
 3. Restart application after changing `.env`
 4. In Docker: `docker compose down && docker compose up -d`

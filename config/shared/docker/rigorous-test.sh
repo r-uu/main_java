@@ -125,7 +125,7 @@ echo ""
 echo "📋 Step 7: Setup Keycloak Realm"
 echo "────────────────────────────────────────────────────────────────"
 
-cd ~/develop/github/main/root/lib/keycloak.admin
+cd ~/develop/github/java/main/root/lib/keycloak.admin
 mvn -q exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSetup" >/dev/null 2>&1
 test_result "Keycloak Realm 'jeeeraaah-realm' created"
 
@@ -138,7 +138,7 @@ echo ""
 echo "📋 Step 8: Start JasperReports"
 echo "────────────────────────────────────────────────────────────────"
 
-cd ~/develop/github/main/config/shared/docker
+cd ~/develop/github/java/main/config/shared/docker
 docker compose up -d jasperreports
 sleep 5
 
@@ -182,7 +182,7 @@ echo ""
 echo "📋 Step 10: Run Java Tests"
 echo "────────────────────────────────────────────────────────────────"
 
-cd ~/develop/github/main/root
+cd ~/develop/github/java/main/root
 
 # Test JPA PostgreSQL Demo
 mvn -q test -pl lib/jpa/se.hibernate.postgres.demo >/dev/null 2>&1

@@ -11,7 +11,7 @@ echo ""
 
 # Schritt 1: Zum Docker-Verzeichnis wechseln
 echo "Schritt 1: Wechsle zum Docker-Verzeichnis..."
-cd ~/develop/github/main/config/shared/docker || {
+cd ~/develop/github/java/main/config/shared/docker || {
     echo "❌ Fehler: Verzeichnis nicht gefunden!"
     exit 1
 }
@@ -81,7 +81,7 @@ echo ""
 # Schritt 8: Keycloak Realm erstellen
 echo "Schritt 8: Prüfe und erstelle Keycloak Realm 'jeeeraaah-realm'..."
 echo "-------------------------------------------------------------------"
-cd ~/develop/github/main/root/lib/keycloak.admin || {
+cd ~/develop/github/java/main/root/lib/keycloak.admin || {
     echo "❌ Fehler: Verzeichnis keycloak.admin nicht gefunden!"
     exit 1
 }
@@ -97,7 +97,7 @@ fi
 echo ""
 
 # Zurück zum Docker-Verzeichnis
-cd ~/develop/github/main/config/shared/docker
+cd ~/develop/github/java/main/config/shared/docker
 echo ""
 
 # Schritt 9: Health Status Details

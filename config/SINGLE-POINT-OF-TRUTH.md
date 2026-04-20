@@ -128,7 +128,7 @@ String dbUsername;
 3. **IMMER** `.env` aus `.env.template` erstellen
 4. **IMMER** nach Änderungen an `.env` das Projekt neu bauen:
    ```bash
-   cd ~/develop/github/main/root
+   cd ~/develop/github/java/main/root
    mvn clean install
    ```
 

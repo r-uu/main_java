@@ -12,7 +12,7 @@ echo "=========================================="
 echo ""
 
 # Zum Hauptverzeichnis wechseln
-cd /home/r-uu/develop/github/main
+cd /home/r-uu/develop/github/java/main
 
 echo "Aktuelles Verzeichnis: $(pwd)"
 echo ""

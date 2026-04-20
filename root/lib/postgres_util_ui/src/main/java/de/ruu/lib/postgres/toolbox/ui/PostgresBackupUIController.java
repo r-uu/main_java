@@ -1,4 +1,4 @@
-package de.ruu.lib.postgres.util.ui;
+package de.ruu.lib.postgres.toolbox.ui;
 
 import static de.ruu.lib.cdi.common.CDIUtil.fire;
 import static de.ruu.lib.fx.FXUtil.getStage;
@@ -17,7 +17,7 @@ import de.ruu.lib.fx.comp.FXCAppStartedEvent;
 import de.ruu.lib.fx.comp.FXCController.DefaultFXCController;
 import de.ruu.lib.fx.control.dialog.AlertDialog;
 import de.ruu.lib.fx.control.dialog.ExceptionDialog;
-import de.ruu.lib.postgres.PostgresUtil;
+import de.ruu.lib.postgres.PostgresToolBox;
 import de.ruu.lib.util.config.mp.ConfigSourceUtil;
 import de.ruu.lib.util.config.mp.WritableFileConfigSource;
 import jakarta.enterprise.context.Dependent;
@@ -224,7 +224,7 @@ class PostgresBackupUIController extends DefaultFXCController<PostgresBackupUI, 
 
 		try
 		{
-			PostgresUtil
+			PostgresToolBox
 					.backup
 					(
 						Path.of(executable),

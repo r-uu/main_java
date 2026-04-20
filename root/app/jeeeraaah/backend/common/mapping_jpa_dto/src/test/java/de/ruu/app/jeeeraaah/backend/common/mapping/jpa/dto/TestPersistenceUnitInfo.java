@@ -2,7 +2,6 @@ package de.ruu.app.jeeeraaah.backend.common.mapping.jpa.dto;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
@@ -67,13 +66,13 @@ public class TestPersistenceUnitInfo implements PersistenceUnitInfo
 	@Override
 	public List<String> getMappingFileNames()
 	{
-		return Collections.emptyList();
+		return List.of();
 	}
 
 	@Override
 	public List<URL> getJarFileUrls()
 	{
-		return Collections.emptyList();
+		return List.of();
 	}
 
 	@Override
@@ -139,7 +138,7 @@ public class TestPersistenceUnitInfo implements PersistenceUnitInfo
 	@Override
 	public List<String> getQualifierAnnotationNames()
 	{
-		return Collections.emptyList();
+		return List.of();
 	}
 
 	@Override

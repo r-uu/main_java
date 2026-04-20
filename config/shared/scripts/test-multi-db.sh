@@ -149,7 +149,7 @@ else
     echo "════════════════════════════════════════════════════════════════════"
     echo ""
     echo "Bitte Container neu starten:"
-    echo "  cd /home/r-uu/develop/github/main/config/shared/docker"
+    echo "  cd /home/r-uu/develop/github/java/main/config/shared/docker"
     echo "  docker compose down"
     echo "  docker compose up -d"
     echo ""

@@ -72,7 +72,7 @@ IntelliJ speichert Run Configurations normalerweise in `.idea/runConfigurations/
 Falls die Application Configuration weiterhin Probleme macht, kann DashAppRunner auch über Maven gestartet werden:
 
 ```bash
-cd ~/develop/github/main/root/app/jeeeraaah/frontend/ui/fx
+cd ~/develop/github/java/main/root/app/jeeeraaah/frontend/ui/fx
 mvn exec:java -Dexec.mainClass="de.ruu.app.jeeeraaah.frontend.ui.fx.dash.DashAppRunner"
 ```
 

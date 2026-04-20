@@ -9,7 +9,6 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 import java.net.URL;
-import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -25,7 +24,7 @@ public abstract class CDIContainer
 	/** @param classLoader used for loading {@code META-INF/beans.xml} */
 	public static void bootstrap(@NonNull ClassLoader classLoader)
 	{
-		bootstrap(classLoader, Collections.emptyList());
+		bootstrap(classLoader, List.of());
 	}
 
 	/**
@@ -36,7 +35,7 @@ public abstract class CDIContainer
 			@NonNull ClassLoader classLoader,
 			@NonNull List<Class<?>> interceptorClasses)
 	{
-		bootstrap(classLoader, interceptorClasses, Collections.emptyList());
+		bootstrap(classLoader, interceptorClasses, List.of());
 	}
 
 	public static void bootstrap(
@@ -44,7 +43,7 @@ public abstract class CDIContainer
 			@NonNull List<Class<?>>                   interceptorClasses,
 			@NonNull List<Class<? extends Extension>> extensionClasses)
 	{
-		bootstrap(classLoader, interceptorClasses, extensionClasses, Collections.emptyList());
+		bootstrap(classLoader, interceptorClasses, extensionClasses, List.of());
 	}
 
 	/**

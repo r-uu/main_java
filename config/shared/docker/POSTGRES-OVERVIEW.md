@@ -113,7 +113,7 @@ Init-Skript: `initdb/keycloak/01-init.sql`
 
 ```bash
 # Alle Container + Volumes löschen
-cd ~/develop/github/main/config/shared/docker
+cd ~/develop/github/java/main/config/shared/docker
 docker compose down -v
 
 # Neu starten (triggert Init-Skripte)

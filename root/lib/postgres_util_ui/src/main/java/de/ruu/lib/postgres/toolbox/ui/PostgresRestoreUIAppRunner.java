@@ -1,7 +1,8 @@
-package de.ruu.lib.postgres.util.ui;
+package de.ruu.lib.postgres.toolbox.ui;
 
 import de.ruu.lib.fx.comp.FXCAppRunner;
-import de.ruu.lib.postgres.PostgresUtil;
+import de.ruu.lib.postgres.PostgresToolBox;
+import de.ruu.lib.postgres.toolbox.ui.PostgresRestoreUIService.PostgresRestoreUIReadyEvent;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -14,19 +15,21 @@ import lombok.extern.slf4j.Slf4j;
  * access should be registered after configureModuleAccessForCDI() and before {@code FXCAppRunner.run()}.
  */
 @Slf4j
-public class PostgresUtilUIAppRunner extends FXCAppRunner
+class PostgresRestoreUIAppRunner extends FXCAppRunner
 {
 	public static void main(String[] args)
 	{
-		log.debug("starting {}", PostgresUtilUIAppRunner.class.getName());
+		log.debug("starting {}", PostgresRestoreUIAppRunner.class.getName());
 
 		// Initialize config file with defaults BEFORE CDI starts
-		PostgresUtil.initializePostgresUtilConfig();
+		PostgresToolBox.initializePostgresUtilConfig();
 
-		// Configure JPMS module access for Weld CDI
-		FXCAppRunner.configureModuleAccessForCDI();
-		FXCAppRunner.run(PostgresUtilUIApp.class, args);
+		// configure jpms module access for cdi
+		FXCAppRunner.configureModuleAccessForCDI(); // configure for fxc framework events
+		PostgresRestoreUIReadyEvent.addReadsUnnamedModule(); // configure for this component's events
 
-		log.debug("finished {}", PostgresUtilUIAppRunner.class.getName());
+		FXCAppRunner.run(PostgresRestoreUIApp.class, args);
+
+		log.debug("finished {}", PostgresRestoreUIAppRunner.class.getName());
 	}
 }

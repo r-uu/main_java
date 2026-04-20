@@ -41,7 +41,7 @@ Wenn alte Container-Namen auftauchen:
 
 1. **Stoppe alle Container:**
    ```bash
-   cd ~/develop/github/main/config/shared/docker
+   cd ~/develop/github/java/main/config/shared/docker
    docker compose down
    ```
 

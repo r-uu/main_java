@@ -137,7 +137,7 @@ if type ruu-graalvm-version &> /dev/null; then
 else
     check_warn "r-uu Aliase nicht geladen"
     echo "   Füge zur ~/.bashrc hinzu:"
-    echo "   source ~/develop/github/main/config/shared/wsl/aliases.sh"
+    echo "   source ~/develop/github/java/main/config/shared/wsl/aliases.sh"
 fi
 echo ""
 
@@ -156,7 +156,7 @@ else
     check_fail "Bitte GraalVM 25 installieren"
     echo ""
     echo "Installationsanleitung:"
-    echo "  cd ~/develop/github/main/config/shared/scripts"
+    echo "  cd ~/develop/github/java/main/config/shared/scripts"
     echo "  sudo ./install-graalvm.sh"
 fi
 echo ""

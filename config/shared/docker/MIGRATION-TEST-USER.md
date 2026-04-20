@@ -42,14 +42,14 @@ Der DashAppRunner liest die Credentials aus `testing.properties`:
 ### Manuelles Testen
 ```bash
 # Keycloak Login testen
-cd ~/develop/github/main/config/shared/docker
+cd ~/develop/github/java/main/config/shared/docker
 ./TEST-KEYCLOAK-LOGIN.sh
 ```
 
 ### Keycloak Realm Setup (bei Bedarf)
 ```bash
 # Realm und User erstellen/aktualisieren
-cd ~/develop/github/main/root/lib/keycloak_admin
+cd ~/develop/github/java/main/root/lib/keycloak_admin
 mvn exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSetup"
 ```
 
@@ -107,14 +107,14 @@ curl http://localhost:8080/health/ready
 ### Problem: Login schlägt fehl mit "invalid_grant"
 **Lösung:** Keycloak Realm Setup ausführen
 ```bash
-cd ~/develop/github/main/root/lib/keycloak_admin
+cd ~/develop/github/java/main/root/lib/keycloak_admin
 mvn exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSetup"
 ```
 
 ### Problem: Keycloak Container nicht healthy
 **Lösung:** Container neu starten
 ```bash
-cd ~/develop/github/main/config/shared/docker
+cd ~/develop/github/java/main/config/shared/docker
 docker compose down
 docker compose up -d
 ```
