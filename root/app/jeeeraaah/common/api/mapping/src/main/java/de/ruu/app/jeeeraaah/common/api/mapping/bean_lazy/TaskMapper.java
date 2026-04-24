@@ -1,21 +1,12 @@
 package de.ruu.app.jeeeraaah.common.api.mapping.bean_lazy;
 
-import static de.ruu.app.jeeeraaah.common.api.mapping.Mappings.toLazy;
-
-import org.mapstruct.AfterMapping;
-import org.mapstruct.BeforeMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.ObjectFactory;
-import org.mapstruct.factory.Mappers;
-
 import de.ruu.app.jeeeraaah.common.api.bean.TaskBean;
 import de.ruu.app.jeeeraaah.common.api.bean.TaskGroupBean;
 import de.ruu.app.jeeeraaah.common.api.domain.lazy.TaskLazy;
 import de.ruu.app.jeeeraaah.common.api.ws.rs.TaskDTOLazy;
-import de.ruu.lib.mapstruct.ReferenceCycleTracking;
 import lombok.NonNull;
+import org.mapstruct.*;
+import org.mapstruct.factory.Mappers;
 
 /**
  * Bidirectional mapper for Task: Bean ↔ Lazy

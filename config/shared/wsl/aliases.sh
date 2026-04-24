@@ -192,21 +192,18 @@ alias ruu-versions='echo "=== Tool Versions ==" && ruu-java-version && echo "" &
 # ═══════════════════════════════════════════════════════════════════
 # IntelliJ IDEA / JetBrains Toolbox (WSL-native via WSLg)
 # ═══════════════════════════════════════════════════════════════════
-# _JAVA_AWT_WM_NONREPARENTING=1 → behebt Fenster-/Rendering-Artefakte unter WSLg
-# LIBGL_ALWAYS_SOFTWARE=1 entfernt → verschlechterte Java2D-Rendering
 alias ruu-ij-fix='bash $RUU_CONFIG/shared/scripts/fix-intellij-indexing.sh'
-alias ruu-ij-fix-rendering='bash $RUU_CONFIG/shared/scripts/fix-intellij-wsl-rendering.sh'
-alias ruu-ij-white-theme='cat > $HOME/.config/JetBrains/IntelliJIdea2026.1/options/laf.xml << '"'"'EOF'"'"'
-<application>
-  <component name="LafManager">
-    <laf themeId="r-uu.WhiteBackground" />
-    <preferredLightLaf themeId="r-uu.WhiteBackground" />
-  </component>
-</application>
-EOF
-echo "✅ laf.xml: White Background Theme gesetzt"'
 alias ruu-toolbox='_JAVA_AWT_WM_NONREPARENTING=1 jetbrains-toolbox &'
-alias ruu-ij='cd ~/develop/github/java/main/root && _JAVA_AWT_WM_NONREPARENTING=1 idea . &'
+# Startet IntelliJ IDEA (WSL-native) mit korrekten WSLg-Display-Variablen.
+# Bereinigt vorher veraltete JetBrains-Sockets – Ursache für unsichtbare Fenster nach WSLg-Neustart.
+ruu-ij() {
+    rm -f /run/user/1000/jb.station.ij.*.sock 2>/dev/null
+    DISPLAY=:0 WAYLAND_DISPLAY=wayland-0 XDG_RUNTIME_DIR=/run/user/1000 \
+        _JAVA_AWT_WM_NONREPARENTING=1 \
+        nohup /home/r-uu/.local/share/JetBrains/Toolbox/apps/intellij-idea/bin/idea "$@" \
+        >/tmp/idea-wsl-start.log 2>&1 &
+    echo "IntelliJ IDEA gestartet (PID $!)"
+}
 
 # ═══════════════════════════════════════════════════════════════════
 # Shell & Aliases

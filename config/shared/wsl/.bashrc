@@ -116,3 +116,5 @@ if command -v docker &> /dev/null; then
         (cd "$DOCKER_COMPOSE_DIR" && docker compose up -d >/dev/null 2>&1 &)
     fi
 fi
+# IntelliJ IDEA (WSL) - startet im Hintergrund mit WSLg-Display
+alias idea-wsl="DISPLAY=:0 WAYLAND_DISPLAY=wayland-0 XDG_RUNTIME_DIR=/run/user/1000 LIBGL_ALWAYS_SOFTWARE=1 nohup /home/r-uu/.local/share/JetBrains/Toolbox/apps/intellij-idea/bin/idea >/tmp/idea-wsl-start.log 2>&1 &"
