@@ -101,7 +101,8 @@ public class TaskGroupService
 		catch (Exception e)
 		{
 			log.error("Error creating task group", e);
-			return status(BAD_REQUEST).entity(String.format(MSG_TASK_GROUP_CREATE_FAILED, e.getMessage())).build();
+			String message = extractMessage(e);
+			return status(BAD_REQUEST).entity(String.format(MSG_TASK_GROUP_CREATE_FAILED, message)).build();
 		}
 	}
 
@@ -119,8 +120,8 @@ public class TaskGroupService
 		}
 		catch (Exception e)
 		{
-			log.error(String.format(MSG_TASK_GROUP_READ_FAILED, id, e));
-			return status(INTERNAL_SERVER_ERROR).entity(String.format(MSG_TASK_GROUP_READ_FAILED, id, e.getMessage()))
+			log.error(String.format(MSG_TASK_GROUP_READ_FAILED, id, extractMessage(e)), e);
+			return status(INTERNAL_SERVER_ERROR).entity(String.format(MSG_TASK_GROUP_READ_FAILED, id, extractMessage(e)))
 					.build();
 		}
 	}
@@ -142,7 +143,7 @@ public class TaskGroupService
 		catch (Exception e)
 		{
 			log.error(String.format("error updating task group with id %d", dto.getId()), e);
-			return status(BAD_REQUEST).entity(String.format(MSG_TASK_GROUP_UPDATE_FAILED, dto.getId(), e.getMessage()))
+			return status(BAD_REQUEST).entity(String.format(MSG_TASK_GROUP_UPDATE_FAILED, dto.getId(), extractMessage(e)))
 					.build();
 		}
 	}
@@ -166,8 +167,8 @@ public class TaskGroupService
 		}
 		catch (Exception e)
 		{
-			log.error(String.format(MSG_TASK_GROUP_DELETE_FAILED, id, e.getMessage()), e);
-			return status(INTERNAL_SERVER_ERROR).entity(String.format(MSG_TASK_GROUP_DELETE_FAILED, id, e.getMessage()))
+			log.error(String.format(MSG_TASK_GROUP_DELETE_FAILED, id, extractMessage(e)), e);
+			return status(INTERNAL_SERVER_ERROR).entity(String.format(MSG_TASK_GROUP_DELETE_FAILED, id, extractMessage(e)))
 					.build();
 		}
 	}
@@ -192,9 +193,8 @@ public class TaskGroupService
 		}
 		catch (Exception e)
 		{
-			// TODO: use internalServerError
-			log.error("failed to retrieve list of flat task groups: {}", e.getMessage(), e);
-			return status(INTERNAL_SERVER_ERROR).entity("Failed to retrieve task groups list: " + e.getMessage()).build();
+			log.error("failed to retrieve list of flat task groups: {}", extractMessage(e), e);
+			return status(INTERNAL_SERVER_ERROR).entity("Failed to retrieve task groups list: " + extractMessage(e)).build();
 		}
 	}
 
@@ -220,8 +220,8 @@ public class TaskGroupService
 		}
 		catch (Exception e)
 		{
-			log.error(String.format(MSG_TASK_GROUP_READ_FAILED, id, e.getMessage()), e);
-			return status(INTERNAL_SERVER_ERROR).entity(String.format(MSG_TASK_GROUP_READ_FAILED, id, e.getMessage()))
+			log.error(String.format(MSG_TASK_GROUP_READ_FAILED, id, extractMessage(e)), e);
+			return status(INTERNAL_SERVER_ERROR).entity(String.format(MSG_TASK_GROUP_READ_FAILED, id, extractMessage(e)))
 					.build();
 		}
 	}
@@ -248,9 +248,31 @@ public class TaskGroupService
 		}
 		catch (Exception e)
 		{
-			log.error(String.format(MSG_TASK_GROUP_READ_FAILED, id, e.getMessage()), e);
-			return status(INTERNAL_SERVER_ERROR).entity(String.format(MSG_TASK_GROUP_READ_FAILED, id, e.getMessage()))
+			log.error(String.format(MSG_TASK_GROUP_READ_FAILED, id, extractMessage(e)), e);
+			return status(INTERNAL_SERVER_ERROR).entity(String.format(MSG_TASK_GROUP_READ_FAILED, id, extractMessage(e)))
 					.build();
 		}
+
+	}
+
+	/**
+	 * Extracts a meaningful message from an exception, traversing getCause() if needed.
+	 * EJB/JTA wrapper exceptions (e.g. EJBException, RollbackException) often have getMessage() == null
+	 * but carry the real cause (e.g. ConstraintViolationException) as their cause.
+	 *
+	 * @param e the exception to extract the message from
+	 * @return a non-null, non-empty message string
+	 */
+	private static String extractMessage(Throwable e)
+	{
+		Throwable current = e;
+		while (current != null)
+		{
+			String msg = current.getMessage();
+			if (msg != null && !msg.isBlank())
+				return current.getClass().getSimpleName() + ": " + msg;
+			current = current.getCause();
+		}
+		return e.getClass().getName();
 	}
 }

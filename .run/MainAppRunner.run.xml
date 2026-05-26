@@ -1,0 +1,20 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="MainAppRunner" type="Application" factoryName="Application">
+    <option name="ALTERNATIVE_JRE_PATH" value="graalvm-25" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+    <option name="MAIN_CLASS_NAME" value="de.ruu.app.jeeeraaah.frontend.ui.fx.MainAppRunner" />
+    <module name="r-uu.app.jeeeraaah.frontend.ui.fx" />
+    <option name="VM_PARAMETERS" value="-Dglass.gtk.uiScale=1.0 --enable-native-access=javafx.graphics -Dconfig.file.name=$PROJECT_DIR$/testing.properties" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/root/app/jeeeraaah/frontend/ui/fx" />
+    <envs>
+      <env name="GDK_BACKEND" value="x11" />
+      <env name="_JAVA_AWT_WM_NONREPARENTING" value="1" />
+      <env name="LIBGL_ALWAYS_SOFTWARE" value="1" />
+      <env name="MESA_LOADER_DRIVER_OVERRIDE" value="softpipe" />
+    </envs>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
+

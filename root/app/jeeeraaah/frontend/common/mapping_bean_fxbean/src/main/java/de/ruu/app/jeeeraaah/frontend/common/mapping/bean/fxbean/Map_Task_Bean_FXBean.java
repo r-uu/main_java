@@ -66,13 +66,11 @@ import lombok.NonNull;
 				// check if related task was already mapped
 				TaskFXBean relatedTaskMapped = context.get(relatedTask, TaskFXBean.class);
 				if (isNull(relatedTaskMapped))
-				{
 						// start new mapping for related task
-						out.addSubTask(toFXBean(relatedTask, context));
-				}
+						toFXBean(relatedTask, context).superTask(out);
 				else
 						// use already mapped related task
-						out.addSubTask(relatedTaskMapped);
+						relatedTaskMapped.superTask(out);
 			}
 		}
 		if (in.predecessors().isPresent())

@@ -74,9 +74,15 @@ public class TaskDTOServiceImpl implements TaskDTOService
 	}
 
 	@Override
-	public void addSubTask(@NonNull Long parentId, @NonNull Long childId) throws TaskRelationException, EntityNotFoundException
+	public void setSuperTask(@NonNull Long idChild, @NonNull Long idSuperTask) throws TaskRelationException, EntityNotFoundException
 	{
-	relationService.addSubTask(parentId, childId);
+	relationService.setSuperTask(idChild, idSuperTask);
+	}
+
+	@Override
+	public void removeSuperTask(@NonNull Long idChild) throws TaskRelationException
+	{
+	relationService.removeSuperTask(idChild);
 	}
 
 	@Override
@@ -91,11 +97,6 @@ public class TaskDTOServiceImpl implements TaskDTOService
 	relationService.addSuccessor(taskId, successorId);
 	}
 
-	@Override
-	public void removeSubTask(@NonNull Long parentId, @NonNull Long childId) throws EntityNotFoundException
-	{
-	relationService.removeSubTask(parentId, childId);
-	}
 
 	@Override
 	public void removePredecessor(@NonNull Long taskId, @NonNull Long predecessorId) throws EntityNotFoundException
@@ -123,12 +124,12 @@ public class TaskDTOServiceImpl implements TaskDTOService
 			}
 		}
 		
-		// Remove from subtasks
+		// Remove from sub tasks: detach each sub task from its parent
 		if (config.removeFromSubTasks() != null)
 		{
 			for (Long subTaskId : config.removeFromSubTasks())
 			{
-				relationService.removeSubTask(taskId, subTaskId);
+				relationService.removeSuperTask(subTaskId);
 			}
 		}
 		

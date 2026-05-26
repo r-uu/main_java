@@ -87,12 +87,15 @@ public abstract class TaskRepositoryJPA extends AbstractRepository<TaskJPA, Long
 	// return taskEntities;
 	// }
 
-	public void addSubTask(@NonNull Long taskId, @NonNull Long subTaskId) throws TaskRelationException {
-		TaskJPA persistedTask = findOrThrow(taskId);
-		TaskJPA persistedSubTask = findOrThrow(subTaskId);
+	public void setSuperTask(@NonNull Long idChild, @NonNull Long idSuperTask) throws TaskRelationException {
+		TaskJPA child  = findOrThrow(idChild);
+		TaskJPA parent = findOrThrow(idSuperTask);
+		child.superTask(parent);
+	}
 
-		if (not(persistedTask.addSubTask(persistedSubTask)))
-			throw new RuntimeException("failure adding sub task with id " + subTaskId + " to task with id " + taskId);
+	public void removeSuperTask(@NonNull Long idChild) throws TaskRelationException {
+		TaskJPA child = findOrThrow(idChild);
+		child.superTask((TaskJPA) null);
 	}
 
 	public void addPredecessor(@NonNull Long taskId, @NonNull Long predecessorId) throws TaskRelationException {
@@ -113,21 +116,6 @@ public abstract class TaskRepositoryJPA extends AbstractRepository<TaskJPA, Long
 					"failure adding successor with id " + successorId + " to task with id: " + taskId);
 	}
 
-	public void removeSubTask(@NonNull Long taskId, @NonNull Long subTaskId) throws TaskRelationException {
-		Optional<TaskJPA> optional = findWithRelated(taskId);
-		if (not(optional.isPresent()))
-			throw new TaskRelationException("super task not found, id: " + taskId);
-		TaskJPA persistedTask = optional.get();
-
-		optional = findWithRelated(subTaskId);
-		if (not(optional.isPresent()))
-			throw new TaskRelationException("sub task not found, id: " + subTaskId);
-		TaskJPA persistedSubTask = optional.get();
-
-		if (not(persistedTask.removeSubTask(persistedSubTask)))
-			throw new TaskRelationException(
-					"failure removing sub task with id [" + subTaskId + "] from task with id [" + taskId + "]");
-	}
 
 	public void removePredecessor(@NonNull Long taskId, @NonNull Long predecessorId) throws TaskRelationException {
 		Optional<TaskJPA> optional = findWithRelated(taskId);
@@ -187,12 +175,9 @@ public abstract class TaskRepositoryJPA extends AbstractRepository<TaskJPA, Long
 			}
 			else
 			{
-				TaskJPA persistedSuperTask = optionalPersistedSuperTask.get();
-				if (not(persistedSuperTask.removeSubTask(persistedTaskWithRelations)))
-						throw new TaskRelationException(
-								"failure removing sub task with id [" + config.idTask()
-										+ "] from super task with id [" + persistedSuperTask.getId() + "]");
-				entityManager().merge(persistedSuperTask);
+				// Detach via the single-entry-point setter; cycle guard + collection sync handled there.
+				persistedTaskWithRelations.superTask((TaskJPA) null);
+				entityManager().merge(persistedTaskWithRelations);
 			}
 		}
 
@@ -211,10 +196,8 @@ public abstract class TaskRepositoryJPA extends AbstractRepository<TaskJPA, Long
 			else
 			{
 				TaskJPA persistedSubTask = optionalPersistedSubTask.get();
-				if (not(persistedTaskWithRelations.removeSubTask(persistedSubTask)))
-						throw new TaskRelationException(
-								"failure removing sub task with id [" + idSubTask
-										+ "] from task with id [" + config.idTask() + "]");
+				// Detach sub task from its parent via the single-entry-point setter.
+				persistedSubTask.superTask((TaskJPA) null);
 				entityManager().merge(persistedSubTask);
 			}
 		}

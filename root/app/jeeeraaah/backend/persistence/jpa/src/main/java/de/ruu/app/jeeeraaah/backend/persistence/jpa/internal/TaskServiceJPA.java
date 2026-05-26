@@ -103,9 +103,6 @@ public abstract class TaskServiceJPA implements TaskEntityService<TaskGroupJPA, 
 	@Override public Optional<TaskJPA> findWithRelated(@NonNull Long id)
 			{ return repository().findWithRelated(id); }
 
-	@Override public void addSubTask(@NonNull TaskJPA task, @NonNull TaskJPA subTask)
-			throws NotFoundException { repository().addSubTask(task.id(), subTask.id()); }
-
 	@Override public void addPredecessor(@NonNull TaskJPA task, @NonNull TaskJPA predecessor)
 			{ repository().addPredecessor(task.id(), predecessor.id()); }
 
@@ -115,8 +112,14 @@ public abstract class TaskServiceJPA implements TaskEntityService<TaskGroupJPA, 
 	}
 
 	@Override
-	public void removeSubTask(@NonNull TaskJPA task, @NonNull TaskJPA subTask) {
-		repository().removeSubTask(task.id(), subTask.id());
+	public void setSuperTask(@NonNull TaskJPA child, TaskJPA newSuperTask) {
+		if (newSuperTask == null) repository().removeSuperTask(child.id());
+		else                     repository().setSuperTask(child.id(), newSuperTask.id());
+	}
+
+	@Override
+	public void removeSuperTask(@NonNull TaskJPA child) {
+		repository().removeSuperTask(child.id());
 	}
 
 	@Override
@@ -134,8 +137,12 @@ public abstract class TaskServiceJPA implements TaskEntityService<TaskGroupJPA, 
 		repository().removeNeighboursFromTask(removeNeighboursFromTaskConfig);
 	}
 
-	public void addSubTask(@NonNull Long idTask, @NonNull Long idSubTask) throws TaskRelationException {
-		repository().addSubTask(idTask, idSubTask);
+	public void setSuperTask(@NonNull Long idChild, @NonNull Long idSuperTask) throws TaskRelationException {
+		repository().setSuperTask(idChild, idSuperTask);
+	}
+
+	public void removeSuperTask(@NonNull Long idChild) throws TaskRelationException {
+		repository().removeSuperTask(idChild);
 	}
 
 	public void addPredecessor(@NonNull Long idTask, @NonNull Long idSucTask) throws TaskRelationException {
@@ -146,9 +153,6 @@ public abstract class TaskServiceJPA implements TaskEntityService<TaskGroupJPA, 
 		repository().addSuccessor(idTask, idSubTask);
 	}
 
-	public void removeSubTask(@NonNull Long idTask, @NonNull Long idSubTask) throws TaskRelationException {
-		repository().removeSubTask(idTask, idSubTask);
-	}
 
 	public void removePredecessor(@NonNull Long idTask, @NonNull Long idSubTask) throws TaskRelationException {
 		repository().removePredecessor(idTask, idSubTask);

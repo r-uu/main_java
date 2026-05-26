@@ -30,7 +30,6 @@ import lombok.NonNull;
 	@Mapping(target = "taskGroup", ignore = true) // mapped in @ObjectFactory
 	@Mapping(target = "name", ignore = true)      // mapped in @ObjectFactory constructor
 	@Mapping(target = "superTask", ignore = true) // handled in @AfterMapping
-	@Mapping(target = "preconditionCheckRelationalOperations", ignore = true) // not yet implemented
 	@NonNull TaskBean map(de.ruu.app.jeeeraaah.frontend.ui.fx.model.TaskFXBean in, @NonNull @Context ReferenceCycleTracking context);
 
 	/** annotating parameter {@code out} with {@link MappingTarget} is essential for this method being called */
@@ -69,10 +68,10 @@ import lombok.NonNull;
 				TaskBean relatedTaskMapped = context.get(relatedTask, TaskBean.class);
 				if (isNull(relatedTaskMapped))
 						// start new mapping for related task
-						out.addSubTask(toBean(relatedTask, context));
+						toBean(relatedTask, context).superTask(out);
 				else
 						// use already mapped related task
-						out.addSubTask(relatedTaskMapped);
+						relatedTaskMapped.superTask(out);
 			}
 		}
 		if (in.predecessors().isPresent())

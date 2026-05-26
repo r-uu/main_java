@@ -37,10 +37,12 @@ module de.ruu.app.jeeeraaah.backend.persistence.jpa
 	// Qualified export: JPA entities ONLY for authorized modules (strict encapsulation)
 	// - backend.common.mapping.jpa.dto: needs TaskJPA/TaskGroupJPA for DTO↔JPA mappings
 	// - backend.api.ws.rs: needs TaskJPA/TaskGroupJPA as type parameters in service implementations
+	// - backend.constraints.timecycle: needs entities for JPQL-based cycle detection
 	// This prevents uncontrolled JPA entity exposure while keeping them accessible where needed
 	exports de.ruu.app.jeeeraaah.backend.persistence.jpa.entity 
 		to de.ruu.app.jeeeraaah.backend.common.mapping.jpa.dto,
-		   de.ruu.app.jeeeraaah.backend.api.ws.rs;
+		   de.ruu.app.jeeeraaah.backend.api.ws.rs,
+		   de.ruu.app.jeeeraaah.backend.constraint.timecycle;
 
 	requires jakarta.annotation;
 	requires jakarta.cdi;

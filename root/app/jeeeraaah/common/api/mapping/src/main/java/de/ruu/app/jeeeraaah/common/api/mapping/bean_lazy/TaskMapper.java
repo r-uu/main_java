@@ -77,7 +77,6 @@ public interface TaskMapper
 	@Mapping(target = "start", ignore = true)
 	@Mapping(target = "end", ignore = true)
 	@Mapping(target = "closed", ignore = true)
-	@Mapping(target = "preconditionCheckRelationalOperations", ignore = true)
 	@NonNull
 	TaskBean toBean(@NonNull TaskGroupBean group, @NonNull TaskLazy in);
 

@@ -92,11 +92,11 @@ public class ActionRemove
 			try
 			{
 				// remove the super-sub relation in the backend
-				context.taskServiceClient.removeSubTask(superTask, selectedTask);
+				context.taskServiceClient.removeSuperTask(selectedTask);
 
 				// remove the super-sub relation in the current client-side beans
-				// - remove the relation of the client-side task from the client-side super task
-				superTask.removeSubTask(selectedTask);
+				// - detach the client-side task from the client-side super task
+				selectedTask.superTask(null);
 				// - remove the task from the current client-side group
 				boolean removeTaskFromActiveTaskGroupResult = context.activeTaskGroup.removeTask(selectedTask);
 				// remove the super-sub relation in the tree view

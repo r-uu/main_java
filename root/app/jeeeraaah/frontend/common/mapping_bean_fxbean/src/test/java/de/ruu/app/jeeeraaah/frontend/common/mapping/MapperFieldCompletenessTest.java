@@ -67,8 +67,6 @@ class MapperFieldCompletenessTest
 		Set<String> explicitlyIgnored = Set.of(
 				// Collections/relations handled in @AfterMapping
 				"subTasks", "predecessors", "successors", "superTask",
-				// Not yet implemented
-				"preconditionCheckRelationalOperations",
 				// JavaFX Property fields - accessed via nameProperty() methods, not directly
 				"nameProperty", "descriptionProperty", "startProperty", "endProperty",
 				"closedProperty", "taskGroupProperty", "superTaskProperty"
@@ -106,8 +104,6 @@ class MapperFieldCompletenessTest
 		Set<String> explicitlyIgnored = Set.of(
 				// Collections/relations handled in @AfterMapping
 				"subTasks", "predecessors", "successors", "superTask",
-				// Not yet implemented
-				"preconditionCheckRelationalOperations",
 				// JavaFX Property fields - accessed via nameProperty() methods, not directly
 				"nameProperty", "descriptionProperty", "startProperty", "endProperty",
 				"closedProperty", "taskGroupProperty", "superTaskProperty"

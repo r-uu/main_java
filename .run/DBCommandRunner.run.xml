@@ -1,0 +1,14 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="DBCommandRunner" type="Application" factoryName="Application">
+    <option name="ALTERNATIVE_JRE_PATH" value="graalvm-25" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+    <option name="MAIN_CLASS_NAME" value="de.ruu.app.jeeeraaah.frontend.api.client.ws.rs.dbcommand.DBCommandRunner" />
+    <module name="r-uu.app.jeeeraaah.frontend.api_client.ws_rs" />
+    <option name="VM_PARAMETERS" value="--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED -Djeeeraaah.rest-api.host=localhost -Djeeeraaah.rest-api.port=9080" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/root/app/jeeeraaah/frontend/api_client/ws_rs" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
+

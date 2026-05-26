@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>r-uu.app.jeeeraaah.backend.constraint.timecycle</artifactId>
+	<name>${project.artifactId}</name>
+
+	<parent>
+		<groupId>r-uu</groupId>
+		<artifactId>r-uu.app.jeeeraaah.backend.constraint</artifactId>
+		<version>0.0.1</version>
+	</parent>
+
+	<dependencies>
+
+		<!-- Own persistence layer: provides TaskRelationValidator SPI and entity package -->
+		<dependency>
+			<groupId>r-uu</groupId>
+			<artifactId>r-uu.app.jeeeraaah.backend.persistence.jpa</artifactId>
+		</dependency>
+
+		<!-- Domain exceptions (TaskRelationException) -->
+		<dependency>
+			<groupId>r-uu</groupId>
+			<artifactId>r-uu.app.jeeeraaah.common.api.domain</artifactId>
+		</dependency>
+
+		<!-- Jakarta APIs provided by the application server (do not bundle) -->
+		<dependency>
+			<groupId>jakarta.enterprise</groupId>
+			<artifactId>jakarta.enterprise.cdi-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.inject</groupId>
+			<artifactId>jakarta.inject-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.persistence</groupId>
+			<artifactId>jakarta.persistence-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.transaction</groupId>
+			<artifactId>jakarta.transaction-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Build-time only -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+			<optional>true</optional>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
+

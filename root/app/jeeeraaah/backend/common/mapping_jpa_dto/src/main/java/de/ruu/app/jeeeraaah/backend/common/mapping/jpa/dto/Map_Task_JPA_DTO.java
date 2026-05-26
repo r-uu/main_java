@@ -90,11 +90,11 @@ import lombok.NonNull;
 					// check if related task was already mapped
 					TaskDTO relatedTaskMapped = context.get(relatedTask, TaskDTO.class);
 					if (isNull(relatedTaskMapped))
-							// start new mapping for related task
-							out.addSubTask(INSTANCE.map(relatedTask, context));
+							// start new mapping for related task; link via child's superTask setter
+							INSTANCE.map(relatedTask, context).superTask(out);
 					else
-							// use already mapped related task
-							out.addSubTask(relatedTaskMapped);
+							// use already mapped related task; link via child's superTask setter
+							relatedTaskMapped.superTask(out);
 				}
 			}
 		}

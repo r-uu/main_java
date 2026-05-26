@@ -86,9 +86,9 @@ public interface TaskMapper
 			{
 				TaskDTO relatedTaskMapped = context.get(relatedTask, TaskDTO.class);
 				if (isNull(relatedTaskMapped))
-						out.addSubTask(Mappings.toDTO(relatedTask, context));
+						Mappings.toDTO(relatedTask, context).superTask(out);
 				else
-						out.addSubTask(relatedTaskMapped);
+						relatedTaskMapped.superTask(out);
 			}
 		}
 
@@ -142,7 +142,6 @@ public interface TaskMapper
 	@Mapping(target = "superTask", ignore = true) // mapped in afterMapping
 	@Mapping(target = "closed", ignore = true) // mapped in afterMapping
 	@Mapping(target = "taskGroup", ignore = true) // mapped in object factory
-	@Mapping(target = "preconditionCheckRelationalOperations", ignore = true)
 	@Mapping(target = "description", ignore = true) // mapped in afterMapping
 	@Mapping(target = "start", ignore = true)
 	@Mapping(target = "end", ignore = true)
@@ -186,9 +185,9 @@ public interface TaskMapper
 			{
 				TaskBean relatedTaskMapped = context.get(relatedTask, TaskBean.class);
 				if (isNull(relatedTaskMapped))
-						out.addSubTask(Mappings.toBean(relatedTask, context));
+						Mappings.toBean(relatedTask, context).superTask(out);
 				else
-						out.addSubTask(relatedTaskMapped);
+						relatedTaskMapped.superTask(out);
 			}
 		}
 

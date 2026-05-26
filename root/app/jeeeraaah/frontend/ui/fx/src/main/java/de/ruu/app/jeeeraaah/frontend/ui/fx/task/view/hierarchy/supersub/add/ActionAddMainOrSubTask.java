@@ -84,7 +84,7 @@ class ActionAddMainOrSubTask
 					try
 					{
 						// let task service client create a new subtask relation in the backend
-						context.taskServiceClient().addSubTask(supertask, taskBeanFromBackend);
+						context.taskServiceClient().setSuperTask(taskBeanFromBackend, supertask);
 
 						// update the context
 						// - remove the temporary, transient task from the context task group (see note from above)

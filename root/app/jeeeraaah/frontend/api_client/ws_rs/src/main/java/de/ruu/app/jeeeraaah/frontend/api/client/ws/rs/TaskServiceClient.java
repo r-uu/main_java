@@ -6,14 +6,14 @@ import static com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS
 import static de.ruu.app.jeeeraaah.common.api.domain.PathsCommon.PATH_JEEERAAAH_ROOT;
 import static de.ruu.app.jeeeraaah.common.api.domain.PathsCommon.TOKEN_BY_ID;
 import static de.ruu.app.jeeeraaah.common.api.domain.PathsTask.TOKEN_ADD_PREDECESSOR;
-import static de.ruu.app.jeeeraaah.common.api.domain.PathsTask.TOKEN_ADD_SUB;
+import static de.ruu.app.jeeeraaah.common.api.domain.PathsTask.TOKEN_SET_SUPER_TASK;
+import static de.ruu.app.jeeeraaah.common.api.domain.PathsTask.TOKEN_REMOVE_SUPER_TASK;
 import static de.ruu.app.jeeeraaah.common.api.domain.PathsTask.TOKEN_ADD_SUCCESSOR;
 import static de.ruu.app.jeeeraaah.common.api.domain.PathsTask.TOKEN_ALL;
 import static de.ruu.app.jeeeraaah.common.api.domain.PathsTask.TOKEN_BY_ID_WITH_RELATED;
 import static de.ruu.app.jeeeraaah.common.api.domain.PathsTask.TOKEN_DOMAIN;
 import static de.ruu.app.jeeeraaah.common.api.domain.PathsTask.TOKEN_REMOVE_NEIGHBOURS_FROM_TASK;
 import static de.ruu.app.jeeeraaah.common.api.domain.PathsTask.TOKEN_REMOVE_PREDECESSOR;
-import static de.ruu.app.jeeeraaah.common.api.domain.PathsTask.TOKEN_REMOVE_SUB;
 import static de.ruu.app.jeeeraaah.common.api.domain.PathsTask.TOKEN_REMOVE_SUCCESSOR;
 import static de.ruu.app.jeeeraaah.common.api.mapping.Mappings.toBean;
 import static de.ruu.app.jeeeraaah.common.api.mapping.Mappings.toDTO;
@@ -361,22 +361,19 @@ public class TaskServiceClient implements TaskService<TaskGroupBean, TaskBean>
 	// }
 
 	@Override
-	public void addSubTask(@NonNull final TaskBean task, @NonNull final TaskBean subTask)
+	public void setSuperTask(@NonNull final TaskBean child, @NonNull final TaskBean superTask)
 			throws TechnicalException, NonTechnicalException
 	{
-		WebTarget webTarget = client.target(baseURL).path(TOKEN_DOMAIN).path(TOKEN_ADD_SUB);
+		WebTarget webTarget = client.target(baseURL).path(TOKEN_DOMAIN).path(TOKEN_SET_SUPER_TASK);
 		log.debug("webTarget: {}", webTarget);
-		// Execute PUT request with automatic Keycloak token handling
+		// Body: {id: childId, idRelated: parentId}
 		try (Response response = executeWithAuth(webTarget, requestBuilder -> requestBuilder.accept(APPLICATION_JSON)
-				.put(entity(newInterTaskRelationData(task, subTask), APPLICATION_JSON))))
+				.put(entity(newInterTaskRelationData(child, superTask), APPLICATION_JSON))))
 		{
 			throwExceptionForNoSuccessInRelationalOperationResponse(response);
-			// fire event to indicate that a new relation for the task with subtask has been created in the backend
-			CDIUtil.fire(new AddNewPredecessorRelationInBackendEvent(this, task, subTask));
 		}
 		catch (ProcessingException e)
 		{
-			// this is thrown for technical issues (server down, wrong URL, timeout)
 			throw new TechnicalException("communication error", e);
 		}
 	}
@@ -424,23 +421,23 @@ public class TaskServiceClient implements TaskService<TaskGroupBean, TaskBean>
 		}
 	}
 
+
 	@Override
-	public void removeSubTask(@NonNull final TaskBean task, @NonNull final TaskBean subTask)
+	public void removeSuperTask(@NonNull final TaskBean child)
 			throws TechnicalException, NonTechnicalException
 	{
-		WebTarget webTarget = client.target(baseURL).path(TOKEN_DOMAIN).path(TOKEN_REMOVE_SUB);
+		// PUT /task/removeSuperTask/{childId}
+		WebTarget webTarget = client.target(baseURL).path(TOKEN_DOMAIN).path(TOKEN_REMOVE_SUPER_TASK)
+				.path(String.valueOf(child.id()));
 		log.debug("webTarget: {}", webTarget);
-		// Execute PUT request with automatic Keycloak token handling
-		try (Response response = executeWithAuth(webTarget, requestBuilder -> requestBuilder.accept(APPLICATION_JSON)
-				.put(entity(newInterTaskRelationData(task, subTask), APPLICATION_JSON))))
+		try (Response response = executeWithAuth(webTarget,
+				requestBuilder -> requestBuilder.accept(APPLICATION_JSON).put(entity("", APPLICATION_JSON))))
 		{
 			throwExceptionForNoSuccessInRelationalOperationResponse(response);
-			// fire event to indicate that the relation for the task with subtask has been removed in the backend
-			CDIUtil.fire(new RemoveSubTaskRelationInBackendEvent(this, task, subTask));
+			CDIUtil.fire(new RemoveSubTaskRelationInBackendEvent(this, null, child));
 		}
 		catch (ProcessingException e)
 		{
-			// this is thrown for technical issues (server down, wrong URL, timeout)
 			throw new TechnicalException("communication error", e);
 		}
 	}

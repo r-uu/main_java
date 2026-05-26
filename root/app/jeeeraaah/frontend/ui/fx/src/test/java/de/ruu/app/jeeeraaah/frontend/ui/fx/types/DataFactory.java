@@ -46,7 +46,7 @@ class DataFactory
 						"main task " + groupId + "." + mainTaskId + " - " + ThreadLocalRandom.current().nextInt());
 		for (int subTaskId = 0; subTaskId < subTasksPerMainTaskCount; subTaskId++)
 		{
-			mainTask.addSubTask(createSubTaskBean(group, groupId, mainTaskId, subTaskId));
+			createSubTaskBean(group, groupId, mainTaskId, subTaskId).superTask(mainTask);
 		}
 //		mainTask.subTasks().ifPresent(c -> createPredecessorsAndSuccessorsAmongChildren(c));
 		log.debug("group {}, mainTask {}, mainTask.subTasks.size {}",

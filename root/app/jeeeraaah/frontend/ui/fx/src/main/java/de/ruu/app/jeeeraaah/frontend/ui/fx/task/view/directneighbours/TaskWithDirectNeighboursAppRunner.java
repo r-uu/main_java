@@ -77,9 +77,9 @@ class TaskWithDirectNeighboursAppRunner extends FXCAppRunner
 			task.addSuccessor(successor2);
 			task.addSuccessor(successor3);
 
-			task.addSubTask(sub1);
-			task.addSubTask(sub2);
-			task.addSubTask(sub3);
+			sub1.superTask(task);
+			sub2.superTask(task);
+			sub3.superTask(task);
 
 			service.populateViewFor(task);
 		}

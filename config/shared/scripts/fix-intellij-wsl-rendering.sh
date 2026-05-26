@@ -1,69 +1,134 @@
 #!/bin/bash
-# fix-intellij-wsl-rendering.sh v2
-# Behebt IntelliJ-Rendering-Probleme unter WSL/WSLg
-# - XRender aus (Artefakte bei uiScale != 1.0 mit JBR 21+)
-# - JCEF Offscreen-Rendering (Copilot-Panel, Browser-Plugins)
-# - Font-Antialiasing: gasp (fontgesteuert, kein hartes lcd-Forcing)
-# - UTF-8 Encoding sicherstellen
+# fix-intellij-wsl-rendering.sh v4
+# Behebt IntelliJ-Rendering-Probleme unter WSL/WSLg UND Windows-nativ:
+#   - Grauer Schleier (grey veil)  → sun.java2d.pmoffscreen + xrender aus
+#   - Zu groß / niedrige Auflösung → sun.java2d.uiScale=0.75
+#   - Schwarze/weiße Bereiche       → opengl + pmoffscreen aus
+#   - Flackern / Tearing            → vsync aus
+#   - Font-Antialiasing             → gasp (fontgesteuert)
+#   - JCEF (Copilot-Panel)          → Offscreen-Rendering
+#   - UTF-8 Encoding                → file.encoding + stdout.encoding
+#
+# Patcht BEIDE vmoptions-Dateien:
+#   - WSL:     ~/.config/JetBrains/IntelliJIdea*/idea64.vmoptions
+#   - Windows: /mnt/c/Users/r-uu/AppData/Roaming/JetBrains/IntelliJIdea*/idea64.exe.vmoptions
 
-VMOPTIONS="$HOME/.config/JetBrains/IntelliJIdea2026.1/idea64.vmoptions"
+# ─── Konfiguration ────────────────────────────────────────────────────────────
+# UI-Skalierung: 0.75 = verkleinert (war zu groß bei 100% Windows-DPI und WSLg)
+# Anpassen falls zu klein: UI_SCALE=0.85 ruu-ij-fix
+UI_SCALE=${UI_SCALE:-0.75}
 
-if [ ! -f "$VMOPTIONS" ]; then
-    echo "❌ Datei nicht gefunden: $VMOPTIONS"
-    echo "   Suche nach anderen Versionen..."
-    VMOPTIONS=$(find "$HOME/.config/JetBrains" -name "idea64.vmoptions" 2>/dev/null | head -1)
-    if [ -z "$VMOPTIONS" ]; then
-        echo "❌ Keine idea64.vmoptions gefunden. IntelliJ einmal starten, dann erneut ausführen."
-        exit 1
-    fi
-    echo "✅ Gefunden: $VMOPTIONS"
-fi
+# ─── Hilfsfunktion: WSL vmoptions patchen ────────────────────────────────────
+patch_wsl_vmoptions() {
+    local VMOPTIONS="$1"
+    echo "📝 [WSL]     $VMOPTIONS"
 
-MARKER="# WSL/WSLg Rendering Fixes"
-
-if grep -q "$MARKER" "$VMOPTIONS" 2>/dev/null; then
-    echo "⚠️  WSL-Rendering-Fixes bereits vorhanden. Ersetze mit v2-Settings..."
-    # Alten Block entfernen (von MARKER bis zum letzten gesetzten Flag)
+    # Alten Block + einzelne Flags entfernen
     sed -i "/^# WSL\/WSLg Rendering Fixes/,/^-Dstdout\.encoding=UTF-8$/d" "$VMOPTIONS"
-    # Auch alten v1-Block ohne stdout.encoding entfernen
     sed -i "/^# WSL\/WSLg Rendering Fixes/,/^-Dsun\.java2d\.vsync=false$/d" "$VMOPTIONS"
-fi
+    for FLAG in \
+        "sun.java2d.opengl" \
+        "sun.java2d.xrender" \
+        "sun.java2d.pmoffscreen" \
+        "sun.java2d.uiScale" \
+        "sun.java2d.vsync" \
+        "awt.useSystemAAFontSettings" \
+        "swing.aatext" \
+        "jcef.forceOffscreenRendering" \
+        "file.encoding" \
+        "stdout.encoding"
+    do
+        sed -i "/^-D${FLAG}=/d" "$VMOPTIONS"
+    done
 
-cat >> "$VMOPTIONS" << 'EOF'
+    cat >> "$VMOPTIONS" << EOF
 
-# WSL/WSLg Rendering Fixes v2 (by fix-intellij-wsl-rendering.sh)
-# OpenGL in WSL unzuverlässig → deaktivieren
+# WSL/WSLg Rendering Fixes v4 (by fix-intellij-wsl-rendering.sh)
 -Dsun.java2d.opengl=false
-# XRender mit uiScale=1.5 + JBR 21 erzeugt Linien-Artefakte in Menüs → aus
 -Dsun.java2d.xrender=false
-# Pixmap-Offscreen-Buffer aus (verhindert schwarze/weiße Bereiche)
 -Dsun.java2d.pmoffscreen=false
-# Font-Antialiasing: gasp = fontgesteuert (kein hartes lcd-Forcing)
+-Dsun.java2d.uiScale=${UI_SCALE}
 -Dawt.useSystemAAFontSettings=gasp
 -Dswing.aatext=true
-# VSync aus (verhindert Flackern/Tearing unter WSLg)
 -Dsun.java2d.vsync=false
-# JCEF (Copilot-Panel, Browser-Plugins) → Offscreen-Rendering für WSLg
 -Djcef.forceOffscreenRendering=true
-# Encoding: verhindert Zeichensatz-Artefakte
 -Dfile.encoding=UTF-8
 -Dstdout.encoding=UTF-8
 EOF
+    echo "   ✅ WSL-Flags gesetzt (uiScale=${UI_SCALE})"
+}
 
-echo ""
-echo "✅ WSL-Rendering-Fixes v2 wurden gesetzt in:"
-echo "   $VMOPTIONS"
-echo ""
-echo "📋 Gesetzte Optionen:"
-echo "   -Dsun.java2d.opengl=false          (OpenGL deaktiviert)"
-echo "   -Dsun.java2d.xrender=false         (XRender aus → keine Linien-Artefakte)"
-echo "   -Dsun.java2d.pmoffscreen=false     (keine Pixmap-Artefakte)"
-echo "   -Dawt.useSystemAAFontSettings=gasp (fontgesteuertes AA)"
-echo "   -Dswing.aatext=true                (Swing-Antialiasing)"
-echo "   -Dsun.java2d.vsync=false           (kein Flackern)"
-echo "   -Djcef.forceOffscreenRendering=true (Copilot-Panel-Fix)"
-echo "   -Dfile.encoding=UTF-8              (Zeichensatz-Fix)"
-echo "   -Dstdout.encoding=UTF-8            (Zeichensatz-Fix)"
-echo ""
-echo "🔄 Bitte IntelliJ neu starten, damit die Änderungen wirksam werden."
+# ─── Hilfsfunktion: Windows vmoptions patchen ────────────────────────────────
+patch_windows_vmoptions() {
+    local VMOPTIONS="$1"
+    echo "📝 [Windows] $VMOPTIONS"
 
+    # Alten Block + einzelne Flags entfernen
+    sed -i "/^# Windows Display Scaling/,/^-Dstdout\.encoding=UTF-8$/d" "$VMOPTIONS"
+    for FLAG in \
+        "sun.java2d.uiScale" \
+        "file.encoding" \
+        "stdout.encoding"
+    do
+        sed -i "/^-D${FLAG}=/d" "$VMOPTIONS"
+    done
+
+    # Sicherstellen dass Datei mit Newline endet
+    echo "" >> "$VMOPTIONS"
+
+    cat >> "$VMOPTIONS" << EOF
+
+# Windows Display Scaling Fix v4 (by fix-intellij-wsl-rendering.sh)
+-Dsun.java2d.uiScale=${UI_SCALE}
+-Dfile.encoding=UTF-8
+-Dstdout.encoding=UTF-8
+EOF
+    echo "   ✅ Windows-Flags gesetzt (uiScale=${UI_SCALE})"
+}
+
+# ─── WSL vmoptions finden und patchen ────────────────────────────────────────
+echo ""
+echo "═══ WSL vmoptions ═══════════════════════════════════════════════════════"
+WSL_VMOPTIONS_FOUND=0
+while IFS= read -r -d '' VMOPTS; do
+    patch_wsl_vmoptions "$VMOPTS"
+    WSL_VMOPTIONS_FOUND=1
+done < <(find "$HOME/.config/JetBrains" -name "idea64.vmoptions" -print0 2>/dev/null | sort -z)
+if [ "$WSL_VMOPTIONS_FOUND" -eq 0 ]; then
+    echo "⚠️  Keine WSL idea64.vmoptions gefunden (IntelliJ einmal starten)"
+fi
+
+# ─── Windows vmoptions finden und patchen ────────────────────────────────────
+echo ""
+echo "═══ Windows vmoptions ═══════════════════════════════════════════════════"
+WIN_USER_HOME="/mnt/c/Users/r-uu"
+WIN_VMOPTIONS_FOUND=0
+while IFS= read -r -d '' VMOPTS; do
+    patch_windows_vmoptions "$VMOPTS"
+    WIN_VMOPTIONS_FOUND=1
+done < <(find "${WIN_USER_HOME}/AppData/Roaming/JetBrains" -name "idea64.exe.vmoptions" -print0 2>/dev/null | sort -z)
+if [ "$WIN_VMOPTIONS_FOUND" -eq 0 ]; then
+    echo "⚠️  Keine Windows idea64.exe.vmoptions gefunden"
+fi
+
+# ─── Zusammenfassung ─────────────────────────────────────────────────────────
+echo ""
+echo "════════════════════════════════════════════════════════════════════════"
+echo "✅ IntelliJ-Rendering-Fixes v4 angewendet"
+echo ""
+echo "   uiScale=${UI_SCALE}   ← bei zu groß: kleiner; bei zu klein: größer"
+echo ""
+echo "   WSL-Fixes (nur Linux):"
+echo "     sun.java2d.opengl=false, xrender=false, pmoffscreen=false  ← Schleier"
+echo "     vsync=false, jcef.forceOffscreenRendering=true"
+echo ""
+echo "   Beide Plattformen:"
+echo "     sun.java2d.uiScale=${UI_SCALE}, awt.useSystemAAFontSettings=gasp"
+echo "     file.encoding=UTF-8"
+echo ""
+echo "💡 Skalierung anpassen:"
+echo "   UI_SCALE=0.85 ruu-ij-fix   → etwas größer"
+echo "   UI_SCALE=0.65 ruu-ij-fix   → noch kleiner"
+echo ""
+echo "🔄 IntelliJ neu starten, damit die Änderungen wirksam werden."
+echo "════════════════════════════════════════════════════════════════════════"

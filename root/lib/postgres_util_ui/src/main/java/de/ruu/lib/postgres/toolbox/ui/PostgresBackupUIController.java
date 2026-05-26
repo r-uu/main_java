@@ -38,11 +38,6 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Dependent // Explicit: FXML controller lifecycle managed by FXMLLoader, not CDI
-// Note: @Dependent scope (default) is required for FXML controllers because:
-// 1. FXMLLoader creates instances - not CDI
-// 2. @FXML fields are injected AFTER construction, before initialize()
-// 3. @ApplicationScoped would cause NullPointerException when accessing @FXML fields in initialize()
-// 4. Cannot use @Observes(IF_EXISTS) with @Dependent, hence EventDispatcher pattern
 class PostgresBackupUIController extends DefaultFXCController<PostgresBackupUI, PostgresBackupUIService>
 		implements PostgresBackupUIService
 {

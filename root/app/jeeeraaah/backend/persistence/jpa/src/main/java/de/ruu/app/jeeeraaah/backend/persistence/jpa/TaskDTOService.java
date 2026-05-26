@@ -70,11 +70,15 @@ public interface TaskDTOService
 	 */
 	@NonNull Optional<TaskDTO> findWithRelated(@NonNull Long id);
 
-	// Task relation operations using IDs
-	void addSubTask(@NonNull Long idTask, @NonNull Long idSubTask) throws TaskRelationException;
+	// ── Super / sub hierarchy (single entry-point) ──────────────────────────
+	/** Sets the super task of {@code idChild} to {@code idSuperTask}. Performs cycle detection. */
+	void setSuperTask(@NonNull Long idChild, @NonNull Long idSuperTask) throws TaskRelationException;
+	/** Detaches {@code idChild} from its current super task, making it a root task. */
+	void removeSuperTask(@NonNull Long idChild) throws TaskRelationException;
+
+	// ── Predecessor / successor ──────────────────────────────────────────────
 	void addPredecessor(@NonNull Long idTask, @NonNull Long idPredecessor) throws TaskRelationException;
 	void addSuccessor(@NonNull Long idTask, @NonNull Long idSuccessor) throws TaskRelationException;
-	void removeSubTask(@NonNull Long idTask, @NonNull Long idSubTask) throws TaskRelationException;
 	void removePredecessor(@NonNull Long idTask, @NonNull Long idPredecessor) throws TaskRelationException;
 	void removeSuccessor(@NonNull Long idTask, @NonNull Long idSuccessor) throws TaskRelationException;
 	void removeNeighboursFromTask(@NonNull RemoveNeighboursFromTaskConfig config);

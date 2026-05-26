@@ -5,7 +5,9 @@ import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 import java.time.LocalDate;
+import java.util.ArrayDeque;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -116,13 +118,13 @@ public class TaskJPA implements TaskEntity<TaskGroupJPA, TaskJPA>
 	private TaskJPA superTask;
 
 	/**
-	 * prevent direct access to this modifiable set from outside this class, use
-	 * {@link #addSubTask(TaskJPA)} and
-	 * {@link #removeSubTask(TaskJPA)} to modify the set
+	 * prevent direct access to this modifiable set from outside this class
 	 * <p>
 	 * may explicitly be {@code null}, {@code null} indicates that there was no
-	 * attempt to load related objects from db
-	 * (lazy)
+	 * attempt to load related objects from db (lazy)
+	 * <p>
+	 * Read-only from outside: sub-task membership is exclusively controlled via
+	 * {@link #superTask(TaskJPA)}.
 	 */
 	@Nullable
 	@EqualsAndHashCode.Exclude
@@ -351,50 +353,92 @@ public class TaskJPA implements TaskEntity<TaskGroupJPA, TaskJPA>
 	// relationship handling
 	////////////////////////
 
-	/** @throws TaskRelationException if {@code task} is {@code this} */
+	/**
+	 * Sets the super task (parent) of this task.
+	 * <p>
+	 * This is the <strong>single entry-point</strong> for managing the super/sub-task hierarchy.
+	 * Pass {@code null} to detach this task from its current parent (making it a root task).
+	 * <p>
+	 * <strong>Cycle guard:</strong> before any mutation, this method walks <em>upward</em>
+	 * from {@code newSuperTask} via superTask references. If {@code this} is encountered
+	 * in that chain, the proposed link would close a cycle and a {@link TaskRelationException}
+	 * is thrown. Complexity: O(depth) — no full DFS required because each task has at most
+	 * one parent.
+	 * <p>
+	 * <strong>Bidirectional consistency:</strong> the method removes this task from the old
+	 * parent's {@code subTasks} collection and adds it to the new parent's collection, so
+	 * both sides of the {@code @OneToMany}/{@code @ManyToOne} relationship stay in sync.
+	 *
+	 * @param newSuperTask the new parent task, or {@code null} to make this task a root
+	 * @return {@code this} for fluent chaining
+	 * @throws TaskRelationException if {@code newSuperTask} is {@code this}
+	 * @throws TaskRelationException if {@code newSuperTask} is a predecessor of this task
+	 * @throws TaskRelationException if {@code newSuperTask} is a successor of this task
+	 * @throws TaskRelationException if setting {@code newSuperTask} would create a cycle
+	 */
 	@Override
-	public @NonNull TaskJPA superTask(@Nullable TaskJPA task) throws TaskRelationException {
-		if (task == this)
+	public @NonNull TaskJPA superTask(@Nullable TaskJPA newSuperTask) throws TaskRelationException
+	{
+		if (newSuperTask == this)
 			throw new TaskRelationException("task can not be super task of itself");
 
-		if (this.superTask == null && task == null)
-			return this; // no-op
+		// No-op: already the same parent (covers null == null and same-reference)
+		if (this.superTask == newSuperTask)
+			return this;
 
-		if (nonNull(this.superTask)) {
-			this.superTask.removeSubTask(this); // remove this from current superTask's children
+		if (newSuperTask != null)
+		{
+			if (predecessorsContains(newSuperTask))
+				throw new TaskRelationException("super task can not be predecessor of same task");
+			if (successorsContain(newSuperTask))
+				throw new TaskRelationException("super task can not be successor of same task");
+
+			// Cycle guard: walk UP from newSuperTask.
+			// If we reach 'this', then newSuperTask is already below 'this' in the tree —
+			// linking would close a cycle.
+			TaskJPA cursor = newSuperTask;
+			while (cursor != null)
+			{
+				if (cursor.equals(this))
+					throw new TaskRelationException(
+							"setting super task would create a cycle in the task hierarchy: "
+							+ "task with id " + newSuperTask.id() + " is already a descendant of task with id " + this.id());
+				cursor = cursor.superTask;
+			}
 		}
-		if (nonNull(task)) {
-			task.addSubTask(this); // add this to new task's children
-		}
-		this.superTask = task; // update this.superTask to new superTask
+
+		// ── Safe to proceed ──────────────────────────────────────────────────────
+		// Remove this from old parent's subTasks collection (direct field access for
+		// Hibernate-compatible removal; avoids recursive calls).
+		if (this.superTask != null && this.superTask.subTasks != null)
+			this.superTask.subTasks.removeAll(List.of(this));
+
+		// Update the owning side (the FK column idSuperTask) — this is what JPA persists.
+		this.superTask = newSuperTask;
+
+		// Add to new parent's subTasks collection for in-memory consistency.
+		if (newSuperTask != null)
+			newSuperTask.nonNullSubTasks().add(this);
+
 		return this;
 	}
 
 	/**
-	 * @param task the {@link Task} to be added as task
-	 * @return {@code true} if operation succeeded, {@code false} otherwise
-	 * @throws TaskRelationException if {@code task} is {@code this} task
-	 * @throws TaskRelationException if {@code task} is already predecessor of
-	 *                               {@code this} task
-	 * @throws TaskRelationException if {@code task is already successor of {@code
-	 *                               this} task
+	 * Parent-centric convenience method: adds {@code subTask} as a child of this task.
+	 * <p>
+	 * Equivalent to {@code subTask.superTask(this)}.  The cycle guard and all validation
+	 * is performed inside {@link #superTask(TaskJPA)}.
+	 *
+	 * @param subTask the task to add as a child of {@code this}
+	 * @return {@code true} if the relation was newly created,
+	 *         {@code false} if {@code subTask} was already a child of {@code this} (no-op)
+	 * @throws TaskRelationException if {@code subTask} is {@code this}
+	 * @throws TaskRelationException if adding {@code subTask} would create a cycle
 	 */
-	@Override
-	public boolean addSubTask(@NonNull TaskJPA task) throws TaskRelationException {
-		if (task.equals(this))
-			throw new TaskRelationException("task can not be sub task of itself");
-		if (predecessorsContains(task))
-			throw new TaskRelationException("sub task can not be predecessor of same task");
-		if (successorsContain(task))
-			throw new TaskRelationException("sub task can not be successor of same task");
-
-		if (subTasksContain(task))
-			return false; // no-op
-
-		// update bidirectional relation
-		task.superTask = this;
-		nonNullSubTasks().add(task);
-
+	public boolean addSubTask(@NonNull TaskJPA subTask) throws TaskRelationException
+	{
+		if (subTask.superTask == this) return false; // already a child — idempotent no-op
+		subTask.superTask(this);                      // validation + mutation
 		return true;
 	}
 
@@ -421,6 +465,12 @@ public class TaskJPA implements TaskEntity<TaskGroupJPA, TaskJPA>
 			log.warn("predecessors already contain task");
 			return false; // no-op
 		}
+
+		// Cycle guard: walk successors of 'this' transitively (in-memory only).
+		// If 'task' is reachable, then this →...→ task already exists and adding task → this would close a cycle.
+		if (isSuccessorReachable(this, task))
+			throw new TaskRelationException(
+					"adding predecessor would create a cycle in the predecessor/successor relationship");
 
 		// update bidirectional relation
 		if (task.nonNullSuccessors().add(this)) {
@@ -458,6 +508,12 @@ public class TaskJPA implements TaskEntity<TaskGroupJPA, TaskJPA>
 		if (successorsContain(task))
 			return false; // no-op
 
+		// Cycle guard: walk successors of 'task' transitively (in-memory only).
+		// If 'this' is reachable, then task →...→ this already exists and adding this → task would close a cycle.
+		if (isSuccessorReachable(task, this))
+			throw new TaskRelationException(
+					"adding successor would create a cycle in the predecessor/successor relationship");
+
 		// update bidirectional relation
 		if (task.nonNullPredecessors().add(this)) {
 			nonNullSuccessors().add(task);
@@ -471,26 +527,6 @@ public class TaskJPA implements TaskEntity<TaskGroupJPA, TaskJPA>
 		throw new IllegalStateException("could not add this to predecessors of task");
 	}
 
-	@Override
-	public boolean removeSubTask(@NonNull TaskJPA subTask) {
-		if (nonNull(subTask.superTask))
-			if (subTask.superTask.equals(this))
-				if (nonNull(subTasks)) {
-					TaskJPA superTask = subTask.superTask; // remember superTask in case removal has to be rolled back
-
-					subTask.superTask = null; // remove superTask in subTask
-					boolean result = subTasks.removeAll(List.of(subTask)); // hibernate removal of single element fails
-					if (result == false)
-						subTask.superTask = superTask; // rollback changes
-					return result;
-				} else
-					throw new IllegalStateException("no sub tasks exist, subTask id: " + subTask.id());
-			else
-				throw new IllegalArgumentException(
-						"wrong super task, subTask.superTask is not equal to this, subTask id: " + subTask.id());
-		else
-			throw new IllegalStateException("no super task exists, subTask id: " + subTask.id());
-	}
 
 	@Override
 	public boolean removePredecessor(@NonNull TaskJPA predecessor) {
@@ -562,6 +598,27 @@ public class TaskJPA implements TaskEntity<TaskGroupJPA, TaskJPA>
 		if (isNull(subTasks))
 			return false;
 		return subTasks.contains(entity);
+	}
+
+	/**
+	 * Iterative DFS: returns {@code true} if {@code target} is reachable from {@code start}
+	 * by following loaded (non-null) successor references.
+	 * <p>
+	 * In-memory only — a {@code null} {@code successors} field means the collection has not
+	 * been loaded (Hibernate lazy); those branches are not traversed.  For a full persistent
+	 * cycle check use {@code PredecessorSuccessorCycleValidator}.
+	 */
+	private boolean isSuccessorReachable(@NonNull TaskJPA start, @NonNull TaskJPA target) {
+		Set<TaskJPA>   visited = new HashSet<>();
+		Deque<TaskJPA> stack   = new ArrayDeque<>();
+		if (start.successors != null) stack.addAll(start.successors);
+		while (!stack.isEmpty()) {
+			TaskJPA current = stack.pop();
+			if (current.equals(target)) return true;
+			if (!visited.add(current))  continue;
+			if (current.successors != null) stack.addAll(current.successors);
+		}
+		return false;
 	}
 
 	///////////////////////

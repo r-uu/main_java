@@ -1,6 +1,6 @@
 # JEEERAAAH - Java Enterprise Task Management
 
-**GraalVM 25 • JavaFX • Jakarta EE 10 • JPMS • Microservices-Ready**
+**GraalVM 25 • JavaFX 25 • Jakarta EE 10 • JPMS • Microservices-Ready**
 
 ---
 
@@ -17,12 +17,12 @@
 ```bash
 # 1. Container starten (alle Services)
 source ~/.bashrc
-ruu-startup
+ruu-docker-startup
 
 # 2. Warte 2-3 Minuten
 
 # 3. Projekt bauen
-cd /home/r-uu/develop/github/main/root
+cd /home/r-uu/develop/github/java/main/root
 mvn clean install
 ```
 
@@ -32,13 +32,13 @@ mvn clean install
 
 ## 📚 Wichtigste Dokumentationen
 
-| Dokument | Beschreibung |
-|----------|--------------|
-| **[GETTING-STARTED.md](GETTING-STARTED.md)** | ⭐ **Schnellstart-Anleitung** |
-| [DOCUMENTATION-INDEX.md](DOCUMENTATION-INDEX.md) | 📚 Vollständiger Dokumentations-Index |
-| [config/shared/docker/README.md](config/shared/docker/README.md) | 🐳 Docker Setup & Container |
-| [DOCKER-HEALTH-CHECK-FIX.md](DOCKER-HEALTH-CHECK-FIX.md) | 🏥 Health Check & Auto-Fix System |
-| [root/lib/keycloak_admin/README.md](root/lib/keycloak_admin/README.md) | 🔐 Keycloak Setup & Management |
+| Dokument                                      | Beschreibung |
+|-----------------------------------------------|--------------|
+| **[quick-start](GETTING-STARTED.md)**         | ⭐ **Schnellstart-Anleitung** |
+| [doku-index](DOCUMENTATION-INDEX.md)          | 📚 Vollständiger Dokumentations-Index |
+| [docker](config/shared/docker/README.md)      | 🐳 Docker Setup & Container |
+| [docker-health](DOCKER-HEALTH-CHECK-FIX.md)   | 🏥 Health Check & Auto-Fix System |
+| [keycloak](root/lib/keycloak_admin/README.md) | 🔐 Keycloak Setup & Management |
 
 ---
 
@@ -62,7 +62,7 @@ ruu-docker-ps
 
 ### Container
 ```bash
-ruu-startup              # Kompletter Startup (empfohlen!)
+ruu-docker-startup       # Kompletter Startup (empfohlen!)
 ruu-docker-ps            # Container-Status
 ruu-docker-logs          # Alle Logs anzeigen
 ruu-docker-restart       # Alle Container neu starten
@@ -70,21 +70,21 @@ ruu-docker-restart       # Alle Container neu starten
 
 ### Build
 ```bash
-ruu-build                # Projekt komplett bauen
-ruu-install              # cd root && mvn clean install
-ruu-install-fast         # mvn clean install -DskipTests
+ruu-mvn-build            # Projekt komplett bauen
+ruu-mvn-install          # cd root && mvn clean install
+ruu-mvn-install-fast     # mvn clean install -DskipTests
 ```
 
 ### PostgreSQL
 ```bash
-ruu-postgres-shell              # SQL Shell öffnen
-ruu-postgres-ensure-lib-test    # lib_test Datenbank prüfen/erstellen
+ruu-pg-shell              # SQL Shell öffnen
+ruu-pg-ensure-lib-test    # lib_test Datenbank prüfen/erstellen
 ```
 
 ### Keycloak
 ```bash
-ruu-keycloak-admin      # Admin-URL anzeigen
-ruu-keycloak-setup      # Realm einrichten
+ruu-kc-admin        # Admin-URL anzeigen
+ruu-kc-setup        # Realm einrichten
 ```
 
 ### Hilfe
@@ -101,7 +101,7 @@ ruu-versions            # Tool-Versionen prüfen
 
 ### Backend (Liberty Server):
 ```bash
-cd /home/r-uu/develop/github/main/root/app/jeeeraaah/backend/api/ws_rs
+cd /home/r-uu/develop/github/java/main/root/app/jeeeraaah/backend/api/ws_rs
 mvn liberty:dev
 ```
 
@@ -116,7 +116,7 @@ mvn liberty:dev
 
 **Oder manuell:**
 ```bash
-cd /home/r-uu/develop/github/main/root/app/jeeeraaah/frontend/ui/fx
+cd /home/r-uu/develop/github/java/main/root/app/jeeeraaah/frontend/ui/fx
 mvn exec:java -Dexec.mainClass="de.ruu.app.jeeeraaah.frontend.ui.fx.dash.DashAppRunner"
 ```
 
@@ -134,10 +134,10 @@ main/
 │   │       │   ├── api/ws_rs/    # REST Endpoints
 │   │       │   └── persistence/  # JPA Entities
 │   │       └── frontend/         # JavaFX UI
-│   │           ├── api.client/   # REST Client
+│   │           ├── api_client/   # REST Client
 │   │           └── ui/fx/        # DashAppRunner (JavaFX)
 │   ├── lib/                      # Wiederverwendbare Libraries
-│   │   ├── keycloak.admin/       # Keycloak Setup & Management
+│   │   ├── keycloak_admin/       # Keycloak Setup & Management
 │   │   ├── jpa/                  # JPA Core
 │   │   └── office/word/          # Dokument-Generierung
 │   │       ├── docx4j/           # DOCX4J Implementation
@@ -157,13 +157,13 @@ main/
 ### Backend
 - **Application Server:** OpenLiberty
 - **REST API:** JAX-RS (Jakarta EE)
-- **Persistence:** JPA 3.2 (EclipseLink)
+- **Persistence:** JPA (Hibernate via Liberty)
 - **Database:** PostgreSQL 16
 - **Authentication:** Keycloak (OAuth2/OpenID Connect)
 - **API Documentation:** OpenAPI 3.x
 
 ### Frontend
-- **UI Framework:** JavaFX 24
+- **UI Framework:** JavaFX 25
 - **Dependency Injection:** CDI (Weld SE)
 - **REST Client:** Jersey Client
 - **Authentication:** Keycloak Direct Access Grants
@@ -182,11 +182,11 @@ main/
 
 ```bash
 # Gesamtprojekt bauen
-cd /home/r-uu/develop/github/main/root
+cd /home/r-uu/develop/github/java/main/root
 mvn clean install
 
 # Nur Backend bauen
-cd /home/r-uu/develop/github/main/root/app/jeeeraaah/backend/api/ws_rs
+cd /home/r-uu/develop/github/java/main/root/app/jeeeraaah/backend/api/ws_rs
 mvn clean package
 ```
 
@@ -210,19 +210,19 @@ docker ps
 
 ```bash
 # Setup ausführen
-cd /home/r-uu/develop/github/main/root/lib/keycloak_admin
+cd /home/r-uu/develop/github/java/main/root/lib/keycloak.admin
 mvn exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSetup"
 
 # Admin Console
 # URL: http://localhost:8080/admin
-# Login: admin / changeme_in_local_env
+# Login: admin / admin
 ```
 
 ### Backend (OpenLiberty)
 
 ```bash
 # Dev-Modus (Hot Reload)
-cd /home/r-uu/develop/github/main/root/app/jeeeraaah/backend/api/ws_rs
+cd /home/r-uu/develop/github/java/main/root/app/jeeeraaah/backend/api/ws_rs
 mvn liberty:dev
 
 # Nur starten
@@ -276,7 +276,7 @@ Connection refused (Port 9080)
 **Lösung:**
 ```bash
 # Container neustarten
-cd /home/r-uu/develop/github/main/config/shared/docker
+cd /home/r-uu/develop/github/java/main/config/shared/docker
 docker compose restart postgres-jeeeraaah
 
 # Logs prüfen
@@ -296,13 +296,13 @@ sudo lsof -i:5432    # PostgreSQL
 
 ## 🔑 WICHTIGE URLs
 
-| Service | URL | Credentials |
-|---------|-----|-------------|
-| **Keycloak Admin** | http://localhost:8080/admin | admin / changeme_in_local_env |
-| **Keycloak Realm** | http://localhost:8080/realms/jeeeraaah-realm | - |
-| **Backend API** | http://localhost:9080/jeeeraaah/ | - |
-| **Backend Health** | http://localhost:9080/health | - |
-| **JasperReports** | http://localhost:8090/health | - |
+| Service              | URL                                          | Credentials     |
+|----------------------|----------------------------------------------|-----------------|
+| **Keycloak Admin**   | http://localhost:8080/admin                  | admin / admin   |
+| **Keycloak Realm**   | http://localhost:8080/realms/jeeeraaah-realm | -               |
+| **Backend API**      | http://localhost:9080/jeee-raaah/            | -               |
+| **Backend Health**   | http://localhost:9080/health                 | -               |
+| **JasperReports**    | http://localhost:8090/health                 | -               |
 
 ---
 
@@ -351,7 +351,7 @@ jeeeraaah.rest-api.port=9080
 docker compose up -d
 
 # 2. Backend starten
-cd /home/r-uu/develop/github/main/root/app/jeeeraaah/backend/api/ws_rs
+cd /home/r-uu/develop/github/java/main/root/app/jeeeraaah/backend/api/ws_rs
 mvn liberty:dev
 
 # 3. Frontend in IntelliJ starten
@@ -362,7 +362,7 @@ mvn liberty:dev
 
 ```bash
 # Dependencies aktualisieren
-cd /home/r-uu/develop/github/main/root
+cd /home/r-uu/develop/github/java/main/root
 mvn clean install
 ```
 
@@ -370,12 +370,12 @@ mvn clean install
 
 ```bash
 # Container komplett reset
-cd /home/r-uu/develop/github/main/config/shared/docker
+cd /home/r-uu/develop/github/java/main/config/shared/docker
 docker compose down -v
 docker compose up -d
 
 # Keycloak Realm neu erstellen
-cd /home/r-uu/develop/github/main/root/lib/keycloak_admin
+cd /home/r-uu/develop/github/java/main/root/lib/keycloak.admin
 mvn exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSetup"
 ```
 
@@ -383,9 +383,9 @@ mvn exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSet
 
 ## 📚 WEITERFÜHRENDE DOKUMENTATION
 
-- **Backend Details:** `root/app/jeeeraaah/backend/api/ws_rs/README.md`
-- **Keycloak Setup:** `IAM-KEYCLOAK-LIBERTY-GUIDE.md`
-- **Docker Setup:** `config/shared/docker/README.md`
+- [**Backend API Details**](root/app/jeeeraaah/backend/api/ws_rs/README.md)
+- [**Keycloak Setup**](IAM-KEYCLOAK-LIBERTY-GUIDE.md)
+- [**Docker Setup:**](config/shared/docker/README.md)
 
 ---
 
@@ -398,3 +398,17 @@ mvn exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSet
 - [ ] Login: Automatischer Login funktioniert
 
 **🎉 WENN ALLE PUNKTE ✅, DANN LÄUFT ALLES!**
+
+---
+
+# NEXT STEPS
+
+## IMPLEMENTIERUNG WEITERER FEATURES
+
+### 
+
+## Code-Qualität verbessern (z.B. Logging, Fehlerbehandlung)
+
+## Tests hinzufügen
+
+## Dokumentation erweitern...

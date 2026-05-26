@@ -7,7 +7,9 @@ import static java.util.UUID.randomUUID;
 
 import java.io.Serial;
 import java.time.LocalDate;
+import java.util.ArrayDeque;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -98,20 +100,18 @@ public class TaskDTO implements TaskEntity<TaskGroupDTO, TaskDTO>
 	private TaskDTO superTask;
 
 	/**
-	 * prevent direct access to this modifiable set from outside this class, use
-	 * {@link #addSubTask(TaskDTO)} and
-	 * {@link #removeSubTask(TaskDTO)} (TaskDTO)} to modify the set
+	 * prevent direct access to this modifiable set from outside this class
 	 * <p>
 	 * may explicitly be {@code null}, {@code null} indicates that there was no
-	 * attempt to load related objects from db
-	 * (lazy)
+	 * attempt to load related objects from db (lazy)
+	 * <p>
+	 * Read-only: sub-task membership is exclusively controlled via {@link #superTask(TaskDTO)}.
 	 */
 	@Nullable
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
-	@Getter(AccessLevel.NONE) // provide handmade getter that
-														// returns unmodifiable
-	@Setter(AccessLevel.NONE) // no setter at all, use add method instead
+	@Getter(AccessLevel.NONE) // provide handmade getter that returns unmodifiable
+	@Setter(AccessLevel.NONE) // no setter at all
 	private Set<TaskDTO> subTasks;
 
 	/**
@@ -381,52 +381,48 @@ public class TaskDTO implements TaskEntity<TaskGroupDTO, TaskDTO>
 	// relationship handling
 	////////////////////////
 
-	/** @throws TaskRelationException if {@code task} is {@code this} */
+	/** @throws TaskRelationException if {@code newSuperTask} is {@code this} */
 	@Override
-	public @NonNull TaskDTO superTask(@Nullable TaskDTO newSuperTask) throws TaskRelationException {
+	public @NonNull TaskDTO superTask(@Nullable TaskDTO newSuperTask) throws TaskRelationException
+	{
 		if (newSuperTask == this)
 			throw new TaskRelationException("task can not be super task of itself");
 
-		if (this.superTask == null && newSuperTask == null)
-			return this; // no-op
+		// No-op: already the same parent
+		if (this.superTask == newSuperTask)
+			return this;
 
-		if (nonNull(this.superTask)) {
-			this.superTask.removeSubTask(this); // remove this from current superTask's sub tasks
+		if (newSuperTask != null)
+		{
+			if (predecessorsContains(newSuperTask))
+				throw new TaskRelationException("super task can not be predecessor of same task");
+			if (successorsContain(newSuperTask))
+				throw new TaskRelationException("super task can not be successor of same task");
+
+			// Cycle guard: walk UP from newSuperTask; if we reach 'this', it would close a cycle.
+			TaskDTO cursor = newSuperTask;
+			while (cursor != null)
+			{
+				if (cursor.equals(this))
+					throw new TaskRelationException(
+							"setting super task would create a cycle in the task hierarchy: "
+							+ "task with id " + newSuperTask.id() + " is already a descendant of task with id " + this.id());
+				cursor = cursor.superTask;
+			}
 		}
-		if (nonNull(newSuperTask)) {
-			newSuperTask.addSubTask(this); // add this to new newSuperTask's children
-		}
-		this.superTask = newSuperTask; // update this.superTask to new superTask
+
+		// Remove this from old parent's subTasks collection.
+		if (this.superTask != null && this.superTask.subTasks != null)
+			this.superTask.subTasks.remove(this);
+
+		// Update owning side.
+		this.superTask = newSuperTask;
+
+		// Add to new parent's subTasks collection.
+		if (newSuperTask != null)
+			newSuperTask.nonNullSubTasks().add(this);
+
 		return this;
-	}
-
-	/**
-	 * @param task the {@link Task} to be added as task
-	 * @return {@code true} if operation succeeded, {@code false} otherwise
-	 * @throws TaskRelationException if {@code task} is identical to {@code this}
-	 *                               task
-	 * @throws TaskRelationException if {@code task} is a predecessor of
-	 *                               {@code this} task
-	 * @throws TaskRelationException if {@code task} is a successor of {@code this}
-	 *                               task
-	 */
-	@Override
-	public boolean addSubTask(@NonNull TaskDTO task) throws TaskRelationException {
-		if (task.equals(this))
-			throw new TaskRelationException("task can not be sub task of itself");
-		if (predecessorsContains(task))
-			throw new TaskRelationException("sub task can not be predecessor of same task");
-		if (successorsContain(task))
-			throw new TaskRelationException("sub task can not be successor of same task");
-
-		if (subTasksContain(task))
-			return false; // no-op
-
-		// update bidirectional relation
-		task.superTask = this;
-		nonNullSubTasks().add(task);
-
-		return true;
 	}
 
 	/**
@@ -449,6 +445,12 @@ public class TaskDTO implements TaskEntity<TaskGroupDTO, TaskDTO>
 
 		if (predecessorsContains(task))
 			return false; // no-op
+
+		// Cycle guard: walk successors of 'this' transitively (in-memory).
+		// If 'task' is reachable, then this →...→ task already and adding task → this would close a cycle.
+		if (isSuccessorReachable(this, task))
+			throw new TaskRelationException(
+					"adding predecessor would create a cycle in the predecessor/successor relationship");
 
 		// update bidirectional relation
 		if (task.nonNullSuccessors().add(this)) {
@@ -484,6 +486,12 @@ public class TaskDTO implements TaskEntity<TaskGroupDTO, TaskDTO>
 		if (successorsContain(task))
 			return false; // no-op
 
+		// Cycle guard: walk successors of 'task' transitively (in-memory).
+		// If 'this' is reachable, then task →...→ this already and adding this → task would close a cycle.
+		if (isSuccessorReachable(task, this))
+			throw new TaskRelationException(
+					"adding successor would create a cycle in the predecessor/successor relationship");
+
 		// update bidirectional relation
 		if (task.nonNullPredecessors().add(this)) {
 			nonNullSuccessors().add(task);
@@ -497,25 +505,6 @@ public class TaskDTO implements TaskEntity<TaskGroupDTO, TaskDTO>
 		throw new IllegalStateException("could not add this to predecessors of task");
 	}
 
-	@Override
-	public boolean removeSubTask(@NonNull TaskDTO dto) {
-		if (nonNull(dto.superTask))
-			if (dto.superTask.equals(this))
-				if (nonNull(subTasks)) {
-					TaskDTO parent = dto.superTask; // remember parent in case removal has to be rolled back
-
-					dto.superTask = null; // remove parent in dto
-					boolean result = subTasks.remove(dto);
-					if (result == false)
-						dto.superTask = parent; // rollback changes
-					return result;
-				} else
-					throw new IllegalStateException("no sub tasks exist, dto id: " + dto.id());
-			else
-				throw new IllegalArgumentException("wrong super task, dto.superTask is not equal to this, dto id: " + dto.id());
-		else
-			throw new IllegalStateException("no super task exists, dto id: " + dto.id());
-	}
 
 	@Override
 	public boolean removePredecessor(@NonNull TaskDTO dto) {
@@ -602,5 +591,22 @@ public class TaskDTO implements TaskEntity<TaskGroupDTO, TaskDTO>
 		if (isNull(subTasks))
 			return false;
 		return subTasks.contains(entity);
+	}
+
+	/**
+	 * Iterative DFS: returns {@code true} if {@code target} is reachable from {@code start}
+	 * by following successor references.
+	 */
+	private boolean isSuccessorReachable(@NonNull TaskDTO start, @NonNull TaskDTO target) {
+		Set<TaskDTO>   visited = new HashSet<>();
+		Deque<TaskDTO> stack   = new ArrayDeque<>();
+		if (start.successors != null) stack.addAll(start.successors);
+		while (!stack.isEmpty()) {
+			TaskDTO current = stack.pop();
+			if (current.equals(target)) return true;
+			if (!visited.add(current))  continue;
+			if (current.successors != null) stack.addAll(current.successors);
+		}
+		return false;
 	}
 }

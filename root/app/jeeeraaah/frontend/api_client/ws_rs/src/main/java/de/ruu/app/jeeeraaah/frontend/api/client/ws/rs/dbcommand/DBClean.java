@@ -24,7 +24,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
-import static java.util.Objects.requireNonNull;
 
 @Slf4j
 @Dependent
@@ -106,21 +105,60 @@ public class DBClean
 		cleanTaskGroups();
 	}
 
-	private void cleanTaskGroups() throws NonTechnicalException, TechnicalException
+	private void cleanTaskGroups()
 	{
-		Set<TaskGroupFlat> groups = taskGroupServiceClient.findAllFlat();
+		Set<TaskGroupFlat> groups;
+		try
+		{
+			groups = taskGroupServiceClient.findAllFlat();
+		}
+		catch (Exception e)
+		{
+			log.error("could not retrieve task groups — nothing to clean: {}", e.getMessage(), e);
+			return;
+		}
 
 		log.debug("task group count before clean db {}", groups.size());
-		for (TaskGroupFlat group : groups) { cleanTasksOfGroup(group); }
-		log.debug("task group count after  clean db {}", taskGroupServiceClient.findAllFlat().size());
+		for (TaskGroupFlat group : groups)
+		{
+			try
+			{
+				cleanTasksOfGroup(group);
+			}
+			catch (Exception e)
+			{
+				log.warn("skipping task group {} after cleanup failure: {}", group.id(), e.getMessage());
+			}
+		}
+		try
+		{
+			log.debug("task group count after  clean db {}", taskGroupServiceClient.findAllFlat().size());
+		}
+		catch (Exception e)
+		{
+			log.debug("could not retrieve final task group count: {}", e.getMessage());
+		}
 	}
 
-	private void cleanTasksOfGroup(Entity<Long> group) throws NonTechnicalException, TechnicalException
+	private void cleanTasksOfGroup(Entity<Long> group)
 	{
-		Long taskGroupId = requireNonNull(group.id(), "task group id must not be null, persist task group to retrieve id");
+		Long taskGroupId = group.id();
+		if (taskGroupId == null)
+		{
+			log.warn("skipping task group with null id");
+			return;
+		}
 
-		// get task group with tasks from backend
-		Optional<TaskGroupBean> optionalTaskGroup = taskGroupServiceClient.findWithTasksAndDirectNeighbours(taskGroupId);
+		Optional<TaskGroupBean> optionalTaskGroup;
+		try
+		{
+			optionalTaskGroup = taskGroupServiceClient.findWithTasksAndDirectNeighbours(taskGroupId);
+		}
+		catch (Exception e)
+		{
+			log.warn("could not load tasks for group {} — skipping: {}", taskGroupId, e.getMessage());
+			return;
+		}
 
 		if (optionalTaskGroup.isPresent())
 		{
@@ -134,36 +172,83 @@ public class DBClean
 			}
 
 			log.debug("deleting task group {}", taskGroup);
-			taskGroupServiceClient.delete(taskGroupId);
-			log.debug("deleted  task group {}", taskGroup);
+			try
+			{
+				taskGroupServiceClient.delete(taskGroupId);
+				log.debug("deleted  task group {}", taskGroup);
+			}
+			catch (Exception e)
+			{
+				log.warn("could not delete task group {} — may have remaining tasks: {}", taskGroupId, e.getMessage());
+			}
 		}
 	}
 
-	private void cleanTasksOfGroup(Set<TaskBean> tasks) throws NonTechnicalException, TechnicalException
+	private void cleanTasksOfGroup(Set<TaskBean> tasks)
 	{
 		Set<TaskBean> mainTasks = tasks.stream().filter(t -> t.superTask().isEmpty()).collect(Collectors.toSet());
 
 		for (TaskBean mainTask : mainTasks)
 		{
-			cleanSuperSubTaskHierarchy(mainTask);
-			log.debug("deleted main task {}", mainTask);
+			try
+			{
+				cleanSuperSubTaskHierarchy(mainTask);
+				log.debug("deleted main task {}", mainTask);
+			}
+			catch (Exception e)
+			{
+				log.warn("skipping task {} after hierarchy cleanup failure: {}", mainTask.id(), e.getMessage());
+			}
 		}
 	}
 
-	private void cleanSuperSubTaskHierarchy(TaskBean task) throws NonTechnicalException, TechnicalException
+	private void cleanSuperSubTaskHierarchy(TaskBean task)
 	{
-		// call this method recursively for all subtasks
+		// call this method recursively for all subtasks — each subtask independently
 		if (task.subTasks().isPresent())
-				for (TaskBean subTask : task.subTasks().get()) { cleanSuperSubTaskHierarchy(subTask); }
+		{
+			for (TaskBean subTask : task.subTasks().get())
+			{
+				try
+				{
+					cleanSuperSubTaskHierarchy(subTask);
+				}
+				catch (Exception e)
+				{
+					log.warn("skipping subtask {} ({}), proceeding with remaining subtasks",
+							subTask.id(), e.getMessage());
+				}
+			}
+		}
 
-		// remove all neighbours from task
-		RemoveNeighboursFromTaskConfig config = newRemoveNeighboursFromTaskConfig(task);
-		taskServiceClient.removeNeighboursFromTask(config);
+		// remove all neighbours from task — non-fatal: log and continue to deletion
+		try
+		{
+			RemoveNeighboursFromTaskConfig config = newRemoveNeighboursFromTaskConfig(task);
+			taskServiceClient.removeNeighboursFromTask(config);
+		}
+		catch (Exception e)
+		{
+			log.warn("removeNeighboursFromTask failed for task {} ({}), proceeding with deletion anyway",
+					task.id(), e.getMessage());
+		}
 
-		// delete task itself
-		taskServiceClient.delete(requireNonNull(task.id()));
-
-		log.debug("deleted task {}", task);
+		// delete task itself — non-fatal: log but do not re-throw
+		try
+		{
+			Long taskId = task.id();
+			if (taskId == null)
+			{
+				log.warn("skipping deletion of task with null id");
+				return;
+			}
+			taskServiceClient.delete(taskId);
+			log.debug("deleted task {}", task);
+		}
+		catch (Exception e)
+		{
+			log.warn("could not delete task {} ({})", task.id(), e.getMessage());
+		}
 	}
 
 	private RemoveNeighboursFromTaskConfig newRemoveNeighboursFromTaskConfig(TaskBean task)

@@ -6,12 +6,15 @@ import static java.util.Objects.nonNull;
 import static lombok.AccessLevel.NONE;
 
 import java.time.LocalDate;
+import java.util.ArrayDeque;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
 import de.ruu.app.jeeeraaah.common.api.domain.TaskEntity;
+import de.ruu.app.jeeeraaah.common.api.domain.TaskRelationException;
 import de.ruu.lib.jpa.core.AbstractEntity;
 import de.ruu.lib.jpa.core.Entity;
 import de.ruu.lib.util.Strings;
@@ -70,17 +73,18 @@ public class TaskBean implements TaskEntity<TaskGroupBean, TaskBean>
 	private TaskBean superTask;
 
 	/**
-	 * prevent direct access to this modifiable set from outside this class, use {@link #addSubTask(TaskBean)} and
-	 * {@link #removeSubTask(TaskBean)} to modify the set
+	 * prevent direct access to this modifiable set from outside this class
 	 * <p>
 	 * may explicitly be {@code null}, {@code null} indicates that there was no attempt to load related objects from db
 	 * (lazy)
+	 * <p>
+	 * Read-only: sub-task membership is exclusively controlled via {@link #superTask(TaskBean)}.
 	 */
 	@Nullable
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	@Getter(NONE) // provide handmade getter that returns unmodifiable
-	@Setter(NONE) // no setter at all, use add method instead
+	@Setter(NONE) // no setter at all
 	private Set<TaskBean> subTasks;
 
 	/**
@@ -111,7 +115,6 @@ public class TaskBean implements TaskEntity<TaskGroupBean, TaskBean>
 	@Setter(NONE) // no setter at all, use add method instead
 	private Set<TaskBean> successors;
 
-	private PreconditionCheckRelationalOperations preconditionCheckRelationalOperations; // lazy initialisation
 
 	///////////////
 	// constructors
@@ -261,83 +264,80 @@ public class TaskBean implements TaskEntity<TaskGroupBean, TaskBean>
 	@Override public @NonNull TaskBean superTask(@Nullable TaskBean newSuperTask) throws IllegalArgumentException
 	{
 		if (newSuperTask == this) throw new IllegalArgumentException("newSuperTask must not be this");
-		if (this.superTask == null && newSuperTask == null) return this; // no-op
-		if (nonNull(this.superTask))
+
+		// No-op: already the same parent
+		if (this.superTask == newSuperTask) return this;
+
+		if (newSuperTask != null)
 		{
-			this.superTask.removeSubTask(this); // remove this from current superTask's children
+			// Cycle guard: walk UP from newSuperTask; if we reach 'this', it would close a cycle.
+			TaskBean cursor = newSuperTask;
+			while (cursor != null)
+			{
+				if (cursor == this)
+					throw new IllegalArgumentException(
+							"setting super task would create a cycle: task is already a descendant of this");
+				cursor = cursor.superTask;
+			}
 		}
-		if (nonNull(newSuperTask))
-		{
-			newSuperTask.addSubTask(this);      // add    this to new newSuperTask's children
-		}
-		this.superTask = newSuperTask;        // update this.superTask to new superTask
+
+		// Remove this from old parent's subTasks collection.
+		if (this.superTask != null && this.superTask.subTasks != null)
+			this.superTask.subTasks.remove(this);
+
+		// Update the parent reference.
+		this.superTask = newSuperTask;
+
+		// Add to new parent's subTasks collection.
+		if (newSuperTask != null)
+			newSuperTask.nonNullSubTasks().add(this);
+
 		return this;
 	}
 
-	@Override public boolean addSubTask(@NonNull TaskBean task)
-	{
-		if (preconditionCheckRelationalOperations().canBeAddedAsSubTask(task))
-		{
-			// update bidirectional relation
-			task.superTask = this;
-			return nonNullSubTasks().add(task);
-		}
-//		else log.warn("failure adding {} to children, check logs for reason", task);
-		return false;
-	}
 
 	@Override public boolean addPredecessor(@NonNull TaskBean task)
 	{
-		if (preconditionCheckRelationalOperations().canBeAddedAsPredecessor(task))
-		{
-			// update bidirectional relation
-			if (task.nonNullSuccessors().add(this)) return nonNullPredecessors().add(task);
-			else
-			{
-				// this might already be among predecessors of task, if so return true
-				if (task.nonNullPredecessors().contains(this)) return true;
-			}
-		}
-//		else log.warn("failure adding {} to predecessors, check logs for reason", task);
+		if (task == this)            throw new TaskRelationException("task can not be predecessor of itself");
+		if (successorsContains(task)) throw new TaskRelationException("predecessor can not be successor of the same task");
+		if (subTasksContain(task))   throw new TaskRelationException("predecessor can not be sub task of the same task");
+
+		if (predecessorsContains(task))
+			return false; // no-op
+
+		// Cycle guard: walk successors of 'this' transitively.
+		// If 'task' is reachable, then this →...→ task already and adding task → this would close a cycle.
+		if (isSuccessorReachable(this, task))
+			throw new TaskRelationException(
+					"adding predecessor would create a cycle in the predecessor/successor relationship");
+
+		// update bidirectional relation
+		if (task.nonNullSuccessors().add(this)) return nonNullPredecessors().add(task);
+		else if (task.nonNullPredecessors().contains(this)) return true;
 		return false;
 	}
 
 	@Override public boolean addSuccessor(@NonNull TaskBean task)
 	{
-		if (preconditionCheckRelationalOperations().canBeAddedAsSuccessor(task))
-		{
-			// update bidirectional relation
-			if (task.nonNullPredecessors().add(this)) return nonNullSuccessors().add(task);
-			else
-			{
-				// this might already be among successors of task, if so return true
-				if (task.nonNullSuccessors().contains(this)) return true;
-			}
-		}
-//		else log.warn("failure adding {} to successors, check logs for reason", task);
+		if (task == this)              throw new TaskRelationException("task can not be successor of itself");
+		if (predecessorsContains(task)) throw new TaskRelationException("successor can not be predecessor of the same task");
+		if (subTasksContain(task))     throw new TaskRelationException("successor can not be sub task of the same task");
+
+		if (successorsContains(task))
+			return false; // no-op
+
+		// Cycle guard: walk successors of 'task' transitively.
+		// If 'this' is reachable, then task →...→ this already and adding this → task would close a cycle.
+		if (isSuccessorReachable(task, this))
+			throw new TaskRelationException(
+					"adding successor would create a cycle in the predecessor/successor relationship");
+
+		// update bidirectional relation
+		if (task.nonNullPredecessors().add(this)) return nonNullSuccessors().add(task);
+		else if (task.nonNullSuccessors().contains(this)) return true;
 		return false;
 	}
 
-	@Override public boolean removeSubTask(@NonNull TaskBean subTask)
-	{
-		if (nonNull(subTask.superTask))
-			if (subTask.superTask.equals(this))
-				if (nonNull(subTasks))
-				{
-					TaskBean superTask = subTask.superTask; // remember parent in case removal has to be rolled back
-
-					subTask.superTask = null;               // remove superTask in subTask
-					boolean result = subTasks.remove(subTask);
-					if (result == false) subTask.superTask = superTask; // rollback removal (reset superTask in sub task)
-					return result;
-				}
-				else
-					throw new IllegalStateException("no sub tasks exist, subTask id: " + subTask.id());
-			else
-				throw new IllegalArgumentException("wrong super task, subTask.superTask is not equal to this, entity id: " + subTask.id());
-		else
-			throw new IllegalStateException("no super task exists, subTask id: " + subTask.id());
-	}
 
 	@Override public boolean removePredecessor(@NonNull TaskBean predecessor)
 	{
@@ -422,10 +422,27 @@ public class TaskBean implements TaskEntity<TaskGroupBean, TaskBean>
 		return successors.contains(bean);
 	}
 
-	private PreconditionCheckRelationalOperations preconditionCheckRelationalOperations()
+	/** {@code null} safe check for containment */
+	private boolean subTasksContain(TaskBean bean)
 	{
-		if (preconditionCheckRelationalOperations == null)
-				preconditionCheckRelationalOperations = new PreconditionCheckRelationalOperations(this);
-		return preconditionCheckRelationalOperations;
+		if (isNull(subTasks)) return false;
+		return subTasks.contains(bean);
+	}
+
+	/**
+	 * Iterative DFS: returns {@code true} if {@code target} is reachable from {@code start}
+	 * by following successor references.
+	 */
+	private boolean isSuccessorReachable(@NonNull TaskBean start, @NonNull TaskBean target) {
+		Set<TaskBean>   visited = new HashSet<>();
+		Deque<TaskBean> stack   = new ArrayDeque<>();
+		if (start.successors != null) stack.addAll(start.successors);
+		while (!stack.isEmpty()) {
+			TaskBean current = stack.pop();
+			if (current == target)     return true;
+			if (!visited.add(current)) continue;
+			if (current.successors != null) stack.addAll(current.successors);
+		}
+		return false;
 	}
 }

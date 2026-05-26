@@ -77,11 +77,11 @@ import lombok.NonNull;
 				// check if related task was already mapped
 				TaskJPA relatedTaskMapped = context.get(relatedTask, TaskJPA.class);
 				if (isNull(relatedTaskMapped))
-						// start new mapping for related task
-						out.addSubTask(INSTANCE.map(relatedTask, context));
+						// link via child's superTask setter
+						INSTANCE.map(relatedTask, context).superTask(out);
 				else
-						// use already mapped related task
-						out.addSubTask(relatedTaskMapped);
+						// link via child's superTask setter
+						relatedTaskMapped.superTask(out);
 			}
 		}
 		if (in.predecessors().isPresent())

@@ -86,16 +86,29 @@ public interface TaskService<TG extends TaskGroup<T>, T extends Task<TG, T>> {
 	Optional<? extends T> findWithRelated(@NonNull Long id);
 
 	/**
-	 * Adds a subtask to a task.
+	 * Sets the super task (parent) of a task.
+	 * <p>
+	 * This is the single entry-point for managing the super/sub-task hierarchy.
+	 * Setting {@code newSuperTask} to {@code null} detaches the task from its current parent (makes it a root task).
+	 * <p>
+	 * Cycle detection is performed server-side: if {@code newSuperTask} is already a descendant
+	 * of {@code child}, a {@link de.ruu.app.jeeeraaah.common.api.domain.TaskRelationException} is thrown.
 	 *
-	 * @param task the parent task
-	 * @param subTask the subtask to add
-	 * @throws EntityNotFoundException if the task or subtask does not exist
-	 * @throws CircularReferenceException if adding the subtask would create a circular reference
-	 * @throws InvalidRelationshipException if the relationship is invalid
-	 * @throws PersistenceException if the persistence operation fails
+	 * @param child        the task whose parent changes
+	 * @param newSuperTask the new parent task, or {@code null} to detach
+	 * @throws EntityNotFoundException           if the task or new super-task does not exist
+	 * @throws de.ruu.app.jeeeraaah.common.api.domain.TaskRelationException if adding would create a cycle
+	 * @throws PersistenceException              if the persistence operation fails
 	 */
-	void addSubTask(@NonNull T task, @NonNull T subTask);
+	void setSuperTask(@NonNull T child, T newSuperTask);
+
+	/**
+	 * Detaches {@code child} from its current super task (makes it a root task).
+	 * Equivalent to {@code setSuperTask(child, null)}.
+	 *
+	 * @param child the task to detach from its parent
+	 */
+	void removeSuperTask(@NonNull T child);
 
 	/**
 	 * Adds a predecessor to a task.
@@ -121,16 +134,6 @@ public interface TaskService<TG extends TaskGroup<T>, T extends Task<TG, T>> {
 	 */
 	void addSuccessor(@NonNull T task, @NonNull T successor);
 
-	/**
-	 * Removes a subtask from a task.
-	 *
-	 * @param task the parent task
-	 * @param subTask the subtask to remove
-	 * @throws EntityNotFoundException if the task or subtask does not exist
-	 * @throws InvalidRelationshipException if the relationship does not exist
-	 * @throws PersistenceException if the persistence operation fails
-	 */
-	void removeSubTask(@NonNull T task, @NonNull T subTask);
 
 	/**
 	 * Removes a predecessor from a task.

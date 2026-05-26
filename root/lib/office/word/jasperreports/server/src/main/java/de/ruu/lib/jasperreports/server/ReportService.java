@@ -10,6 +10,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -33,7 +34,9 @@ import java.util.stream.Collectors;
  * - REST API: http://localhost:8090/api/report/generate
  * - CLI:      java -jar jasperreports-server.jar cli template.jrxml data.json output.pdf
  */
+@Slf4j
 public class ReportService {
+
 
     private static final String TEMPLATES_DIR = "/app/templates";
     private static final String OUTPUT_DIR = "/app/output";
@@ -82,11 +85,8 @@ public class ReportService {
 
         app.start(8090);
 
-        System.out.println("🚀 JasperReports Service running on http://localhost:8090");
-        System.out.println("📄 API Documentation:");
-        System.out.println("   POST /api/report/generate - Generate Report");
-        System.out.println("   GET  /api/templates       - List Templates");
-        System.out.println("   GET  /health              - Health Check");
+        log.info("JasperReports Service running on http://localhost:8090");
+        log.info("API endpoints: POST /api/report/generate | GET /api/templates | GET /health");
     }
 
     /**
@@ -96,7 +96,7 @@ public class ReportService {
     {
         if (args.length < 4)
         {
-            System.err.println("Usage: java -jar jasperreports-server.jar cli <template.jrxml> <data.json> <output.pdf|docx>");
+            log.error("Usage: java -jar jasperreports-server.jar cli <template.jrxml> <data.json> <output.pdf|docx>");
             System.exit(1);
         }
 
@@ -105,16 +105,10 @@ public class ReportService {
         String outputPath = args[3];
 
         try {
-            // Compile template
             JasperReport report = JasperCompileManager.compileReport(templatePath);
-
-            // Load data (simple parameters, no collection)
             Map<String, Object> parameters = new HashMap<>();
-
-            // Fill report
             JasperPrint print = JasperFillManager.fillReport(report, parameters, new JREmptyDataSource());
 
-            // Export
             if (outputPath.endsWith(".pdf")) {
                 JasperExportManager.exportReportToPdfFile(print, outputPath);
             } else if (outputPath.endsWith(".docx")) {
@@ -124,11 +118,10 @@ public class ReportService {
                 exporter.exportReport();
             }
 
-            System.out.println("✅ Report generated: " + outputPath);
+            log.info("Report generated: {}", outputPath);
 
         } catch (Exception e) {
-            System.err.println("❌ Error generating report:");
-            System.err.println(e.getMessage());
+            log.error("Error generating report", e);
             System.exit(1);
         }
     }
@@ -141,49 +134,40 @@ public class ReportService {
      */
     private static void generateReport(Context ctx) {
         try {
-            // Parse request body
             var body = ctx.bodyAsClass(ReportRequest.class);
 
-            System.out.println("📝 Request received:");
-            System.out.println("   Template: " + body.template);
-            System.out.println("   Format: " + body.format);
+            log.info("Request received: template={}, format={}", body.template, body.format);
 
-            // Compile template
             String templatePath = TEMPLATES_DIR + "/" + body.template;
-            System.out.println("   Template path: " + templatePath);
+            log.debug("Template path: {}", templatePath);
 
             File templateFile = new File(templatePath);
             if (!templateFile.exists()) {
                 throw new FileNotFoundException("Template not found: " + templateFile.getAbsolutePath());
             }
 
-            System.out.println("   ✓ Template file exists: " + templateFile.length() + " bytes");
-            System.out.println("   ✓ Template readable: " + templateFile.canRead());
+            log.debug("Template file exists: {} bytes, readable: {}", templateFile.length(), templateFile.canRead());
 
-            // Try to read first few lines to verify format
             try (BufferedReader reader = new BufferedReader(new FileReader(templateFile))) {
                 String firstLine = reader.readLine();
-                System.out.println("   ✓ First line: " + (firstLine != null ? firstLine.substring(0, Math.min(50, firstLine.length())) : "null"));
+                log.debug("First line: {}", firstLine != null ? firstLine.substring(0, Math.min(50, firstLine.length())) : "null");
             } catch (Exception e) {
-                System.err.println("   ✗ Cannot read template file: " + e.getMessage());
+                log.warn("Cannot read first line of template file: {}", e.getMessage());
             }
 
-            // Check if it's a compiled .jasper file or .jrxml
             JasperReport report;
             if (body.template.endsWith(".jasper")) {
-                System.out.println("   📦 Loading pre-compiled .jasper file (bypasses XML parsing)...");
+                log.debug("Loading pre-compiled .jasper file...");
                 try (InputStream jasperStream = new FileInputStream(templateFile)) {
                     report = (JasperReport) JRLoader.loadObject(jasperStream);
-                    System.out.println("   ✅ Pre-compiled template loaded successfully!");
+                    log.debug("Pre-compiled template loaded successfully");
                 }
             } else {
-                System.out.println("   🔨 Compiling .jrxml template...");
+                log.debug("Compiling .jrxml template...");
                 report = JasperCompileManager.compileReport(templatePath);
-                System.out.println("   ✅ Template compiled");
+                log.debug("Template compiled");
             }
 
-            // Generic data handling:
-            // The data object structure must match the template's parameter/field definitions
             Map<String, Object> parameters = new HashMap<>();
             JRDataSource dataSource = new JREmptyDataSource();
 
@@ -191,38 +175,29 @@ public class ReportService {
                 @SuppressWarnings("unchecked")
                 Map<String, Object> dataMap = objectMapper.convertValue(body.data, Map.class);
 
-                // Extract 'items' collection for detail band (if present)
                 if (dataMap.containsKey("items")) {
                     @SuppressWarnings("unchecked")
                     List<Map<String, Object>> items = (List<Map<String, Object>>) dataMap.get("items");
                     dataSource = new JRBeanCollectionDataSource(items);
-                    System.out.println("   Items: " + items.size());
+                    log.debug("Items: {}", items.size());
                 }
 
-                // All other fields as parameters
                 for (Map.Entry<String, Object> entry : dataMap.entrySet()) {
                     if (!"items".equals(entry.getKey())) {
                         parameters.put(entry.getKey(), entry.getValue());
                     }
                 }
 
-                System.out.println("   Parameters: " + parameters.keySet());
+                log.debug("Parameters: {}", parameters.keySet());
             }
 
-            // Fill report with generic bean properties
-            System.out.println("   Filling report with bean properties...");
-            JasperPrint print = JasperFillManager.fillReport(
-                report,
-                parameters,
-                dataSource
-            );
-            System.out.println("   ✓ Report filled");
+            log.debug("Filling report...");
+            JasperPrint print = JasperFillManager.fillReport(report, parameters, dataSource);
+            log.debug("Report filled");
 
-            // Output file
             String outputFile = OUTPUT_DIR + "/" + UUID.randomUUID() + "." + body.format;
 
-            // Export
-            System.out.println("   Exporting as " + body.format + "...");
+            log.debug("Exporting as {}...", body.format);
             if ("pdf".equals(body.format)) {
                 JasperExportManager.exportReportToPdfFile(print, outputFile);
             } else if ("docx".equals(body.format)) {
@@ -232,9 +207,8 @@ public class ReportService {
                 exporter.exportReport();
             }
 
-            System.out.println("   ✓ Export completed: " + outputFile);
+            log.info("Export completed: {}", outputFile);
 
-            // Response
             ctx.status(200).json(Map.of(
                 "success", true,
                 "outputFile", outputFile,
@@ -242,22 +216,11 @@ public class ReportService {
             ));
 
         } catch (Exception e) {
-            System.err.println("❌ Error during report generation:");
-            e.printStackTrace();
-
-            // Log complete exception chain
-            Throwable cause = e.getCause();
-            int depth = 1;
-            while (cause != null) {
-                System.err.println("  Caused by " + depth + ": " + cause.getClass().getName() + ": " + cause.getMessage());
-                cause.printStackTrace();
-                cause = cause.getCause();
-                depth++;
-            }
+            log.error("Error during report generation", e);
 
             ctx.status(500).json(Map.of(
                 "success", false,
-                "error", e.getMessage(),
+                "error", e.getMessage() != null ? e.getMessage() : e.getClass().getSimpleName(),
                 "type", e.getClass().getSimpleName()
             ));
         }
@@ -303,4 +266,3 @@ public class ReportService {
         public Object data;            // Generic data object - structure depends on template
     }
 }
-

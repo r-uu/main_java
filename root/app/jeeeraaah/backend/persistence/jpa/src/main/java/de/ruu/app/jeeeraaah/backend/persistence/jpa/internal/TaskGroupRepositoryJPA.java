@@ -185,9 +185,10 @@ Für diese Elemente sollen die Felder taskGroup, superTask, subTasks, predecesso
 			{
 				if (task.subTasks().isPresent())
 				{
-					for (TaskJPA subTask : task.subTasks().get())
+					// Detach each sub task via the single-entry-point setter (collection stays consistent).
+					for (TaskJPA subTask : new java.util.ArrayList<>(task.subTasks().get()))
 					{
-						task.removeSubTask(subTask);
+						subTask.superTask((TaskJPA) null);
 					}
 				}
 				if (task.predecessors().isPresent())

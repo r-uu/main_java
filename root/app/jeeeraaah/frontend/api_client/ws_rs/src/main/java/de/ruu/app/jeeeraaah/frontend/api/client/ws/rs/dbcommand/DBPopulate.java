@@ -9,6 +9,7 @@ import de.ruu.lib.ws_rs.NonTechnicalException;
 import de.ruu.lib.ws_rs.TechnicalException;
 import de.ruu.lib.cdi.se.CDIContainer;
 import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +20,7 @@ import java.time.LocalDate;
 import static de.ruu.lib.util.BooleanFunctions.not;
 import static java.util.Objects.isNull;
 
-@Slf4j
+@Slf4j @Dependent
 public class DBPopulate
 {
 	@Inject private TaskGroupServiceClient taskGroupServiceClient;
@@ -164,18 +165,18 @@ public class DBPopulate
 		taskFeature_3_2 = taskServiceClient.create(taskFeature_3_2);
 		taskFeature_3_3 = taskServiceClient.create(taskFeature_3_3);
 		taskFeature_3_4 = taskServiceClient.create(taskFeature_3_4);
-		taskServiceClient.addSubTask(taskFeatureSet1, taskFeature_1_1);
-		taskServiceClient.addSubTask(taskFeatureSet1, taskFeature_1_2);
-		taskServiceClient.addSubTask(taskFeatureSet1, taskFeature_1_3);
-		taskServiceClient.addSubTask(taskFeatureSet1, taskFeature_1_4);
-		taskServiceClient.addSubTask(taskFeatureSet2, taskFeature_2_1);
-		taskServiceClient.addSubTask(taskFeatureSet2, taskFeature_2_2);
-		taskServiceClient.addSubTask(taskFeatureSet2, taskFeature_2_3);
-		taskServiceClient.addSubTask(taskFeatureSet2, taskFeature_2_4);
-		taskServiceClient.addSubTask(taskFeatureSet3, taskFeature_3_1);
-		taskServiceClient.addSubTask(taskFeatureSet3, taskFeature_3_2);
-		taskServiceClient.addSubTask(taskFeatureSet3, taskFeature_3_3);
-		taskServiceClient.addSubTask(taskFeatureSet3, taskFeature_3_4);
+		taskServiceClient.setSuperTask(taskFeature_1_1, taskFeatureSet1);
+		taskServiceClient.setSuperTask(taskFeature_1_2, taskFeatureSet1);
+		taskServiceClient.setSuperTask(taskFeature_1_3, taskFeatureSet1);
+		taskServiceClient.setSuperTask(taskFeature_1_4, taskFeatureSet1);
+		taskServiceClient.setSuperTask(taskFeature_2_1, taskFeatureSet2);
+		taskServiceClient.setSuperTask(taskFeature_2_2, taskFeatureSet2);
+		taskServiceClient.setSuperTask(taskFeature_2_3, taskFeatureSet2);
+		taskServiceClient.setSuperTask(taskFeature_2_4, taskFeatureSet2);
+		taskServiceClient.setSuperTask(taskFeature_3_1, taskFeatureSet3);
+		taskServiceClient.setSuperTask(taskFeature_3_2, taskFeatureSet3);
+		taskServiceClient.setSuperTask(taskFeature_3_3, taskFeatureSet3);
+		taskServiceClient.setSuperTask(taskFeature_3_4, taskFeatureSet3);
 		taskServiceClient.addPredecessor(taskFeature_1_2, taskFeature_1_1);
 		taskServiceClient.addPredecessor(taskFeature_1_3, taskFeature_1_2);
 		taskServiceClient.addPredecessor(taskFeature_1_4, taskFeature_1_3);

@@ -106,7 +106,7 @@ public class DBPopulateTiny
 		main = taskService.create(main);
 		sub  = taskService.create(sub );
 
-		taskService.addSubTask(main, sub);
+		taskService.setSuperTask(sub, main);
 	}
 
 	public static void main(String[] args) throws Exception

@@ -222,7 +222,7 @@
 					<installAppPackages>all</installAppPackages>
 					<!--					<useDefaultFeatureRepositories>true</useDefaultFeatureRepositories>-->
 					<!--					<generateFeatures>false</generateFeatures>-->
-					<generateFeatures>true</generateFeatures>
+					<generateFeatures>false</generateFeatures>
 				</configuration>
 			</plugin>
 		</plugins>

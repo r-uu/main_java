@@ -35,10 +35,10 @@ public interface Task<TG   extends TaskGroup<? extends Task<TG, ?>>,
 	 *         was made to load children, present optional but empty {@code Set} means, no children could be loaded
 	 *         <p>
 	 *         Children have to be in the same {@link TaskGroup} as this task instance.
+	 *         <p>
+	 *         Read-only: sub-task membership is exclusively controlled via {@link #superTask(Object)}.
 	 */
 	Optional<Set<SELF>> subTasks();
-	boolean          addSubTask (@NonNull SELF task);
-	boolean       removeSubTask (@NonNull SELF task);
 
 	/**
 	 * @return tasks that have to be finished before this task can start

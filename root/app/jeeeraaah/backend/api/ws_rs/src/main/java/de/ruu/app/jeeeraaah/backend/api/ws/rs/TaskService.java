@@ -2,14 +2,14 @@ package de.ruu.app.jeeeraaah.backend.api.ws.rs;
 
 import static de.ruu.app.jeeeraaah.common.api.domain.PathsCommon.TOKEN_BY_ID;
 import static de.ruu.app.jeeeraaah.common.api.domain.PathsTask.TOKEN_ADD_PREDECESSOR;
-import static de.ruu.app.jeeeraaah.common.api.domain.PathsTask.TOKEN_ADD_SUB;
-import static de.ruu.app.jeeeraaah.common.api.domain.PathsTask.TOKEN_ADD_SUCCESSOR;
+import static de.ruu.app.jeeeraaah.common.api.domain.PathsTask.TOKEN_SET_SUPER_TASK;
+import static de.ruu.app.jeeeraaah.common.api.domain.PathsTask.TOKEN_REMOVE_SUPER_TASK;
 import static de.ruu.app.jeeeraaah.common.api.domain.PathsTask.TOKEN_ALL;
 import static de.ruu.app.jeeeraaah.common.api.domain.PathsTask.TOKEN_BY_ID_WITH_RELATED;
 import static de.ruu.app.jeeeraaah.common.api.domain.PathsTask.TOKEN_DOMAIN;
 import static de.ruu.app.jeeeraaah.common.api.domain.PathsTask.TOKEN_REMOVE_NEIGHBOURS_FROM_TASK;
 import static de.ruu.app.jeeeraaah.common.api.domain.PathsTask.TOKEN_REMOVE_PREDECESSOR;
-import static de.ruu.app.jeeeraaah.common.api.domain.PathsTask.TOKEN_REMOVE_SUB;
+import static de.ruu.app.jeeeraaah.common.api.domain.PathsTask.TOKEN_ADD_SUCCESSOR;
 import static de.ruu.app.jeeeraaah.common.api.domain.PathsTask.TOKEN_REMOVE_SUCCESSOR;
 import static de.ruu.lib.util.BooleanFunctions.not;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
@@ -27,7 +27,6 @@ import org.eclipse.microprofile.openapi.annotations.info.Info;
 import de.ruu.app.jeeeraaah.backend.persistence.jpa.TaskDTOService;
 import de.ruu.app.jeeeraaah.common.api.domain.InterTaskRelationData;
 import de.ruu.app.jeeeraaah.common.api.domain.RemoveNeighboursFromTaskConfig;
-import de.ruu.app.jeeeraaah.common.api.domain.TaskRelationException;
 import de.ruu.app.jeeeraaah.common.api.ws.rs.TaskCreationData;
 import de.ruu.app.jeeeraaah.common.api.ws.rs.TaskDTO;
 import jakarta.annotation.security.RolesAllowed;
@@ -110,7 +109,11 @@ public class TaskService
 	public Response delete(@PathParam("id") Long id)
 	{
 		try { taskService.delete(id); }
-		catch (Exception e) { return Response.status(CONFLICT).build(); }
+		catch (Exception e)
+		{
+			log.error("failed to delete task with id {}", id, e);
+			return Response.status(CONFLICT).build();
+		}
 		return Response.ok().build();
 	}
 
@@ -150,14 +153,25 @@ public class TaskService
 	// }
 
 	@PUT
-	@Path(TOKEN_ADD_SUB)
+	@Path(TOKEN_SET_SUPER_TASK)
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
 	@RolesAllowed("task-update")
-	public Response addSubTask(@NonNull InterTaskRelationData data)
+	public Response setSuperTask(@NonNull InterTaskRelationData data)
 	{
-		log.debug("id task: {}, id sub task: {}", data.id(), data.idRelated());
-		taskService.addSubTask(data.id(), data.idRelated());
+		log.debug("set super task — id child: {}, id super task: {}", data.id(), data.idRelated());
+		taskService.setSuperTask(data.id(), data.idRelated());
+		return Response.ok().build();
+	}
+
+	@PUT
+	@Path(TOKEN_REMOVE_SUPER_TASK + TOKEN_BY_ID)
+	@Produces(APPLICATION_JSON)
+	@RolesAllowed("task-update")
+	public Response removeSuperTask(@PathParam("id") Long childId)
+	{
+		log.debug("remove super task — id child: {}", childId);
+		taskService.removeSuperTask(childId);
 		return Response.ok().build();
 	}
 
@@ -169,20 +183,9 @@ public class TaskService
 	public Response addPredecessor(@NonNull InterTaskRelationData data)
 	{
 		log.debug("id task: {}, id predecessor task: {}", data.id(), data.idRelated());
-		try { taskService.addPredecessor(data.id(), data.idRelated()); }
-		catch (Throwable t)
-		{
-			log.debug("throwable caught: {}", t.getMessage());
-			if   (t instanceof TaskRelationException) log.debug("it is a TaskRelationException");
-			else log.debug("it is not a TaskRelationException");
-			throw t;
-		}
-		// try { taskService.addPredecessor(data.id(), data.idRelated()); }
-		// catch (NotFoundException e)
-		// { return status(NOT_FOUND).entity(e.getMessage()).build(); }
-		//// catch (TaskRelationException e) // do not catch here, let it be mapped by
-		/// TaskRelationExceptionMapper { return
-		/// status(BAD_REQUEST).entity(e.getMessage()).build(); }
+		// TaskRelationException is handled by TaskRelationExceptionMapper → mapped to 400
+		// NotFoundException propagates to 404
+		taskService.addPredecessor(data.id(), data.idRelated());
 		return Response.ok().build();
 	}
 
@@ -194,28 +197,8 @@ public class TaskService
 	public Response addSuccessor(@NonNull InterTaskRelationData data)
 	{
 		log.debug("id task: {}, id successor task: {}", data.id(), data.idRelated());
+		// TaskRelationException is handled by TaskRelationExceptionMapper → mapped to 400
 		taskService.addSuccessor(data.id(), data.idRelated());
-		// try { taskService.addSuccessor(data.id(), data.idRelated()); }
-		// catch (NotFoundException e) { return
-		// status(NOT_FOUND).entity(e.getMessage()).build(); }
-		//// catch (TaskRelationException e) // do not catch here, let it be mapped by
-		/// TaskRelationExceptionMapper { return
-		/// status(BAD_REQUEST).entity(e.getMessage()).build(); }
-		return Response.ok().build();
-	}
-
-	@PUT
-	@Path(TOKEN_REMOVE_SUB)
-	@Consumes(APPLICATION_JSON)
-	@Produces(APPLICATION_JSON)
-	@RolesAllowed("task-update")
-	// public Response removeSubTask(@PathParam("idTask") Long idTask,
-	// @PathParam("idSubTask") Long idSubTask)
-	public Response removeSubTask(@NonNull InterTaskRelationData data)
-	{
-		log.debug("id task: {}, id sub task: {}", data.id(), data.idRelated());
-		try { taskService.removeSubTask(data.id(), data.idRelated()); }
-		catch (NotFoundException e) { return Response.status(NOT_FOUND).entity(e.getMessage()).build(); }
 		return Response.ok().build();
 	}
 

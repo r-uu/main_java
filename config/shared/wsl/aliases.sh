@@ -192,15 +192,17 @@ alias ruu-versions='echo "=== Tool Versions ==" && ruu-java-version && echo "" &
 # ═══════════════════════════════════════════════════════════════════
 # IntelliJ IDEA / JetBrains Toolbox (WSL-native via WSLg)
 # ═══════════════════════════════════════════════════════════════════
-alias ruu-ij-fix='bash $RUU_CONFIG/shared/scripts/fix-intellij-indexing.sh'
+alias ruu-ij-fix='bash $RUU_CONFIG/shared/scripts/fix-intellij-wsl-rendering.sh'
 alias ruu-toolbox='_JAVA_AWT_WM_NONREPARENTING=1 jetbrains-toolbox &'
 # Startet IntelliJ IDEA (WSL-native) mit korrekten WSLg-Display-Variablen.
 # Bereinigt vorher veraltete JetBrains-Sockets – Ursache für unsichtbare Fenster nach WSLg-Neustart.
 ruu-ij() {
+    # WAYLAND_DISPLAY leer lassen → JBR startet im X11-Modus (XWayland).
+    # Im X11-Modus gilt uiScale=0.5 aus den vmoptions korrekt.
     rm -f /run/user/1000/jb.station.ij.*.sock 2>/dev/null
-    DISPLAY=:0 WAYLAND_DISPLAY=wayland-0 XDG_RUNTIME_DIR=/run/user/1000 \
-        _JAVA_AWT_WM_NONREPARENTING=1 \
-        nohup /home/r-uu/.local/share/JetBrains/Toolbox/apps/intellij-idea/bin/idea "$@" \
+    DISPLAY=:0 WAYLAND_DISPLAY= XDG_RUNTIME_DIR=/run/user/1000 \
+        _JAVA_AWT_WM_NONREPARENTING=1 GDK_BACKEND=x11 \
+        nohup /home/r-uu/.local/bin/idea-wsl-fixed "$@" \
         >/tmp/idea-wsl-start.log 2>&1 &
     echo "IntelliJ IDEA gestartet (PID $!)"
 }

@@ -159,9 +159,17 @@ public class TaskFXBean implements TaskEntity<TaskGroupFXBean, TaskFXBean>
 
 	@Override public Optional<TaskFXBean> superTask() { return Optional.ofNullable(superTaskProperty.get()); }
 
-	@Override public @NonNull TaskFXBean superTask(TaskFXBean task)
+	@Override public @NonNull TaskFXBean superTask(TaskFXBean newSuperTask)
 	{
-		superTaskProperty.setValue(task);
+		TaskFXBean oldSuperTask = superTaskProperty.get();
+		if (oldSuperTask == newSuperTask) return this; // no-op
+		// Remove from old parent's subTasks
+		if (oldSuperTask != null && oldSuperTask.subTasks != null)
+			oldSuperTask.subTasks.remove(this);
+		superTaskProperty.setValue(newSuperTask);
+		// Add to new parent's subTasks
+		if (newSuperTask != null)
+			newSuperTask.nonNullChildren().add(this);
 		return this;
 	}
 
@@ -183,11 +191,6 @@ public class TaskFXBean implements TaskEntity<TaskGroupFXBean, TaskFXBean>
 		return Optional.of(Collections.unmodifiableSet(successors));
 	}
 
-	@Override public boolean addSubTask(@NonNull TaskFXBean task)
-	{
-		return nonNullChildren().add(task);
-	}
-
 	@Override public boolean addPredecessor(@NonNull TaskFXBean task)
 	{
 		return nonNullPredecessors().add(task);
@@ -198,10 +201,6 @@ public class TaskFXBean implements TaskEntity<TaskGroupFXBean, TaskFXBean>
 		return nonNullSuccessors().add(task);
 	}
 
-	@Override public boolean removeSubTask(@NonNull TaskFXBean task)
-	{
-		return nonNullChildren().remove(task);
-	}
 
 	@Override public boolean removePredecessor(@NonNull TaskFXBean task)
 	{
