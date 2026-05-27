@@ -196,16 +196,23 @@ Installer (sdkman, nvm, conda) die `~/.bashrc` **ersetzen** statt ergänzen, lö
 
 ---
 
-## Offene Prioritäten (Stand 2026-03-01)
+## Offene Prioritäten (Stand 2026-05-27)
+
+### ✅ Zuletzt abgeschlossen
+
+- **Cycle-Guard Predecessor/Successor:** Transitive DFS-basierter Zyklus-Schutz in `TaskJPA`, `TaskDTO`, `TaskBean` implementiert. `PreconditionCheckRelationalOperations.java` und `Collector.java` entfernt. `backend/constraint/timecycle` Modul (CDI-Plugin `PredecessorSuccessorCycleValidator`) vollständig eingerichtet. Altes `backend/constraints/` (plural, stale) entfernt. Build: ✅ `BUILD SUCCESS`, alle Tests grün.
+- **DashController-Warnungen:** Kein Handlungsbedarf — aktueller Build produziert keine Source-Warnungen.
+
+### 🔥 Noch offen
 
 1. **KRITISCH:** Keycloak-Kapitel in "JPMS in Action" vervollständigen  
    → `root/app/jeeeraaah/doc/md/jpms in action - jeeeraaah/jpms in action - jeeeraaah.md`
-2. Compiler-Warnungen in `DashController.java` beheben
-3. Startup-Guides konsolidieren (`GETTING-STARTED.md` + `config/QUICK-COMMANDS.md`)
-4. Credentials-Dokumentation zusammenführen (3 Dateien → 1)
-5. Unit-Tests für Task-Hierarchie-Randfälle ergänzen
-6. CI/CD-Pipeline aufsetzen (GitHub Actions)
-7. ArchUnit-Tests für Layer-Grenzen implementieren
+2. Startup-Guides konsolidieren (`GETTING-STARTED.md` + `config/QUICK-COMMANDS.md`)
+3. Credentials-Dokumentation zusammenführen (3 Dateien → 1)
+4. Unit-Tests für Predecessor/Successor-Zyklen in `TaskBean` und `TaskDTO` ergänzen (analog zu `TaskJPA_HierarchyCycle_InMemoryTest`)
+5. CI/CD-Pipeline aufsetzen (GitHub Actions)
+6. ArchUnit-Tests für Layer-Grenzen implementieren
+7. 3 Integration-Tests aktivieren (benötigen laufendes Backend): `TaskGroupServiceCreateIT`, `TaskGroupServiceAllFlatIT`, `DBCommandsIT`
 
 ---
 

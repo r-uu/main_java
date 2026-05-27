@@ -20,6 +20,8 @@ jeeeraaah/
 ├── backend/                 OpenLiberty Server-Side
 │   ├── common/
 │   │   └── mapping_jpa_dto/ JPA-Entity ↔ DTO Mapping (MapStruct)
+│   ├── constraint/
+│   │   └── timecycle/       CDI-Plugin: DB-seitiger Zyklus-Validator (PredecessorSuccessorCycleValidator)
 │   ├── persistence/
 │   │   └── jpa/             JPA-Entities, Repositories, persistence.xml
 │   └── api/
@@ -50,6 +52,20 @@ TaskGroup (1) ──── (*) Task
 - **Task**: Zentrales Geschäftsobjekt mit folgenden Beziehungen:
   - **Super-/Sub-Tasks**: Aufgaben-Hierarchie (Eltern/Kinder)
   - **Predecessors/Successors**: Abhängigkeitsreihenfolge (Vorgänger/Nachfolger)
+
+### Zyklus-Schutz (Cycle-Guard)
+
+Alle drei Layer implementieren eigenständigen transitive DFS-basierten Zyklus-Schutz:
+
+| Klasse | Methode | Guard |
+|--------|---------|-------|
+| `TaskJPA` | `superTask(newParent)` | Walk via `superTask`-Ref (Ancestor-Walk) |
+| `TaskJPA` | `addPredecessor(task)` | `isSuccessorReachable(this, task)` — DFS über `successors` |
+| `TaskJPA` | `addSuccessor(task)` | `isSuccessorReachable(task, this)` — DFS über `successors` |
+| `TaskDTO` | analog | identische Guards |
+| `TaskBean` | analog | identische Guards |
+
+**DB-Level:** `PredecessorSuccessorCycleValidator` (`backend/constraint/timecycle`) ist ein CDI-Plugin, das alle Kanten per JPQL lädt und dann in-memory DFS durchführt. Wird von der Persistence-Schicht via `Instance<TaskRelationValidator>` injiziert — keine hartcodierte Abhängigkeit.
 
 Paket-Basis: `de.ruu.app.jeeeraaah.*`
 

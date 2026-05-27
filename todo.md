@@ -1,7 +1,23 @@
 # Project TODO List
 
-**Last Updated:** 2026-03-01  
-**Status:** Build successful, Documentation consolidated
+**Last Updated:** 2026-05-27  
+**Status:** ✅ Build successful, alle Tests grün, Cycle-Guard-Implementierung abgeschlossen
+
+---
+
+## ✅ Recently Completed (2026-05-27)
+
+### Cycle-Guard für Predecessor/Successor-Relationen
+- ✅ **MAJOR:** Transitive DFS-basierter Cycle-Guard in `TaskJPA`, `TaskDTO` und `TaskBean` implementiert
+- ✅ Privater `isSuccessorReachable(start, target)` Helper (iteratives DFS via `ArrayDeque`) in alle drei Klassen eingefügt
+- ✅ `PreconditionCheckRelationalOperations.java` und `Collector.java` entfernt (nicht mehr benötigt)
+- ✅ Alle abhängigen Mapper/Tests angepasst (`TaskMapper` bean_lazy/bean_dto, `Map_Task_FXBean_Bean`, `MapperFieldCompletenessTest`)
+- ✅ `TaskFXBean.superTask()` Setter für bidirektionale Konsistenz aktualisiert
+- ✅ `backend/constraint/timecycle/` Modul korrekt eingerichtet (`PredecessorSuccessorCycleValidator` als CDI-Plugin)
+- ✅ Altes `backend/constraints/` (plural, stale) vollständig entfernt
+- ✅ `module-info.java` im persistence.jpa-Modul auf `backend.constraint.timecycle` angepasst (singular)
+- ✅ `TaskServiceClient.removePredecessor` Methodensignatur repariert
+- ✅ Alle Compile-Fehler cascade durch downstream-Module behoben
 
 ---
 
@@ -34,6 +50,7 @@
   - lib.util (ClasspathTest.java - 3 statements)
   - lib.jsonb (TestJsonBWithMaxEncapsulationForData.java - 2 statements)
   - frontend.ui.fx.test (DataFactory.java - simplified)
+- ✅ Compiler-Warnungen in DashController.java — kein Handlungsbedarf (keine Warnungen bei aktuellem Build)
 
 ---
 
@@ -60,7 +77,7 @@
 ### Code Quality
 - [x] Consolidate multi-line log statements using text blocks (`"""`) - **✅ COMPLETED 2026-03-01**
 - [x] Remove recursion guard in TaskTreeTableController if not needed - **✅ KEPT: Necessary for circular refs**
-- [ ] Fix remaining compiler warnings in DashController.java
+- [x] Fix remaining compiler warnings in DashController.java - **✅ RESOLVED: Keine Warnungen im aktuellen Build**
 - [ ] Review and fix unused parameter warnings
 
 ### Documentation
