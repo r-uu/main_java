@@ -100,7 +100,7 @@ KEYCLOAK_TEST_USER=testuser
 KEYCLOAK_TEST_PASSWORD=testpassword
 ```
 **Used by:**
-- All JavaFX applications (DashApp, GanttApp)
+- All JavaFX applications (HierarchiesApp, GanttApp)
 - REST API testing
 - Automated login in test mode
 ⚠️ **Important:**
@@ -109,7 +109,7 @@ KEYCLOAK_TEST_PASSWORD=testpassword
 ---
 ## 🚀 How Credentials Are Used
 ### Frontend Applications
-When starting DashApp or GanttApp:
+When starting HierarchiesApp or GanttApp:
 1. Reads credentials from `testing.properties`:
    ```properties
    testing.username=testuser

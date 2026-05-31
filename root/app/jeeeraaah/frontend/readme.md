@@ -13,7 +13,7 @@ REST Client für Zugriff auf das Backend:
 
 ### ui/fx
 JavaFX Desktop UI:
-- DashApp - Hauptanwendung mit Dashboard
+- HierarchiesApp - Hauptanwendung mit Dashboard
 - LoginDialog - Keycloak-Authentifizierung
 - Task-Management-Views
 - TaskGroup-Management-Views
@@ -24,9 +24,9 @@ Gemeinsame Frontend-Klassen und Utilities
 ## Starten
 
 ```bash
-# DashApp (Hauptanwendung)
+# HierarchiesApp (Hauptanwendung)
 mvn exec:java -pl app/jeeeraaah/frontend/ui/fx \
-  -Dexec.mainClass=de.ruu.app.jeeeraaah.frontend.ui.fx.dash.DashAppRunner
+  -Dexec.mainClass=de.ruu.app.jeeeraaah.frontend.ui.fx.task.hierarchy.HierarchiesAppRunner
 ```
 
 Siehe [Runner Apps Guide](../../../docs/entwicklung/RUNNER-APPS-GUIDE.md) für weitere Konfigurationen.

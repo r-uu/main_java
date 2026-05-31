@@ -54,7 +54,7 @@ curl http://localhost:9080/health
 ### Frontend starten
 
 **In IntelliJ:**
-- Run Configuration: **"DashAppRunner"**
+- Run Configuration: **"HierarchiesAppRunner"**
 
 **Test-Login:**
 - Username: `r_uu`

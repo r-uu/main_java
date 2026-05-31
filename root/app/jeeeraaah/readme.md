@@ -37,10 +37,10 @@ mvn liberty:dev -pl app/jeeeraaah/backend/api/ws_rs
 
 **Zugriff:** http://localhost:9080/jeeeraaah
 
-### Frontend (JavaFX DashApp)
+### Frontend (JavaFX HierarchiesApp)
 ```bash
 mvn exec:java -pl app/jeeeraaah/frontend/ui/fx \
-  -Dexec.mainClass=de.ruu.app.jeeeraaah.frontend.ui.fx.dash.DashAppRunner
+  -Dexec.mainClass=de.ruu.app.jeeeraaah.frontend.ui.fx.task.hierarchy.HierarchiesAppRunner
 ```
 
 ## Voraussetzungen

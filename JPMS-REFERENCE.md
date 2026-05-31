@@ -224,15 +224,15 @@ Missing property names were added:
 ### How to use it in IntelliJ?
 
 #### Option A: Automatic (Recommended)
-1. **Right-click** on `DashAppRunner.java`
-2. **Run 'DashAppRunner.main()'**
+1. **Right-click** on `HierarchiesAppRunner.java`
+2. **Run 'HierarchiesAppRunner.main()'**
 3. ✅ **Done!** IntelliJ automatically uses JPMS configuration
 
 #### Option B: Manual
 1. **Run → Edit Configurations...**
 2. **+ → Application**
-3. **Name:** DashAppRunner
-4. **Main class:** `de.ruu.app.jeeeraaah.frontend.ui.fx.dash.DashAppRunner`
+3. **Name:** HierarchiesAppRunner
+4. **Main class:** `de.ruu.app.jeeeraaah.frontend.ui.fx.task.hierarchy.HierarchiesAppRunner`
 5. **Use classpath of module:** `de.ruu.app.jeeeraaah.frontend.ui.fx`
 6. **Build and run:** `<Default> (Module Path)` ← **Important!**
 7. **VM options:** Leave empty (read from `.mvn/jvm.config`)
@@ -252,7 +252,7 @@ Missing property names were added:
 #### ✅ Now (correct)
 ```
 --module-path <module path>
---module de.ruu.app.jeeeraaah.frontend.ui.fx/de.ruu.app.jeeeraaah.frontend.ui.fx.dash.DashAppRunner
+--module de.ruu.app.jeeeraaah.frontend.ui.fx/de.ruu.app.jeeeraaah.frontend.ui.fx.task.hierarchy.HierarchiesAppRunner
 ```
 - Uses **Module Path**
 - Fully JPMS-compliant
@@ -404,7 +404,7 @@ Now it's a normal compile dependency:
 
 Two new IntelliJ run configurations were created in the `.run` folder:
 
-#### DashAppRunner (JPMS).run.xml
+#### HierarchiesAppRunner (JPMS).run.xml
 - Starts the main GUI application
 - Consistently uses the Module Path
 - No more --add-modules parameters needed

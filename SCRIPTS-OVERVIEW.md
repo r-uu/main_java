@@ -188,7 +188,7 @@ cd ~/develop/github/main/root/app/jeeeraaah/backend/api/ws_rs
 mvn liberty:dev
 
 # 4. Frontend starten (in IntelliJ)
-# Run Configuration: DashAppRunner (JPMS)
+# Run Configuration: HierarchiesAppRunner (JPMS)
 ```
 
 ### Nur Docker neu starten (Backend läuft schon)

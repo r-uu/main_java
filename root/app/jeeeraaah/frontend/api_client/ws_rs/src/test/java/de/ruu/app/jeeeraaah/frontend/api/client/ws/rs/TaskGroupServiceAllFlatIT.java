@@ -28,17 +28,17 @@ import lombok.extern.slf4j.Slf4j;
  * 
  * <p>This test verifies the complete authentication and authorization flow:
  * <ol>
- *   <li>Authenticates user r-uu with Keycloak</li>
+ *   <li>Authenticates user testuser with Keycloak</li>
  *   <li>Obtains JWT access token containing roles</li>
  *   <li>Calls TaskGroupService.findAllFlat() with Bearer token</li>
  *   <li>Verifies successful response</li>
  * </ol>
- * 
+ *
  * <p><b>Prerequisites:</b>
  * <ul>
  *   <li>Keycloak server running on localhost:8080</li>
- *   <li>Realm 'jeeeraaah-realm' configured</li>
- *   <li>User 'r-uu' with password 'r-uu-password'</li>
+ *   <li>Realm 'jeeeraaah-realm' configured (run: ruu-kc-setup)</li>
+ *   <li>User 'testuser' with password 'testpassword'</li>
  *   <li>User has 'taskgroup-read' role assigned</li>
  *   <li>Open Liberty backend running on localhost:9080</li>
  * </ul>
@@ -47,9 +47,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 class TaskGroupServiceAllFlatIT
 {
-	private static final String TEST_USERNAME = "r-uu";
-	private static final String TEST_PASSWORD = "r-uu-password";
-	
+	private static final String TEST_USERNAME = "test";
+	private static final String TEST_PASSWORD = "test";
+
 	private static SeContainer seContainer;
 
 	@Inject private TaskGroupServiceClient taskGroupServiceClient;

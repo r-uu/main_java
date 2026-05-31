@@ -14,7 +14,7 @@
 3. Task auswählen:
    - **🚀 Liberty: Start (Dev Mode)** - Liberty im Dev-Modus starten
    - **🛑 Liberty: Stop** - Liberty stoppen
-   - **🎨 Frontend: Start DashApp** - JavaFX Frontend starten
+   - **🎨 Frontend: Start HierarchiesApp** - JavaFX Frontend starten
 
 ### Methode 2: Keyboard Shortcuts (Schnellste Methode!) ⚡
 
@@ -22,7 +22,7 @@
 |----------|--------|--------------|
 | **`Ctrl+Shift+L`** | Liberty Start | Startet Liberty im Dev-Modus |
 | **`Ctrl+Shift+K`** | Liberty Stop | Stoppt Liberty |
-| **`Ctrl+Shift+D`** | Frontend Start | Startet DashApp (JavaFX) |
+| **`Ctrl+Shift+D`** | Frontend Start | Startet HierarchiesApp (JavaFX) |
 | **`Ctrl+Shift+B`** | Build | Vollständiger Maven Build |
 
 ### Methode 3: Terminal Menu
@@ -68,11 +68,11 @@ mvn liberty:run
 
 ### Frontend
 
-#### 🎨 Frontend: Start DashApp
+#### 🎨 Frontend: Start HierarchiesApp
 ```bash
 mvn exec:java
 ```
-- **Was:** Startet JavaFX DashApp über Maven
+- **Was:** Startet JavaFX HierarchiesApp über Maven
 - **JPMS:** Korrekte Module-Path-Konfiguration
 - **Shortcut:** `Ctrl+Shift+D`
 
@@ -114,7 +114,7 @@ Ctrl+Shift+L  (Liberty starten)
    └─ Wartet bis Backend läuft (http://localhost:9080)
 
 Ctrl+Shift+D  (Frontend starten)
-   └─ DashApp startet (Login mit Keycloak)
+   └─ HierarchiesApp startet (Login mit Keycloak)
 ```
 
 ### 2. Entwicklung (Tagsüber)
@@ -276,7 +276,7 @@ ruu-liberty-start
 ruu-liberty-stop
 
 # Frontend starten
-ruu-dash
+ruu-app-dash
 ```
 
 **Vorteil Tasks vs. Aliase:**

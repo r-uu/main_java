@@ -41,7 +41,7 @@ module de.ruu.app.jeeeraaah.frontend.ui.fx
 	// - unnamed modules (e.g., during application startup via runners) also need reflection access
 	opens de.ruu.app.jeeeraaah.frontend.ui.fx;
 	opens de.ruu.app.jeeeraaah.frontend.ui.fx.auth;
-	opens de.ruu.app.jeeeraaah.frontend.ui.fx.dash;
+	opens de.ruu.app.jeeeraaah.frontend.ui.fx.task.hierarchy;
 	opens de.ruu.app.jeeeraaah.frontend.ui.fx.task;
 	opens de.ruu.app.jeeeraaah.frontend.ui.fx.task.edit;
 	opens de.ruu.app.jeeeraaah.frontend.ui.fx.task.gantt;

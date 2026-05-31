@@ -1,1 +1,0 @@
-test file to make sure if the mechanics of ide-github operations still work after renaming the github repo from "main" to "main_java".

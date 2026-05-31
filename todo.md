@@ -1,7 +1,7 @@
 # Project TODO List
 
 **Last Updated:** 2026-05-27  
-**Status:** ✅ Build successful, alle Tests grün, Cycle-Guard-Implementierung abgeschlossen
+**Status:** ✅ Build successful, alle Tests grün, Cycle-Guard + Hierarchy-Cycle-Tests für TaskBean/TaskDTO abgeschlossen
 
 ---
 
@@ -18,6 +18,12 @@
 - ✅ `module-info.java` im persistence.jpa-Modul auf `backend.constraint.timecycle` angepasst (singular)
 - ✅ `TaskServiceClient.removePredecessor` Methodensignatur repariert
 - ✅ Alle Compile-Fehler cascade durch downstream-Module behoben
+
+### Unit-Tests für Cycle-Guards in allen Layers
+- ✅ `TaskBean_PredecessorSuccessorCycleTest` — DFS-Zyklus-Tests für Predecessor/Successor in TaskBean
+- ✅ `TaskDTO_PredecessorSuccessorCycleTest` — DFS-Zyklus-Tests für Predecessor/Successor in TaskDTO
+- ✅ `TaskBean_HierarchyCycle_InMemoryTest` — Ancestor-Walk-Tests für Super/Sub-Task-Hierarchie in TaskBean (analog zu `TaskJPA_HierarchyCycle_InMemoryTest`)
+- ✅ `TaskDTO_HierarchyCycle_InMemoryTest` — Ancestor-Walk-Tests für Super/Sub-Task-Hierarchie in TaskDTO (analog zu `TaskJPA_HierarchyCycle_InMemoryTest`)
 
 ---
 
@@ -50,7 +56,7 @@
   - lib.util (ClasspathTest.java - 3 statements)
   - lib.jsonb (TestJsonBWithMaxEncapsulationForData.java - 2 statements)
   - frontend.ui.fx.test (DataFactory.java - simplified)
-- ✅ Compiler-Warnungen in DashController.java — kein Handlungsbedarf (keine Warnungen bei aktuellem Build)
+- ✅ Compiler-Warnungen in HierarchiesController.java — kein Handlungsbedarf (keine Warnungen bei aktuellem Build)
 
 ---
 
@@ -77,7 +83,7 @@
 ### Code Quality
 - [x] Consolidate multi-line log statements using text blocks (`"""`) - **✅ COMPLETED 2026-03-01**
 - [x] Remove recursion guard in TaskTreeTableController if not needed - **✅ KEPT: Necessary for circular refs**
-- [x] Fix remaining compiler warnings in DashController.java - **✅ RESOLVED: Keine Warnungen im aktuellen Build**
+- [x] Fix remaining compiler warnings in HierarchiesController.java - **✅ RESOLVED: Keine Warnungen im aktuellen Build**
 - [ ] Review and fix unused parameter warnings
 
 ### Documentation

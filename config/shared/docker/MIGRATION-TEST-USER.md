@@ -34,8 +34,8 @@
 
 ## Verwendung
 
-### Automatisches Login in DashAppRunner
-Der DashAppRunner liest die Credentials aus `testing.properties`:
+### Automatisches Login in HierarchiesAppRunner
+Der HierarchiesAppRunner liest die Credentials aus `testing.properties`:
 - Wenn `testing=true`, wird automatisch mit `test/test` eingeloggt
 - Keine manuelle Eingabe erforderlich
 
@@ -73,9 +73,9 @@ curl http://localhost:8080/health/ready
 # Erwartung: ✅ Login erfolgreich
 ```
 
-### 4. DashAppRunner starten
+### 4. HierarchiesAppRunner starten
 ```bash
-# In IntelliJ: Run Configuration "DashAppRunner (JPMS)"
+# In IntelliJ: Run Configuration "HierarchiesAppRunner (JPMS)"
 # Erwartung: Automatisches Login mit test/test
 ```
 
@@ -99,7 +99,7 @@ curl http://localhost:8080/health/ready
 1. ✅ Docker Container starten
 2. ✅ Keycloak Realm Setup ausführen
 3. ✅ Login mit TEST-KEYCLOAK-LOGIN.sh testen
-4. ✅ DashAppRunner in IntelliJ starten
+4. ✅ HierarchiesAppRunner in IntelliJ starten
 5. ✅ Verifizieren, dass automatisches Login funktioniert
 
 ## Troubleshooting
@@ -119,7 +119,7 @@ docker compose down
 docker compose up -d
 ```
 
-### Problem: DashAppRunner zeigt Fehlermeldung
+### Problem: HierarchiesAppRunner zeigt Fehlermeldung
 **Lösung:** Prüfe testing.properties
 ```bash
 # Stelle sicher, dass folgende Properties gesetzt sind:

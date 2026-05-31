@@ -123,7 +123,7 @@ alias ruu-kc-logs='docker logs -f keycloak'
 alias ruu-kc-admin='echo "Keycloak Admin: http://localhost:8080/admin (User: keycloak_admin_username / keycloak_admin_password)"'
 
 # Keycloak realm setup (loads .env before execution)
-alias ruu-kc-setup='cd $RUU_ROOT/lib/keycloak.admin && mvn exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSetup" -Dkeycloak.admin.user=admin -Dkeycloak.admin.password=admin'
+alias ruu-kc-setup='cd $RUU_ROOT/lib/keycloak_admin && mvn exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSetup" -Dkeycloak.admin.user=admin -Dkeycloak.admin.password=admin'
 
 # Keycloak - Full reset (recreate container + volume, then realm)
 ruu-kc-reset() {
@@ -134,7 +134,7 @@ ruu-kc-reset() {
 # Keycloak - Recreate realm only (without container reset)
 ruu-kc-realm-reset() {
     echo "🔄 Recreating Keycloak realm..."
-    cd "$RUU_ROOT/lib/keycloak.admin" || return 1
+    cd "$RUU_ROOT/lib/keycloak_admin" || return 1
     source "$RUU_DOCKER/.env"
     mvn exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSetup" -q
     echo "✅ Keycloak realm recreated!"

@@ -1,4 +1,4 @@
-package de.ruu.app.jeeeraaah.frontend.ui.fx.dash;
+package de.ruu.app.jeeeraaah.frontend.ui.fx.task.hierarchy;
 
 import de.ruu.app.jeeeraaah.common.api.bean.TaskBean;
 import de.ruu.app.jeeeraaah.common.api.bean.TaskGroupBean;
@@ -59,7 +59,7 @@ import static javafx.scene.layout.Priority.ALWAYS;
  */
 @Slf4j
 @Dependent // Explicit: FXML controller lifecycle managed by FXMLLoader, not CDI
-class DashController extends DefaultFXCController<Dash, DashService> implements DashService
+class HierarchiesController extends DefaultFXCController<Hierarchies, HierarchiesService> implements HierarchiesService
 {
 	@FXML private HBox hBxGroupSelector;
 
@@ -151,13 +151,13 @@ class DashController extends DefaultFXCController<Dash, DashService> implements 
 				.addListener(this::onSelectedSuperSubTaskChanged);
 
 		// NOTE: Data loading moved to loadInitialData() method
-		// This is called after authentication is complete in DashApp.start()
+		// This is called after authentication is complete in HierarchiesApp.start()
 	}
 
 	/**
 	 * Loads initial data from backend after authentication is complete.
 	 *
-	 * <p>This method is called from DashApp.start() AFTER the user has been authenticated.
+	 * <p>This method is called from HierarchiesApp.start() AFTER the user has been authenticated.
 	 * It must not be called from initialize() because authentication happens after FXML loading.</p>
 	 */
 	public void loadInitialData()
@@ -258,7 +258,7 @@ class DashController extends DefaultFXCController<Dash, DashService> implements 
 	 */
 	private void onAppStarted(FXCAppStartedEvent e)
 	{
-		getStage(hBxGroupSelector).ifPresent(s -> s.setTitle("jeee RAAAH - dashboard"));
+		getStage(hBxGroupSelector).ifPresent(s -> s.setTitle("jeee RAAAH - task hierarchies"));
 	}
 
 	private void onAdd(ActionEvent event)

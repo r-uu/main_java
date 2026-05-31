@@ -1,11 +1,11 @@
-package de.ruu.app.jeeeraaah.frontend.ui.fx.dash;
+package de.ruu.app.jeeeraaah.frontend.ui.fx.task.hierarchy;
 
 import de.ruu.app.jeeeraaah.frontend.ui.fx.BaseAuthenticatedApp;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Main JavaFX application for the Jeeeraaah Dashboard.
+ * Main JavaFX application for the Jeeeraaah Hierarchies view.
  *
  * <p>This application extends {@link BaseAuthenticatedApp} which provides:</p>
  * <ul>
@@ -27,12 +27,12 @@ import lombok.extern.slf4j.Slf4j;
  * @see BaseAuthenticatedApp
  */
 @Slf4j
-public class DashApp extends BaseAuthenticatedApp
+public class HierarchiesApp extends BaseAuthenticatedApp
 {
 	@Override
 	protected String getApplicationName()
 	{
-		return "Dashboard";
+		return "Hierarchies";
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class DashApp extends BaseAuthenticatedApp
 		// Configure window properties BEFORE loading FXML
 		primaryStage.setResizable(true);
 
-		// Load FXML and initialize UI components (triggers DashController.initialize())
+		// Load FXML and initialize UI components (triggers HierarchiesController.initialize())
 		log.info("Loading FXML and initializing UI components...");
 		initializeStageAndScene(primaryStage);
 		log.info("=== UI initialization complete ===");
@@ -65,10 +65,10 @@ public class DashApp extends BaseAuthenticatedApp
 
 		optionalPrimaryView().ifPresentOrElse(
 				view -> {
-					// Cast to Dash to access getController()
-					if (view instanceof Dash dash)
+					// Cast to Hierarchies to access getController()
+					if (view instanceof Hierarchies hierarchies)
 					{
-						DashController controller = dash.getController();
+						HierarchiesController controller = hierarchies.getController();
 						if (controller != null)
 						{
 							controller.loadInitialData();
@@ -81,10 +81,11 @@ public class DashApp extends BaseAuthenticatedApp
 					}
 					else
 					{
-						log.error("View is not an instance of Dash - cannot access controller!");
+						log.error("View is not an instance of Hierarchies - cannot access controller!");
 					}
 				},
 				() -> log.error("View is not present - cannot access controller!")
 		);
 	}
 }
+

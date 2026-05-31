@@ -1,8 +1,8 @@
-# IntelliJ Application Run Configuration für DashAppRunner
+# IntelliJ Application Run Configuration für HierarchiesAppRunner
 
 ## Problem
 
-Beim Start von `DashAppRunner` als **Application** (nicht Maven) aus IntelliJ fehlen bestimmte Module,
+Beim Start von `HierarchiesAppRunner` als **Application** (nicht Maven) aus IntelliJ fehlen bestimmte Module,
 die auf dem Classpath liegen, aber nicht im Module-Path sind.
 
 Fehler wie:
@@ -16,7 +16,7 @@ java.lang.module.FindException: Module org.slf4j not found, required by de.ruu.a
 ### 1. Run Configuration öffnen
 
 - Run → Edit Configurations...
-- Wähle die **DashAppRunner** Configuration aus (oder erstelle eine neue Application Configuration)
+- Wähle die **HierarchiesAppRunner** Configuration aus (oder erstelle eine neue Application Configuration)
 
 ### 2. VM Options hinzufügen
 
@@ -43,7 +43,7 @@ Füge folgende VM Options ein:
 ### 3. Main Class
 
 ```
-de.ruu.app.jeeeraaah.frontend.ui.fx.dash.DashAppRunner
+de.ruu.app.jeeeraaah.frontend.ui.fx.task.hierarchy.HierarchiesAppRunner
 ```
 
 ### 4. Module Path vs Class Path
@@ -56,8 +56,8 @@ de.ruu.app.jeeeraaah.frontend.ui.fx.dash.DashAppRunner
 ## Vollständige Run Configuration Einstellungen
 
 ```
-Name: DashAppRunner
-Main class: de.ruu.app.jeeeraaah.frontend.ui.fx.dash.DashAppRunner
+Name: HierarchiesAppRunner
+Main class: de.ruu.app.jeeeraaah.frontend.ui.fx.task.hierarchy.HierarchiesAppRunner
 VM options: --add-modules jakarta.annotation,jakarta.inject,org.slf4j --add-reads de.ruu.app.jeeeraaah.frontend.ui.fx=ALL-UNNAMED -Dglass.gtk.uiScale=1.5
 Use classpath of module: r-uu.app.jeeeraaah.frontend.ui.fx
 ```
@@ -69,11 +69,11 @@ IntelliJ speichert Run Configurations normalerweise in `.idea/runConfigurations/
 
 ## Alternative: Maven Exec Plugin
 
-Falls die Application Configuration weiterhin Probleme macht, kann DashAppRunner auch über Maven gestartet werden:
+Falls die Application Configuration weiterhin Probleme macht, kann HierarchiesAppRunner auch über Maven gestartet werden:
 
 ```bash
 cd ~/develop/github/java/main/root/app/jeeeraaah/frontend/ui/fx
-mvn exec:java -Dexec.mainClass="de.ruu.app.jeeeraaah.frontend.ui.fx.dash.DashAppRunner"
+mvn exec:java -Dexec.mainClass="de.ruu.app.jeeeraaah.frontend.ui.fx.task.hierarchy.HierarchiesAppRunner"
 ```
 
 Dies funktioniert, weil die pom.xml bereits die korrekten VM-Argumente im `maven-exec-plugin` konfiguriert hat.

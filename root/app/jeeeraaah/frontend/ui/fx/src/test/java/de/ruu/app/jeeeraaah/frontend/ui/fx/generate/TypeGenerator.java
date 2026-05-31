@@ -34,7 +34,7 @@ public class TypeGenerator
 //		generateJavaFXCTableViewConfigurator   (TaskGroupEntityDTO.class);
 //
 //		generateJavaFXComponentMain();
-//		generateJavaFXComponentDash();
+//		generateJavaFXComponentHierarchies();
 		generateJavaFXComponentGantt();
 //		generateJavaFXComponentTaskGroupSelector();
 //		generateJavaFXComponentTaskViewHierarchy();
@@ -73,14 +73,14 @@ public class TypeGenerator
 		jeeeraaahMainComponentBundleGenerator.run();
 	}
 
-	private static void generateJavaFXComponentDash() throws GeneratorException, IOException
+	private static void generateJavaFXComponentHierarchies() throws GeneratorException, IOException
 	{
-		log.debug("create java fx component bundle for dash component of application jeeeraaah");
+		log.debug("create java fx component bundle for hierarchies component of application jeeeraaah");
 		GeneratorFXCompBundle jeeeraaahMainComponentBundleGenerator =
 				new GeneratorFXCompBundle
 						(
 								"de.ruu.app.jeeeraaah.client.fx",
-								"Dash"
+								"Hierarchies"
 						);
 
 		jeeeraaahMainComponentBundleGenerator.run();

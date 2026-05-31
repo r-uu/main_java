@@ -29,7 +29,7 @@ mvn liberty:dev
 **Backend runs at:** http://localhost:9080
 ### 3️⃣ Start Frontend
 **In IntelliJ IDEA:**
-- Run Configuration: `DashAppRunner` or `GanttAppRunner`
+- Run Configuration: `HierarchiesAppRunner` or `GanttAppRunner`
 - Click ▶️ Run
 **Login:**
 - Username: `testuser`
@@ -78,7 +78,7 @@ ruu-docker-startup
 cd /home/r-uu/develop/github/main/root/app/jeeeraaah/backend/api/ws_rs
 mvn liberty:dev
 # 3. Frontend (in IntelliJ)
-# Run > DashAppRunner or GanttAppRunner
+# Run > HierarchiesAppRunner or GanttAppRunner
 ```
 ### Stop Everything
 ```bash
@@ -109,7 +109,7 @@ See: [INTELLIJ-CACHE-CLEANUP.md](INTELLIJ-CACHE-CLEANUP.md)
 ---
 ## 📚 Next Steps
 ### Learn the Applications
-**DashApp** - Dashboard application
+**HierarchiesApp** - Dashboard application
 - Manage task groups
 - View task hierarchies
 - Edit tasks

@@ -160,7 +160,7 @@ Die `PREDECESSOR_SUCCESSOR`-Join-Tabelle wird **nicht** geschrieben. Die beiden 
 2. **Vollständiger Graph nötig**: Zyklus-Erkennung erfordert Graph-Traversal über *alle* vorhandenen Kanten —
    das geht nur mit DB-Zugriff. Der Client hat (wegen Lazy Loading) nur einen Ausschnitt.
 
-3. **DRY**: Mehrere Frontends (DashApp, GanttApp, CLI-Tools wie DBPopulate) dürften die gleiche Logik
+3. **DRY**: Mehrere Frontends (HierarchiesApp, GanttApp, CLI-Tools wie DBPopulate) dürften die gleiche Logik
    nicht je einzeln implementieren.
 
 4. **Security**: Client-seitige Validierung ist übergehbar. Integritätsschutz muss serverseitig sein.
@@ -334,7 +334,7 @@ Bei kleinen bis mittleren Datenmengen reicht ein naiver DFS über alle Tasks.
 | Komponente                  | Änderung |
 |-----------------------------|----------|
 | `TaskGroupServiceClient`    | `findCycles()` Methode |
-| GanttApp / DashApp          | Zyklus-Highlight, Auflösungs-Wizard |
+| GanttApp / HierarchiesApp          | Zyklus-Highlight, Auflösungs-Wizard |
 | `InterTaskRelationData`     | ggf. `cycleResponse`-Feld für 409-Antwort |
 
 ---
@@ -380,7 +380,7 @@ Body: [
 | `TaskService` (REST) | `POST /api/tasks/reparent-batch` |
 | `ReparentBatchRequest` (DTO) | **neu** — `List<ReparentEntry(taskId, newSuperTaskId)>` |
 | `CycleDetectionService` | `assertNoCycleSubTaskBatch(Map<Long,Long> newParents)` |
-| GanttApp / DashApp | Drag-and-Drop-Umstrukturierungsmodus mit lokaler Vorschau |
+| GanttApp / HierarchiesApp | Drag-and-Drop-Umstrukturierungsmodus mit lokaler Vorschau |
 
 ---
 
@@ -390,7 +390,7 @@ Body: [
 ┌─────────────────────────────────────────────────────────────────────┐
 │  Frontend (JavaFX)                                                  │
 │  ┌──────────────────┐   ┌──────────────────┐  ┌─────────────────┐  │
-│  │ GanttApp/DashApp │   │ CycleWizard      │  │ BatchReparent   │  │
+│  │ GanttApp/HierarchiesApp │   │ CycleWizard      │  │ BatchReparent   │  │
 │  │ pre-validation   │   │ (Phase 3)        │  │ (Phase 4)       │  │
 │  └────────┬─────────┘   └────────┬─────────┘  └────────┬────────┘  │
 │           │ HTTP                 │ HTTP                │ HTTP       │

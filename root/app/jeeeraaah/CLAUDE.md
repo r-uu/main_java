@@ -103,7 +103,7 @@ Alle lauffähigen Apps liegen in `frontend/ui/fx/src/main/java/de/ruu/app/jeeera
 | AppRunner                                  | Beschreibung                          |
 |--------------------------------------------|---------------------------------------|
 | `MainAppRunner`                            | Haupt-Einstiegspunkt                  |
-| `DashAppRunner` *(ehemaliger Hauptfokus)*  | Task-Management-Dashboard             |
+| `HierarchiesAppRunner` *(ehemaliger Hauptfokus)*  | Task-Management-Dashboard             |
 | `GanttAppRunner`                           | Gantt-Diagramm                        |
 | `TaskEditorAppRunner`                      | Task bearbeiten                       |
 | `TaskViewAppRunner`                        | Task anzeigen                         |
@@ -116,12 +116,12 @@ Alle lauffähigen Apps liegen in `frontend/ui/fx/src/main/java/de/ruu/app/jeeera
 ### Frontend starten
 ```bash
 cd root/app/jeeeraaah/frontend/ui/fx
-mvn exec:java           # DashApp
+mvn exec:java           # HierarchiesApp
 mvn exec:java@gantt     # GanttApp
 mvn exec:java@main      # MainApp
 # oder VS Code Tasks:
 # "🚀 Frontend: Start MainApp"
-# "🎨 Frontend: Start DashApp"
+# "🎨 Frontend: Start HierarchiesApp"
 # "🎩 Frontend: Start GanttApp"
 ```
 

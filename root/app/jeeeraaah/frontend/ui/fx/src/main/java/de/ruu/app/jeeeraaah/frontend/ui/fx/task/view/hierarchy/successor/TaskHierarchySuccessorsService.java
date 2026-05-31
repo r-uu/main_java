@@ -13,7 +13,7 @@ import javafx.scene.control.TreeItem;
 public interface TaskHierarchySuccessorsService extends TaskHierarchyService
 {
 	/**
-	 * This method is called by a controller (like {@code de.ruu.app.jeeeraaah.frontend.ui.fx.dash.DashController}) when
+	 * This method is called by a controller (like {@code de.ruu.app.jeeeraaah.frontend.ui.fx.task.hierarchy.HierarchiesController}) when
 	 * it observes a change in the selected super/sub task tree item.
 	 *
 	 * @param treeItem

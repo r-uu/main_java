@@ -78,9 +78,9 @@ ruu-ol-start          # cd .../backend/api/ws_rs && mvn liberty:dev
 ```bash
 # Via VS Code Tasks:
 # "🚀 Frontend: Start MainApp"   → MainApp
-# "🎨 Frontend: Start DashApp"   → DashApp
+# "🎨 Frontend: Start HierarchiesApp"   → HierarchiesApp
 # "🎩 Frontend: Start GanttApp"  → GanttApp
-# Oder IntelliJ: Run Configuration "DashAppRunner" / "GanttAppRunner"
+# Oder IntelliJ: Run Configuration "HierarchiesAppRunner" / "GanttAppRunner"
 ```
 
 ---
@@ -196,12 +196,14 @@ Installer (sdkman, nvm, conda) die `~/.bashrc` **ersetzen** statt ergänzen, lö
 
 ---
 
-## Offene Prioritäten (Stand 2026-05-27)
+## Offene Prioritäten (Stand 2026-05-31)
 
 ### ✅ Zuletzt abgeschlossen
 
+- **Dokumentations-Bereinigung:** `Dash*` → `Hierarchies*` in allen aktiven Docs aktualisiert. 10 veraltete Fix-/Analyse-Docs gelöscht (`DOCKER-HEALTH-CHECK-FIX.md`, `PACKAGE-REORGANISATION.md`, `TYPSAFETY-CLEANUP-ANALYSIS.md`, `ENTITY-SERVICE-MIGRATION.md`, `RESOURCE-MANAGEMENT-FIX.md`, `INTELLIJ-RUN-CONFIG.md` (Duplikat), `docs/phase2/` komplett). `DOCUMENTATION-INDEX.md` aktualisiert.
 - **Cycle-Guard Predecessor/Successor:** Transitive DFS-basierter Zyklus-Schutz in `TaskJPA`, `TaskDTO`, `TaskBean` implementiert. `PreconditionCheckRelationalOperations.java` und `Collector.java` entfernt. `backend/constraint/timecycle` Modul (CDI-Plugin `PredecessorSuccessorCycleValidator`) vollständig eingerichtet. Altes `backend/constraints/` (plural, stale) entfernt. Build: ✅ `BUILD SUCCESS`, alle Tests grün.
-- **DashController-Warnungen:** Kein Handlungsbedarf — aktueller Build produziert keine Source-Warnungen.
+- **HierarchiesController-Warnungen:** Kein Handlungsbedarf — aktueller Build produziert keine Source-Warnungen.
+- **Cycle-Guard Unit-Tests (alle Layer):** `TaskBean_HierarchyCycle_InMemoryTest` und `TaskDTO_HierarchyCycle_InMemoryTest` (Ancestor-Walk / Super/Sub-Task) ergänzt. Bereits vorhanden: `TaskBean_PredecessorSuccessorCycleTest` und `TaskDTO_PredecessorSuccessorCycleTest`. Alle Tests grün.
 
 ### 🔥 Noch offen
 
@@ -209,26 +211,25 @@ Installer (sdkman, nvm, conda) die `~/.bashrc` **ersetzen** statt ergänzen, lö
    → `root/app/jeeeraaah/doc/md/jpms in action - jeeeraaah/jpms in action - jeeeraaah.md`
 2. Startup-Guides konsolidieren (`GETTING-STARTED.md` + `config/QUICK-COMMANDS.md`)
 3. Credentials-Dokumentation zusammenführen (3 Dateien → 1)
-4. Unit-Tests für Predecessor/Successor-Zyklen in `TaskBean` und `TaskDTO` ergänzen (analog zu `TaskJPA_HierarchyCycle_InMemoryTest`)
-5. CI/CD-Pipeline aufsetzen (GitHub Actions)
-6. ArchUnit-Tests für Layer-Grenzen implementieren
-7. 3 Integration-Tests aktivieren (benötigen laufendes Backend): `TaskGroupServiceCreateIT`, `TaskGroupServiceAllFlatIT`, `DBCommandsIT`
+4. CI/CD-Pipeline aufsetzen (GitHub Actions)
+5. ArchUnit-Tests für Layer-Grenzen implementieren
+6. 3 Integration-Tests aktivieren (benötigen laufendes Backend): `TaskGroupServiceCreateIT`, `TaskGroupServiceAllFlatIT`, `DBCommandsIT`
 
 ---
 
 ## Schlüssel-Dokumentation
 
-| Datei                              | Inhalt                                      |
-|------------------------------------|---------------------------------------------|
-| `README.md`                        | Projektübersicht & Ultra-Quick-Start        |
-| `GETTING-STARTED.md`               | Vollständiger Einrichtungsleitfaden         |
-| `JPMS-REFERENCE.md`                | JPMS-Patterns und Konventionen              |
-| `IAM-KEYCLOAK-LIBERTY-GUIDE.md`    | Keycloak/Security-Setup & JWT              |
-| `API-DOCUMENTATION.md`             | REST API & Authentifizierung               |
-| `VSCODE-TASKS-GUIDE.md`            | VS Code Tasks Referenz                     |
-| `BUILD-TROUBLESHOOTING.md`         | Build-Fehler-Lösungen                      |
-| `config/CREDENTIALS.md`            | Credentials-Referenz                       |
-| `config/QUICK-COMMANDS.md`         | Tägliche Befehls-Cheat-Sheet               |
-| `config/TROUBLESHOOTING.md`        | Allgemeine Problemlösung                   |
-| `todo.md`                          | Aktuelle Aufgabenliste                     |
-| `root/app/jeeeraaah/CLAUDE.md`     | App-spezifischer Kontext (Architektur etc.)|
+| Datei                           | Inhalt                                      |
+|---------------------------------|---------------------------------------------|
+| `README.md`                     | Projektübersicht & Ultra-Quick-Start        |
+| `GETTING-STARTED.md`            | Vollständiger Einrichtungsleitfaden         |
+| `JPMS-REFERENCE.md`             | JPMS-Patterns und Konventionen              |
+| `IAM-KEYCLOAK-LIBERTY-GUIDE.md` | Keycloak/Security-Setup & JWT               |
+| `API-DOCUMENTATION.md`          | REST API & Authentifizierung                |
+| `VSCODE-TASKS-GUIDE.md`         | VS Code Tasks Referenz                      |
+| `BUILD-TROUBLESHOOTING.md`      | Build-Fehler-Lösungen                       |
+| `config/CREDENTIALS.md`         | Credentials-Referenz                        |
+| `config/QUICK-COMMANDS.md`      | Tägliche Befehls-Cheat-Sheet                |
+| `config/TROUBLESHOOTING.md`     | Allgemeine Problemlösung                    |
+| `todo.md`                       | Aktuelle Aufgabenliste                      |
+| `root/app/jeeeraaah/CLAUDE.md`  | App-spezifischer Kontext (Architektur etc.) |

@@ -22,7 +22,7 @@ de.ruu.lib.ws.rs.TechnicalException: failed to retrieve task groups:
 
 ### 1. Prüfe: Läuft automatisches Login?
 
-**Im DashAppRunner Log suchen:**
+**Im HierarchiesAppRunner Log suchen:**
 ```
 ✅ Automatic login successful
 Access token (first 50 chars): eyJhbGciOi...
@@ -37,7 +37,7 @@ Access token (first 50 chars): eyJhbGciOi...
 
 ### 2. Prüfe: Wird Authorization Header gesendet?
 
-**Im DashAppRunner Log suchen:**
+**Im HierarchiesAppRunner Log suchen:**
 ```
 === AuthorizationHeaderFilter called ===
   isLoggedIn(): true
@@ -48,7 +48,7 @@ Access token (first 50 chars): eyJhbGciOi...
 **Wenn "isLoggedIn(): false":**
 - Token ist abgelaufen
 - Erneut login erforderlich
-- → DashAppRunner neu starten
+- → HierarchiesAppRunner neu starten
 
 **Wenn "Token present: false":**
 - Bug im KeycloakAuthService
@@ -115,8 +115,8 @@ touch src/main/liberty/config/server.xml
 
 ```bash
 # In IntelliJ:
-# 1. Stoppe DashAppRunner
-# 2. Starte DashAppRunner neu
+# 1. Stoppe HierarchiesAppRunner
+# 2. Starte HierarchiesAppRunner neu
 # 3. Prüfe Logs:
 #    ✅ Automatic login successful
 #    ✅ Authorization header added
@@ -153,7 +153,7 @@ touch src/main/liberty/config/server.xml
 ```
 
 **Lösung:**
-1. DashAppRunner neu starten
+1. HierarchiesAppRunner neu starten
 2. Prüfe `testing.properties`
 3. Prüfe Keycloak läuft und ist healthy
 
@@ -230,7 +230,7 @@ mvn clean
 - [ ] Liberty Server läuft (`liberty:dev`)
 - [ ] `server.xml` hat `groupNameAttribute="realm_access/roles"`
 - [ ] Liberty hat Config neu geladen (`CWWKG0017I`)
-- [ ] DashAppRunner automatisches Login erfolgreich
+- [ ] HierarchiesAppRunner automatisches Login erfolgreich
 - [ ] Authorization Header wird gesendet
 - [ ] Erster Request: 200 OK (kein 403)
 

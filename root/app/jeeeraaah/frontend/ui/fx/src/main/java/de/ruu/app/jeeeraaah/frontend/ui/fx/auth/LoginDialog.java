@@ -68,7 +68,7 @@ import java.io.IOException;
  *
  * <h2>Usage in Application Startup:</h2>
  * <pre>{@code
- * // In DashApp.start() method:
+ * // In HierarchiesApp.start() method:
  * @Inject
  * private KeycloakAuthService authService;
  *

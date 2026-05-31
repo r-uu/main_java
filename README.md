@@ -112,12 +112,12 @@ mvn liberty:dev
 
 ### Frontend (JavaFX Desktop):
 
-**IntelliJ:** Run Configuration `DashAppRunner`
+**IntelliJ:** Run Configuration `HierarchiesAppRunner`
 
 **Oder manuell:**
 ```bash
 cd /home/r-uu/develop/github/java/main/root/app/jeeeraaah/frontend/ui/fx
-mvn exec:java -Dexec.mainClass="de.ruu.app.jeeeraaah.frontend.ui.fx.dash.DashAppRunner"
+mvn exec:java -Dexec.mainClass="de.ruu.app.jeeeraaah.frontend.ui.fx.task.hierarchy.HierarchiesAppRunner"
 ```
 
 ---
@@ -135,7 +135,7 @@ main/
 │   │       │   └── persistence/  # JPA Entities
 │   │       └── frontend/         # JavaFX UI
 │   │           ├── api_client/   # REST Client
-│   │           └── ui/fx/        # DashAppRunner (JavaFX)
+│   │           └── ui/fx/        # HierarchiesAppRunner (JavaFX)
 │   ├── lib/                      # Wiederverwendbare Libraries
 │   │   ├── keycloak_admin/       # Keycloak Setup & Management
 │   │   ├── jpa/                  # JPA Core
@@ -355,7 +355,7 @@ cd /home/r-uu/develop/github/java/main/root/app/jeeeraaah/backend/api/ws_rs
 mvn liberty:dev
 
 # 3. Frontend in IntelliJ starten
-# Run → DashAppRunner
+# Run → HierarchiesAppRunner
 ```
 
 ### 2. Nach Git Pull
@@ -394,7 +394,7 @@ mvn exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSet
 - [ ] Docker Container: Alle 4 Container sind **healthy**
 - [ ] Keycloak: Admin Console erreichbar (http://localhost:8080/admin)
 - [ ] Backend: Health Check erfolgreich (http://localhost:9080/health)
-- [ ] Frontend: DashAppRunner startet ohne Fehler
+- [ ] Frontend: HierarchiesAppRunner startet ohne Fehler
 - [ ] Login: Automatischer Login funktioniert
 
 **🎉 WENN ALLE PUNKTE ✅, DANN LÄUFT ALLES!**

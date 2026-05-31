@@ -2,7 +2,7 @@ package de.ruu.app.jeeeraaah.frontend.ui.fx;
 
 import static de.ruu.lib.fx.FXUtil.getStage;
 
-import de.ruu.app.jeeeraaah.frontend.ui.fx.dash.Dash;
+import de.ruu.app.jeeeraaah.frontend.ui.fx.task.hierarchy.Hierarchies;
 import de.ruu.app.jeeeraaah.frontend.ui.fx.task.TaskManagement;
 import de.ruu.app.jeeeraaah.frontend.ui.fx.task.gantt.GanttTable;
 import de.ruu.app.jeeeraaah.frontend.ui.fx.taskgroup.TaskGroupManagement;
@@ -44,7 +44,7 @@ class MainController extends DefaultFXCController<Main, MainService> implements 
 	private EventDispatcher<TaskGroupManagementDisposeRequestEvent> taskGroupManagerDisposeRequestEventDispatcher;
 
 	@FXML
-	private Button btnDash;
+	private Button btnHierarchies;
 	@FXML
 	private Button btnTaskGroups;
 	@FXML
@@ -59,7 +59,7 @@ class MainController extends DefaultFXCController<Main, MainService> implements 
 	private AnchorPane root;
 
 	@Inject
-	private Dash dash;
+	private Hierarchies hierarchies;
 	@Inject
 	private TaskGroupManagement taskGroupManagement;
 	@Inject
@@ -70,7 +70,7 @@ class MainController extends DefaultFXCController<Main, MainService> implements 
 	@Override @FXML
 	protected void initialize()
 	{
-		btnDash.setOnAction(e -> onDash(e));
+		btnHierarchies.setOnAction(e -> onHierarchies(e));
 		btnTaskGroups.setOnAction(e -> onTaskGroups(e));
 		btnTasksByGroup.setOnAction(e -> onTasksByGroup(e));
 		btnGantt.setOnAction(e -> onGantt(e));
@@ -83,17 +83,17 @@ class MainController extends DefaultFXCController<Main, MainService> implements 
 		taskGroupManagerDisposeRequestEventDispatcher.add(this::onTaskGroupManagerExitRequested);
 	}
 
-	private void onDash(ActionEvent e)
+	private void onHierarchies(ActionEvent e)
 	{
 		ObservableList<Node> mainRootChildren = root.getChildren();
-		Parent dashRoot = dash.localRoot();
+		Parent hierarchiesRoot = hierarchies.localRoot();
 
 		mainRootChildren.remove(main);
-		mainRootChildren.add(dashRoot);
+		mainRootChildren.add(hierarchiesRoot);
 
-		FXUtil.setAnchorsInAnchorPaneTo(dashRoot, 0);
+		FXUtil.setAnchorsInAnchorPaneTo(hierarchiesRoot, 0);
 
-		getStage(root).ifPresent(s -> s.setTitle(APP_TITLE + " - dash"));
+		getStage(root).ifPresent(s -> s.setTitle(APP_TITLE + " - hierarchies"));
 	}
 
 	private void onTaskGroups(ActionEvent e)

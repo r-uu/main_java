@@ -2,7 +2,7 @@ package de.ruu.app.jeeeraaah.frontend.ui.fx;
 
 import de.ruu.app.jeeeraaah.frontend.api.client.ws.rs.auth.KeycloakAuthService;
 import de.ruu.app.jeeeraaah.frontend.ui.fx.auth.LoginDialog;
-import de.ruu.app.jeeeraaah.frontend.ui.fx.dash.DashApp;
+import de.ruu.app.jeeeraaah.frontend.ui.fx.task.hierarchy.HierarchiesApp;
 import de.ruu.lib.docker.health.HealthCheckProfiles;
 import de.ruu.lib.docker.health.HealthCheckResult;
 import de.ruu.lib.docker.health.HealthCheckRunner;
@@ -48,7 +48,7 @@ import org.eclipse.microprofile.config.ConfigProvider;
  *   <li>{@link #loadInitialData()} - Optional: Load data after authentication</li>
  * </ul>
  *
- * @see DashApp
+ * @see HierarchiesApp
  */
 @Slf4j
 public abstract class BaseAuthenticatedApp extends FXCApp

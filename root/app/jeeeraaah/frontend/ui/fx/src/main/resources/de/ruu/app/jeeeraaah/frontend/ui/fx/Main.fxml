@@ -15,7 +15,7 @@
                <padding>
                   <Insets top="50.0" />
                </padding></Label>
-            <Button fx:id="btnDash" mnemonicParsing="false" text="dash" />
+            <Button fx:id="btnHierarchies" mnemonicParsing="false" text="hierarchies" />
             <HBox alignment="CENTER" spacing="5.0">
                <children>
                   <Button fx:id="btnTaskGroups" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="task groups" />
