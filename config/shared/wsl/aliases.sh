@@ -12,7 +12,6 @@ export RUU_CONFIG="$RUU_MAIN/config"
 export RUU_DOCKER="$RUU_CONFIG/shared/docker"
 export RUU_WSL="$RUU_CONFIG/shared/wsl"
 export RUU_JASPER="$RUU_ROOT/sandbox/office/microsoft/word/jasperreports"
-export RUU_GREENBONE="$RUU_ROOT/greenbone"
 
 unalias -a 2>/dev/null  # Remove all previous aliases to avoid conflicts
 alias ruu-aliases-reload='source $RUU_WSL/aliases.sh && echo "✅ Aliases reloaded"'
@@ -152,16 +151,6 @@ alias ruu-jasper-rebuild='cd $RUU_DOCKER && docker compose build jasperreports &
 alias ruu-jasper-test='curl http://localhost:8090/health'
 
 # ═══════════════════════════════════════════════════════════════════
-# Docker - Greenbone
-# ═══════════════════════════════════════════════════════════════════
-alias ruu-gb-up='cd $RUU_MAIN/greenbone && docker compose up -d'
-alias ruu-gb-down='cd $RUU_MAIN/greenbone && docker compose down'
-alias ruu-gb-restart='ruu-gb-down && ruu-gb-up'
-alias ruu-gb-logs='cd $RUU_MAIN/greenbone && docker compose logs -f'
-alias ruu-gb-status='cd $RUU_MAIN/greenbone && docker compose ps --format "table {{.Name}}\t{{.Status}}"'
-alias ruu-gb-unhealthy='cd $RUU_MAIN/greenbone && docker compose ps --format "table {{.Name}}\t{{.Status}}" | grep "(unhealthy)\|Exit"'
-
-# ═══════════════════════════════════════════════════════════════════
 # Git
 # ═══════════════════════════════════════════════════════════════════
 alias ruu-git-status='cd $RUU_MAIN && git status'
@@ -228,7 +217,6 @@ ruu-groups() {
     echo "  ║ ruu-app      ║ Start application (JavaFX frontend)            ║"
     echo "  ║ ruu-cd       ║ Navigate to project directories                ║"
     echo "  ║ ruu-docker   ║ Docker daemon & jeeeraaah stack management     ║"
-    echo "  ║ ruu-gb       ║ Greenbone Vulnerability Scanner (Docker)       ║"
     echo "  ║ ruu-git      ║ Git (status, pull, push, log, diff)            ║"
     echo "  ║ ruu-ij       ║ IntelliJ IDEA (fix indexing)                   ║"
     echo "  ║ ruu-jasper   ║ JasperReports container (start/stop/logs)      ║"

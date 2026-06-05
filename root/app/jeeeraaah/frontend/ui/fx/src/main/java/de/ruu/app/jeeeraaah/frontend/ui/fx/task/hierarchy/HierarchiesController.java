@@ -11,7 +11,7 @@ import de.ruu.app.jeeeraaah.frontend.ui.fx.model.TaskGroupFXBean;
 import de.ruu.app.jeeeraaah.frontend.ui.fx.task.view.hierarchy.predecessor.TaskHierarchyPredecessors;
 import de.ruu.app.jeeeraaah.frontend.ui.fx.task.view.hierarchy.successor.TaskHierarchySuccessors;
 import de.ruu.app.jeeeraaah.frontend.ui.fx.task.view.hierarchy.supersub.TaskHierarchySuperSubTasks;
-import de.ruu.app.jeeeraaah.frontend.ui.fx.taskgroup.edit.TaskGroupEditor;
+import de.ruu.app.jeeeraaah.frontend.ui.fx.taskgroup.TaskGroupManagement;
 import de.ruu.app.jeeeraaah.frontend.ui.fx.taskgroup.selector.TaskGroupSelector;
 import de.ruu.app.jeeeraaah.frontend.ui.fx.taskgroup.selector.TaskGroupSelectorService.TaskGroupSelectorComponentReadyEvent;
 import de.ruu.app.jeeeraaah.frontend.ui.fx.util.ServiceOperationExecutor;
@@ -28,6 +28,7 @@ import de.ruu.lib.ws_rs.TechnicalException;
 import jakarta.annotation.Nullable;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
+import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -36,6 +37,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+// Removed imports: javafx.stage.Modality, javafx.stage.Stage
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,8 +49,6 @@ import static de.ruu.app.jeeeraaah.common.api.domain.Task.COMPARATOR;
 import static de.ruu.lib.fx.FXUtil.getStage;
 import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNull;
-import static javafx.scene.control.ButtonBar.ButtonData.OK_DONE;
-import static javafx.scene.control.ButtonType.CANCEL;
 import static javafx.scene.control.ButtonType.OK;
 import static javafx.scene.layout.Priority.ALWAYS;
 
@@ -67,9 +67,8 @@ class HierarchiesController extends DefaultFXCController<Hierarchies, Hierarchie
 	@FXML private AnchorPane nchrPnSuperSubTasks;
 	@FXML private AnchorPane nchrPnSuccessors;
 
-	@FXML private Button buttonAdd;
-	@FXML private Button buttonEdit;
-	@FXML private Button buttonRemove;
+	@FXML private Button buttonManageGroups;
+	@FXML private Button buttonGantt;
 
 	@FXML private Button buttonBackup;
 
@@ -92,12 +91,14 @@ class HierarchiesController extends DefaultFXCController<Hierarchies, Hierarchie
 	// inject the centralized executor for service operations with session retry handling
 	@Inject private ServiceOperationExecutor executor;
 
-	@Inject private TaskGroupEditor taskGroupEditor;
+	@Inject private TaskGroupManagement taskGroupManagement;
+	@Inject private de.ruu.app.jeeeraaah.frontend.ui.fx.task.gantt.Gantt gantt;
 	@Inject private PostgresBackupUI postgresBackupUI;
 
 	@Nullable private TaskGroupFlat selectedTaskGroupDTOFlat = null;
 
-	private Parent taskGroupEditorLocalRoot;
+	private Parent taskGroupManagementLocalRoot;
+	private Parent ganttLocalRoot;
 
 	/**
 	 * <ul>
@@ -122,9 +123,9 @@ class HierarchiesController extends DefaultFXCController<Hierarchies, Hierarchie
 		appStartedEventDispatcher.add(this::onAppStarted);
 		taskGroupSelectorReadyEventDispatcher.add(this::onTaskGroupSelectorReady);
 
-		// force task group editor to initialise itself and store its local root so that it can be used in
-		// onAdd(...) and onEdit(immediately
-		taskGroupEditorLocalRoot = taskGroupEditor.localRoot();
+		// force task group management to initialise itself and store its local root
+		taskGroupManagementLocalRoot = taskGroupManagement.localRoot();
+		ganttLocalRoot = gantt.localRoot();
 
 		// force task group selector to initialise itself and compose its local root into the ui
 		HBox.setHgrow(taskGroupSelector.localRoot(), ALWAYS);
@@ -140,9 +141,8 @@ class HierarchiesController extends DefaultFXCController<Hierarchies, Hierarchie
 		FXUtil.setAnchorsInAnchorPaneTo(taskHierarchySuccessors.localRoot(), 0);
 
 		// register listeners to all button actions
-		buttonAdd.setOnAction(this::onAdd);
-		buttonEdit.setOnAction(this::onEdit);
-		buttonRemove.setOnAction(this::onRemove);
+		buttonManageGroups.setOnAction(e -> onManageGroups());
+		buttonGantt.setOnAction(e -> onGantt());
 		buttonBackup.setOnAction(this::onBackup);
 		buttonExit.setOnAction(this::onExit);
 
@@ -194,15 +194,13 @@ class HierarchiesController extends DefaultFXCController<Hierarchies, Hierarchie
 	 */
 	private void onTaskGroupSelectorReady(TaskGroupSelectorComponentReadyEvent e)
 	{
-		@NonNull ReadOnlyObjectProperty<TaskGroupFlat> selectedTaskGroupProperty =
-				taskGroupSelector.service().selectedTaskGroupProperty();
+		Platform.runLater(() -> {
+			@NonNull ReadOnlyObjectProperty<TaskGroupFlat> selectedTaskGroupProperty =
+					taskGroupSelector.service().selectedTaskGroupProperty();
 
-		// disable buttons if no task group is selected
-		buttonEdit.disableProperty().bind(selectedTaskGroupProperty.isNull());
-		buttonRemove.disableProperty().bind(selectedTaskGroupProperty.isNull());
-
-		// make sure the listener method is called whenever the selected group in groupSelector changes
-		selectedTaskGroupProperty.addListener((obs, old, act) -> onSelectedTaskGroupChanged(act));
+			// make sure the listener method is called whenever the selected group in groupSelector changes
+			selectedTaskGroupProperty.addListener((obs, old, act) -> onSelectedTaskGroupChanged(act));
+		});
 	}
 
 	private void onSelectedTaskGroupChanged(TaskGroupFlat actSelection)
@@ -261,134 +259,42 @@ class HierarchiesController extends DefaultFXCController<Hierarchies, Hierarchie
 		getStage(hBxGroupSelector).ifPresent(s -> s.setTitle("jeee RAAAH - task hierarchies"));
 	}
 
-	private void onAdd(ActionEvent event)
+	private void onManageGroups()
 	{
-		Dialog<TaskGroupFXBean> dialog = new Dialog<>();
+		// Refresh data before showing the dialog
+		taskGroupManagement.service().refreshData();
+
+		Dialog<Void> dialog = new Dialog<>();
+		dialog.setTitle("manage task groups");
+		// Reverted dialog.setResizable(true);
+		// Reverted dialog.initOwner(stage);
+		// Reverted dialog.initModality(Modality.APPLICATION_MODAL);
+		// Reverted log.info("Dialog owner set to: {}", stage.getTitle());
+		// Reverted log.warn("Could not determine current stage for dialog owner. Dialog might not be truly modal.");
 
 		DialogPane pane = dialog.getDialogPane();
-		pane.setContent(taskGroupEditorLocalRoot);
-		pane.getButtonTypes().addAll(CANCEL, OK);
+		pane.setContent(taskGroupManagementLocalRoot);
+		pane.getButtonTypes().add(OK);
 
-		dialog.setTitle("new task group");
-		dialog.setResultConverter(this::dialogResultConverterFXBean);
+		dialog.showAndWait();
 
-		// populate editor with new item, call to service() has to be done after call to localRoot() to make sure internal
-		// java fx bindings can be established (see initialize)
-		TaskGroupBean taskGroupBean = new TaskGroupBean("new task group");
-		TaskGroupFXBean taskGroupFXBean = Map_TaskGroup_Bean_FXBean.INSTANCE.map(taskGroupBean, new ReferenceCycleTracking());
-
-		taskGroupEditor.service().taskGroup(taskGroupFXBean);
-
-		Optional<TaskGroupFXBean> optional = dialog.showAndWait();
-
-		if (optional.isPresent())
-		{
-			taskGroupFXBean = optional.get();
-			final TaskGroupBean beanToCreate = Map_TaskGroup_FXBean_Bean.INSTANCE.map(taskGroupFXBean, new ReferenceCycleTracking());
-
-			// let task group service client create a new item in the backend
-			try
-			{
-				executor.execute(
-						() -> taskGroupServiceClient.create(beanToCreate),
-						"creating task group",
-						"Failed to create task group",
-						"Creation failed after re-login"
-				);
-
-				// repopulate and then focus task group selector
-				fetchTaskGroupsFromBackendAndPopulateTaskGroupSelector();
-			} catch (TechnicalException | NonTechnicalException e)
-			{
-				ExceptionDialog.showAndWait(
-						"failure creating task group",
-						"task\n\n" + beanToCreate + "\n\ncould not be created",
-						e.getMessage(),
-						e
-				);
-			}
-		}
+		// refresh task groups after management dialog is closed
+		fetchTaskGroupsFromBackendAndPopulateTaskGroupSelector();
 	}
 
-	private void onEdit(ActionEvent event)
+	private void onGantt()
 	{
-		if (isNull(selectedTaskGroupDTOFlat))
-			return; // should never happen because button edit should be disabled in this case and hence this method should
-		// not be called
-
-		// try to fetch the persisted task group from backend
-		final Long id = selectedTaskGroupDTOFlat.id();
-		Optional<TaskGroupBean> optionalPersisted;
-
-		try
-		{
-			optionalPersisted = executor.execute(
-					() -> taskGroupServiceClient.read(id),
-					"reading task group for id: " + id,
-					"Failed to read task group",
-					"Read failed after re-login"
-			);
-		} catch (TechnicalException | NonTechnicalException e)
-		{
-			ExceptionDialog.showAndWait("failure reading task group for id: " + id, e);
-			return;
-		}
-
-		// fail fast if task group does not exist
-		if (optionalPersisted.isEmpty())
-		{
-			AlertDialog.showAndWait("task group for id [" + id + "] does not exist");
-			return;
-		}
-
-		// populate editor with selected item, call to getService() has to be done after call to getLocalRoot() to make
-		// sure editor internal java fx bindings can be established (see initialize)
-		TaskGroupBean taskGroupBean = optionalPersisted.get();
-		TaskGroupFXBean taskGroupFXBean = Map_TaskGroup_Bean_FXBean.INSTANCE.map(taskGroupBean, new ReferenceCycleTracking());
-		taskGroupEditor.service().taskGroup(taskGroupFXBean);
-
-		Dialog<TaskGroupFXBean> dialog = new Dialog<>();
+		Dialog<Void> dialog = new Dialog<>();
+		dialog.setTitle("gantt chart");
 
 		DialogPane pane = dialog.getDialogPane();
-		pane.setContent(taskGroupEditorLocalRoot);
-		pane.getButtonTypes().addAll(CANCEL, OK);
+		pane.setContent(ganttLocalRoot);
+		pane.getButtonTypes().add(OK);
 
-		dialog.setTitle("edit task group");
-		dialog.setResultConverter(this::dialogResultConverterFXBean);
+		// ensure Gantt data is loaded
+		gantt.service().loadInitialData();
 
-		Optional<TaskGroupFXBean> optional = dialog.showAndWait();
-
-		if (optional.isPresent())
-		{
-			final TaskGroupBean beanToUpdate = Map_TaskGroup_FXBean_Bean.INSTANCE.map(optional.get(), new ReferenceCycleTracking());
-
-			// let client update the item in backend
-			try
-			{
-				executor.execute(
-						() ->
-						{
-							taskGroupServiceClient.update(beanToUpdate);
-							return null; // Void operation
-						},
-						"updating task group",
-						"Failed to update task group",
-						"Update failed after re-login"
-				);
-
-				// update task group selector
-				taskGroupSelector.service().updateItem(
-						TaskGroupMapper.INSTANCE.toFlat(beanToUpdate));
-			} catch (TechnicalException | NonTechnicalException e)
-			{
-				ExceptionDialog.showAndWait("failure updating task groups in backend", e);
-			}
-		}
-	}
-
-	private void onRemove(ActionEvent event)
-	{
-		AlertDialog.showAndWait("not yet implemented");
+		dialog.showAndWait();
 	}
 
 	private void onBackup(ActionEvent event)
@@ -431,11 +337,5 @@ class HierarchiesController extends DefaultFXCController<Hierarchies, Hierarchie
 	{
 		taskHierarchyPredecessors.service().activeTaskGroupProperty().set(act);
 		taskHierarchySuccessors  .service().activeTaskGroupProperty().set(act);
-	}
-
-	private TaskGroupFXBean dialogResultConverterFXBean(ButtonType btn)
-	{
-		if (btn.getButtonData() == OK_DONE) return taskGroupEditor.service().taskGroup().orElse(null);
-		return null;
 	}
 }

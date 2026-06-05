@@ -2,6 +2,7 @@ package de.ruu.lib.fx.control.dialog;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
@@ -42,5 +43,21 @@ public abstract class AlertDialog
 				};
 
 		alert.setGraphic(icon);
+	}
+
+	public static boolean showConfirmAndWait(String title, String header, String content)
+	{
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setContentText(content);
+		alert.setTitle(title);
+		alert.setHeaderText(header);
+		alert.setResizable(true);
+		alert.getDialogPane().setMinHeight(USE_COMPUTED_SIZE);
+
+		// Set graphic based on CONFIRMATION type
+		FontIcon icon = FontIcon.of(CHECK_CIRCLE, 48, Color.web("#2ecc71"));
+		alert.setGraphic(icon);
+
+		return alert.showAndWait().filter(buttonType -> buttonType == ButtonType.OK).isPresent();
 	}
 }

@@ -19,8 +19,9 @@ echo "🚀 Starting Docker Environment"
 echo "════════════════════════════════════════════════════════════"
 echo ""
 
-# 0. Clean up old containers with wrong names
-echo "🧹 Cleaning up old containers (if any)..."
+# 0. Clean up old containers with wrong names and volumes
+echo "🧹 Cleaning up containers and volumes (complete reset)..."
+docker compose down -v --remove-orphans 2>/dev/null || true
 OLD_CONTAINERS="keycloak-jeeeraaah ruu-keycloak ruu-postgres jasperreports-service"
 for container in $OLD_CONTAINERS; do
     docker stop "$container" 2>/dev/null || true

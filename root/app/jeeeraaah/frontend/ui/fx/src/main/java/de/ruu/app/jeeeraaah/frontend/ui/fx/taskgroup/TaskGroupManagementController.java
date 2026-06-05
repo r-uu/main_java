@@ -27,6 +27,7 @@ import de.ruu.lib.ws_rs.TechnicalException;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
+import javafx.application.Platform; // Added import
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -104,28 +105,39 @@ class TaskGroupManagementController extends DefaultFXCController<TaskGroupManage
 		editorLocalRoot = editor.localRoot();
 
 		TableViewConfigurator.configure(tv);
-		ReferenceCycleTracking context = new ReferenceCycleTracking();
-		try
-		{
-			client.findAllFlat().forEach(
-					flat -> {
-						TaskGroupBean bean = TaskGroupMapper.INSTANCE.toBean(flat);
-						TaskGroupFXBean fxBean = Map_TaskGroup_Bean_FXBean.INSTANCE.map(bean, context);
-						tv.getItems().add(fxBean);
-					});
-		}
-		catch (TechnicalException | NonTechnicalException e)
-		{
-			ExceptionDialog.showAndWait("failure retrieving task groups from backend", e);
-		}
+		refreshData(); // Call refreshData during initialization
 
 		tv.getSelectionModel().selectedItemProperty()
 				.addListener((obs, old, val) -> onSelectedTaskGroupChanged(obs, old, val));
 		btnAdd .setOnAction(e -> onAdd());
 		btnEdit.setOnAction(e -> onEdit());
+		btnRemove.setOnAction(e -> onRemove());
 		btnExit.setOnAction(e -> onExit());
 
 		getStage(root).ifPresent(s -> s.setTitle(APP_TITLE));
+	}
+
+	@Override
+	public void refreshData()
+	{
+		Platform.runLater(() -> { // Ensure UI update on FX Application Thread
+			tv.getItems().clear(); // Clear existing items
+			ReferenceCycleTracking context = new ReferenceCycleTracking();
+			try
+			{
+				client.findAllFlat().forEach(
+						flat -> {
+							TaskGroupBean bean = TaskGroupMapper.INSTANCE.toBean(flat);
+							TaskGroupFXBean fxBean = Map_TaskGroup_Bean_FXBean.INSTANCE.map(bean, context);
+							tv.getItems().add(fxBean);
+						});
+				log.info("Refreshed TaskGroupManagement TableView. Added {} items.", tv.getItems().size());
+			}
+			catch (TechnicalException | NonTechnicalException e)
+			{
+				ExceptionDialog.showAndWait("failure retrieving task groups from backend", e);
+			}
+		});
 	}
 
 	@PostConstruct
@@ -227,6 +239,31 @@ class TaskGroupManagementController extends DefaultFXCController<TaskGroupManage
 			catch (TechnicalException | NonTechnicalException e)
 			{
 				ExceptionDialog.showAndWait("failure updating task groups in backend", e);
+			}
+		}
+	}
+
+	private void onRemove()
+	{
+		TaskGroupFXBean selected = tv.getSelectionModel().getSelectedItem();
+		if (selected == null) return;
+
+		boolean confirm = de.ruu.lib.fx.control.dialog.AlertDialog.showConfirmAndWait(
+				"remove task group",
+				"do you really want to remove the task group '" + selected.name() + "'?",
+				"this will also delete all tasks within this group!"
+		);
+
+		if (confirm)
+		{
+			try
+			{
+				client.delete(selected.id());
+				tv.getItems().remove(selected);
+			}
+			catch (TechnicalException | NonTechnicalException e)
+			{
+				ExceptionDialog.showAndWait("failure removing task group from backend", e);
 			}
 		}
 	}
