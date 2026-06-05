@@ -27,7 +27,7 @@
                   </VBox>
               </items>
             </SplitPane>
-            <HBox VBox.vgrow="ALWAYS">
+            <HBox> <!-- Removed VBox.vgrow="ALWAYS" -->
                <children>
                   <ToolBar fx:id="tbr1" HBox.hgrow="ALWAYS">
                     <items>
@@ -61,10 +61,10 @@
                      <items>
                         <Button fx:id="btnExit" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="24.0" prefWidth="24.0">
                            <graphic>
-                              <FontIcon iconLiteral="fas-times" iconSize="14" /> <!-- Changed icon to fas-times -->
+                              <FontIcon iconLiteral="fas-times" iconSize="14" />
                            </graphic>
                            <tooltip>
-                              <Tooltip text="cancel" /> <!-- Changed tooltip to cancel -->
+                              <Tooltip text="cancel" />
                            </tooltip>
                         </Button>
                      </items>

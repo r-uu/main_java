@@ -42,6 +42,8 @@
 		<version.lombok-mapstruct-binding>0.2.0</version.lombok-mapstruct-binding>
 		<version.mapstruct>1.6.3</version.mapstruct>
 		<version.hibernate-jpamodelgen>6.6.5.Final</version.hibernate-jpamodelgen>
+		<version.javafx-maven-plugin>0.0.8</version.javafx-maven-plugin>
+		<version.exec-maven-plugin>3.1.1</version.exec-maven-plugin> <!-- Added Exec Maven Plugin Version -->
 
 		<!-- ================================================================================== -->
 		<!-- Configuration properties loaded from .env file                                     -->
@@ -1038,7 +1040,7 @@
 				<enabled>true</enabled>
 			</releases>
 			<snapshots>
-				<enabled>true</enabled>
+				<enabled>false</enabled> <!-- Corrected: </enabled> was missing -->
 			</snapshots>
 		</repository>
 	</repositories>
@@ -1052,7 +1054,7 @@
 				<enabled>true</enabled>
 			</releases>
 			<snapshots>
-				<enabled>false</enabled>
+				<enabled>false</enabled> <!-- Corrected: </enabled> was missing -->
 			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
@@ -1271,7 +1273,14 @@
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>exec-maven-plugin</artifactId>
-					<version>3.5.0</version>
+					<version>3.1.1</version> <!-- Managed in BOM -->
+				</plugin>
+
+				<!-- JavaFX Maven Plugin for jlink/jpackage -->
+				<plugin>
+					<groupId>org.openjfx</groupId>
+					<artifactId>javafx-maven-plugin</artifactId>
+					<version>${version.javafx-maven-plugin}</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>

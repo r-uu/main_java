@@ -11,7 +11,7 @@
 		<dependency>
 			<groupId>r-uu</groupId>
 			<artifactId>r-uu.app.jeeeraaah.frontend.ui.fx</artifactId>
-        </dependency>
+		</dependency>
 	</dependencies>
 
 	<parent>
@@ -19,5 +19,74 @@
 		<artifactId>r-uu.app.jeeeraaah.frontend.ui</artifactId>
 		<version>0.0.1</version>
 	</parent>
+
+	<build>
+		<plugins>
+			<!-- The javafx-maven-plugin is used here primarily for its jlink capabilities
+			     and to ensure JavaFX modules are correctly handled.
+			     Its version is managed in the BOM. -->
+			<plugin>
+				<groupId>org.openjfx</groupId>
+				<artifactId>javafx-maven-plugin</artifactId>
+				<!-- Version is managed in r-uu.bom/pom.xml -->
+				<configuration>
+					<mainClass>de.ruu.app.jeeeraaah.frontend.ui.fx.task.hierarchy.HierarchiesAppRunner</mainClass>
+				</configuration>
+				<executions>
+					<execution>
+						<id>jlink-bundle</id>
+						<goals>
+							<goal>jlink</goal>
+						</goals>
+						<configuration>
+							<jlinkImageName>jeeeraaah-app</jlinkImageName>
+							<compress>2</compress>
+							<stripDebug>true</stripDebug>
+							<noHeaderFiles>true</noHeaderFiles>
+							<noManPages>true</noManPages>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+<!--			<plugin>-->
+<!--				<groupId>org.codehaus.mojo</groupId>-->
+<!--				<artifactId>exec-maven-plugin</artifactId>-->
+<!--				<version>${version.exec-maven-plugin}</version>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<id>jpackage-exe</id>-->
+<!--						<phase>package</phase>-->
+<!--						<goals>-->
+<!--							<goal>exec</goal>-->
+<!--						</goals>-->
+<!--						<configuration>-->
+<!--							<executable>jpackage</executable>-->
+<!--							<arguments>-->
+<!--								<argument>&#45;&#45;input</argument>-->
+<!--								<argument>${project.build.directory}/jlink-image/bin</argument>-->
+<!--								<argument>&#45;&#45;name</argument>-->
+<!--								<argument>Jeeeraaah</argument>-->
+<!--								<argument>&#45;&#45;app-version</argument>-->
+<!--								<argument>${project.version}</argument>-->
+<!--								<argument>&#45;&#45;vendor</argument>-->
+<!--								<argument>r-uu</argument>-->
+<!--								<argument>&#45;&#45;main-class</argument>-->
+<!--								<argument>de.ruu.app.jeeeraaah.frontend.ui.fx.task.hierarchy.HierarchiesAppRunner</argument>-->
+<!--								<argument>&#45;&#45;main-jar</argument>-->
+<!--								<argument>${project.artifactId}-${project.version}.jar</argument>-->
+<!--								<argument>&#45;&#45;dest</argument>-->
+<!--								<argument>${project.build.directory}/installer</argument>-->
+<!--								<argument>&#45;&#45;type</argument>-->
+<!--								<argument>exe</argument>-->
+<!--								<argument>&#45;&#45;module-path</argument>-->
+<!--								<argument>${project.build.directory}/jlink-image/lib</argument>-->
+<!--							</arguments>-->
+<!--						</configuration>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--			</plugin>-->
+		</plugins>
+	</build>
 
 </project>
