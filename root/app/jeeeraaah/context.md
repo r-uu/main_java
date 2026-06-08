@@ -1,7 +1,7 @@
 # App-Kontext: jeeeraaah Application
 
-> Diese Datei beschreibt die Architektur der Hauptapplikation im Java-Projekt.
-> Allgemeiner Projekt-Kontext unter: `../../../context.md`
+> Diese Datei beschreibt die Architektur der Hauptapplikation im Java-Projekt (es gibt auch ein kotlin/cmp Projekt).
+> Der allgemeine Java-Projekt-Kontext befindet sich [hier](../../../context.md)
 
 ---
 
