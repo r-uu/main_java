@@ -30,18 +30,18 @@
 
 ## Metadaten
 
-| Feld                      | Wert                                                       |
-|---------------------------|------------------------------------------------------------|
-| **Projektname**           | jeeeraaah                                                  |
-| **Typ**                   | Enterprise-Aufgabenverwaltung (Backend & JavaFX Desktop)   |
-| **Sprache**               | Java (JDK 25 GraalVM)                                      |
-| **Frameworks**            | Jakarta EE 10, MicroProfile 6.1, JavaFX 25                 |
-| **Build-System**          | Maven 3.9+                                                 |
-| **Infrastruktur**         | Docker (PostgreSQL, Keycloak, JasperReports)               |
-| **Laufzeitumgebung**      | Open Liberty 25.0.0.12 (WSL Ubuntu)                        |
-| **Lokaler Pfad (WSL)**    | `/home/r-uu/develop/github/java/main`                      |
-| **Repo**                  | https://github.com/r-uu/main_java                          |
-| **Letzte Aktualisierung** | 2026-06-08                                                 |
+| Feld                      | Wert                                                     |
+|---------------------------|----------------------------------------------------------|
+| **Projektname**           | jeeeraaah                                                |
+| **Typ**                   | Enterprise-Aufgabenverwaltung (Backend & JavaFX Desktop) |
+| **Sprache**               | Java (JDK 25 GraalVM)                                    |
+| **Frameworks**            | Jakarta EE 10, MicroProfile 6.1, JavaFX 25               |
+| **Build-System**          | Maven 3.9+                                               |
+| **Infrastruktur**         | Docker (PostgreSQL, Keycloak, JasperReports)             |
+| **Laufzeitumgebung**      | Open Liberty 25.0.0.12 (WSL Ubuntu)                      |
+| **Lokaler Pfad (WSL)**    | `/home/r-uu/develop/github/java/main`                    |
+| **Repo**                  | https://github.com/r-uu/main_java                        |
+| **Letzte Aktualisierung** | 2026-06-08                                               |
 
 ---
 
@@ -56,17 +56,17 @@ JEEERAAAH ist eine Jakarta EE 10 Enterprise-Aufgabenverwaltung und dient als Ref
 
 ## Tech Stack
 
-| Komponente   | Technologie    | Version    |
-|--------------|----------------|------------|
-| JDK          | GraalVM        | 25         |
-| App Server   | OpenLiberty    | 25.0.0.12  |
-| Frontend     | JavaFX         | 25         |
-| Datenbank    | PostgreSQL     | 16         |
-| IAM          | Keycloak       | Docker     |
-| Reports      | JasperReports  | Docker     |
-| Logging      | Log4j2         | –          |
-| DI (FX)      | Weld SE (CDI)  | –          |
-| REST Client  | Jersey Client  | –          |
+| Komponente  | Technologie   | Version   |
+|-------------|---------------|-----------|
+| JDK         | GraalVM       | 25        |
+| App Server  | OpenLiberty   | 25.0.0.12 |
+| Frontend    | JavaFX        | 25        |
+| Datenbank   | PostgreSQL    | 16        |
+| IAM         | Keycloak      | Docker    |
+| Reports     | JasperReports | Docker    |
+| Logging     | Log4j2        | –         |
+| DI (FX)     | Weld SE (CDI) | –         |
+| REST Client | Jersey Client | –         |
 
 ---
 
@@ -161,14 +161,14 @@ module de.ruu.[module.name] {
 
 ### Bekannte Framework-Opens
 
-| Framework              | Modul-Name                     | Zweck                  |
-|------------------------|--------------------------------|------------------------|
-| CDI (Weld)             | `weld.core.impl`, `weld.spi`   | Dependency Injection   |
-| Jackson                | `com.fasterxml.jackson.databind` | JSON Serialisierung  |
-| Lombok                 | `lombok`                       | Code-Generierung       |
-| Hibernate              | `org.hibernate.orm.core`       | ORM                    |
-| JUnit                  | `org.junit.platform.commons`   | Tests                  |
-| MapStruct              | `org.mapstruct`                | Mapping (qualified export) |
+| Framework  | Modul-Name                       | Zweck                      |
+|------------|----------------------------------|----------------------------|
+| CDI (Weld) | `weld.core.impl`, `weld.spi`     | Dependency Injection       |
+| Jackson    | `com.fasterxml.jackson.databind` | JSON Serialisierung        |
+| Lombok     | `lombok`                         | Code-Generierung           |
+| Hibernate  | `org.hibernate.orm.core`         | ORM                        |
+| JUnit      | `org.junit.platform.commons`     | Tests                      |
+| MapStruct  | `org.mapstruct`                  | Mapping (qualified export) |
 
 ---
 
@@ -178,8 +178,8 @@ Das Backend-Ökosystem lebt in **WSL Ubuntu**.
 
 ### Docker-Container (alle mit `restart: always`)
 
-| Container             | Port | Datenbank          |
-|-----------------------|------|--------------------|
+| Container             | Port | Datenbank           |
+|-----------------------|------|---------------------|
 | `postgres-jeeeraaah`  | 5432 | jeeeraaah, lib_test |
 | `postgres-keycloak`   | 5433 | Keycloak-DB         |
 | `keycloak`            | 8080 | –                   |
@@ -207,23 +207,23 @@ Das Backend-Ökosystem lebt in **WSL Ubuntu**.
 
 ## Service-URLs (Entwicklung)
 
-| Service        | URL                                                                            |
-|----------------|--------------------------------------------------------------------------------|
-| Backend API    | http://localhost:9080/jeee-raaah/                                              |
-| OpenAPI UI     | http://localhost:9080/openapi/ui                                                |
-| Keycloak Admin | http://localhost:8080/admin                                                    |
-| Keycloak Token | http://localhost:8080/realms/jeeeraaah-realm/protocol/openid-connect/token     |
-| JasperReports  | http://localhost:8090/health                                                   |
+| Service        | URL                                                                        |
+|----------------|----------------------------------------------------------------------------|
+| Backend API    | http://localhost:9080/jeee-raaah/                                          |
+| OpenAPI UI     | http://localhost:9080/openapi/ui                                           |
+| Keycloak Admin | http://localhost:8080/admin                                                |
+| Keycloak Token | http://localhost:8080/realms/jeeeraaah-realm/protocol/openid-connect/token |
+| JasperReports  | http://localhost:8090/health                                               |
 
 ---
 
 ## Dev-Credentials
 
-| Service               | Benutzer    | Passwort       |
-|-----------------------|-------------|----------------|
-| Frontend-Login        | `testuser`  | `testpassword` |
-| Keycloak Admin        | `admin`     | `admin`        |
-| PostgreSQL jeeeraaah  | `jeeeraaah` | `jeeeraaah`    |
+| Service              | Benutzer    | Passwort       |
+|----------------------|-------------|----------------|
+| Frontend-Login       | `testuser`  | `testpassword` |
+| Keycloak Admin       | `admin`     | `admin`        |
+| PostgreSQL jeeeraaah | `jeeeraaah` | `jeeeraaah`    |
 
 ---
 
@@ -238,19 +238,19 @@ Das Backend-Ökosystem lebt in **WSL Ubuntu**.
 
 ## Verwandte Projekte
 
-| Projekt              | Pfad (Windows)                                              | Repo                               |
-|----------------------|-------------------------------------------------------------|------------------------------------|
-| Kotlin CMP Frontend  | `C:\Users\r-uu\develop\github\kotlin\cmp\main`             | https://github.com/r-uu/main_cmp   |
+| Projekt             | Pfad (Windows)                                 | Repo                             |
+|---------------------|------------------------------------------------|----------------------------------|
+| Kotlin CMP Frontend | `C:\Users\r-uu\develop\github\kotlin\cmp\main` | https://github.com/r-uu/main_cmp |
 
 ---
 
 ## Weiterführende Dokumentation (im Repo)
 
-| Datei                      | Inhalt                                      |
-|----------------------------|---------------------------------------------|
-| `JPMS-REFERENCE.md`        | Vollständige JPMS-Dokumentation             |
-| `BUILD-TROUBLESHOOTING.md` | Bekannte Build-Probleme & Lösungen          |
-| `IAM-KEYCLOAK-LIBERTY-GUIDE.md` | Keycloak-Setup                         |
-| `GETTING-STARTED.md`       | Schnellstart                                |
-| `DOCUMENTATION-INDEX.md`   | Vollständiger Doku-Index                    |
-| `todo.md`                  | Offene Aufgaben                             |
+| Datei                           | Inhalt                             |
+|---------------------------------|------------------------------------|
+| `JPMS-REFERENCE.md`             | Vollständige JPMS-Dokumentation    |
+| `BUILD-TROUBLESHOOTING.md`      | Bekannte Build-Probleme & Lösungen |
+| `IAM-KEYCLOAK-LIBERTY-GUIDE.md` | Keycloak-Setup                     |
+| `GETTING-STARTED.md`            | Schnellstart                       |
+| `DOCUMENTATION-INDEX.md`        | Vollständiger Doku-Index           |
+| `todo.md`                       | Offene Aufgaben                    |
