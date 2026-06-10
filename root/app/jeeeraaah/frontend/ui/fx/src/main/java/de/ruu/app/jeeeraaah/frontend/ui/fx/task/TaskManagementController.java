@@ -44,7 +44,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToolBar;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.util.Callback;
@@ -75,15 +74,6 @@ class TaskManagementController extends DefaultFXCController<TaskManagement, Task
 	private Button btnExit;
 	@FXML
 	private Button btnRemove;
-
-	@FXML
-	private ImageView ivwAdd;
-	@FXML
-	private ImageView ivwEdit;
-	@FXML
-	private ImageView ivwRemove;
-	@FXML
-	private ImageView ivwExit;
 
 	@FXML
 	private AnchorPane root;

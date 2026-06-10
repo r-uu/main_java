@@ -3,11 +3,7 @@ package de.ruu.app.jeeeraaah.frontend.ui.fx.task.hierarchy;
 import de.ruu.app.jeeeraaah.common.api.bean.TaskBean;
 import de.ruu.app.jeeeraaah.common.api.bean.TaskGroupBean;
 import de.ruu.app.jeeeraaah.common.api.domain.flat.TaskGroupFlat;
-import de.ruu.app.jeeeraaah.common.api.mapping.bean_flat.TaskGroupMapper;
 import de.ruu.app.jeeeraaah.frontend.api.client.ws.rs.TaskGroupServiceClient;
-import de.ruu.app.jeeeraaah.frontend.common.mapping.bean.fxbean.Map_TaskGroup_Bean_FXBean;
-import de.ruu.app.jeeeraaah.frontend.common.mapping.fxbean.bean.Map_TaskGroup_FXBean_Bean;
-import de.ruu.app.jeeeraaah.frontend.ui.fx.model.TaskGroupFXBean;
 import de.ruu.app.jeeeraaah.frontend.ui.fx.task.view.hierarchy.predecessor.TaskHierarchyPredecessors;
 import de.ruu.app.jeeeraaah.frontend.ui.fx.task.view.hierarchy.successor.TaskHierarchySuccessors;
 import de.ruu.app.jeeeraaah.frontend.ui.fx.task.view.hierarchy.supersub.TaskHierarchySuperSubTasks;
@@ -21,7 +17,6 @@ import de.ruu.lib.fx.comp.FXCAppStartedEvent;
 import de.ruu.lib.fx.comp.FXCController.DefaultFXCController;
 import de.ruu.lib.fx.control.dialog.AlertDialog;
 import de.ruu.lib.fx.control.dialog.ExceptionDialog;
-import de.ruu.lib.mapstruct.ReferenceCycleTracking;
 import de.ruu.lib.postgres.toolbox.ui.PostgresBackupUI;
 import de.ruu.lib.ws_rs.NonTechnicalException;
 import de.ruu.lib.ws_rs.TechnicalException;
@@ -37,7 +32,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-// Removed imports: javafx.stage.Modality, javafx.stage.Stage
+import javafx.stage.Stage;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
@@ -51,6 +46,9 @@ import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNull;
 import static javafx.scene.control.ButtonType.OK;
 import static javafx.scene.layout.Priority.ALWAYS;
+import static javafx.stage.Modality.APPLICATION_MODAL;
+
+// Removed imports: javafx.stage.Modality, javafx.stage.Stage
 
 /**
  * Java FX Component View Controller
@@ -243,8 +241,10 @@ class HierarchiesController extends DefaultFXCController<Hierarchies, Hierarchie
 
 				taskHierarchySuperSubTasks.service().activeTaskGroupProperty()
 						.addListener((obs, old, act) -> onActiveTaskPropertyChangedInSuperSubTaskHierarchy(act));
-			} else log.debug("no lazy group could be retrieved");
-		} catch (TechnicalException | NonTechnicalException e)
+			}
+			else log.debug("no lazy group could be retrieved");
+		}
+		catch (TechnicalException | NonTechnicalException e)
 		{
 			ExceptionDialog.showAndWait("failure fetching task group from backend", e);
 		}
@@ -266,11 +266,9 @@ class HierarchiesController extends DefaultFXCController<Hierarchies, Hierarchie
 
 		Dialog<Void> dialog = new Dialog<>();
 		dialog.setTitle("manage task groups");
-		// Reverted dialog.setResizable(true);
-		// Reverted dialog.initOwner(stage);
-		// Reverted dialog.initModality(Modality.APPLICATION_MODAL);
-		// Reverted log.info("Dialog owner set to: {}", stage.getTitle());
-		// Reverted log.warn("Could not determine current stage for dialog owner. Dialog might not be truly modal.");
+		dialog.setResizable(true);
+		assignOwnerTo(dialog);
+		dialog.initModality(APPLICATION_MODAL);
 
 		DialogPane pane = dialog.getDialogPane();
 		pane.setContent(taskGroupManagementLocalRoot);
@@ -282,10 +280,25 @@ class HierarchiesController extends DefaultFXCController<Hierarchies, Hierarchie
 		fetchTaskGroupsFromBackendAndPopulateTaskGroupSelector();
 	}
 
+	private void assignOwnerTo(Dialog<Void> dialog)
+	{
+		getStage(buttonManageGroups).ifPresent
+		(
+				s ->
+				{
+					dialog.initOwner(s);
+					log.info("assigned owner of dialog to {}", s.getTitle());
+				}
+		);
+	}
+
 	private void onGantt()
 	{
 		Dialog<Void> dialog = new Dialog<>();
 		dialog.setTitle("gantt chart");
+		dialog.setResizable(true);
+		assignOwnerTo(dialog);
+		dialog.initModality(APPLICATION_MODAL);
 
 		DialogPane pane = dialog.getDialogPane();
 		pane.setContent(ganttLocalRoot);
@@ -301,6 +314,9 @@ class HierarchiesController extends DefaultFXCController<Hierarchies, Hierarchie
 	{
 		Dialog<Void> dialog = new Dialog<>();
 		dialog.setTitle("PostgreSQL Backup");
+		dialog.setResizable(true);
+		assignOwnerTo(dialog);
+		dialog.initModality(APPLICATION_MODAL);
 
 		// create dialog pane and add PostgresBackupUI
 		DialogPane dialogPane = dialog.getDialogPane();

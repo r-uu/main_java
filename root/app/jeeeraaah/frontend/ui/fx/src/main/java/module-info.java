@@ -25,6 +25,8 @@ module de.ruu.app.jeeeraaah.frontend.ui.fx
 	requires de.ruu.app.jeeeraaah.frontend.api.client.ws.rs;
 	requires de.ruu.app.jeeeraaah.frontend.common.mapping.bean.fxbean;
 
+	requires org.kordamp.ikonli.javafx;
+
 	requires static lombok;
 	requires org.slf4j;  // Automatic module - needs --add-modules in .mvn/jvm.config for IntelliJ
 	requires de.ruu.lib.util.config.mp;

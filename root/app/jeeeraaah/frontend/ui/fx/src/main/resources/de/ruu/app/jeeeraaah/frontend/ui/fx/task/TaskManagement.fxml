@@ -9,8 +9,6 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.control.Tooltip?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -18,6 +16,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -63,37 +62,25 @@
                <children>
                   <ToolBar fx:id="tbr1" HBox.hgrow="ALWAYS">
                      <items>
-                        <Button fx:id="btnAdd" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0">
+                        <Button fx:id="btnAdd" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0">
                            <graphic>
-                              <ImageView fx:id="ivwAdd" fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../../../../../../img/png/add.png" />
-                                 </image>
-                              </ImageView>
+                              <FontIcon iconLiteral="far-plus-square" iconSize="11" />
                            </graphic>
                            <tooltip>
                               <Tooltip text="add" />
                            </tooltip>
                         </Button>
-                        <Button fx:id="btnRemove" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0">
+                        <Button fx:id="btnRemove" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0">
                            <graphic>
-                              <ImageView fx:id="ivwRemove" fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../../../../../../img/png/remove.png" />
-                                 </image>
-                              </ImageView>
+                              <FontIcon iconLiteral="far-trash-alt" iconSize="11" />
                            </graphic>
                            <tooltip>
                               <Tooltip text="remove" />
                            </tooltip>
                         </Button>
-                        <Button fx:id="btnEdit" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0">
+                        <Button fx:id="btnEdit" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0">
                            <graphic>
-                              <ImageView fx:id="ivwEdit" fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../../../../../../img/png/edit.png" />
-                                 </image>
-                              </ImageView>
+                              <FontIcon iconLiteral="far-edit" iconSize="11" />
                            </graphic>
                            <tooltip>
                               <Tooltip text="edit" />
@@ -103,16 +90,12 @@
                   </ToolBar>
                   <ToolBar fx:id="tbr2" HBox.hgrow="NEVER">
                      <items>
-                        <Button fx:id="btnExit" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0">
+                        <Button fx:id="btnExit" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0">
                            <graphic>
-                              <ImageView fx:id="ivwExit" fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../../../../../../img/png/left.png" />
-                                 </image>
-                              </ImageView>
+                              <FontIcon iconLiteral="far-arrow-alt-circle-left" iconSize="11" />
                            </graphic>
                            <tooltip>
-                              <Tooltip text="exit task group management" />
+                              <Tooltip text="exit task management" />
                            </tooltip>
                         </Button>
                      </items>

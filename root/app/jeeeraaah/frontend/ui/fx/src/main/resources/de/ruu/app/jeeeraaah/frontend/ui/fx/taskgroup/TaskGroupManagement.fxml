@@ -31,25 +31,25 @@
                <children>
                   <ToolBar fx:id="tbr1" HBox.hgrow="ALWAYS">
                     <items>
-                        <Button fx:id="btnAdd" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="24.0" prefWidth="24.0">
+                        <Button fx:id="btnAdd" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0">
                            <graphic>
-                              <FontIcon iconLiteral="fas-plus" iconSize="14" />
+                              <FontIcon iconLiteral="far-plus-square" iconSize="11" />
                            </graphic>
                            <tooltip>
                               <Tooltip text="add" />
                            </tooltip>
                         </Button>
-                        <Button fx:id="btnRemove" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="24.0" prefWidth="24.0">
+                        <Button fx:id="btnRemove" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0">
                            <graphic>
-                              <FontIcon iconLiteral="fas-trash" iconSize="14" />
+                              <FontIcon iconLiteral="far-trash-alt" iconSize="11" />
                            </graphic>
                            <tooltip>
                               <Tooltip text="remove" />
                            </tooltip>
                         </Button>
-                        <Button fx:id="btnEdit" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="24.0" prefWidth="24.0">
+                        <Button fx:id="btnEdit" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0">
                            <graphic>
-                              <FontIcon iconLiteral="fas-edit" iconSize="14" />
+                              <FontIcon iconLiteral="far-edit" iconSize="11" />
                            </graphic>
                            <tooltip>
                               <Tooltip text="edit" />
@@ -59,9 +59,9 @@
                   </ToolBar>
                   <ToolBar fx:id="tbr2" HBox.hgrow="NEVER">
                      <items>
-                        <Button fx:id="btnExit" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="24.0" prefWidth="24.0">
+                        <Button fx:id="btnExit" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0">
                            <graphic>
-                              <FontIcon iconLiteral="fas-times" iconSize="14" />
+                              <FontIcon iconLiteral="far-times-circle" iconSize="11" />
                            </graphic>
                            <tooltip>
                               <Tooltip text="cancel" />

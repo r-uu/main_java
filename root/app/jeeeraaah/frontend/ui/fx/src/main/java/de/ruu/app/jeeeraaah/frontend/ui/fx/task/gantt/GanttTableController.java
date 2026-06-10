@@ -7,6 +7,7 @@ import de.ruu.lib.fx.comp.FXCController;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import javafx.beans.property.SimpleStringProperty;
+import org.kordamp.ikonli.javafx.FontIcon;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -108,7 +109,6 @@ public class GanttTableController
 						-fx-background-color: transparent;
 						-fx-border-color: transparent;
 						-fx-padding: 0;
-						-fx-font-size: 9px;
 						-fx-cursor: hand;
 						""");
 				expandButton.setOnAction(e -> {
@@ -136,8 +136,7 @@ public class GanttTableController
 				{
 					if (row.hasChildren())
 					{
-						// Use ▶ for collapsed, ▼ for expanded
-						expandButton.setText(row.isExpanded() ? "▼" : "▶");
+						expandButton.setGraphic(new FontIcon(row.isExpanded() ? "fas-caret-down" : "fas-caret-right"));
 						setGraphic(expandButton);
 					}
 					else

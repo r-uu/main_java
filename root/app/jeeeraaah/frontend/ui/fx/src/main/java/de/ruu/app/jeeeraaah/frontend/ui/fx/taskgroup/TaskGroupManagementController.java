@@ -27,7 +27,6 @@ import de.ruu.lib.ws_rs.TechnicalException;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
-import javafx.application.Platform; // Added import
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -38,7 +37,6 @@ import javafx.scene.control.DialogPane;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToolBar;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import lombok.NonNull;
@@ -68,15 +66,6 @@ class TaskGroupManagementController extends DefaultFXCController<TaskGroupManage
 	private Button btnExit;
 	@FXML
 	private Button btnRemove;
-
-	@FXML
-	private ImageView ivwAdd;
-	@FXML
-	private ImageView ivwEdit;
-	@FXML
-	private ImageView ivwRemove;
-	@FXML
-	private ImageView ivwExit;
 
 	@FXML
 	private AnchorPane root;
@@ -120,24 +109,22 @@ class TaskGroupManagementController extends DefaultFXCController<TaskGroupManage
 	@Override
 	public void refreshData()
 	{
-		Platform.runLater(() -> { // Ensure UI update on FX Application Thread
-			tv.getItems().clear(); // Clear existing items
-			ReferenceCycleTracking context = new ReferenceCycleTracking();
-			try
-			{
-				client.findAllFlat().forEach(
-						flat -> {
-							TaskGroupBean bean = TaskGroupMapper.INSTANCE.toBean(flat);
-							TaskGroupFXBean fxBean = Map_TaskGroup_Bean_FXBean.INSTANCE.map(bean, context);
-							tv.getItems().add(fxBean);
-						});
-				log.info("Refreshed TaskGroupManagement TableView. Added {} items.", tv.getItems().size());
-			}
-			catch (TechnicalException | NonTechnicalException e)
-			{
-				ExceptionDialog.showAndWait("failure retrieving task groups from backend", e);
-			}
-		});
+		tv.getItems().clear();
+		ReferenceCycleTracking context = new ReferenceCycleTracking();
+		try
+		{
+			client.findAllFlat().forEach(
+					flat -> {
+						TaskGroupBean bean = TaskGroupMapper.INSTANCE.toBean(flat);
+						TaskGroupFXBean fxBean = Map_TaskGroup_Bean_FXBean.INSTANCE.map(bean, context);
+						tv.getItems().add(fxBean);
+					});
+			log.info("Refreshed TaskGroupManagement TableView. Added {} items.", tv.getItems().size());
+		}
+		catch (TechnicalException | NonTechnicalException e)
+		{
+			ExceptionDialog.showAndWait("failure retrieving task groups from backend", e);
+		}
 	}
 
 	@PostConstruct
