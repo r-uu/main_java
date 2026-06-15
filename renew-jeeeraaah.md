@@ -6,11 +6,20 @@ Diese Datei dient als context-Datei für ai-agenten wie claude code oder gemini.
 
 Diese Datei enthält einen planerischen und einen operativen Teil. Im planerischen Teil wird ein neues Projekt (Arbeitsname "renew jeeeraaah") beschrieben, im operativen Teil wird die Umsetzung der Planung beschrieben.
 
-Das neue Projekt soll 
+# Projektziele
 
-## Namensfindung für das neue Projekt
+Das neue Projekt soll sich inhaltlich eng an die Ziele der jeeeraaah Projekte anlehnen.
 
-> Ich suche nach einem Namen für ein Projekt, das meine bestehenden JEEERAAAH Projekte mit Java und Kotlin CMP neu aufbaut. Empfiehl mir coole und einprägsame Namen.
+## fachlich
+
+Es geht um
+
+- das Erreichen von Zielen und
+- die Planung und Durchführung von dazu zu erledigenden Aufgaben. 
+
+## technisch
+
+# Namensfindung für das neue Projekt
 
 Klang & Coolness
 
@@ -37,21 +46,13 @@ Java + Kotlin Fusion
 
 ---
 
-Mein Tipp: Kairos oder Kova — beide haben den richtigen Ton zwischen technisch und bedeutungsvoll, ohne sich zu ernst zu nehmen. Iterum wäre mein Geheimfavorit wenn du den lateinischen Insider-Witz magst.  Was ist die Richtung — eher cool-minimal, bedeutungsvoll, oder darf es wieder ein Wortspiel sein?
-
-> Es wäre schön, wenn auch ein Bezug zu Enterprise Aufgabenverwaltung mit dabei wäre. Notfalls könnte ich auf das JIRA-Wortspiel verzichten.
-
-Dann gezielt auf den Schnittbereich: Aufgabenverwaltung + Enterprise + cool klingend. Griechisch und Latein liefern da starke Kandidaten:
-
----
-
 Aufgaben / "das Zu-Tuende"  
 
-| Name    | Ursprung   | Bedeutung                                                      |
-|---------|------------|----------------------------------------------------------------|
-| Agendum | Latein     | "das, was getan werden muss" — buchstäblich Aufgabenverwaltung |
-| Pragma  | Griechisch | "Tat / erledigtes Ding" — pragmatische Energie, klingt tech    |
-| Praxis  | Griechisch | "Handlung / Ausführung" — enterprise-würdig, modern            |
+| Name    | Ursprung   | Bedeutung                                                        |
+|---------|------------|------------------------------------------------------------------|
+| Agendum | Latein     | "das, was getan werden muss" — buchstäblich Aufgabenverwaltung   |
+| Pragma  | Griechisch | "Tat / erledigtes Ding" — pragmatische Energie, klingt nach tech |
+| Praxis  | Griechisch | "Handlung / Ausführung" — enterprise-würdig, modern              |
 
 Ziel / Ergebnis  
 
@@ -70,29 +71,16 @@ Mit JIRA-Wortspiel-Vibe
 
 ---
 
-Mein klarer Favorit: Pragma
+Kurz, technisch-griechisch, bedeutet "die erledigte Tat" — das ist Aufgabenverwaltung in einem Wort. Klingt moderner als JEEERAAAH, hat aber denselben Insider-Charakter. Und de.ruu.app.pragma als Package-Prefix macht sich gut.
 
-Kurz, technisch-griechisch, bedeutet "die erledigte Tat" — das ist Aufgabenverwaltung in einem Wort. Klingt moderner als JEEERAAAH, hat aber denselben Insider-Charakter. Und de.ruu.pragma als Package-Prefix macht sich gut.
+Wenn man den Aspekt der Planung noch mit einbezieht, wird Pragma noch stärker — griechisch steht es für die vollendete Handlung, aber der Wortstamm prag- (von prattein = tun, planen, handeln) umfasst genau den Bogen von Planung bis Ausführung.
 
-Was resoniert davon am meisten?
-
-> Was wäre dein Vorschlag, wenn man den Aspekt der Planung noch mit einbeziehen würde
-
-Dann wird Pragma noch stärker — griechisch steht es für die vollendete Handlung, aber der Wortstamm prag- (von prattein = tun, planen, handeln) umfasst genau den Bogen von Planung bis Ausführung.
-
-Alternativ, wenn du Planung expliziter im Namen willst:
-
----
-| Name       | Ursprung   | Bedeutung                                                       |
-|------------|------------|-----------------------------------------------------------------|
-| Pragma     | Griechisch | Planung → Handlung → Ergebnis (alles drin)                      |
-| Boule      | Griechisch | "Rat / planender Wille" — der Akt des Abwägens und Beschließens |
-| Consilium  | Latein     | "Plan / Ratschluss / Absicht" — enterprise-klassisch            |
-| Propositum | Latein     | "das Vorhaben / das Vorangestellte" — Ziel mit Plan dahinter    |
-| Intentio   | Latein     | "Absicht / Ausrichtung" — Planung als gerichtete Kraft          |
+Pragma beschreibt den ganzen Zyklus: planen, handeln, fertigstellen. Klingt dabei trotzdem kurz und modern.
 
 ---
 
-Mein Gesamtfavorit bleibt Pragma — weil es nicht nur über Planung redet, sondern den ganzen Zyklus verkörpert: planen, handeln, fertigstellen. Klingt dabei trotzdem kurz und modern.
+**Slogans**
 
-Wenn du den Planungsaspekt lieber explizit sichtbar machen willst, wäre Consilium mein zweiter Tipp — hat Enterprise-Gravitas und klingt nach etwas, das man ernst nimmt. 
+- *plan - execute - deliver*
+- *plan - perform - impact*
+- *...*
