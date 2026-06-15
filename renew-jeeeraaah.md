@@ -10,6 +10,8 @@ Das neue Projekt soll
 
 ## Namensfindung für das neue Projekt
 
+> Ich suche nach einem Namen für ein Projekt, das meine bestehenden JEEERAAAH Projekte mit Java und Kotlin CMP neu aufbaut. Empfiehl mir coole und einprägsame Namen.
+
 Klang & Coolness
 
 | Name    | Idee                                                                       |
@@ -37,7 +39,7 @@ Java + Kotlin Fusion
 
 Mein Tipp: Kairos oder Kova — beide haben den richtigen Ton zwischen technisch und bedeutungsvoll, ohne sich zu ernst zu nehmen. Iterum wäre mein Geheimfavorit wenn du den lateinischen Insider-Witz magst.  Was ist die Richtung — eher cool-minimal, bedeutungsvoll, oder darf es wieder ein Wortspiel sein?
 
-es wäre schön, wenn auch ein bezug zu enterprise aufgabenverwaltung mit dabei wäre. notfalls könnte ich auf das jira-wortspiel verzichten [copy] [edit]
+> Es wäre schön, wenn auch ein Bezug zu Enterprise Aufgabenverwaltung mit dabei wäre. Notfalls könnte ich auf das JIRA-Wortspiel verzichten.
 
 Dann gezielt auf den Schnittbereich: Aufgabenverwaltung + Enterprise + cool klingend. Griechisch und Latein liefern da starke Kandidaten:
 
@@ -68,9 +70,29 @@ Mit JIRA-Wortspiel-Vibe
 
 ---
 
-Mein klarer Favorit: Pragma  Kurz, technisch-griechisch, bedeutet "die erledigte Tat" — das ist Aufgabenverwaltung in einem Wort. Klingt moderner als JEEERAAAH, hat aber denselben Insider-Charakter. Und de.ruu.pragma als Package-Prefix macht sich gut.
+Mein klarer Favorit: Pragma
+
+Kurz, technisch-griechisch, bedeutet "die erledigte Tat" — das ist Aufgabenverwaltung in einem Wort. Klingt moderner als JEEERAAAH, hat aber denselben Insider-Charakter. Und de.ruu.pragma als Package-Prefix macht sich gut.
 
 Was resoniert davon am meisten?
 
-was wäre dein vorschlag, wenn man den aspekt der planung noch mit einbeziehen würde [copy] [edit]
-Dann wird Pragma noch stärker — griechisch steht es für die vollendete Handlung, aber der Wortstamm prag- (von prattein = tun, planen, handeln) umfasst genau den Bogen von Planung bis Ausführung.  Alternativ, wenn du Planung expliziter im Namen willst:  ---  | Name | Ursprung | Bedeutung | |---|---|---| | Pragma | Griechisch | Planung → Handlung → Ergebnis (alles drin) | | Boule | Griechisch | "Rat / planender Wille" — der Akt des Abwägens und Beschließens | | Consilium | Latein | "Plan / Ratschluss / Absicht" — enterprise-klassisch | | Propositum | Latein | "das Vorhaben / das Vorangestellte" — Ziel mit Plan dahinter | | Intentio | Latein | "Absicht / Ausrichtung" — Planung als gerichtete Kraft |  ---  Mein Gesamtfavorit bleibt Pragma — weil es nicht über Planung redet, sondern den ganzen Zyklus verkörpert: planen, handeln, fertigstellen. Klingt dabei trotzdem kurz und modern.  Wenn du den Planungsaspekt lieber explizit sichtbar machen willst, wäre Consilium mein zweiter Tipp — hat Enterprise-Gravitas und klingt nach etwas, das man ernstnimmt. 
+> Was wäre dein Vorschlag, wenn man den Aspekt der Planung noch mit einbeziehen würde
+
+Dann wird Pragma noch stärker — griechisch steht es für die vollendete Handlung, aber der Wortstamm prag- (von prattein = tun, planen, handeln) umfasst genau den Bogen von Planung bis Ausführung.
+
+Alternativ, wenn du Planung expliziter im Namen willst:
+
+---
+| Name       | Ursprung   | Bedeutung                                                       |
+|------------|------------|-----------------------------------------------------------------|
+| Pragma     | Griechisch | Planung → Handlung → Ergebnis (alles drin)                      |
+| Boule      | Griechisch | "Rat / planender Wille" — der Akt des Abwägens und Beschließens |
+| Consilium  | Latein     | "Plan / Ratschluss / Absicht" — enterprise-klassisch            |
+| Propositum | Latein     | "das Vorhaben / das Vorangestellte" — Ziel mit Plan dahinter    |
+| Intentio   | Latein     | "Absicht / Ausrichtung" — Planung als gerichtete Kraft          |
+
+---
+
+Mein Gesamtfavorit bleibt Pragma — weil es nicht nur über Planung redet, sondern den ganzen Zyklus verkörpert: planen, handeln, fertigstellen. Klingt dabei trotzdem kurz und modern.
+
+Wenn du den Planungsaspekt lieber explizit sichtbar machen willst, wäre Consilium mein zweiter Tipp — hat Enterprise-Gravitas und klingt nach etwas, das man ernst nimmt. 
