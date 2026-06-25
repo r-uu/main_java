@@ -66,6 +66,11 @@ fi
 # r-uu project configuration
 # ═══════════════════════════════════════════════════════════════════
 
+# - r-uu terminal fix: IntelliJ WSL setzt TERM=dumb / NO_COLOR=1 vor Bash-Start
+#   → überschreiben damit Claude Code light theme und Farben funktionieren
+[ "$TERM" = "dumb" ] && export TERM=xterm-256color
+unset NO_COLOR
+
 # - r-uu WSL2/WSLg graphics (fixes IntelliJ rendering artifacts)
 export LIBGL_ALWAYS_SOFTWARE=1          # force Mesa software rendering
 export MESA_LOADER_DRIVER_OVERRIDE=softpipe  # stable softpipe instead of llvmpipe

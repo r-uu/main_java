@@ -5,7 +5,7 @@
     <option name="MAIN_CLASS_NAME" value="de.ruu.app.jeeeraaah.frontend.ui.fx.task.hierarchy.HierarchiesAppRunner" />
     <module name="r-uu.app.jeeeraaah.frontend.ui.fx" />
     <option name="VM_PARAMETERS" value="-Dglass.gtk.uiScale=1.0" />
-    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/root/app/jeeeraaah/frontend/ui/fx" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/main/root/app/jeeeraaah/frontend" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

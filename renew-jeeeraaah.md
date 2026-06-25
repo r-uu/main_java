@@ -1,23 +1,35 @@
-# Projektkontext: renew jeeeraaah (Java / Jakarta EE Backend & JavaFX Frontend & Kotlin CMP Frontend)
+# Projektkontext: renew ***jeeeraaah*** with ***pragma*** (Java / Jakarta EE Backend & JavaFX Frontend & Kotlin CMP Frontend)
 
 ## Hinweise für KI-Agenten
 
 Diese Datei dient als context-Datei für ai-agenten wie claude code oder gemini. Sie soll bei jedem chat mit ai-agenten berücksichtigt und automatisch aktuell gehalten werden.
 
-Diese Datei enthält einen planerischen und einen operativen Teil. Im planerischen Teil wird ein neues Projekt (Arbeitsname "renew jeeeraaah") beschrieben, im operativen Teil wird die Umsetzung der Planung beschrieben.
+Diese Datei enthält einen [planerischen (Projektziele)](#projektziele) und einen [operativen Teil (Projektumsetzung)](#projektumsetzung).
 
 # Projektziele
 
-Das neue Projekt soll sich inhaltlich eng an die Ziele der jeeeraaah Projekte anlehnen.
+Das neue Projekt soll sich [inhaltlich / fachlich](#fachliche-projektziele) und [technisch](#technische-projektziele) eng an die Ziele der jeeeraaah [backend](https://github.com/r-uu/main_java) und [frontend](https://github.com/r-uu/main_cmp) Projekte anlehnen.
 
-## fachlich
-
-Es geht um
+Aus fachlicher Sicht geht es insgesamt um
 
 - das Erreichen von Zielen und
-- die Planung und Durchführung von dazu zu erledigenden Aufgaben. 
+- die Planung und Durchführung von dazu zu erledigenden Aufgaben.
 
-## technisch
+## Fachliche Projektziele
+
+Das zu entwickelnde Softwaresystem soll dem Anwender dabei helfen, in einem Projekt anfallenden Aufgaben (Tasks) zu strukturieren und den zeitlichen Ablauf für die Umsetzung der Aufgaben (predecessor / successor Tasks) zu planen.
+
+### Strukturierung von Aufgaben
+
+Strukturierung soll es ermöglichen, komplexe Aufgaben in kleinere (Teil-) Aufgaben zu gliedern. Dieser Strukturierungsschritt soll sich beliebig häufig wiederholen lassen. Dabei entsteht eine Hierarchie von Aufgaben. Diese Hierarchie ist eine Aggregatsbeziehung, bei der die Teile unabhängig von anderen Teilen existieren können und bei Bedarf in die Hierarchie eingefügt / entfernt werden können.
+
+### Planung von Aufgaben
+
+Die Aufgaben werden in Gruppen (TaskGroups) organisiert.
+
+## Technische Projektziele
+
+# Projektumsetzung
 
 # Namensfindung für das neue Projekt
 
