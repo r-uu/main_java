@@ -17,9 +17,9 @@
     <!-- ########## -->
     <parent>
         <groupId>r-uu</groupId>
-        <artifactId>r-uu.bom</artifactId>
+        <artifactId>r-uu.app.jeeeraaah.bom</artifactId>
         <version>0.0.1</version>
-        <relativePath>../bom/pom.xml</relativePath>
+        <relativePath>../bom/jeeeraaah/pom.xml</relativePath>
     </parent>
 
     <modules>
