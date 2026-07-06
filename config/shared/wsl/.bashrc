@@ -100,9 +100,9 @@ if ! xdpyinfo &>/dev/null 2>&1; then
     fi
 fi
 
-# - r-uu aliases
-if [ -f ~/develop/github/java/main/config/shared/wsl/aliases.sh ]; then
-    source ~/develop/github/java/main/config/shared/wsl/aliases.sh
+# - r-uu aliases  (global from wsl-env, then project from ~/.wsl-project)
+if [ -f ~/develop/github/wsl-env/env/wsl/bootstrap.sh ]; then
+    source ~/develop/github/wsl-env/env/wsl/bootstrap.sh
 fi
 
 # - r-uu auto-start docker containers

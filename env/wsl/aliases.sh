@@ -1,6 +1,7 @@
 #!/bin/bash
-# Shared WSL aliases for the r-uu project
-# This file is version-controlled and shared across all development machines
+# Project-specific WSL aliases for java/main.
+# Loaded by wsl-env bootstrap when ~/.wsl-project points to this repo.
+#   ruu-project-set /home/r-uu/develop/github/java/main
 
 # ═══════════════════════════════════════════════════════════════════
 # Project Paths
@@ -12,19 +13,6 @@ export RUU_CONFIG="$RUU_MAIN/config"
 export RUU_DOCKER="$RUU_CONFIG/shared/docker"
 export RUU_WSL="$RUU_CONFIG/shared/wsl"
 export RUU_JASPER="$RUU_ROOT/sandbox/office/microsoft/word/jasperreports"
-export RUU_PRAGMA="/home/r-uu/develop/github/app-pragma-java"
-
-unalias -a 2>/dev/null  # Remove all previous aliases to avoid conflicts
-alias ruu-aliases-reload='source $RUU_WSL/aliases.sh && echo "✅ Aliases reloaded"'
-
-# ═══════════════════════════════════════════════════════════════════
-# Shell Utilities
-# ═══════════════════════════════════════════════════════════════════
-alias ls='ls --color=auto'
-alias grep='grep --color=auto'
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
 
 # ═══════════════════════════════════════════════════════════════════
 # Navigation
@@ -42,7 +30,6 @@ alias ruu-cd-jasper='cd $RUU_JASPER'
 # ═══════════════════════════════════════════════════════════════════
 # Maven - Build
 # ═══════════════════════════════════════════════════════════════════
-# Build function (recommended!)
 ruu-mvn-build-all() {
     local current_dir=$(pwd)
     cd "$RUU_MAIN" || return 1
@@ -57,10 +44,8 @@ alias ruu-mvn-clean='cd $RUU_ROOT && mvn clean'
 alias ruu-mvn-install='cd $RUU_ROOT && mvn liberty:stop -pl app/jeeeraaah/backend/api/ws_rs --fail-at-end; mvn clean install'
 alias ruu-mvn-install-fast='cd $RUU_ROOT && mvn liberty:stop -pl app/jeeeraaah/backend/api/ws_rs --fail-at-end; mvn clean install -DskipTests'
 alias ruu-mvn-test='cd $RUU_ROOT && mvn test'
-alias ruu-mvn-test-module='mvn test'  # Run in current directory
+alias ruu-mvn-test-module='mvn test'
 alias ruu-mvn-verify='cd $RUU_ROOT && mvn verify'
-
-# Individual modules
 alias ruu-mvn-bom-install='cd $RUU_BOM && mvn clean install'
 alias ruu-mvn-root-install='cd $RUU_ROOT && mvn clean install'
 alias ruu-mvn-lib-install='cd $RUU_ROOT/lib && mvn clean install'
@@ -75,7 +60,7 @@ alias ruu-docker-daemon-status='sudo service docker status'
 alias ruu-docker-daemon-restart='sudo service docker restart'
 
 # ═══════════════════════════════════════════════════════════════════
-# Docker - Services (all containers)
+# Docker - Services
 # ═══════════════════════════════════════════════════════════════════
 alias ruu-docker-up='cd $RUU_DOCKER && docker compose up -d'
 alias ruu-docker-down='cd $RUU_DOCKER && docker compose down'
@@ -85,21 +70,15 @@ alias ruu-docker-ps='docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports
 alias ruu-docker-cleanup='docker container prune -f && docker volume prune -f && echo "✅ Containers and volumes cleaned up"'
 alias ruu-docker-reset='bash $RUU_DOCKER/complete-reset.sh'
 alias ruu-docker-setup='bash $RUU_DOCKER/complete-setup.sh'
-
-# Start all containers and wait until ready
 alias ruu-docker-start-all='bash $RUU_DOCKER/start-all-and-wait.sh'
-
-# Automatic system startup (starts all services and waits until ready)
 alias ruu-docker-startup='bash $RUU_DOCKER/startup-and-setup.sh'
 alias ruu-docker-status='bash $RUU_DOCKER/check-status.sh'
-
-# Docker - Test & Verification
 alias ruu-docker-test='bash $RUU_CONFIG/shared/scripts/test-docker-autostart.sh'
 alias ruu-docker-test-build='bash $RUU_CONFIG/shared/scripts/test-docker-autostart.sh --with-build'
 alias ruu-docker-test-multidb='bash $RUU_CONFIG/shared/scripts/test-multi-db.sh'
 
 # ═══════════════════════════════════════════════════════════════════
-# Docker - PostgreSQL (jeeeraaah)
+# Docker - PostgreSQL
 # ═══════════════════════════════════════════════════════════════════
 alias ruu-pg-start='cd $RUU_DOCKER && docker compose up -d postgres-jeeeraaah'
 alias ruu-pg-stop='docker container stop postgres-jeeeraaah'
@@ -107,9 +86,6 @@ alias ruu-pg-restart='ruu-pg-stop && ruu-pg-start'
 alias ruu-pg-logs='docker logs -f postgres-jeeeraaah'
 alias ruu-pg-shell='docker exec -it postgres-jeeeraaah psql -U r_uu -d jeeeraaah'
 alias ruu-pg-shell-admin='docker exec -it postgres-jeeeraaah psql -U postgres'
-
-# PostgreSQL - Database repair
-# Creates lib_test database if it does not exist (for library tests)
 alias ruu-pg-ensure-lib-test='docker exec -i postgres-jeeeraaah psql -U postgres_jeeeraaah_username -d postgres -c "CREATE DATABASE lib_test OWNER postgres_jeeeraaah_username;" 2>/dev/null && echo "✅ lib_test created" || echo "✅ lib_test already exists"'
 alias ruu-pg-reset-lib-test='docker exec -i postgres-jeeeraaah psql -U postgres_jeeeraaah_username -d postgres -c "DROP DATABASE IF EXISTS lib_test;" && docker exec -i postgres-jeeeraaah psql -U postgres_jeeeraaah_username -d postgres -c "CREATE DATABASE lib_test OWNER postgres_jeeeraaah_username;" && echo "✅ lib_test recreated"'
 
@@ -121,17 +97,13 @@ alias ruu-kc-stop='docker container stop keycloak'
 alias ruu-kc-restart='ruu-kc-stop && ruu-kc-start'
 alias ruu-kc-logs='docker logs -f keycloak'
 alias ruu-kc-admin='echo "Keycloak Admin: http://localhost:8080/admin (User: keycloak_admin_username / keycloak_admin_password)"'
-
-# Keycloak realm setup (loads .env before execution)
 alias ruu-kc-setup='cd $RUU_ROOT/lib/keycloak_admin && mvn exec:java -Dexec.mainClass="de.ruu.lib.keycloak.admin.setup.KeycloakRealmSetup" -Dkeycloak.admin.user=admin -Dkeycloak.admin.password=admin'
 
-# Keycloak - Full reset (recreate container + volume, then realm)
 ruu-kc-reset() {
     echo "🔄 Keycloak full reset..."
     bash "$RUU_DOCKER/reset-keycloak.sh"
 }
 
-# Keycloak - Recreate realm only (without container reset)
 ruu-kc-realm-reset() {
     echo "🔄 Recreating Keycloak realm..."
     cd "$RUU_ROOT/lib/keycloak_admin" || return 1
@@ -169,137 +141,15 @@ alias ruu-ports='netstat -tulpn 2>/dev/null | grep LISTEN'
 alias ruu-disk='df -h | grep -E "(Filesystem|/home)"'
 alias ruu-tree='cd $RUU_MAIN && tree -L 3 -I target'
 alias ruu-tree-full='cd $RUU_MAIN && tree -I target'
-
-# ═══════════════════════════════════════════════════════════════════
-# Java & Tool Versions
-# ═══════════════════════════════════════════════════════════════════
-alias ruu-java-version='java --version'
-alias ruu-maven-version='mvn --version'
-alias ruu-docker-version='docker --version && docker compose version'
-alias ruu-graalvm-version='echo "GraalVM: $(java --version | head -n1)" && echo "Path: $JAVA_HOME"'
-alias ruu-versions='echo "=== Tool Versions ==" && ruu-java-version && echo "" && ruu-maven-version && echo "" && ruu-docker-version'
-
-# ═══════════════════════════════════════════════════════════════════
-# IntelliJ IDEA / JetBrains Toolbox (WSL-native via WSLg)
-# ═══════════════════════════════════════════════════════════════════
 alias ruu-ij-fix='bash $RUU_CONFIG/shared/scripts/fix-intellij-wsl-rendering.sh'
-alias ruu-toolbox='_JAVA_AWT_WM_NONREPARENTING=1 jetbrains-toolbox &'
-# Startet IntelliJ IDEA (WSL-native) mit korrekten WSLg-Display-Variablen.
-# Bereinigt vorher veraltete JetBrains-Sockets – Ursache für unsichtbare Fenster nach WSLg-Neustart.
-ruu-ij() {
-    # WAYLAND_DISPLAY leer lassen → JBR startet im X11-Modus (XWayland).
-    # Im X11-Modus gilt uiScale=0.5 aus den vmoptions korrekt.
-    rm -f /run/user/1000/jb.station.ij.*.sock 2>/dev/null
-    DISPLAY=:0 WAYLAND_DISPLAY= XDG_RUNTIME_DIR=/run/user/1000 \
-        _JAVA_AWT_WM_NONREPARENTING=1 GDK_BACKEND=x11 \
-        nohup /home/r-uu/.local/bin/idea-wsl-fixed "$@" \
-        >/tmp/idea-wsl-start.log 2>&1 &
-    echo "IntelliJ IDEA gestartet (PID $!)"
-}
 
 # ═══════════════════════════════════════════════════════════════════
-# Shell & Aliases
-# ═══════════════════════════════════════════════════════════════════
-alias ruu-shell-reset='clear && exec $SHELL'
-alias ruu-aliases-edit='${EDITOR:-nano} $RUU_MAIN/config/shared/wsl/aliases.sh'
-
-# ═══════════════════════════════════════════════════════════════════
-# Help & Documentation
-# ═══════════════════════════════════════════════════════════════════
-alias ruu-help='cat $RUU_MAIN/config/shared/wsl/aliases.sh | grep "^alias ruu-" | sed "s/alias //" | sed "s/=/\t→ /" | sort | column -t -s "→"'
-alias ruu-docs='ls -1 $RUU_MAIN/config/*.md && echo "" && cat $RUU_MAIN/START-HERE.md'
-
-ruu-groups() {
-    echo ""
-    echo "  ╔═══════════════════════════════════════════════════════════════╗"
-    echo "  ║              ruu-* Alias Groups (Overview)                    ║"
-    echo "  ╠══════════════╦════════════════════════════════════════════════╣"
-    echo "  ║ ruu-aliases  ║ Reload / edit aliases                          ║"
-    echo "  ║ ruu-app      ║ Start application (JavaFX frontend)            ║"
-    echo "  ║ ruu-cd       ║ Navigate to project directories                ║"
-    echo "  ║ ruu-docker   ║ Docker daemon & jeeeraaah stack management     ║"
-    echo "  ║ ruu-git      ║ Git (status, pull, push, log, diff)            ║"
-    echo "  ║ ruu-ij       ║ IntelliJ IDEA (fix indexing)                   ║"
-    echo "  ║ ruu-jasper   ║ JasperReports container (start/stop/logs)      ║"
-    echo "  ║ ruu-java     ║ Show Java / GraalVM version                    ║"
-    echo "  ║ ruu-kc       ║ Keycloak IAM (start/stop/setup/realm-reset)    ║"
-    echo "  ║ ruu-mvn      ║ Maven build (install, test, clean, module)     ║"
-    echo "  ║ ruu-ol       ║ Open Liberty backend (start/run/stop)          ║"
-    echo "  ║ ruu-pg       ║ PostgreSQL (shell, lib_test, reset)            ║"
-    echo "  ║ ruu-ports    ║ Show open ports                                ║"
-    echo "  ║ ruu-pragma   ║ Pragma Windows-Executable bauen                ║"
-    echo "  ║ ruu-shell    ║ Reset shell                                    ║"
-    echo "  ║ ruu-versions ║ Show all tool versions at a glance             ║"
-    echo "  ╠══════════════╩═════════════╦══════════════════════════════════╣"
-    echo "  ║  ruu-help                  ║ list all individual aliases      ║"
-    echo "  ║  ruu-help | grep <group>   ║ filter aliases by group          ║"
-    echo "  ╚════════════════════════════╩══════════════════════════════════╝"
-    echo ""
-}
-
-# ═══════════════════════════════════════════════════════════════════
-# Application - Frontend Runner (uses Maven exec:java for correct JPMS module path)
+# Application - Frontend / Backend
 # ═══════════════════════════════════════════════════════════════════
 alias ruu-app-dash='cd $RUU_ROOT/app/jeeeraaah/frontend/ui/fx && mvn exec:java'
-
-# ═══════════════════════════════════════════════════════════════════
-# PostgresUtil UI
-# ═══════════════════════════════════════════════════════════════════
 alias ruu-postgres-util-ui='cd $RUU_ROOT/lib/postgres_util_ui && mvn exec:java'
-
-# ═══════════════════════════════════════════════════════════════════
-# Pragma - Windows Executable
-# ═══════════════════════════════════════════════════════════════════
-alias ruu-pragma-cd='cd $RUU_PRAGMA'
-
-# Baut ein selbstständiges Windows-App-Image unter C:\Users\r-uu\develop\win-exe\pragma\:
-#   pragma.exe  – nativer Launcher (kein installiertes JDK nötig)
-#   runtime\    – zugeschnittenes JRE (jlink, nur benötigte JDK-Module)
-#   app\        – pragma.jar + lib\ (JavaFX-Win-JARs, per --module-path geladen)
-ruu-pragma-win-exe() {
-  cd "$RUU_PRAGMA" || return 1
-
-  mvn package -pl frontend/fx -am -P win-exe || return 1
-
-  local win_dest='C:\Users\r-uu\develop\win-exe'
-  local win_input
-  win_input="$(wslpath -w "$RUU_PRAGMA/frontend/fx/target/win-exe")"
-
-  cmd.exe /c "if exist ${win_dest}\pragma rmdir /s /q ${win_dest}\pragma"
-
-  /mnt/c/software/develop/jdk/bin/jpackage.exe \
-    --type app-image \
-    --name pragma \
-    --app-version 0.0.1 \
-    --win-console \
-    --input "${win_input}" \
-    --main-jar pragma.jar \
-    --java-options '--module-path $APPDIR\lib' \
-    --java-options '--add-modules javafx.base,javafx.controls,javafx.fxml,javafx.graphics' \
-    --java-options '--enable-native-access=javafx.graphics' \
-    --add-modules java.base,java.desktop,java.logging,java.naming,java.management,java.net.http,java.rmi,java.scripting,java.sql,java.transaction.xa,java.xml,java.prefs,java.security.sasl,jdk.unsupported,jdk.zipfs \
-    --dest "${win_dest}"
-}
-
-# ═══════════════════════════════════════════════════════════════════
-# Application - Backend (Open Liberty)
-# ═══════════════════════════════════════════════════════════════════
 alias ruu-ol-start='cd $RUU_ROOT/app/jeeeraaah/backend/api/ws_rs && mvn liberty:dev'
 alias ruu-ol-run='cd $RUU_ROOT/app/jeeeraaah/backend/api/ws_rs && mvn liberty:run'
 alias ruu-ol-stop='cd $RUU_ROOT/app/jeeeraaah/backend/api/ws_rs && mvn liberty:stop'
 
-
-# ═══════════════════════════════════════════════════════════════════
-# Initialisation & Git Compatibility
-# ═══════════════════════════════════════════════════════════════════
-# Prevents "Exec format error" when IntelliJ tries to run Windows .exe files from WSL
-export GIT_ASKPASS=""
-export SSH_ASKPASS=""
-
-echo "✓  aliases loaded"
-echo "  📚 help:        ruu-help | ruu-groups"
-echo "  🚀 quick start: ruu-docker-startup"
-echo "  🔨 build:       ruu-mvn-install-fast"
-echo "  🐳 docker:      ruu-docker-ps"
-echo "  🖥️ backend:     ruu-ol-start"
-echo "  🎨 frontend:    ruu-app-dash"
+echo "✓  java/main aliases loaded"
